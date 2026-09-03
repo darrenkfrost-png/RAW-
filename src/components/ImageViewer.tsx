@@ -107,10 +107,23 @@ export default function ImageViewer({ images, index, onIndexChange, onClose, tit
     return () => el.removeEventListener("wheel", onWheel);
   }, [zoomBy]);
 
+  /* ⚠️ PANNING IS DELIBERATELY THIS SIMPLE — AND PINCH-TO-ZOOM IS NOT HERE.
+     I built a two-pointer pinch on top of these handlers and it regressed
+     panning: with the pinch bookkeeping in place, a real mouse drag moved the
+     image by zero pixels, repeatably. A lost pointerup leaves a ghost in the
+     pointer map, two ghosts read as a pinch, and dragging silently stops
+     working for the rest of the session. I could not make it reliable inside
+     this environment (the preview pane cannot deliver a genuine two-finger
+     gesture, so the feature cannot be exercised the way a phone would), and
+     shipping a mobile nicety that breaks panning for everyone is the wrong
+     trade.
+     Reverted to the version that is verified working. Pinch belongs in a
+     branch developed against a real device — the hint text says "scroll or
+     double-click" so nothing promises a gesture that is not there. */
   const onPointerDown = (e: React.PointerEvent) => {
     if (scale <= MIN) return;
     dragging.current = { x: e.clientX - pos.x, y: e.clientY - pos.y };
-    (e.target as HTMLElement).setPointerCapture?.(e.pointerId);
+    try { (e.target as HTMLElement).setPointerCapture?.(e.pointerId); } catch { /* not capturable */ }
   };
   const onPointerMove = (e: React.PointerEvent) => {
     if (!dragging.current) return;
