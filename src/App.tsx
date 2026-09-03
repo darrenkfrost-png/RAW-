@@ -55,6 +55,7 @@ import { useKeyboardShortcuts } from "./hooks/useKeyboardShortcuts";
 
 function AppContent() {
   const { 
+    chromeHidden,
     isSidebarCollapsed, 
     isCommandPaletteOpen, setIsCommandPaletteOpen,
     isDiscoveryOpen, setIsDiscoveryOpen
@@ -81,7 +82,10 @@ function AppContent() {
          id="app-shell"
          className="min-h-screen transition-all duration-[var(--layout-transition-duration)] ease-[var(--layout-transition-ease)] flex flex-col relative md:pl-[var(--sidebar-current-width)] w-full will-change-[padding-left]"
          style={{
-           "--sidebar-current-width": `var(${isSidebarCollapsed ? '--sidebar-collapsed-width' : '--sidebar-width'})`
+           // A hidden sidebar reserves nothing; a collapsed one still reserves its rail.
+           "--sidebar-current-width": chromeHidden.includes('sidebar')
+             ? '0px'
+             : `var(${isSidebarCollapsed ? '--sidebar-collapsed-width' : '--sidebar-width'})`
          } as React.CSSProperties}
       >
         <Suspense fallback={

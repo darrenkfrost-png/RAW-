@@ -2,12 +2,13 @@ import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useUI } from "../context/UIContext";
 import { motion, AnimatePresence } from "motion/react";
-import { Home, ShoppingBag, BookOpen, Layers, Menu, X, Box, Compass, ChevronLeft, ChevronRight, Activity, Database, FileText, Monitor } from "lucide-react";
+import { Home, ShoppingBag, BookOpen, Layers, Menu, X, Box, Compass, ChevronLeft, ChevronRight, Activity, Database, FileText, Monitor, PanelLeftClose } from "lucide-react";
 import { Tooltip } from "./common/Tooltip";
 
 function Sidebar() {
   const { pathname } = useLocation();
-  const { isSidebarCollapsed, setIsSidebarCollapsed, setIsDiscoveryOpen, isDiscoveryOpen } = useUI();
+  const { isSidebarCollapsed, setIsSidebarCollapsed, setIsDiscoveryOpen, isDiscoveryOpen, chromeHidden, toggleChrome } = useUI();
+  const hidden = chromeHidden.includes('sidebar');
 
   const links = [
     { name: "Terminal", path: "/", icon: <Home className="w-5 h-5" /> },
@@ -25,7 +26,12 @@ function Sidebar() {
       id="main-sidebar"
       initial={false}
       animate={{ 
-         width: isSidebarCollapsed ? 'var(--sidebar-collapsed-width)' : 'var(--sidebar-width)'
+         /* Collapsed narrows it; hidden removes it entirely — width 0, so the
+            content beside it reclaims the space instead of sitting beside an
+            empty rail. */
+         width: hidden ? '0px' : (isSidebarCollapsed ? 'var(--sidebar-collapsed-width)' : 'var(--sidebar-width)'),
+         transform: hidden ? 'translateX(-100%)' : 'translateX(0)',
+         pointerEvents: hidden ? 'none' : undefined
       }}
       transition={{ duration: parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--layout-transition-duration')) / 1000 || 0.7, ease: [0.16, 1, 0.3, 1] }}
       className="fixed left-0 top-0 bottom-0 z-[var(--z-sidebar)] bg-editorial-bg border-r border-editorial-border border-opacity-30 overflow-hidden hidden md:flex flex-col shadow-[20px_0_50px_rgba(0,0,0,0.5)] backdrop-blur-3xl group/sidebar"
@@ -47,7 +53,18 @@ function Sidebar() {
            )}
          </AnimatePresence>
          
-         <div className={`absolute transition-all duration-700 ease-[var(--layout-transition-ease)] ${isSidebarCollapsed ? 'left-1/2 -translate-x-1/2' : 'right-6'}`}>
+         <div className={`absolute flex items-center transition-all duration-700 ease-[var(--layout-transition-ease)] ${isSidebarCollapsed ? 'left-1/2 -translate-x-1/2' : 'right-6'}`}>
+            {!isSidebarCollapsed && (
+              <Tooltip content="Hide side bar" placement="right">
+                <button
+                  onClick={() => toggleChrome('sidebar')}
+                  aria-label="Hide the side bar"
+                  className="mr-2 text-editorial-text-muted hover:text-red-500 transition-all duration-300 p-3 bg-white/[0.03] hover:bg-white/[0.08] border border-white/[0.05] hover:border-red-500/30 rounded-2xl focus:outline-none focus:ring-2 focus:ring-red-500/50"
+                >
+                  <PanelLeftClose className="w-5 h-5" />
+                </button>
+              </Tooltip>
+            )}
             <Tooltip content={isSidebarCollapsed ? "Expand Sidebar [⌘B]" : "Collapse Sidebar [⌘B]"} placement="right">
               <button 
                 onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)}

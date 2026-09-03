@@ -17,6 +17,7 @@ import Particles from "./Particles";
 import AmbientField from "./AmbientField";
 import VideoWallpaper from "./VideoWallpaper";
 import Screensaver from "./Screensaver";
+import ChromeRestore from "./ChromeRestore";
 import { useUI } from "../context/UIContext";
 import { useSettings } from "../context/SettingsContext";
 import { motion, AnimatePresence, useScroll } from "motion/react";
@@ -137,6 +138,9 @@ export default function Layout() {
       <ShopIframePanel />
       <WallpaperSettingsPanel />
       <VoiceInteractionHub />
+
+      {/* Nothing may hide without leaving a door: the RAW mark is it. */}
+      <ChromeRestore />
 
       {/* Takes the whole screen after a minute of stillness, or on demand. */}
       <Screensaver />

@@ -15,7 +15,8 @@ import {
   RefreshCw,
   AlertCircle,
   Activity,
-  MonitorPlay
+  MonitorPlay,
+  ChevronUp
 } from "lucide-react";
 import Fuse from 'fuse.js';
 import { useState, useEffect, useMemo, useRef } from "react";
@@ -53,7 +54,9 @@ export default function Navbar() {
     isVoiceCommandActive, 
     setIsVoiceCommandActive,
     isSearchOpen,
-    setIsSearchOpen 
+    setIsSearchOpen,
+    chromeHidden,
+    toggleChrome
   } = useUI();
   const { startListening, stopListening, isSupported, voiceState, audioLevel, error, resetError } = useVoiceControl();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -79,8 +82,19 @@ export default function Navbar() {
 
   // Dynamically update the CSS variable for the rest of the application
   useMotionValueEvent(navHeight, "change", (latest) => {
+    if (chromeHidden.includes('header')) return;
     document.documentElement.style.setProperty('--header-current-height', latest.toString());
   });
+
+  /* The whole layout is padded by --header-current-height. Leaving it set
+     while the bar is hidden would hold open an empty band exactly the size of
+     the thing that just left. */
+  useEffect(() => {
+    document.documentElement.style.setProperty(
+      '--header-current-height',
+      chromeHidden.includes('header') ? '0px' : navHeight.get().toString()
+    );
+  }, [chromeHidden]);
 
   const scaleX = useSpring(scrollYProgress, {
     stiffness: 100,
@@ -262,7 +276,11 @@ export default function Navbar() {
         id="main-nav"
         aria-label="Main Navigation"
         style={{ borderColor, height: navHeight }}
-        className="fixed top-0 right-0 left-0 md:left-[var(--sidebar-current-width)] z-[var(--z-header)] border-b border-white/[0.05] bg-editorial-bg/60 backdrop-blur-[40px] drop-shadow-[0_10px_30px_rgba(0,0,0,0.5)] transition-all duration-[var(--layout-transition-duration)] ease-[var(--layout-transition-ease)] will-change-[left,height]"
+        /* Hidden = lifted clear of the viewport AND out of the layout's height
+           reservation (see the effect below), so the page reclaims the space
+           rather than leaving a band of nothing at the top. */
+        data-chrome-hidden={chromeHidden.includes('header') || undefined}
+        className="fixed top-0 right-0 left-0 md:left-[var(--sidebar-current-width)] z-[var(--z-header)] data-[chrome-hidden]:-translate-y-full data-[chrome-hidden]:pointer-events-none border-b border-white/[0.05] bg-editorial-bg/60 backdrop-blur-[40px] drop-shadow-[0_10px_30px_rgba(0,0,0,0.5)] transition-all duration-[var(--layout-transition-duration)] ease-[var(--layout-transition-ease)] will-change-[left,height]"
         onMouseMove={(e) => {
           mouseX.set(e.clientX);
           mouseY.set(e.clientY);
@@ -513,6 +531,18 @@ export default function Navbar() {
 
               {/* Start the screensaver now, rather than waiting out the idle
                   minute — the founder asked for both doors. */}
+              <Tooltip content="HIDE TOP BAR">
+                <MagneticWrapper>
+                  <button
+                    aria-label="Hide the top bar"
+                    onClick={() => toggleChrome('header')}
+                    className="hidden lg:block p-3.5 text-editorial-text-muted hover:text-red-500 transition-colors duration-500 bg-transparent hover:bg-editorial-text/5 rounded-full focus:outline-none focus:ring-2 focus:ring-white"
+                  >
+                    <ChevronUp className="w-5 h-5 transition-all duration-500 ease-fluid" />
+                  </button>
+                </MagneticWrapper>
+              </Tooltip>
+
               <Tooltip content="SCREENSAVER">
                 <MagneticWrapper>
                   <button

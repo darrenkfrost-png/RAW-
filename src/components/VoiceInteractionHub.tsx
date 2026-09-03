@@ -1,24 +1,41 @@
 import React, { useCallback, useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Mic, MicOff, Sparkles, X, Loader2, Volume2 } from 'lucide-react';
+import { Mic, MicOff, Sparkles, X, Loader2, Volume2, ChevronDown } from 'lucide-react';
 import { useUI } from '../context/UIContext';
 import { useVoiceControl } from '../hooks/useVoiceControl';
 import { useSettings } from '../context/SettingsContext';
 import MagneticWrapper from './MagneticWrapper';
 
 export default function VoiceInteractionHub() {
-  const { isAIChatOpen, setIsAIChatOpen, isVoiceCommandActive, setIsVoiceCommandActive } = useUI();
+  const { isAIChatOpen, setIsAIChatOpen, isVoiceCommandActive, setIsVoiceCommandActive, chromeHidden, toggleChrome } = useUI();
+  const hidden = chromeHidden.includes('voiceHub');
   const { startListening, stopListening, isListening, transcript, aiResponse, error, speak, voiceState, audioLevel, voiceMode } = useVoiceControl();
   const { settings } = useSettings();
 
   const isMicActive = voiceState !== 'idle' && voiceState !== 'error';
   const isExpanded = (isMicActive || transcript || aiResponse) && voiceMode === 'command';
 
+  /* Minimised: dropped below the bottom edge rather than unmounted. The voice
+     engine keeps its state, so putting the panel away mid-dictation does not
+     abandon what was being said — it only stops taking up the middle of the
+     screen. */
   return (
     <div 
-      className={`fixed left-1/2 -translate-x-1/2 z-[500] flex flex-col items-center pointer-events-none transition-all duration-700 ${voiceState === 'listening' ? 'scale-105' : 'scale-100'}`}
+      className={`fixed left-1/2 -translate-x-1/2 z-[500] flex flex-col items-center pointer-events-none transition-all duration-700 ${voiceState === 'listening' ? 'scale-105' : 'scale-100'} ${hidden ? 'translate-y-[200%] opacity-0' : ''}`}
+      aria-hidden={hidden || undefined}
       style={{ bottom: 'calc(1.5rem + 2.75rem + env(safe-area-inset-bottom))' }}
     >
+      {/* Put it away. The RAW mark bottom-left brings it back. */}
+      {!hidden && (
+        <button
+          onClick={() => toggleChrome('voiceHub')}
+          aria-label="Minimise the voice panel"
+          title="Minimise voice panel"
+          className="pointer-events-auto mb-2 flex h-7 w-7 items-center justify-center rounded-full border border-white/10 bg-black/70 text-white/50 backdrop-blur-md transition-colors hover:border-red-500/60 hover:text-white focus:outline-none focus:ring-2 focus:ring-red-500/50"
+        >
+          <ChevronDown className="w-3.5 h-3.5" />
+        </button>
+      )}
       
       {/* Expanded State / Visualizer */}
       <AnimatePresence>

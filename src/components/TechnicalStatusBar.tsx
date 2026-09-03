@@ -1,7 +1,7 @@
 import { motion, AnimatePresence } from "motion/react";
 import { useUI } from "../context/UIContext";
 import { useSettings } from "../context/SettingsContext";
-import { Cpu, Maximize, Settings2, Sliders, Wifi, Activity, MessageSquare, Terminal, Hash, ShieldCheck, Zap } from "lucide-react";
+import { Cpu, Maximize, Settings2, Sliders, Wifi, Activity, MessageSquare, Terminal, Hash, ShieldCheck, Zap, ChevronDown } from "lucide-react";
 import { useState, useEffect, memo, useMemo } from "react";
 import { Tooltip } from "./common/Tooltip";
 
@@ -65,8 +65,11 @@ export default function TechnicalStatusBar() {
     isTerminalOpen,
     setIsTerminalOpen,
     visualFidelity,
-    setVisualFidelity
+    setVisualFidelity,
+    chromeHidden,
+    toggleChrome
   } = useUI();
+  const hidden = chromeHidden.includes('statusBar');
   const { settings, updateSettings } = useSettings();
   const [showScaleSlider, setShowScaleSlider] = useState(false);
   const [time, setTime] = useState(new Date());
@@ -82,8 +85,12 @@ export default function TechnicalStatusBar() {
 
   return (
     <div 
-      className="fixed bottom-0 left-0 right-0 z-[100] bg-editorial-surface/95 backdrop-blur-3xl border-t border-editorial-border flex items-center justify-between px-8 pointer-events-auto transform-gpu shadow-[0_-10px_40px_rgba(0,0,0,0.8)] group/statusbar"
+      /* Minimised = dropped below the bottom edge. It keeps its height in the
+         layout's bottom padding either way, which is deliberate: reclaiming
+         44px would reflow the whole page every time this is toggled. */
+      className="fixed bottom-0 left-0 right-0 z-[100] transition-transform duration-500 ease-[var(--layout-transition-ease)] bg-editorial-surface/95 backdrop-blur-3xl border-t border-editorial-border flex items-center justify-between px-8 pointer-events-auto transform-gpu shadow-[0_-10px_40px_rgba(0,0,0,0.8)] group/statusbar"
       style={{
+        transform: hidden ? 'translateY(100%)' : undefined,
         height: 'calc(2.75rem + env(safe-area-inset-bottom))',
         paddingBottom: 'env(safe-area-inset-bottom)'
       }}
@@ -253,6 +260,15 @@ export default function TechnicalStatusBar() {
            </div>
         </div>
       </div>
+      {/* Drop it out of sight. The RAW mark bottom-left brings it back. */}
+      <button
+        onClick={() => toggleChrome('statusBar')}
+        aria-label="Minimise the status bar"
+        title="Minimise status bar"
+        className="ml-4 flex-shrink-0 p-1.5 rounded-lg text-editorial-text-muted hover:text-red-500 hover:bg-white/5 transition-colors focus:outline-none focus:ring-2 focus:ring-red-500/50"
+      >
+        <ChevronDown className="w-4 h-4" />
+      </button>
     </div>
   );
 }

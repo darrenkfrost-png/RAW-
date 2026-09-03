@@ -1,5 +1,9 @@
 import React, { createContext, useContext, useState, useEffect, useMemo, useCallback } from "react";
 
+export type ChromePart = 'header' | 'sidebar' | 'statusBar' | 'voiceHub';
+
+export const CHROME_PARTS: ChromePart[] = ['header', 'sidebar', 'statusBar', 'voiceHub'];
+
 interface UIContextType {
   uiScale: number;
   setUIScale: (scale: number) => void;
@@ -32,6 +36,12 @@ interface UIContextType {
   isSystemHealthOpen: boolean;
   setIsSystemHealthOpen: (open: boolean) => void;
   isSidebarCollapsed: boolean;
+  /** Which pieces of the app's furniture are put away. See ChromeRestore. */
+  chromeHidden: ChromePart[];
+  toggleChrome: (part: ChromePart) => void;
+  setChromeHidden: (parts: ChromePart[]) => void;
+  enterFocusMode: () => void;
+  restoreChrome: () => void;
   setIsSidebarCollapsed: (collapsed: boolean) => void;
   isTerminalOpen: boolean;
   setIsTerminalOpen: (open: boolean) => void;
@@ -91,6 +101,33 @@ export function UIProvider({ children }: { children: React.ReactNode }) {
       return true;
     }
   });
+  /* Full-screen mode. Stored, because someone who cleared the furniture away
+     to read meant it — being handed the whole interface back on reload would
+     undo the choice every time. */
+  const [chromeHidden, setChromeHiddenState] = useState<ChromePart[]>(() => {
+    try {
+      const saved = localStorage.getItem("raw_chrome_hidden");
+      const parsed = saved ? JSON.parse(saved) : [];
+      return Array.isArray(parsed) ? parsed.filter((p: string) => CHROME_PARTS.includes(p as ChromePart)) : [];
+    } catch { return []; }
+  });
+
+  const persistChrome = useCallback((parts: ChromePart[]) => {
+    setChromeHiddenState(parts);
+    try { localStorage.setItem("raw_chrome_hidden", JSON.stringify(parts)); } catch { /* private mode */ }
+  }, []);
+
+  const toggleChrome = useCallback((part: ChromePart) => {
+    setChromeHiddenState(prev => {
+      const next = prev.includes(part) ? prev.filter(p => p !== part) : [...prev, part];
+      try { localStorage.setItem("raw_chrome_hidden", JSON.stringify(next)); } catch { /* private mode */ }
+      return next;
+    });
+  }, []);
+
+  const enterFocusMode = useCallback(() => persistChrome([...CHROME_PARTS]), [persistChrome]);
+  const restoreChrome = useCallback(() => persistChrome([]), [persistChrome]);
+
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState<boolean>(() => {
     try {
       const saved = localStorage.getItem("raw_sidebar_collapsed");
@@ -207,6 +244,11 @@ export function UIProvider({ children }: { children: React.ReactNode }) {
     isSystemHealthOpen,
     setIsSystemHealthOpen,
     isSidebarCollapsed,
+    chromeHidden,
+    toggleChrome,
+    setChromeHidden: persistChrome,
+    enterFocusMode,
+    restoreChrome,
     setIsSidebarCollapsed: updateSidebarCollapsed,
     isTerminalOpen,
     setIsTerminalOpen,
@@ -222,7 +264,7 @@ export function UIProvider({ children }: { children: React.ReactNode }) {
     setInitialAction,
     activeReaderItem,
     setActiveReaderItem,
-  }), [uiScale, isStatusBarVisible, hasCompletedIntro, visualFidelity, diagnosticsActive, isWallpaperMode, isAIChatOpen, isOracleChatOpen, isShopIframeOpen, isListening, isVoiceCommandActive, is110Percent, isWallpaperSettingsOpen, isGlobalSettingsOpen, isSystemHealthOpen, isSidebarCollapsed, isTerminalOpen, isSearchOpen, isCommandPaletteOpen, focusedProduct, initialAction, activeReaderItem, isDiscoveryOpen, updateScale, updateStatusBarVisible, setIntroCompletedWrapper, updateVisualFidelity, updateDiagnosticsActive, updateSidebarCollapsed]);
+  }), [chromeHidden, toggleChrome, persistChrome, enterFocusMode, restoreChrome, uiScale, isStatusBarVisible, hasCompletedIntro, visualFidelity, diagnosticsActive, isWallpaperMode, isAIChatOpen, isOracleChatOpen, isShopIframeOpen, isListening, isVoiceCommandActive, is110Percent, isWallpaperSettingsOpen, isGlobalSettingsOpen, isSystemHealthOpen, isSidebarCollapsed, isTerminalOpen, isSearchOpen, isCommandPaletteOpen, focusedProduct, initialAction, activeReaderItem, isDiscoveryOpen, updateScale, updateStatusBarVisible, setIntroCompletedWrapper, updateVisualFidelity, updateDiagnosticsActive, updateSidebarCollapsed]);
 
   return (
     <UIContext.Provider value={value}>
