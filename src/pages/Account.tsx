@@ -5,6 +5,25 @@ import { useState } from "react";
 import MagneticWrapper from "../components/MagneticWrapper";
 import { useToast } from "../components/common/Toast";
 
+/**
+ * ⚠️ THERE IS NO ACCOUNT SYSTEM BEHIND THIS PAGE.
+ *
+ * No sign-in exists anywhere in the app; the profile shown is a hard-coded
+ * GUEST_OPERATIVE. That is fine as a preview — but two controls here claimed
+ * to have DONE something:
+ *
+ *  · "Cycle Encryption Key" announced "Generating new 2048-bit encryption
+ *    key..." then "Encryption key cycled successfully. Node secured." while
+ *    changing nothing. That is the dangerous one: somebody who feared their
+ *    password was compromised would press it, be told they were secure, and
+ *    remain exactly as exposed.
+ *  · "Disconnect Node" reported "Operator session ended" when there was no
+ *    session to end.
+ *
+ * Both are now honest. Flip ACCOUNTS_ENABLED when real accounts exist.
+ */
+const ACCOUNTS_ENABLED = false;
+
 export default function Account() {
   const [activeTab, setActiveTab] = useState("profile");
   const navigate = useNavigate();
@@ -26,6 +45,18 @@ export default function Account() {
           <h1 className="text-6xl md:text-8xl xl:text-[120px] font-black uppercase tracking-tighter leading-[0.85] text-editorial-text drop-shadow-[0_10px_30px_rgba(0,0,0,0.1)]">
             Command <br /> <span className="text-transparent bg-clip-text bg-gradient-to-b from-red-500 to-red-900 drop-shadow-[0_0_20px_rgba(220,38,38,0.3)] pb-4 inline-block">Center</span>
           </h1>
+
+          {/* Said up front rather than only when a button is pressed: a page
+              that looks like a real account should say when it is not one. */}
+          {!ACCOUNTS_ENABLED && (
+            <p className="mt-8 max-w-md rounded-2xl border border-amber-500/40 bg-amber-500/[0.07] px-6 py-4 text-sm leading-relaxed text-editorial-text-muted">
+              <span className="mb-1 block font-mono text-[10px] font-black uppercase tracking-[0.3em] text-amber-400">
+                Preview
+              </span>
+              Accounts aren&rsquo;t live yet, so this is a placeholder profile —
+              nothing here is stored and there is no sign-in.
+            </p>
+          )}
         </div>
         <div className="hidden md:flex gap-5 items-center bg-editorial-bg/60 p-5 xl:p-6 border border-editorial-border rounded-2xl backdrop-blur-md shadow-[0_10px_30px_rgba(0,0,0,0.08)] transform-gpu hover:-translate-y-1 transition-transform duration-500">
            <Cpu className="w-6 h-6 text-red-500 drop-shadow-[0_0_5px_currentColor]" />
@@ -63,6 +94,11 @@ export default function Account() {
           </button>
           <button 
             onClick={() => {
+              if (!ACCOUNTS_ENABLED) {
+                // No session exists, so nothing is ended — just go home quietly.
+                navigate("/");
+                return;
+              }
               addToast("Disconnecting neural node...", "info");
               setTimeout(() => {
                  navigate("/");
@@ -95,7 +131,7 @@ export default function Account() {
                    <div className="mt-16 pt-10 border-t border-editorial-border flex justify-end relative z-10">
                       <MagneticWrapper>
             <button 
-               onClick={() => addToast("Initializing parameter edit interface...", "info")}
+               onClick={() => addToast(ACCOUNTS_ENABLED ? "Initializing parameter edit interface..." : "Accounts are not live yet — nothing to edit.", "info")}
                className="bg-editorial-text text-editorial-bg px-12 py-6 rounded-2xl font-black uppercase tracking-[0.4em] text-[12px] hover:bg-red-600 hover:text-white transition-all duration-500 shadow-[0_15px_40px_rgba(0,0,0,0.08)] hover:shadow-[0_20px_50px_rgba(220,38,38,0.4)] transform-gpu hover:-translate-y-1">
                Edit Parameters
             </button>
@@ -135,7 +171,12 @@ export default function Account() {
                       </div>
                       <MagneticWrapper>
                         <button 
+                          disabled={!ACCOUNTS_ENABLED}
                           onClick={() => {
+                            if (!ACCOUNTS_ENABLED) {
+                              addToast("Accounts are not live yet — there is no password to change.", "info");
+                              return;
+                            }
                             addToast("Generating new 2048-bit encryption key...", "info");
                             setTimeout(() => {
                                addToast("Encryption key cycled successfully. Node secured.", "success");
