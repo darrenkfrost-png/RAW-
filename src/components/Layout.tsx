@@ -15,6 +15,8 @@ import VoiceInteractionHub from "./VoiceInteractionHub";
 import VoiceSettingsDropdown from "./VoiceSettingsDropdown";
 import Particles from "./Particles";
 import AmbientField from "./AmbientField";
+import VideoWallpaper from "./VideoWallpaper";
+import Screensaver from "./Screensaver";
 import { useUI } from "../context/UIContext";
 import { useSettings } from "../context/SettingsContext";
 import { motion, AnimatePresence, useScroll } from "motion/react";
@@ -34,6 +36,10 @@ export default function Layout() {
           same job, one rAF and one pointer listener instead of several
           animated blur layers, and a different character per channel. */}
       <AmbientField />
+
+      {/* The brand's own film behind the site, at the visitor's chosen opacity.
+          Above the ambient field, below every pixel of content. */}
+      <VideoWallpaper />
 
       {/* Visuals - Particles & fixed light furniture */}
       <div className="fixed inset-0 z-[1] pointer-events-none" aria-hidden="true">
@@ -131,6 +137,9 @@ export default function Layout() {
       <ShopIframePanel />
       <WallpaperSettingsPanel />
       <VoiceInteractionHub />
+
+      {/* Takes the whole screen after a minute of stillness, or on demand. */}
+      <Screensaver />
     </div>
   );
 }

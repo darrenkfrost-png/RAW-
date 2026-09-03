@@ -12,6 +12,15 @@ export const allAITones: AITone[] = [
 ];
 
 interface Settings {
+  /** The film playing behind the whole site, and how present it is. */
+  videoWallpaper: boolean;
+  videoWallpaperId: string;
+  /** 0–1. Defaults to a third: enough to feel, not enough to fight the words. */
+  videoWallpaperOpacity: number;
+  /** The screensaver, and how long the site waits before it takes over. */
+  screensaverEnabled: boolean;
+  screensaverDelayMs: number;
+  screensaverVideoId: string;
   activeWallpaper: string;
   wallpaperColor: string;
   wallpaperSpeed: number;
@@ -35,6 +44,12 @@ interface SettingsContextType {
 const SettingsContext = createContext<SettingsContextType | undefined>(undefined);
 
 const defaultSettings: Settings = {
+  videoWallpaper: true,
+  videoWallpaperId: 'giveaway',
+  videoWallpaperOpacity: 0.33,
+  screensaverEnabled: true,
+  screensaverDelayMs: 60000,
+  screensaverVideoId: 'wide',
   activeWallpaper: 'polyrhythm',
   wallpaperColor: '#dc2626',
   wallpaperSpeed: 1,
