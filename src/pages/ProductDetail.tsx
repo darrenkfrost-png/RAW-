@@ -23,6 +23,13 @@ import ProductGallery, { GalleryItem } from "../components/ProductGallery";
    whether or not they ever switched to the 3D view. Measured: the
    ProductDetail chunk was 1,032KB. Lazy now: the engine arrives only when the
    3D tab is actually chosen. */
+/**
+ * Reviews need a store before they can be collected: one written today would
+ * live in a single browser tab and disappear on refresh. Flip this when there
+ * is somewhere to keep them.
+ */
+const REVIEWS_ENABLED = false;
+
 const Product3DViewer = lazy(() => import("../components/Product3DViewer"));
 import NeuralTelemetryRadar from "../components/NeuralTelemetryRadar";
 import { geminiService } from "../services/geminiService";
@@ -218,19 +225,47 @@ export default function ProductDetail() {
     });
   }, [scrollY]);
 
-  const [reviews, setReviews] = useState([
-    { id: '1', author: 'Alex M.', rating: 5, date: '2025-10-12', content: 'Incredible product. Highly recommend.', reported: false, status: 'approved' },
-    { id: '2', author: 'Sarah K.', rating: 4, date: '2025-11-05', content: 'Works great but shipping took a while.', reported: false, status: 'approved' }
-  ]);
+  /**
+   * ⚠️ THE TWO "CUSTOMER REVIEWS" HERE WERE INVENTED, AND SHOWN ON ALL 47
+   * PRODUCTS.
+   *
+   * "Alex M. — 5 stars — Incredible product. Highly recommend." and
+   * "Sarah K. — 4 stars — Works great but shipping took a while." were
+   * hard-coded, so every item in the shop carried the same two testimonials
+   * from people who do not exist — and the star rating displayed on the page
+   * was the average OF THOSE INVENTIONS.
+   *
+   * That is not a style problem. In the UK, publishing fake consumer reviews
+   * is banned outright by the Digital Markets, Competition and Consumers Act
+   * 2024, and the exposure sits with the trader. Removed rather than reworded.
+   *
+   * The list starts empty and the page says so. Real reviews need somewhere to
+   * live — see REVIEWS_ENABLED below.
+   */
+  const [reviews, setReviews] = useState<Array<{
+    id: string; author: string; rating: number; date: string;
+    content: string; reported: boolean; status: string;
+  }>>([]);
   const [newReview, setNewReview] = useState({ author: '', rating: 5, content: '' });
   const [isHoveringStar, setIsHoveringStar] = useState<number | null>(null);
   const [isAdmin, setIsAdmin] = useState(false);
 
   const visibleReviews = isAdmin ? reviews : reviews.filter(r => r.status === 'approved');
-  const averageRating = visibleReviews.length > 0 ? (visibleReviews.reduce((acc, r) => acc + r.rating, 0) / visibleReviews.length).toFixed(1) : '5.0';
+    /* ⚠️ THE FALLBACK WAS '5.0' — a perfect score displayed for a product with
+     no reviews at all. An unrated product must read as unrated. */
+  const averageRating = visibleReviews.length > 0
+    ? (visibleReviews.reduce((acc, r) => acc + r.rating, 0) / visibleReviews.length).toFixed(1)
+    : null;
 
+  /**
+   * ⚠️ A REVIEW POSTED HERE ONLY EVER EXISTED IN THIS BROWSER TAB.
+   * It was pushed into local state, so it appeared, looked published, and
+   * vanished on refresh — nobody else ever saw it and nothing was stored.
+   * Gated like the checkout: honest while there is nowhere to keep them.
+   */
   const handleReviewSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!REVIEWS_ENABLED) return;
     if (!newReview.author || !newReview.content) return;
     const review = {
       id: Date.now().toString(),
@@ -1377,16 +1412,35 @@ export default function ProductDetail() {
               </span>
               <h2 className="font-sans font-black text-6xl md:text-8xl xl:text-[120px] uppercase tracking-[-0.05em] leading-[0.8] text-premium">Mission <br /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-red-900">Debrief</span></h2>
             </div>
+            {/* No reviews means no score. Showing five filled stars over a
+                score of nothing is the same lie the invented reviews told. */}
             <div className="flex flex-col items-end">
-               <div className="flex items-center gap-4 mb-4">
-                  <span className="font-sans font-black text-6xl text-premium">{averageRating}</span>
-                  <div className="flex gap-1">
-                     {[1,2,3,4,5].map(i => (
-                        <Star key={i} className={`w-8 h-8 ${i <= Number(averageRating) ? 'text-red-500 fill-red-500' : 'text-zinc-800 fill-zinc-800'}`} />
-                     ))}
-                  </div>
-               </div>
-               <span className="font-mono text-[10px] text-zinc-600 uppercase tracking-widest font-black">BASED_ON_{visibleReviews.length}_REPORTS</span>
+               {averageRating ? (
+                 <>
+                   <div className="flex items-center gap-4 mb-4">
+                      <span className="font-sans font-black text-6xl text-premium">{averageRating}</span>
+                      <div className="flex gap-1">
+                         {[1,2,3,4,5].map(i => (
+                            <Star key={i} className={`w-8 h-8 ${i <= Number(averageRating) ? 'text-red-500 fill-red-500' : 'text-zinc-800 fill-zinc-800'}`} />
+                         ))}
+                      </div>
+                   </div>
+                   <span className="font-mono text-[10px] text-zinc-600 uppercase tracking-widest font-black">
+                     BASED_ON_{visibleReviews.length}_REPORTS
+                   </span>
+                 </>
+               ) : (
+                 <>
+                   <div className="flex gap-1 mb-4">
+                      {[1,2,3,4,5].map(i => (
+                         <Star key={i} className="w-8 h-8 text-zinc-800" />
+                      ))}
+                   </div>
+                   <span className="font-mono text-[10px] text-zinc-600 uppercase tracking-widest font-black">
+                     No reviews yet
+                   </span>
+                 </>
+               )}
             </div>
           </div>
 

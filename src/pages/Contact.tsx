@@ -14,19 +14,51 @@ const contactSchema = z.object({
 
 type ContactFormData = z.infer<typeof contactSchema>;
 
+/** The address messages are actually addressed to. */
+const CONTACT_EMAIL = "hello@rawofficial.co";
+
 export default function Contact() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const { register, handleSubmit, reset, formState: { errors } } = useForm<ContactFormData>({
     resolver: zodResolver(contactSchema),
   });
 
+  /**
+   * ⚠️ THIS FORM USED TO SWALLOW EVERY MESSAGE.
+   *
+   * onSubmit was `console.log(data)` followed by a screen reading
+   * "Transmission Sent — our operatives will review your message and respond
+   * within 24 hours". Nothing was sent anywhere. A customer with a problem, or
+   * a venue answering the campaign's own invitation to ask for stock, would
+   * have been promised a reply to a message nobody would ever see.
+   *
+   * There is no mail service wired to this site and a static host has no
+   * server to add one, so rather than pretend, the form now hands the message
+   * to the visitor's own email client, already written and addressed. That
+   * genuinely arrives — and the screen afterwards says plainly that it is not
+   * sent until they press send there, and shows the address to copy if no mail
+   * app opens.
+   *
+   * When a mail service is added, replace this body with the POST and the
+   * original wording becomes true.
+   */
   const onSubmit = (data: ContactFormData) => {
-    console.log(data);
+    const subject = `[${data.subject || "Enquiry"}] from ${data.name}`;
+    const body =
+      `${data.message}
+
+` +
+      `— 
+` +
+      `${data.name}
+` +
+      `${data.email}
+` +
+      `Sent from rawprotection.com`;
+
     setIsSubmitted(true);
-    setTimeout(() => {
-        setIsSubmitted(false);
-        reset();
-    }, 5000);
+    window.location.href =
+      `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
   };
 
   return (
@@ -103,8 +135,23 @@ export default function Contact() {
                  <CheckCircle className="w-24 h-24 text-emerald-500 mb-10 drop-shadow-[0_0_20px_rgba(16,185,129,0.8)] relative z-10" />
                  <div className="absolute inset-0 bg-emerald-500/20 blur-3xl rounded-full" />
                </div>
-               <h3 className="text-4xl font-black uppercase tracking-tighter mb-6 text-editorial-text drop-shadow-[0_2px_4px_rgba(0,0,0,0.1)]">Transmission Sent</h3>
-               <p className="text-editorial-text-muted font-light text-xl xl:text-2xl max-w-sm leading-relaxed">Our operatives will review your message and respond within 24 hours.</p>
+               <h3 className="text-4xl font-black uppercase tracking-tighter mb-6 text-editorial-text drop-shadow-[0_2px_4px_rgba(0,0,0,0.1)]">Check your email app</h3>
+               <p className="text-editorial-text-muted font-light text-lg xl:text-xl max-w-md leading-relaxed">
+                 Your message has been written out and addressed for you. It is
+                 <strong className="text-editorial-text"> not sent until you press send</strong> there.
+               </p>
+               <p className="mt-8 text-editorial-text-muted text-sm leading-relaxed max-w-md">
+                 If nothing opened, email us directly at{" "}
+                 <a href={`mailto:${CONTACT_EMAIL}`} className="text-red-400 underline underline-offset-4 hover:text-red-300">
+                   {CONTACT_EMAIL}
+                 </a>.
+               </p>
+               <button
+                 onClick={() => { setIsSubmitted(false); reset(); }}
+                 className="mt-10 rounded-xl border border-editorial-border-light px-6 py-3 font-mono text-[10px] font-black uppercase tracking-[0.25em] text-editorial-text-muted transition-colors hover:border-white/30 hover:text-white"
+               >
+                 Write another
+               </button>
             </motion.div>
           ) : (
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-10 relative z-10">
