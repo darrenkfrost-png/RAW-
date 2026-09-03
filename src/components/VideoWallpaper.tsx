@@ -1,6 +1,6 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSettings } from "../context/SettingsContext";
-import { videoById } from "../data/videoLibrary";
+import { videoById, nextVideo, lightVideos } from "../data/videoLibrary";
 
 /**
  * THE VIDEO WALLPAPER — a RAW film playing behind the whole site.
@@ -28,7 +28,22 @@ export default function VideoWallpaper() {
   const { settings } = useSettings();
   const ref = useRef<HTMLVideoElement>(null);
 
-  const asset = videoById(settings.videoWallpaperId);
+  /* ⚠️ THE ROTATION DRAWS FROM THE LIGHT FILMS ONLY.
+     Shuffling the whole library would eventually park a 4K master behind
+     every page — several times the weight of the page it decorates, streamed
+     for decoration. The local campaign films rotate freely; the heavy reels
+     stay a deliberate choice in the panel. */
+  const [rotated, setRotated] = useState<string | null>(null);
+  const asset = videoById(rotated || settings.videoWallpaperId);
+
+  useEffect(() => {
+    if (!settings.videoWallpaper || !settings.videoWallpaperShuffle) { setRotated(null); return; }
+    const draw = () => setRotated(nextVideo(lightVideos()).id);
+    draw();
+    // A new film every few minutes, so a long session is never one loop.
+    const t = setInterval(draw, 4 * 60 * 1000);
+    return () => clearInterval(t);
+  }, [settings.videoWallpaper, settings.videoWallpaperShuffle]);
   const enabled = settings.videoWallpaper;
 
   const reduced =

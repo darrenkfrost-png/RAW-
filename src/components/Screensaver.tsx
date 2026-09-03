@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Film, X } from "lucide-react";
 import { useSettings } from "../context/SettingsContext";
-import { VIDEO_LIBRARY, videoById } from "../data/videoLibrary";
+import { VIDEO_LIBRARY, videoById, nextVideo } from "../data/videoLibrary";
 
 /**
  * THE SCREENSAVER — RAW takes the whole screen when the room goes quiet.
@@ -38,7 +38,12 @@ export default function Screensaver() {
      never see a stale value. */
   const overChrome = useRef(false);
 
-  const asset = videoById(settings.screensaverVideoId);
+  /* Rotation: each time the screensaver wakes it draws a different film, so
+     the same one never opens twice in a row. Choosing one from the shelf pins
+     it for that showing — an explicit choice outranks the shuffle — and the
+     rotation resumes next time. */
+  const [rotated, setRotated] = useState<string | null>(null);
+  const asset = videoById(rotated || settings.screensaverVideoId);
 
   const dismiss = useCallback(() => {
     setActive(false);
@@ -70,6 +75,12 @@ export default function Screensaver() {
       IDLE_EVENTS.forEach((e) => window.removeEventListener(e, onActivity));
     };
   }, [settings.screensaverEnabled, settings.screensaverDelayMs, active, saveData]);
+
+  // Every arrival draws a fresh film.
+  useEffect(() => {
+    if (active && settings.screensaverShuffle) setRotated(nextVideo().id);
+    if (!active) setRotated(null);
+  }, [active, settings.screensaverShuffle]);
 
   // Manual trigger from anywhere in the app.
   useEffect(() => {
@@ -188,11 +199,11 @@ export default function Screensaver() {
                   </p>
                   <div className="space-y-1.5">
                     {VIDEO_LIBRARY.map((v) => {
-                      const on = v.id === settings.screensaverVideoId;
+                      const on = v.id === asset.id;
                       return (
                         <button
                           key={v.id}
-                          onClick={() => updateSettings({ screensaverVideoId: v.id })}
+                          onClick={() => { setRotated(v.id); updateSettings({ screensaverVideoId: v.id }); }}
                           className={`block w-full rounded-lg border px-3 py-2.5 text-left font-mono text-[10px] uppercase tracking-[0.12em] transition-colors ${
                             on
                               ? "border-red-500 bg-red-600/15 text-red-300"

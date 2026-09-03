@@ -1,8 +1,9 @@
 import { Atmosphere } from '../components/common/Atmosphere';
 import { useParams, Link } from "react-router-dom";
 import { ImageViewerPortal } from "../components/ImageViewer";
+import { VideoViewerPortal } from "../components/VideoViewer";
 import { motion, AnimatePresence, useMotionValue, useSpring, useTransform, useScroll, useMotionTemplate } from "motion/react";
-import { ChevronLeft, ChevronRight, Plus, Minus, ArrowRight, Shield, Truck, RefreshCw, ZoomIn, Bot, X, Star, Facebook, Twitter, Zap, Activity, Target, Copy, ChevronUp, Database, ChevronDown, Layers, Sparkles, Cpu, LineChart, Play } from "lucide-react";
+import { Maximize, ChevronLeft, ChevronRight, Plus, Minus, ArrowRight, Shield, Truck, RefreshCw, ZoomIn, Bot, X, Star, Facebook, Twitter, Zap, Activity, Target, Copy, ChevronUp, Database, ChevronDown, Layers, Sparkles, Cpu, LineChart, Play } from "lucide-react";
 import React, { useState, useEffect, useRef } from "react";
 import { useToast } from "../components/common/Toast";
 import { useCart } from "../context/CartContext";
@@ -47,6 +48,7 @@ export default function ProductDetail() {
   const [quantity, setQuantity] = useState(1);
   const [activeImage, setActiveImage] = useState(0);
   const [isZoomed, setIsZoomed] = useState(false);
+  const [videoOpen, setVideoOpen] = useState<string | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [isFullAnalysisAnalyzing, setIsFullAnalysisAnalyzing] = useState(false);
   const [fullAnalysisText, setFullAnalysisText] = useState<any>(null);
@@ -580,6 +582,15 @@ export default function ProductDetail() {
                     ) : galleryItems[activeImage].type === 'video' ? (
                       <div className="w-full h-full relative group/vid">
                         <video src={galleryItems[activeImage].url} controls autoPlay loop muted playsInline className="w-full h-full object-cover" />
+                        {/* The inline player is a preview; this opens the real
+                            viewer, with the size choices. */}
+                        <button
+                          onClick={(e) => { e.stopPropagation(); setVideoOpen(galleryItems[activeImage].url); }}
+                          aria-label="Open video full screen"
+                          className="absolute bottom-8 right-8 z-30 flex h-12 w-12 items-center justify-center rounded-2xl border border-white/15 bg-black/70 text-white backdrop-blur-md transition-colors hover:border-red-500"
+                        >
+                          <Maximize className="w-5 h-5" />
+                        </button>
                         <div className="absolute inset-0 bg-editorial-bg/40 group-hover/vid:bg-editorial-bg/20 transition-colors pointer-events-none" />
                         <div className="absolute top-8 left-8 z-20">
                            <div className="flex items-center gap-4 bg-red-600 px-6 py-3 rounded-full border border-red-500/50 shadow-premium">
@@ -634,6 +645,13 @@ export default function ProductDetail() {
           for fixed positioning inside it. Measured here: the overlay was
           14,702px tall (the document) instead of 1,274px (the viewport). The
           portal renders outside that subtree, so it lands on the screen. */}
+      <VideoViewerPortal
+        open={videoOpen !== null}
+        src={videoOpen || ""}
+        title={product.name}
+        onClose={() => setVideoOpen(null)}
+      />
+
       <ImageViewerPortal
         open={isZoomed}
         images={galleryItems.filter(g => g.type === 'image').map(g => g.url)}

@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useLocation, Link } from "react-router-dom";
 import { motion, AnimatePresence } from "motion/react";
+import { VideoViewerPortal } from "../components/VideoViewer";
 import {
   ShieldCheck, ArrowLeft, ArrowDown, MessageSquare, Play, X,
   Droplets, HeartHandshake, BadgeCheck, Package,
@@ -264,33 +265,19 @@ export default function StaySafe() {
         </section>
       )}
 
-      {/* THEATRE — one film, full screen, with sound */}
-      <AnimatePresence>
-        {theatre !== null && (
-          <motion.div
-            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[200] bg-black/95 flex items-center justify-center p-4 md:p-12"
-            onClick={() => setTheatre(null)}
-          >
-            <video
-              src={ASSET(FILMS[theatre].src)}
-              autoPlay controls playsInline
-              className="max-w-full max-h-full rounded-xl"
-              onClick={(e) => e.stopPropagation()}
-            />
-            <button
-              onClick={() => setTheatre(null)}
-              aria-label="Close film"
-              className="absolute top-4 right-4 w-11 h-11 rounded-full bg-black/60 border border-white/20 hover:border-red-500 flex items-center justify-center text-white transition-colors"
-            >
-              <X size={16} />
-            </button>
-            <span className="absolute bottom-4 left-1/2 -translate-x-1/2 font-mono text-[9px] uppercase tracking-[0.4em] text-white/50">
-              {FILMS[theatre].label} // #STAYSAFEWITHRAW
-            </span>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {/* ⚠️ THE THEATRE USED TO BE `fixed inset-0` RENDERED RIGHT HERE, inside
+          the page-transition wrapper's transform — so the film opened far down
+          the document instead of on the screen, exactly as the product images
+          did. VideoViewerPortal renders outside that subtree, and brings the
+          size choices (full / three-quarter / third / picture-in-picture)
+          with it. */}
+      <VideoViewerPortal
+        open={theatre !== null}
+        src={theatre !== null ? ASSET(FILMS[theatre].src) : ""}
+        poster={ASSET("hero-banner.jpg")}
+        title={theatre !== null ? `${FILMS[theatre].label} // #StaySafeWithRAW` : undefined}
+        onClose={() => setTheatre(null)}
+      />
     </div>
   );
 }

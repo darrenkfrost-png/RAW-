@@ -59,6 +59,17 @@ export default function WallpaperSettingsPanel() {
                       onChange={e => setSettings(prev => ({...prev, videoWallpaperOpacity: parseFloat(e.target.value)}))}
                       className="w-full h-1 bg-editorial-text/10 rounded-lg appearance-none cursor-pointer accent-red-600 mb-4"
                     />
+                    <div className="flex items-center justify-between mb-3">
+                      <span className="font-mono text-[9px] uppercase text-editorial-text-muted tracking-widest">SHUFFLE_FILMS</span>
+                      <button
+                        onClick={() => setSettings(prev => ({...prev, videoWallpaperShuffle: !prev.videoWallpaperShuffle}))}
+                        aria-pressed={settings.videoWallpaperShuffle}
+                        aria-label="Shuffle the wallpaper film"
+                        className={`w-9 h-5 rounded-full transition-colors relative ${settings.videoWallpaperShuffle ? 'bg-red-600' : 'bg-zinc-800'}`}
+                      >
+                        <span className={`absolute top-0.5 w-4 h-4 bg-white rounded-full transition-all ${settings.videoWallpaperShuffle ? 'left-[1.15rem]' : 'left-0.5'}`} />
+                      </button>
+                    </div>
                     <div className="max-h-36 overflow-y-auto pr-1 custom-scrollbar space-y-1.5">
                       {VIDEO_LIBRARY.map(v => (
                         <button
@@ -102,6 +113,17 @@ export default function WallpaperSettingsPanel() {
                   onChange={e => setSettings(prev => ({...prev, screensaverDelayMs: parseInt(e.target.value, 10) * 1000}))}
                   className="w-full h-1 bg-editorial-text/10 rounded-lg appearance-none cursor-pointer accent-red-600 mb-3"
                 />
+                <div className="flex items-center justify-between mb-3">
+                  <span className="font-mono text-[9px] uppercase text-editorial-text-muted tracking-widest">SHUFFLE_FILMS</span>
+                  <button
+                    onClick={() => setSettings(prev => ({...prev, screensaverShuffle: !prev.screensaverShuffle}))}
+                    aria-pressed={settings.screensaverShuffle}
+                    aria-label="Shuffle the screensaver film"
+                    className={`w-9 h-5 rounded-full transition-colors relative ${settings.screensaverShuffle ? 'bg-red-600' : 'bg-zinc-800'}`}
+                  >
+                    <span className={`absolute top-0.5 w-4 h-4 bg-white rounded-full transition-all ${settings.screensaverShuffle ? 'left-[1.15rem]' : 'left-0.5'}`} />
+                  </button>
+                </div>
                 <button
                   onClick={() => window.dispatchEvent(new Event('raw:screensaver'))}
                   className="w-full py-2.5 rounded-lg border border-red-600/40 bg-red-600/10 text-red-300 font-mono text-[9px] uppercase tracking-[0.25em] hover:bg-red-600/20 transition-colors"

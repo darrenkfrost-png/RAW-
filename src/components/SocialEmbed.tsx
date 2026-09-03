@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { VideoViewerPortal } from "./VideoViewer";
 import { Play } from "lucide-react";
 import type { SocialItem } from "../data/social";
 
@@ -42,22 +43,18 @@ export function SocialEmbed({ item }: { item: SocialItem }) {
       "noopener,noreferrer",
     );
 
-  if (playing && item.platform === "youtube") {
-    return (
-      <div className={`relative w-full overflow-hidden rounded-2xl bg-black ${item.vertical ? "aspect-[9/16]" : "aspect-video"}`}>
-        <iframe
-          src={`https://www.youtube-nocookie.com/embed/${item.videoId}?autoplay=1&rel=0&modestbranding=1`}
-          title={item.title}
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          allowFullScreen
-          referrerPolicy="strict-origin-when-cross-origin"
-          className="absolute inset-0 h-full w-full border-0"
-        />
-      </div>
-    );
-  }
-
+  /* Playing used to swap the tile for an inline frame, so a YouTube clip was
+     stuck in a grid cell while an owned film could be watched full screen. It
+     now opens the same viewer, with the same sizes. */
   return (
+    <>
+      <VideoViewerPortal
+        open={playing && item.platform === "youtube"}
+        embedSrc={`https://www.youtube-nocookie.com/embed/${item.videoId}?autoplay=1&rel=0&modestbranding=1`}
+        title={item.title}
+        onClose={() => setPlaying(false)}
+      />
+
     <button
       type="button"
       onClick={() => (item.platform === "youtube" ? setPlaying(true) : openTikTok())}
@@ -106,6 +103,7 @@ export function SocialEmbed({ item }: { item: SocialItem }) {
         </p>
       </div>
     </button>
+    </>
   );
 }
 

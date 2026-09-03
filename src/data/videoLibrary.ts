@@ -100,3 +100,30 @@ export const VIDEO_LIBRARY: VideoAsset[] = [
 
 export const videoById = (id: string): VideoAsset =>
   VIDEO_LIBRARY.find((v) => v.id === id) || VIDEO_LIBRARY[0];
+
+/**
+ * ⚠️ "RANDOM" MUST NOT MEAN "SOMETIMES THE SAME ONE AGAIN".
+ *
+ * A plain random pick repeats roughly one time in eleven, and a repeat is the
+ * one outcome that makes a rotation look broken — the visitor sees the same
+ * film twice and concludes it never changes. So the last one shown is always
+ * excluded, and the choice is drawn from what remains.
+ *
+ * The exclusion is remembered across page loads, so a second visit does not
+ * open on the same film the first one ended with.
+ */
+const LAST_KEY = "raw_last_video";
+
+export const nextVideo = (pool: VideoAsset[] = VIDEO_LIBRARY): VideoAsset => {
+  let last: string | null = null;
+  try { last = localStorage.getItem(LAST_KEY); } catch { /* private mode */ }
+
+  const choices = pool.length > 1 ? pool.filter((v) => v.id !== last) : pool;
+  const pick = choices[Math.floor(Math.random() * choices.length)] || pool[0];
+
+  try { localStorage.setItem(LAST_KEY, pick.id); } catch { /* private mode */ }
+  return pick;
+};
+
+/** The light, local films — safe to rotate behind every page. */
+export const lightVideos = () => VIDEO_LIBRARY.filter((v) => v.light);

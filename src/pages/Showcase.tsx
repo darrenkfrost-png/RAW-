@@ -4,6 +4,8 @@ import { X, ChevronLeft, ChevronRight, Play, Camera, Film, LayoutGrid, Youtube, 
 import { SHOWCASE, ShowcaseItem } from "../data/showcase";
 import { SOCIAL } from "../data/social";
 import SocialEmbed from "../components/SocialEmbed";
+import { ImageViewerPortal } from "../components/ImageViewer";
+import { VideoViewerPortal } from "../components/VideoViewer";
 import { Atmosphere } from "../components/common/Atmosphere";
 
 /**
@@ -253,90 +255,30 @@ export default function Showcase() {
         )}
       </section>
 
-      {/* THE LIGHTBOX — one item, full screen, with sound. */}
-      <AnimatePresence>
-        {open && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[9000] flex items-center justify-center bg-black/96 p-4 md:p-10"
-            onClick={() => setOpenAt(null)}
-            role="dialog"
-            aria-modal="true"
-            aria-label={open.caption || open.credit}
-          >
-            <motion.div
-              key={open.id}
-              initial={{ opacity: 0, scale: 0.97 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-              className="relative flex max-h-full max-w-6xl flex-col items-center"
-              onClick={(e) => e.stopPropagation()}
-            >
-              {open.kind === "video" ? (
-                <video
-                  key={open.src}
-                  src={open.src}
-                  poster={open.poster}
-                  autoPlay
-                  controls
-                  loop
-                  playsInline
-                  className="max-h-[78vh] w-auto max-w-full rounded-xl"
-                />
-              ) : (
-                <img
-                  key={open.src}
-                  src={open.src}
-                  alt={open.caption || `RAW showcase — ${open.credit}`}
-                  className="max-h-[78vh] w-auto max-w-full rounded-xl object-contain"
-                />
-              )}
+      {/* ⚠️ THIS LIGHTBOX WAS `fixed inset-0` RENDERED HERE, inside the
+          page-transition wrapper's transform — the same fault that put product
+          images halfway down the document. Both viewers now portal to
+          document.body, and the video one carries the size choices. */}
+      <ImageViewerPortal
+        open={open !== null && open.kind === "image"}
+        images={items.filter(i => i.kind === "image").map(i => i.src)}
+        index={Math.max(0, items.filter(i => i.kind === "image").findIndex(i => i.id === open?.id))}
+        onIndexChange={(i) => {
+          const imgs = items.filter(x => x.kind === "image");
+          const at = items.findIndex(x => x.id === imgs[i]?.id);
+          if (at >= 0) setOpenAt(at);
+        }}
+        onClose={() => setOpenAt(null)}
+        title={open?.caption || open?.credit}
+      />
 
-              <div className="mt-5 text-center">
-                {open.caption && (
-                  <p className="font-sans text-lg font-black uppercase tracking-tight text-white">{open.caption}</p>
-                )}
-                <p className="mt-1.5 font-mono text-[10px] uppercase tracking-[0.35em] text-white/45">
-                  {open.credit}
-                </p>
-              </div>
-            </motion.div>
-
-            {items.length > 1 && (
-              <>
-                <button
-                  onClick={(e) => { e.stopPropagation(); step(-1); }}
-                  aria-label="Previous"
-                  className="absolute left-3 top-1/2 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-white/15 bg-black/60 text-white transition-colors hover:border-red-500 md:left-8"
-                >
-                  <ChevronLeft size={18} />
-                </button>
-                <button
-                  onClick={(e) => { e.stopPropagation(); step(1); }}
-                  aria-label="Next"
-                  className="absolute right-3 top-1/2 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-white/15 bg-black/60 text-white transition-colors hover:border-red-500 md:right-8"
-                >
-                  <ChevronRight size={18} />
-                </button>
-              </>
-            )}
-
-            <button
-              onClick={() => setOpenAt(null)}
-              aria-label="Close"
-              className="absolute right-3 top-3 flex h-11 w-11 items-center justify-center rounded-full border border-white/15 bg-black/60 text-white transition-colors hover:border-red-500 md:right-8 md:top-8"
-            >
-              <X size={16} />
-            </button>
-
-            <span className="absolute bottom-5 left-1/2 -translate-x-1/2 font-mono text-[9px] uppercase tracking-[0.35em] text-white/30">
-              {openAt! + 1} / {items.length}
-            </span>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      <VideoViewerPortal
+        open={open !== null && open.kind === "video"}
+        src={open?.kind === "video" ? open.src : ""}
+        poster={open?.poster}
+        title={open?.caption ? `${open.caption} — ${open.credit}` : open?.credit}
+        onClose={() => setOpenAt(null)}
+      />
     </div>
   );
 }

@@ -21,6 +21,9 @@ interface Settings {
   screensaverEnabled: boolean;
   screensaverDelayMs: number;
   screensaverVideoId: string;
+  /** Draw a different film each time, rather than always the chosen one. */
+  screensaverShuffle: boolean;
+  videoWallpaperShuffle: boolean;
   activeWallpaper: string;
   wallpaperColor: string;
   wallpaperSpeed: number;
@@ -50,6 +53,8 @@ const defaultSettings: Settings = {
   screensaverEnabled: true,
   screensaverDelayMs: 60000,
   screensaverVideoId: 'wide',
+  screensaverShuffle: true,
+  videoWallpaperShuffle: true,
   activeWallpaper: 'polyrhythm',
   wallpaperColor: '#dc2626',
   wallpaperSpeed: 1,
