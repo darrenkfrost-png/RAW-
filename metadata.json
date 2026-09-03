@@ -1,0 +1,10 @@
+{
+  "name": "Remix:  RAW Official done",
+  "description": "Premium performance and recovery brand. Live your life RAW - Train with intent, recover with purpose.",
+  "requestFramePermissions": [
+    "microphone"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

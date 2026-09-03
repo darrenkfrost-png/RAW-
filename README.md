@@ -1,11 +1,28 @@
-<div align="center">
+# RAW Official | Performance & Recovery Protocol
 
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
+Premium performance and recovery brand. Live your life RAW - Train with intent, recover with purpose.
 
-  <h1>Built with AI Studio</h2>
+This project is a high-performance web application designed for elite athleticism, recovery, and tactical equipment.
 
-  <p>The fastest path from prompt to production with Gemini.</p>
+## Technology Stack
 
-  <a href="https://aistudio.google.com/apps">Start building</a>
+- **Framework**: React 18+ with Vite
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS
+- **Animations**: motion (framer-motion)
+- **Icons**: Lucide React
+- **Data Visualization/Interaction**: Recharts/d3
 
-</div>
+## Features
+
+- **Elite UI/UX**: Industrial-grade, high-fidelity interface with fluid micro-animations.
+- **Product AI Assistant**: AI-powered analysis of product specifications and recommendations.
+- **Protocol Archive**: Seamless browsing and filtration of performance products.
+- **Responsive Design**: Mobile-first architecture, highly tailored for desktop and mobile interactions.
+- **Performance Optimized**: Lazy loading and optimized rendering for tactical-grade responsiveness.
+
+## Development
+
+1. **Install Dependencies**: `npm install`
+2. **Start Development Server**: `npm run dev`
+3. **Build**: `npm run build`

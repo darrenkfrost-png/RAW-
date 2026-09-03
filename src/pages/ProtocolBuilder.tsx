@@ -1,0 +1,428 @@
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
+import { ChevronRight, ArrowRight, ShieldCheck, Target, Zap, Waves, Activity, RefreshCw } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
+import { allProducts } from '../data/products';
+import { useProtocol } from '../context/ProtocolContext';
+import { useAIContext } from '../context/AIContext';
+import { useToast } from '../components/common/Toast';
+
+const steps = [
+  {
+    id: 'goal',
+    title: 'Primary Performance Goal',
+    options: [
+      { id: 'strength', label: 'Build Muscle & Strength', icon: Target },
+      { id: 'endurance', label: 'Endurance & Stamina', icon: Activity },
+      { id: 'recovery', label: 'Accelerate Recovery', icon: RefreshCw },
+      { id: 'sleep', label: 'Improve Sleep & Calm', icon: Waves },
+      { id: 'combat', label: 'Combat Readiness', icon: Zap },
+    ]
+  },
+  {
+    id: 'frequency',
+    title: 'Training Frequency',
+    options: [
+      { id: '1-2', label: '1-2 Days / Week' },
+      { id: '3-4', label: '3-4 Days / Week' },
+      { id: '5+', label: '5+ Days / Week' },
+      { id: 'everyday', label: 'Everyday / Tactical' },
+    ]
+  },
+  {
+    id: 'experience',
+    title: 'Experience Level',
+    options: [
+      { id: 'beginner', label: 'Beginner / Foundation' },
+      { id: 'intermediate', label: 'Intermediate / Structured' },
+      { id: 'advanced', label: 'Advanced / Competitive' },
+    ]
+  },
+  {
+    id: 'budget',
+    title: 'Monthly Protocol Budget',
+    options: [
+      { id: 'essentials', label: 'Essentials Only (£40 - £80)' },
+      { id: 'standard', label: 'Standard Stack (£80 - £150)' },
+      { id: 'comprehensive', label: 'Comprehensive Stack (£150+)' },
+    ]
+  },
+  {
+    id: 'preferred_type',
+    title: 'Preferred Format',
+    options: [
+      { id: 'powders', label: 'Powders & Mixes' },
+      { id: 'capsules', label: 'Capsules & Pills' },
+      { id: 'mixed', label: 'Mixed / No Preference' },
+    ]
+  },
+  {
+    id: 'recovery_priority',
+    title: 'Recovery Focus',
+    options: [
+      { id: 'muscle_soreness', label: 'Muscle Soreness & Repair' },
+      { id: 'joint_health', label: 'Joint Health & Mobility' },
+      { id: 'cns_faigue', label: 'CNS Fatigue & Burnout' },
+      { id: 'hydration', label: 'Hydration & Electrolytes' },
+    ]
+  },
+  {
+    id: 'energy_focus',
+    title: 'Energy & Focus Preference',
+    options: [
+      { id: 'high_stim', label: 'Maximum Stimulation (High Caffeine)' },
+      { id: 'smooth_focus', label: 'Smooth Focus (Nootropics & Low Caffeine)' },
+      { id: 'stim_free', label: 'Stim-Free Pump & Endurance' },
+      { id: 'none', label: 'Not a Priority' },
+    ]
+  },
+  {
+    id: 'sleep_calm',
+    title: 'Sleep & Calm Priority',
+    options: [
+      { id: 'deep_sleep', label: 'Deep Sleep & Recovery' },
+      { id: 'stress_relief', label: 'Stress Relief & Relaxation' },
+      { id: 'none', label: 'Not a Priority' },
+    ]
+  },
+  {
+    id: 'combat_style',
+    title: 'Combat / Training Style',
+    options: [
+      { id: 'striking', label: 'Striking (Boxing, Muay Thai)' },
+      { id: 'grappling', label: 'Grappling (BJJ, Wrestling)' },
+      { id: 'mixed', label: 'MMA / Mixed Martial Arts' },
+      { id: 'lifting', label: 'Heavy Lifting & Powerbuilding' },
+      { id: 'tactical', label: 'Tactical / Hybrid Athlete' },
+    ]
+  }
+];
+
+export default function ProtocolBuilder() {
+  const [currentStep, setCurrentStep] = useState(0);
+  const [answers, setAnswers] = useState<Record<string, string>>({});
+  const [isGenerating, setIsGenerating] = useState(false);
+  const [resultStack, setResultStack] = useState<any[] | null>(null);
+  
+  const { addToProtocol } = useProtocol();
+  const navigate = useNavigate();
+  const { updateAIContext, clearAIContext } = useAIContext();
+  const { addToast } = useToast();
+
+  useEffect(() => {
+    updateAIContext({
+      sourcePage: 'ProtocolBuilder',
+      activeFilters: answers
+    });
+  }, [answers]);
+
+  useEffect(() => {
+    return () => clearAIContext();
+  }, []);
+
+  const handleSelect = (stepId: string, optionId: string) => {
+    const newAnswers = { ...answers, [stepId]: optionId };
+    setAnswers(newAnswers);
+    
+    if (currentStep < steps.length - 1) {
+      setTimeout(() => setCurrentStep(prev => prev + 1), 400);
+    } else {
+      generateProtocol(newAnswers);
+    }
+  };
+
+  const generateProtocol = (userAnswers: Record<string, string>) => {
+    setIsGenerating(true);
+    addToast("Initiating quantum bio-synergy calculations...", "loading");
+    // Simulate AI generation based on goals
+    setTimeout(() => {
+      try {
+        let filtered: any[] = [];
+        const goal = userAnswers.goal;
+        const combatStyle = userAnswers.combat_style;
+        const sleep = userAnswers.sleep_calm;
+        
+        const addReason = (products: any[], defaultReason: string) => 
+          products.map(p => ({ ...p, reason: defaultReason }));
+
+        if (goal === 'strength') {
+           filtered = [
+             ...addReason(allProducts.filter(p => p.name.toLowerCase().includes('protein')).slice(0, 1), "Fundamental building block for muscle repair and growth after heavy lifting."),
+             ...addReason(allProducts.filter(p => p.name.toLowerCase().includes('creatine')).slice(0, 1), "Increases ATP production for enhanced strength and power output."),
+             ...addReason(allProducts.filter(p => p.name.toLowerCase().includes('pre-workout')).slice(0, 1), "Maximizes intensity and focus during strength sessions.")
+           ];
+        } else if (goal === 'recovery') {
+           filtered = [
+             ...addReason(allProducts.filter(p => p.name.toLowerCase().includes('magnesium')).slice(0, 1), "Supports muscle relaxation and prevents cramping post-training."),
+             ...addReason(allProducts.filter(p => p.name.toLowerCase().includes('protein')).slice(0, 1), "Essential for repairing muscle fibers damaged during training."),
+             ...addReason(allProducts.filter(p => p.name.toLowerCase().includes('electrolyte')).slice(0, 1), "Replenishes essential minerals lost through sweat.")
+           ];
+        } else if (goal === 'combat' || combatStyle === 'striking' || combatStyle === 'grappling') {
+           filtered = [
+             ...addReason(allProducts.filter(p => p.category.toLowerCase().includes('combat')).slice(0, 2), "Engineered specifically for the demands of martial arts and fighting."),
+             ...addReason(allProducts.filter(p => p.name.toLowerCase().includes('electrolyte')).slice(0, 1), "Critical for maintaining hydration and nerve function during intense rounds.")
+           ];
+        } else if (goal === 'sleep' || sleep === 'deep_sleep') {
+           filtered = [
+             ...addReason(allProducts.filter(p => p.name.toLowerCase().includes('magnesium')).slice(0, 1), "Crucial for down-regulating the nervous system before bed."),
+             ...addReason(allProducts.filter(p => p.name.toLowerCase().includes('gaba') || p.name.toLowerCase().includes('sleep')).slice(0, 1), "Promotes deep, restorative sleep cycles for optimal recovery.")
+           ];
+        } else {
+           filtered = addReason(allProducts.slice(0, 3), "Core foundational supplement for general performance and health.");
+        }
+
+        // Fill up to 4 if needed (ensure uniqueness)
+        const uniqueProducts = Array.from(new Map(filtered.map(item => [item.id, item])).values()).slice(0, 4);
+        while(uniqueProducts.length < 4) {
+           const remaining = allProducts.filter(p => !uniqueProducts.find(up => up.id === p.id));
+           if (remaining.length > 0) {
+              uniqueProducts.push({ ...remaining[0], reason: "Synergistic addition prioritizing your selected variables." });
+           } else {
+               break;
+           }
+        }
+
+        setResultStack(uniqueProducts);
+        setIsGenerating(false);
+        addToast("Target protocol successfully established and verified.", "success");
+      } catch (err: any) {
+        setIsGenerating(false);
+        addToast(`Bio-synergy generation failed: ${err.message || err}`, "error");
+      }
+    }, 2500);
+  };
+
+  const handleEditSelections = () => {
+    setResultStack(null);
+    setCurrentStep(0);
+    setAnswers({});
+    addToast("Biometric parameters reset. Re-calibrating system baseline.", "info");
+  };
+
+  const addAllToProtocol = () => {
+    if (resultStack) {
+      resultStack.forEach(product => addToProtocol(product));
+      addToast("Performance protocol deployed. Redirection underway.", "success");
+      navigate('/shop');
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-editorial-bg pt-32 pb-24 px-[var(--shell-padding-mobile)] md:px-[var(--shell-padding)] lg:px-[var(--shell-padding-lg)] font-sans relative overflow-hidden">
+      <div className="absolute top-0 right-0 w-[1200px] h-[1200px] bg-editorial-accent/5 blur-[250px] pointer-events-none rounded-full mix-blend-screen z-0" />
+      <div className="absolute bottom-0 left-0 w-[1000px] h-[1000px] bg-editorial-accent/5 blur-[200px] pointer-events-none rounded-full mix-blend-screen z-0" />
+
+      <div className="max-w-[var(--content-max-width)] mx-auto relative z-10">
+        <div className="mb-24 text-center space-y-8 relative z-20">
+          <motion.div 
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="flex justify-center items-center gap-5"
+          >
+            <div className="flex gap-2">
+              {[1,2,3].map(i => <div key={i} className="w-1.5 h-6 bg-red-600 animate-pulse" style={{ animationDelay: `${i * 0.2}s` }} />)}
+            </div>
+            <span className="text-meta-premium">NEURAL_CONFIG_PROTOCOL // X-09</span>
+          </motion.div>
+          <motion.h1 
+            initial={{ opacity: 0, scale: 1.1 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+            className="text-7xl md:text-9xl xl:text-[140px] font-sans font-black uppercase tracking-[-0.05em] leading-[0.8] drop-shadow-strong text-premium"
+          >
+            Protocol <br/> Builder
+          </motion.h1>
+          <motion.p 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.6 }}
+            className="text-meta-premium max-w-2xl mx-auto border-y border-editorial-border py-8"
+          >
+            Configure your personal performance stack based on your objectives, output level, and recovery needs.
+          </motion.p>
+        </div>
+
+        <AnimatePresence mode="wait">
+          {!resultStack && !isGenerating ? (
+            <motion.div 
+              key={`step-${currentStep}`}
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 1.05 }}
+              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+              className="bg-editorial-bg/40 backdrop-blur-3xl border border-editorial-border-light p-12 md:p-20 rounded-[3rem] shadow-premium relative overflow-hidden group"
+            >
+              <div className="absolute inset-0 bg-gradient-to-br from-red-600/[0.03] to-transparent pointer-events-none" />
+              
+              {/* Stepper HUD */}
+              <div className="flex items-center gap-10 mb-20 relative z-10">
+                 <div className="flex flex-col">
+                   <span className="text-meta-premium opacity-40 mb-1">Step_Index</span>
+                   <span className="text-meta-premium text-2xl !text-editorial-text">0{currentStep + 1}</span>
+                 </div>
+                 <div className="flex-1 h-[1px] bg-editorial-text/5 relative">
+                    <motion.div 
+                      className="absolute left-0 top-0 bottom-0 bg-red-600 shadow-[0_0_20px_#dc2626]" 
+                      initial={{ width: 0 }}
+                      animate={{ width: `${((currentStep + 1) / steps.length) * 100}%` }}
+                      transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+                    />
+                    {/* Tick marks */}
+                    <div className="absolute inset-0 flex justify-between px-0">
+                      {steps.map((_, i) => (
+                        <div key={i} className={`w-[2px] h-3 -top-1 absolute bg-editorial-text/10 ${i === currentStep ? 'bg-red-600 shadow-[0_0_10px_#dc2626]' : ''}`} style={{ left: `${(i / (steps.length-1)) * 100}%` }} />
+                      ))}
+                    </div>
+                 </div>
+                 <div className="flex flex-col text-right">
+                   <span className="text-meta-premium opacity-40 mb-1">Final_Unit</span>
+                   <span className="text-meta-premium text-2xl">0{steps.length}</span>
+                 </div>
+              </div>
+
+              <h2 className="text-4xl md:text-6xl font-black text-editorial-text uppercase tracking-tighter mb-16 drop-shadow-strong relative z-10 max-w-xl">
+                {steps[currentStep].title}
+              </h2>
+
+              <div className="grid sm:grid-cols-2 gap-6 relative z-10">
+                {steps[currentStep].options.map((option) => (
+                  <button
+                    key={option.id}
+                    onClick={() => handleSelect(steps[currentStep].id, option.id)}
+                    className="flex flex-col items-start gap-8 p-10 bg-editorial-text/5 backdrop-blur-xl border border-editorial-border rounded-[2rem] hover:border-red-600/50 hover:bg-red-600/[0.03] transition-all duration-700 group/btn transform-gpu active:scale-[0.98] text-left relative overflow-hidden"
+                    aria-label={`Select ${option.label}`}
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-br from-red-600/5 to-transparent opacity-0 group-hover/btn:opacity-100 transition-opacity duration-700" />
+                    
+                    <div className="w-14 h-14 bg-editorial-text/5 rounded-2xl flex items-center justify-center group-hover/btn:bg-red-600 group-hover/btn:text-white transition-all duration-700 border border-editorial-border relative z-10">
+                      {option.icon ? <option.icon className="w-6 h-6" /> : <ChevronRight className="w-6 h-6 opacity-40 group-hover/btn:opacity-100" />}
+                    </div>
+                    <div className="relative z-10 w-full flex items-center justify-between">
+                      <span className="text-lg md:text-xl font-black text-editorial-text-muted group-hover/btn:text-editorial-text uppercase tracking-tight transition-colors duration-500">{option.label}</span>
+                      <ArrowRight className="w-6 h-6 text-red-600 opacity-0 -translate-x-4 group-hover/btn:opacity-100 group-hover/btn:translate-x-0 transition-all duration-700 ease-[0.16,1,0.3,1]" />
+                    </div>
+                  </button>
+                ))}
+              </div>
+            </motion.div>
+          ) : isGenerating ? (
+            <motion.div 
+              key="generating"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="flex flex-col items-center justify-center py-40 text-center relative"
+            >
+              <div className="relative w-40 h-40 mb-16">
+                 <div className="absolute inset-0 border-4 border-red-600/10 rounded-full" />
+                 <motion.div 
+                   animate={{ rotate: 360 }}
+                   transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+                   className="absolute inset-0 border-4 border-t-red-600 rounded-full shadow-[0_0_30px_#dc2626]" 
+                 />
+                 <div className="absolute inset-4 border-2 border-dashed border-red-600/20 rounded-full animate-[spin_10s_linear_infinite]" />
+                 <Activity className="absolute inset-0 m-auto w-10 h-10 text-red-500 animate-pulse" />
+              </div>
+              
+              <h3 className="text-4xl font-black uppercase tracking-tighter mb-6 drop-shadow-strong text-premium">Neural Intelligence Analysis</h3>
+              <p className="text-meta-premium text-red-500 animate-pulse">OPTIMIZING_BIO_SYNERGY...</p>
+              
+              {/* Scanner Line Effect */}
+              <motion.div 
+                animate={{ top: ['0%', '100%', '0%'] }}
+                transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                className="absolute left-0 right-0 h-[2px] bg-red-600 shadow-[0_0_20px_#dc2626] opacity-30 pointer-events-none"
+              />
+            </motion.div>
+          ) : (
+            <motion.div 
+              key="results"
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="space-y-12"
+            >
+              <div className="bg-editorial-bg/60 backdrop-blur-3xl border border-editorial-border-light rounded-[3rem] p-12 md:p-20 relative overflow-hidden shadow-premium">
+                <div className="absolute top-0 inset-x-0 h-[2px] bg-red-600 shadow-[0_0_20px_#dc2626]" />
+                <div className="absolute inset-0 bg-gradient-to-br from-red-600/[0.02] to-transparent pointer-events-none" />
+                
+                <div className="mb-20 text-center relative z-10">
+                  <div className="inline-flex items-center gap-3 bg-red-600/10 border border-red-600/20 px-6 py-2 rounded-full mb-8">
+                     <ShieldCheck className="w-4 h-4 text-red-500" />
+                     <span className="text-meta-premium !text-red-500">VALIDATED_RECOMENDATION</span>
+                  </div>
+                  <h2 className="text-5xl md:text-7xl font-sans font-black uppercase tracking-tighter mb-6 drop-shadow-strong text-premium">Target Protocol</h2>
+                  <p className="text-meta-premium opacity-60">Deployment methodology optimized for your parameters.</p>
+                </div>
+
+                <div className="space-y-6 mb-20 relative z-10">
+                  {resultStack?.map((product, idx) => (
+                    <motion.div 
+                      key={product.id} 
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: idx * 0.2 }}
+                      className="flex flex-col xl:flex-row items-center gap-10 p-10 bg-editorial-text/5 border border-editorial-border rounded-[2.5rem] hover:border-red-600/30 hover:bg-editorial-text/[0.07] transition-all duration-700 group shadow-inner"
+                    >
+                      <div className="w-40 h-40 bg-editorial-bg rounded-[2rem] overflow-hidden border border-editorial-border shrink-0 p-6 shadow-depth-1 group-hover:scale-105 transition-transform duration-700">
+                        <img src={product.image} alt={product.name} className="w-full h-full object-contain mix-blend-screen group-hover:scale-110 transition-transform duration-1000" />
+                      </div>
+                      <div className="flex-1 text-center xl:text-left space-y-6">
+                        <div className="flex flex-col xl:flex-row xl:items-center gap-4">
+                           <h4 className="font-black uppercase tracking-tighter text-3xl md:text-4xl drop-shadow-strong text-premium">{product.name}</h4>
+                           <span className="text-meta-premium opacity-40">{product.category}</span>
+                        </div>
+                        <div className="bg-red-600/5 border-l-2 border-red-600 p-6 rounded-r-2xl transform-gpu group-hover:translate-x-2 transition-transform duration-700">
+                           <p className="text-sm md:text-base text-editorial-text font-light leading-relaxed flex items-start gap-4 italic font-sans">
+                             <Target className="w-5 h-5 text-red-600 shrink-0 mt-1" />
+                             "{product.reason}"
+                           </p>
+                        </div>
+                      </div>
+                      <div className="xl:text-right shrink-0 space-y-4">
+                        <span className="font-sans font-black text-4xl tracking-tighter text-premium block drop-shadow-strong">{product.price}</span>
+                        <Link to={`/product/${product.id}`} className="inline-flex text-meta-premium opacity-40 hover:opacity-100 transition-opacity border-b border-editorial-border hover:border-red-500/50 pb-1">Technical_Spec</Link>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+
+                <div className="flex flex-col xl:flex-row items-center justify-between gap-12 pt-16 border-t border-editorial-border relative z-10">
+                  <div className="text-center xl:text-left">
+                    <span className="text-meta-premium opacity-40 block mb-2">Cumulative_Total</span>
+                    <span className="text-5xl md:text-6xl font-black tracking-tighter drop-shadow-strong text-premium">
+                      £{resultStack?.reduce((acc, p) => acc + Number(p.price.toString().replace('£', '')), 0).toFixed(2)}
+                    </span>
+                  </div>
+                  <div className="flex flex-col md:flex-row gap-6 w-full xl:w-auto items-center">
+                    <button 
+                      onClick={addAllToProtocol}
+                      className="button-premium px-12 py-6 w-full md:w-auto text-[11px]"
+                    >
+                      Deploy Protocol Stack <ArrowRight className="w-5 h-5" />
+                    </button>
+                    <button 
+                      onClick={handleEditSelections}
+                      className="button-secondary px-12 py-6 w-full md:w-auto text-[11px]"
+                    >
+                      Reset_Configurator
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex flex-col xl:flex-row items-start gap-8 p-12 bg-editorial-bg/40 backdrop-blur-xl border border-editorial-border-light rounded-[3rem] shadow-depth-1">
+                <ShieldCheck className="w-10 h-10 text-red-600 shrink-0 mt-1 drop-shadow-strong" />
+                <div className="space-y-4">
+                  <span className="text-meta-premium text-lg">Responsible_Deployment_Notice</span>
+                  <p className="text-editorial-text-muted font-light leading-relaxed text-lg italic">
+                    RAW Official products are designed to support active lifestyles and performance routines. Supplements should be used as directed on the label and are not intended to diagnose, treat, cure, or prevent disease. Always consult a qualified professional if pregnant, taking medication, under 18, or managing a health condition.
+                  </p>
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+    </div>
+  );
+}

@@ -1,0 +1,158 @@
+import { Routes, Route } from "react-router-dom";
+import { useState, useEffect, lazy, Suspense } from "react";
+import Layout from "./components/Layout";
+import Sidebar from "./components/Sidebar";
+import PageLoader from "./components/PageLoader";
+
+const Home = lazy(() => import("./pages/Home"));
+const Shop = lazy(() => import("./pages/Shop"));
+const OurStory = lazy(() => import("./pages/OurStory"));
+const RawCares = lazy(() => import("./pages/RawCares"));
+const TermsOfUse = lazy(() => import("./pages/TermsOfUse"));
+const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
+const Nutrients = lazy(() => import("./pages/Nutrients"));
+const Recovery = lazy(() => import("./pages/Recovery"));
+const Combat = lazy(() => import("./pages/Combat"));
+const Analytics = lazy(() => import("./pages/Analytics"));
+const ProductDetail = lazy(() => import("./pages/ProductDetail"));
+const ProductGallery = lazy(() => import("./pages/ProductGallery"));
+const Contact = lazy(() => import("./pages/Contact"));
+const Logistics = lazy(() => import("./pages/Logistics"));
+const Manifesto = lazy(() => import("./pages/Manifesto"));
+const Checkout = lazy(() => import("./pages/Checkout"));
+const Account = lazy(() => import("./pages/Account"));
+const ProtocolBuilder = lazy(() => import("./pages/ProtocolBuilder"));
+const ProtocolStacks = lazy(() => import("./pages/ProtocolStacks"));
+const ProtocolStackDetail = lazy(() => import("./pages/ProtocolStackDetail"));
+const PerformanceSystem = lazy(() => import("./pages/PerformanceSystem"));
+const CompareProducts = lazy(() => import("./pages/CompareProducts"));
+const RawAcademy = lazy(() => import("./pages/RawAcademy"));
+const CustomerType = lazy(() => import("./pages/CustomerType"));
+const KnowledgeCore = lazy(() => import("./pages/KnowledgeCore"));
+const DeFrost = lazy(() => import("./pages/DeFrost"));
+
+import { ErrorBoundary } from "./components/common/ErrorBoundary";
+import ScrollToTop from "./components/ScrollToTop";
+import IntroScreen from "./components/IntroScreen";
+import AIAdvisorDrawer from "./components/AIAdvisorDrawer";
+import SmoothScroll from "./components/SmoothScroll";
+import GlobalTerminal from "./components/GlobalTerminal";
+import NeuralCommandTerminal from "./components/NeuralCommandTerminal";
+import ProtocolDrawer from "./components/ProtocolDrawer";
+import MaximumOverdrive from "./components/MaximumOverdrive";
+import GlobalSettingsPanel from "./components/GlobalSettingsPanel";
+import SystemHealthDashboard from "./components/SystemHealthDashboard";
+import SystemDiagnosticsPanel from "./components/SystemDiagnosticsPanel";
+import DiscoveryHub from "./components/common/DiscoveryHub";
+import { AppProviders } from "./components/AppProviders";
+import { useUI } from "./context/UIContext";
+import ImmersiveReaderHUD from "./components/ImmersiveReaderHUD";
+import AICommandHalo from "./components/AICommandHalo";
+import { useKeyboardShortcuts } from "./hooks/useKeyboardShortcuts";
+
+function AppContent() {
+  const { 
+    isSidebarCollapsed, 
+    isCommandPaletteOpen, setIsCommandPaletteOpen,
+    isDiscoveryOpen, setIsDiscoveryOpen
+  } = useUI();
+
+  useKeyboardShortcuts();
+
+  useEffect(() => {
+    // Living App Shell: Sync route to body for global CSS adaptations
+    document.body.setAttribute('data-route', window.location.pathname);
+  }, [window.location.pathname]);
+
+  return (
+    <SmoothScroll>
+      {/* Global Layer Orchestration */}
+      <IntroScreen />
+      <ScrollToTop />
+      <MaximumOverdrive />
+      
+      <Sidebar />
+
+      {/* Application Layout Shell Orchestrated via padding injection */}
+      <div 
+         id="app-shell"
+         className="min-h-screen transition-all duration-[var(--layout-transition-duration)] ease-[var(--layout-transition-ease)] flex flex-col relative md:pl-[var(--sidebar-current-width)] w-full will-change-[padding-left]"
+         style={{
+           "--sidebar-current-width": `var(${isSidebarCollapsed ? '--sidebar-collapsed-width' : '--sidebar-width'})`
+         } as React.CSSProperties}
+      >
+        <Suspense fallback={
+          <div className="fixed inset-0 z-[9999] bg-black flex items-center justify-center overflow-hidden">
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_0%,_rgba(220,38,38,0.1),transparent_70%)] opacity-80" />
+            <div className="w-64 h-[1px] bg-white/10 rounded-full overflow-hidden relative shadow-[0_0_10px_rgba(0,0,0,0.5)]">
+               <div className="h-full w-1/3 bg-gradient-to-r from-red-800 via-red-500 to-red-400 animate-pulse shadow-[0_0_20px_#dc2626]" />
+            </div>
+            <div className="absolute mt-10 text-meta-premium text-red-500 animate-pulse uppercase tracking-[0.5em] font-black">
+               DECRYPTING_ASSETS
+            </div>
+          </div>
+        }>
+          <Routes>
+            <Route path="/" element={<Layout />}>
+              <Route index element={<Home />} />
+              <Route path="shop" element={<Shop />} />
+              <Route path="gallery" element={<ProductGallery />} />
+              <Route path="our-story" element={<OurStory />} />
+              <Route path="raw-cares" element={<RawCares />} />
+              <Route path="contact" element={<Contact />} />
+              <Route path="terms-of-use" element={<TermsOfUse />} />
+              <Route path="privacy-policy" element={<PrivacyPolicy />} />
+              <Route path="nutrients" element={<Nutrients />} />
+              <Route path="recovery" element={<Recovery />} />
+              <Route path="combat" element={<Combat />} />
+              <Route path="analytics" element={<Analytics />} />
+              <Route path="account" element={<Account />} />
+              <Route path="checkout" element={<Checkout />} />
+              <Route path="product/:id" element={<ProductDetail />} />
+              <Route path="logistics" element={<Logistics />} />
+              <Route path="manifesto" element={<Manifesto />} />
+              <Route path="protocol-builder" element={<ProtocolBuilder />} />
+              <Route path="protocol-stacks" element={<ProtocolStacks />} />
+              <Route path="protocol-stacks/:id" element={<ProtocolStackDetail />} />
+              <Route path="performance-system" element={<PerformanceSystem />} />
+              <Route path="compare" element={<CompareProducts />} />
+              <Route path="academy" element={<RawAcademy />} />
+              <Route path="knowledge-core" element={<KnowledgeCore />} />
+              <Route path="defrost" element={<DeFrost />} />
+              <Route path="target/:type" element={<CustomerType />} />
+              <Route path="category/:slug" element={<Shop />} />
+            </Route>
+          </Routes>
+        </Suspense>
+      </div>
+
+      {/* Persistent Overlay Layer */}
+      <AIAdvisorDrawer />
+      <ProtocolDrawer />
+      <GlobalTerminal />
+      <NeuralCommandTerminal 
+        isOpen={isCommandPaletteOpen} 
+        onClose={() => setIsCommandPaletteOpen(false)} 
+      />
+      <GlobalSettingsPanel />
+      <AICommandHalo />
+      <SystemHealthDashboard />
+      <SystemDiagnosticsPanel />
+      <ImmersiveReaderHUD />
+      <DiscoveryHub isOpen={isDiscoveryOpen} onClose={() => setIsDiscoveryOpen(false)} />
+    </SmoothScroll>
+  );
+}
+
+import PageContextBridge from "./components/PageContextBridge";
+
+export default function App() {
+  return (
+    <ErrorBoundary>
+      <AppProviders>
+        <PageContextBridge />
+        <AppContent />
+      </AppProviders>
+    </ErrorBoundary>
+  );
+}
