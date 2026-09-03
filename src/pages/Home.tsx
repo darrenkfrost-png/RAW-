@@ -249,6 +249,33 @@ export default function Home() {
         </div>
       </section>
 
+      {/* STAY SAFE WITH RAW — the live campaign promotion */}
+      <section className="relative z-10 border-y border-editorial-border bg-editorial-bg overflow-hidden">
+        <Link to="/stay-safe" className="group block">
+          <div className="absolute inset-0 bg-gradient-to-r from-red-950/40 via-transparent to-transparent opacity-60 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
+          <div className="section-container relative py-14 md:py-20 flex flex-col md:flex-row md:items-center gap-8 md:gap-12">
+            <div className="flex-1 min-w-0">
+              <span className="font-mono text-[10px] font-bold uppercase tracking-[0.5em] text-red-500 block mb-4">
+                LIVE_CAMPAIGN // #STAYSAFEWITHRAW
+              </span>
+              <h2 className="font-sans font-black text-4xl md:text-6xl uppercase leading-[0.9] tracking-tight mb-4">
+                100,000 free<br className="hidden md:block" /> condoms. No catch.
+              </h2>
+              <p className="text-editorial-text-muted text-sm md:text-base max-w-xl leading-relaxed">
+                Not samples. Not free with purchase. Free means free — sign up, we post
+                you a pack in plain packaging, and all we ask is what you honestly thought.
+              </p>
+            </div>
+            <div className="flex-shrink-0">
+              <span className="inline-flex items-center gap-3 px-8 py-4 border border-red-500/40 group-hover:border-red-500 group-hover:bg-red-500/10 rounded-full font-mono text-[11px] font-bold uppercase tracking-[0.3em] text-red-400 group-hover:text-red-300 transition-all duration-500">
+                Claim your pack
+                <span className="transition-transform duration-500 group-hover:translate-x-1">→</span>
+              </span>
+            </div>
+          </div>
+        </Link>
+      </section>
+
       {/* Categories Sections - Styled for Editorial */}
       <section className="py-32 xl:py-64 border-y border-editorial-border bg-editorial-bg relative overflow-hidden">
         <Atmosphere glowOpacity={0.02} glowColor="rgba(244, 44, 75, 1)" gridMode="lines" />

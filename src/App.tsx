@@ -30,6 +30,7 @@ const RawAcademy = lazy(() => import("./pages/RawAcademy"));
 const CustomerType = lazy(() => import("./pages/CustomerType"));
 const KnowledgeCore = lazy(() => import("./pages/KnowledgeCore"));
 const DeFrost = lazy(() => import("./pages/DeFrost"));
+const StaySafe = lazy(() => import("./pages/StaySafe"));
 
 import { ErrorBoundary } from "./components/common/ErrorBoundary";
 import ScrollToTop from "./components/ScrollToTop";
@@ -99,6 +100,8 @@ function AppContent() {
               <Route path="gallery" element={<ProductGallery />} />
               <Route path="our-story" element={<OurStory />} />
               <Route path="raw-cares" element={<RawCares />} />
+              <Route path="stay-safe" element={<StaySafe />} />
+              <Route path="stay-safe/feedback" element={<StaySafe />} />
               <Route path="contact" element={<Contact />} />
               <Route path="terms-of-use" element={<TermsOfUse />} />
               <Route path="privacy-policy" element={<PrivacyPolicy />} />
