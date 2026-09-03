@@ -18,6 +18,7 @@ import AmbientField from "./AmbientField";
 import VideoWallpaper from "./VideoWallpaper";
 import Screensaver from "./Screensaver";
 import ChromeRestore from "./ChromeRestore";
+import { usePageMeta } from "../hooks/usePageMeta";
 import { useUI } from "../context/UIContext";
 import { useSettings } from "../context/SettingsContext";
 import { motion, AnimatePresence, useScroll } from "motion/react";
@@ -26,6 +27,9 @@ import { ChevronLeft, ChevronRight, Menu, Bot, Zap } from "lucide-react";
 export default function Layout() {
   const { diagnosticsActive } = useUI();
   const location = useLocation();
+
+  // One call here gives every route its own title and share preview.
+  usePageMeta();
 
   return (
     <div className="bg-editorial-bg text-editorial-text font-sans min-h-screen relative selection:bg-editorial-accent/30 overflow-x-hidden">

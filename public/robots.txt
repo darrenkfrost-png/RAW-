@@ -1,0 +1,8 @@
+# ⚠️ THIS FILE LIVES IN public/ ON PURPOSE.
+# It previously sat at the repository root, which Vite does not publish — so
+# the live site served no robots.txt at all, and the Sitemap line below pointed
+# at a temporary AI Studio Cloud Run address for a sitemap that did not exist.
+User-agent: *
+Allow: /
+
+Sitemap: https://www.rawprotection.com/sitemap.xml
