@@ -312,6 +312,7 @@ export default function Navbar() {
                 { label: 'Combat', to: '/combat' },
                 { label: 'Compare', to: '/compare' },
                 { label: 'Story', to: '/our-story' },
+                { label: 'Showcase', to: '/showcase' },
                 { label: 'Stay Safe', to: '/stay-safe' },
               ].map((link, i) => (
                 <MagneticWrapper key={i}>
@@ -735,6 +736,7 @@ export default function Navbar() {
                 { 
                   label: 'LEARNING_SYSTEM', 
                   subItems: [
+                    { label: 'SHOWCASE', to: '/showcase' },
                     { label: 'STAY SAFE CAMPAIGN', to: '/stay-safe' },
                     { label: 'RAW ACADEMY', to: '/academy' },
                     { label: 'PERFORMANCE SYSTEM', to: '/performance-system' },
