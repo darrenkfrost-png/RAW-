@@ -30,6 +30,23 @@ const RawAcademy = lazy(() => import("./pages/RawAcademy"));
 const CustomerType = lazy(() => import("./pages/CustomerType"));
 const KnowledgeCore = lazy(() => import("./pages/KnowledgeCore"));
 const DeFrost = lazy(() => import("./pages/DeFrost"));
+/* ⚠️ TEN OVERLAY PANELS WERE STATIC IMPORTS, so every visitor downloaded all
+   of them — the AI drawer with its charting library, two terminals, the
+   diagnostics dashboards — on first paint, to render nothing, because they are
+   all closed until asked for. They are lazy now and mounted behind one
+   Suspense with a null fallback: nothing appears any differently, but the
+   first page no longer pays for panels nobody has opened. */
+const AIAdvisorDrawer = lazy(() => import("./components/AIAdvisorDrawer"));
+const GlobalTerminal = lazy(() => import("./components/GlobalTerminal"));
+const NeuralCommandTerminal = lazy(() => import("./components/NeuralCommandTerminal"));
+const ProtocolDrawer = lazy(() => import("./components/ProtocolDrawer"));
+const GlobalSettingsPanel = lazy(() => import("./components/GlobalSettingsPanel"));
+const SystemHealthDashboard = lazy(() => import("./components/SystemHealthDashboard"));
+const SystemDiagnosticsPanel = lazy(() => import("./components/SystemDiagnosticsPanel"));
+const AICommandHalo = lazy(() => import("./components/AICommandHalo"));
+const ImmersiveReaderHUD = lazy(() => import("./components/ImmersiveReaderHUD"));
+const DiscoveryHub = lazy(() => import("./components/common/DiscoveryHub"));
+
 const StaySafe = lazy(() => import("./pages/StaySafe"));
 const Showcase = lazy(() => import("./pages/Showcase"));
 const NotFound = lazy(() => import("./pages/NotFound"));
@@ -37,20 +54,10 @@ const NotFound = lazy(() => import("./pages/NotFound"));
 import { ErrorBoundary } from "./components/common/ErrorBoundary";
 import ScrollToTop from "./components/ScrollToTop";
 import IntroScreen from "./components/IntroScreen";
-import AIAdvisorDrawer from "./components/AIAdvisorDrawer";
 import SmoothScroll from "./components/SmoothScroll";
-import GlobalTerminal from "./components/GlobalTerminal";
-import NeuralCommandTerminal from "./components/NeuralCommandTerminal";
-import ProtocolDrawer from "./components/ProtocolDrawer";
 import MaximumOverdrive from "./components/MaximumOverdrive";
-import GlobalSettingsPanel from "./components/GlobalSettingsPanel";
-import SystemHealthDashboard from "./components/SystemHealthDashboard";
-import SystemDiagnosticsPanel from "./components/SystemDiagnosticsPanel";
-import DiscoveryHub from "./components/common/DiscoveryHub";
 import { AppProviders } from "./components/AppProviders";
 import { useUI } from "./context/UIContext";
-import ImmersiveReaderHUD from "./components/ImmersiveReaderHUD";
-import AICommandHalo from "./components/AICommandHalo";
 import { useKeyboardShortcuts } from "./hooks/useKeyboardShortcuts";
 
 function AppContent() {
@@ -142,6 +149,7 @@ function AppContent() {
       </div>
 
       {/* Persistent Overlay Layer */}
+      <Suspense fallback={null}>
       <AIAdvisorDrawer />
       <ProtocolDrawer />
       <GlobalTerminal />
@@ -155,6 +163,7 @@ function AppContent() {
       <SystemDiagnosticsPanel />
       <ImmersiveReaderHUD />
       <DiscoveryHub isOpen={isDiscoveryOpen} onClose={() => setIsDiscoveryOpen(false)} />
+      </Suspense>
     </SmoothScroll>
   );
 }

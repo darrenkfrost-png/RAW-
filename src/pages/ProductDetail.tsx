@@ -4,7 +4,7 @@ import { ImageViewerPortal } from "../components/ImageViewer";
 import { VideoViewerPortal } from "../components/VideoViewer";
 import { motion, AnimatePresence, useMotionValue, useSpring, useTransform, useScroll, useMotionTemplate } from "motion/react";
 import { Maximize, ChevronLeft, ChevronRight, Plus, Minus, ArrowRight, Shield, Truck, RefreshCw, ZoomIn, Bot, X, Star, Facebook, Twitter, Zap, Activity, Target, Copy, ChevronUp, Database, ChevronDown, Layers, Sparkles, Cpu, LineChart, Play } from "lucide-react";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, lazy, Suspense} from "react";
 import { useToast } from "../components/common/Toast";
 import { useCart } from "../context/CartContext";
 import { allProducts } from "../data/products";
@@ -18,7 +18,12 @@ import { useCompare } from "../context/CompareContext";
 import { useAIContext } from "../context/AIContext";
 import MagneticWrapper from "../components/MagneticWrapper";
 import ProductGallery, { GalleryItem } from "../components/ProductGallery";
-import Product3DViewer from "../components/Product3DViewer";
+/* ⚠️ three.js + @react-three/fiber + drei is roughly a megabyte, and it was a
+   STATIC import — so every visitor to any product page downloaded a 3D engine
+   whether or not they ever switched to the 3D view. Measured: the
+   ProductDetail chunk was 1,032KB. Lazy now: the engine arrives only when the
+   3D tab is actually chosen. */
+const Product3DViewer = lazy(() => import("../components/Product3DViewer"));
 import NeuralTelemetryRadar from "../components/NeuralTelemetryRadar";
 import { geminiService } from "../services/geminiService";
 
@@ -614,7 +619,15 @@ export default function ProductDetail() {
                                <span>3D_INTERACTIVE_MODEL_ACTIVE</span>
                             </div>
                          </div>
-                         <Product3DViewer />
+                         <Suspense fallback={
+                           <div className="flex h-full w-full items-center justify-center">
+                             <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-editorial-text-muted">
+                               Loading 3D view…
+                             </span>
+                           </div>
+                         }>
+                           <Product3DViewer />
+                         </Suspense>
                       </div>
                     )}
                 </motion.div>
