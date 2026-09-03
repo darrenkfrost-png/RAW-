@@ -22,7 +22,12 @@ export default function LazyImage({ src, alt, className = "", containerClassName
           <motion.div 
             initial={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="absolute inset-0 z-10 flex items-center justify-center bg-editorial-surface"
+            /* ⚠️ pointer-events-none: this skeleton sits ON TOP of the image
+               at z-10, so without it the loading placeholder — and anything
+               left of it — swallows the click meant for the picture beneath.
+               Hit-tested on /product/1: the element at the image's centre was
+               this overlay's caption, not the image. */
+            className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center bg-editorial-surface"
           >
             <div className="w-full h-full relative overflow-hidden">
                <motion.div 

@@ -1,5 +1,6 @@
 import { Atmosphere } from '../components/common/Atmosphere';
 import { useParams, Link } from "react-router-dom";
+import { ImageViewerPortal } from "../components/ImageViewer";
 import { motion, AnimatePresence, useMotionValue, useSpring, useTransform, useScroll, useMotionTemplate } from "motion/react";
 import { ChevronLeft, ChevronRight, Plus, Minus, ArrowRight, Shield, Truck, RefreshCw, ZoomIn, Bot, X, Star, Facebook, Twitter, Zap, Activity, Target, Copy, ChevronUp, Database, ChevronDown, Layers, Sparkles, Cpu, LineChart, Play } from "lucide-react";
 import React, { useState, useEffect, useRef } from "react";
@@ -311,64 +312,11 @@ export default function ProductDetail() {
     window.scrollTo(0, 0);
   }, [id]);
 
-  useEffect(() => {
-    if (!isZoomed) return;
-
-    const handleWheel = (e: WheelEvent) => {
-      e.preventDefault();
-      const currentScale = scale.get();
-      const delta = e.deltaY * -0.01;
-      const newScale = Math.min(Math.max(1, currentScale + delta), 5);
-      scale.set(newScale);
-      
-      if (newScale === 1) {
-        x.set(0);
-        y.set(0);
-      }
-    };
-
-    const handleKeyDown = (e: KeyboardEvent) => {
-      e.preventDefault();
-      const currentScale = scale.get();
-      const step = 50 / currentScale;
-
-      switch (e.key) {
-        case 'ArrowUp':
-          y.set(y.get() + step);
-          break;
-        case 'ArrowDown':
-          y.set(y.get() - step);
-          break;
-        case 'ArrowLeft':
-          x.set(x.get() + step);
-          break;
-        case 'ArrowRight':
-          x.set(x.get() - step);
-          break;
-        case '+':
-        case '=':
-          scale.set(Math.min(currentScale + 0.5, 5));
-          break;
-        case '-':
-        case '_':
-          scale.set(Math.max(currentScale - 0.5, 1));
-          if (currentScale - 0.5 <= 1) {
-             x.set(0); y.set(0);
-          }
-          break;
-        case 'Escape':
-          setIsZoomed(false);
-          break;
-      }
-    };
-
-    window.addEventListener('keydown', handleKeyDown);
-    window.addEventListener('wheel', handleWheel, { passive: false });
-    return () => {
-      window.removeEventListener('keydown', handleKeyDown);
-      window.removeEventListener('wheel', handleWheel);
-    };
-  }, [isZoomed, scale, x, y]);
+  /* The legacy zoom effect lived here: a second global wheel+key handler bound
+     whenever isZoomed was true. It preventDefault'd every wheel event and drove
+     its own scale/x/y motion values, so it fought the new viewer for the same
+     gestures. The viewer owns zooming now — one handler, on its own stage
+     rather than the window. */
 
   const getStockStatus = (status: string | undefined) => {
     switch (status) {
@@ -679,67 +627,25 @@ export default function ProductDetail() {
           />
         </div>
 
-      <AnimatePresence>
-        {isZoomed && (
-          <motion.div 
-            initial={{ opacity: 0, backdropFilter: "blur(0px)" }}
-            animate={{ opacity: 1, backdropFilter: "blur(20px)" }}
-            exit={{ opacity: 0, backdropFilter: "blur(0px)" }}
-            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-            className="fixed inset-0 z-[100] bg-editorial-bg/95 flex items-center justify-center p-4 md:p-10"
-          >
-            <motion.button
-               initial={{ opacity: 0, y: -20 }}
-               animate={{ opacity: 1, y: 0 }}
-               exit={{ opacity: 0, y: -20 }}
-               transition={{ delay: 0.3, duration: 0.4 }}
-               onClick={() => setIsZoomed(false)}
-               className="absolute top-8 right-8 p-4 bg-editorial-text/5 hover:bg-editorial-text/10 border border-editorial-border-light hover:border-red-500/50 backdrop-blur-xl transition-all duration-500 z-10 rounded-full group shadow-[0_10px_30px_rgba(0,0,0,0.08)]"
-            >
-              <X className="w-6 h-6 text-editorial-text-muted group-hover:text-red-500 transition-colors drop-shadow-md" />
-            </motion.button>
-            
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9, y: 40 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.9, y: 40 }}
-              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-              className="relative overflow-hidden cursor-grab active:cursor-grabbing touch-none bg-editorial-bg rounded-[3rem] border border-editorial-border shadow-[0_40px_100px_rgba(0,0,0,0.15)]"
-              style={{ width: "90vw", height: "90vh" }}
-              ref={containerRef}
-            >
-              <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(0,0,0,0.03)_0%,transparent_80%)] pointer-events-none" />
-              {galleryItems[activeImage].type === 'image' ? (
-                <motion.img 
-                  src={galleryItems[activeImage].url} 
-                  alt="Zoomed" 
-                  drag
-                  dragConstraints={containerRef}
-                  dragElastic={0.1}
-                  style={{ x, y, scale: smoothScale }}
-                  className="w-full h-full object-contain filter drop-shadow-[0_20px_50px_rgba(0,0,0,0.04)] mix-blend-screen p-8 md:p-20"
-                />
-              ) : (
-                <video src={galleryItems[activeImage].url} controls autoPlay loop muted playsInline className="w-full h-full object-contain p-8 md:p-20" />
-              )}
-            </motion.div>
-            
-            <motion.div 
-               initial={{ opacity: 0, y: 20 }}
-               animate={{ opacity: 1, y: 0 }}
-               exit={{ opacity: 0, y: 20 }}
-               transition={{ delay: 0.4, duration: 0.4 }}
-               className="absolute bottom-12 left-1/2 -translate-x-1/2 flex gap-4 z-10 bg-editorial-bg/80 p-3 rounded-[2rem] border border-editorial-border-light backdrop-blur-xl shadow-[0_20px_40px_rgba(0,0,0,0.1)]"
-            >
-               <button aria-label="Zoom In" onClick={() => scale.set(Math.min(scale.get() + 0.5, 5))} className="p-4 bg-editorial-text/5 rounded-full text-editorial-text-muted hover:text-editorial-text hover:bg-editorial-text/10 transition-all hover:scale-110 active:scale-95"><Plus className="w-6 h-6" /></button>
-               <div className="w-[1px] h-8 bg-editorial-text/10 self-center" />
-               <button aria-label="Reset Zoom" onClick={() => { scale.set(1); x.set(0); y.set(0); }} className="p-4 bg-editorial-text/5 rounded-full text-editorial-text-muted hover:text-editorial-text hover:bg-editorial-text/10 transition-all hover:scale-110 active:scale-95"><RefreshCw className="w-5 h-5" /></button>
-               <div className="w-[1px] h-8 bg-editorial-text/10 self-center" />
-               <button aria-label="Zoom Out" onClick={() => scale.set(Math.max(scale.get() - 0.5, 1))} className="p-4 bg-editorial-text/5 rounded-full text-editorial-text-muted hover:text-editorial-text hover:bg-editorial-text/10 transition-all hover:scale-110 active:scale-95"><Minus className="w-6 h-6" /></button>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {/* ⚠️ THE VIEWER MUST LIVE OUTSIDE THIS SUBTREE.
+          What was here was `fixed inset-0` and still opened halfway down the
+          page. `fixed` was not at fault — the page-transition wrapper animates
+          filter+transform, and any such ancestor becomes the containing block
+          for fixed positioning inside it. Measured here: the overlay was
+          14,702px tall (the document) instead of 1,274px (the viewport). The
+          portal renders outside that subtree, so it lands on the screen. */}
+      <ImageViewerPortal
+        open={isZoomed}
+        images={galleryItems.filter(g => g.type === 'image').map(g => g.url)}
+        index={Math.max(0, galleryItems.filter(g => g.type === 'image').findIndex(g => g.url === galleryItems[activeImage]?.url))}
+        onIndexChange={(i) => {
+          const imgs = galleryItems.filter(g => g.type === 'image');
+          const target = galleryItems.findIndex(g => g.url === imgs[i]?.url);
+          if (target >= 0) setActiveImage(target);
+        }}
+        onClose={() => setIsZoomed(false)}
+        title={product.name}
+      />
 
 
         {/* Product Info */}
