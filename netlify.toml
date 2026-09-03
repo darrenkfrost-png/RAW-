@@ -1,5 +1,8 @@
 [build]
-  command = "npm run build"
+  # Static hosting publishes dist/ verbatim. `npm run build` also writes
+  # dist/server.cjs, which would then be downloadable from the live site —
+  # the server is not a page. build:static is the client only.
+  command = "npm run build:static"
   publish = "dist"
 
 [[redirects]]

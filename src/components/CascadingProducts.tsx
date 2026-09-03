@@ -32,7 +32,7 @@ export default function CascadingProducts() {
          transition={{ delay: 1, duration: 1 }}
          className="absolute top-1/2 -translate-y-1/2 text-center"
        >
-         <img src="https://rawofficial.co/wp-content/uploads/2026/02/RAW-TM-Logo-RED.png" alt="RAW Official" className="h-16 md:h-20 object-contain mx-auto drop-shadow-[0_0_20px_rgba(220,38,38,0.5)]" />
+         <img src="/brand/raw-logo-red.png" alt="RAW Official" className="h-16 md:h-20 object-contain mx-auto drop-shadow-[0_0_20px_rgba(220,38,38,0.5)]" />
        </motion.div>
     </div>
   );

@@ -70,7 +70,7 @@ export default function PageLoader() {
                 >
                   <div className="absolute inset-0 bg-red-600/20 blur-[30px] rounded-full group-hover:bg-red-600/40 transition-colors" />
                   <img 
-                    src="https://rawofficial.co/wp-content/uploads/2026/02/RAW-TM-Logo-RED.png" 
+                    src="/brand/raw-logo-red.png" 
                     alt="RAW Official" 
                     className="relative z-10 h-16 md:h-20 object-contain drop-shadow-[0_0_20px_rgba(220,38,38,0.5)] filter brightness-125"
                     referrerPolicy="no-referrer"
@@ -80,7 +80,7 @@ export default function PageLoader() {
                   <motion.div 
                      animate={{ x: [-2, 2, -1, 0] }}
                      transition={{ duration: 0.2, repeat: Infinity, repeatDelay: 3 }}
-                     className="absolute inset-0 z-20 pointer-events-none mix-blend-color-dodge opacity-50 bg-[url('https://rawofficial.co/wp-content/uploads/2026/02/RAW-TM-Logo-RED.png')] bg-contain bg-center bg-no-repeat filter brightness-200 blur-[1px]"
+                     className="absolute inset-0 z-20 pointer-events-none mix-blend-color-dodge opacity-50 bg-[url('/brand/raw-logo-red.png')] bg-contain bg-center bg-no-repeat filter brightness-200 blur-[1px]"
                   />
                 </motion.div>
                 

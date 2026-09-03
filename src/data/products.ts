@@ -975,7 +975,7 @@ export const allProducts: Product[] = [
     "name": "Mushroom & Ashwagandha Gummies",
     "category": "Nutrients",
     "price": "£11.99",
-    "image": "https://rawofficial.co/wp-content/uploads/2026/02/RAW-TM-Logo-RED.png",
+    "image": "/brand/raw-logo-red.png",
     "stockStatus": "AVAILABLE",
     "shortBenefit": "Cortisol control & stress resilience.",
     "overview": "A core addition to the RAW Official nutrients lineup, designed to complement your active lifestyle.",

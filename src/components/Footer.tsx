@@ -25,7 +25,7 @@ export default function Footer() {
 
         <div className="col-span-1 md:col-span-2 lg:col-span-1 flex flex-col items-start relative z-10">
           <Link to="/" aria-label="RAW Official Home" className="mb-12 block transform-gpu hover:scale-105 transition-all duration-700">
-            <img src="https://rawofficial.co/wp-content/uploads/2026/02/RAW-TM-Logo-RED.png" alt="RAW Official Logo" className="h-8 xl:h-10 object-contain drop-shadow-[0_0_20px_rgba(244,63,94,0.4)] transition-all duration-700" referrerPolicy="no-referrer" />
+            <img src="/brand/raw-logo-red.png" alt="RAW Official Logo" className="h-8 xl:h-10 object-contain drop-shadow-[0_0_20px_rgba(244,63,94,0.4)] transition-all duration-700" referrerPolicy="no-referrer" />
           </Link>
           <p className="text-editorial-text-muted font-light text-base xl:text-lg mb-12 leading-relaxed max-w-[360px] tracking-wide italic">
             Performance doesn’t exist in isolation. You train. You break down. You rebuild. You level up.

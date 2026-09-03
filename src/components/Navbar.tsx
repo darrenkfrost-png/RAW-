@@ -279,8 +279,8 @@ export default function Navbar() {
                 style={{ x: logoX, y: logoY }}
                 className="transition-all duration-700 relative"
               >
-                <img src="https://rawofficial.co/wp-content/uploads/2026/02/RAW-TM-Logo-RED.png" alt="RAW Official" className="h-7 md:h-8 object-contain invert brightness-100 contrast-125 group-hover:invert-0 drop-shadow-[0_0_20px_rgba(255,255,255,0.3)] group-hover:drop-shadow-[0_0_30px_rgba(220,38,38,0.9)] transition-all duration-500 relative z-10" referrerPolicy="no-referrer" />
-                <img src="https://rawofficial.co/wp-content/uploads/2026/02/RAW-TM-Logo-RED.png" alt="" className="h-7 md:h-8 object-contain absolute inset-0 opacity-0 group-hover:opacity-40 group-hover:animate-pulse blur-[2px] transition-all duration-500" aria-hidden="true" referrerPolicy="no-referrer" />
+                <img src="/brand/raw-logo-red.png" alt="RAW Official" className="h-7 md:h-8 object-contain invert brightness-100 contrast-125 group-hover:invert-0 drop-shadow-[0_0_20px_rgba(255,255,255,0.3)] group-hover:drop-shadow-[0_0_30px_rgba(220,38,38,0.9)] transition-all duration-500 relative z-10" referrerPolicy="no-referrer" />
+                <img src="/brand/raw-logo-red.png" alt="" className="h-7 md:h-8 object-contain absolute inset-0 opacity-0 group-hover:opacity-40 group-hover:animate-pulse blur-[2px] transition-all duration-500" aria-hidden="true" referrerPolicy="no-referrer" />
               </motion.div>
             </motion.div>
             <AnimatePresence>

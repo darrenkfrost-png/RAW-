@@ -66,7 +66,7 @@ export default function Recovery() {
           >
             {/* Added Logo and Tagline */}
             <img 
-               src="https://rawofficial.co/wp-content/uploads/2026/02/RAW-TM-Logo-RED.png" 
+               src="/brand/raw-logo-red.png" 
                alt="RAW Official" 
                className="h-16 lg:h-20 object-contain mb-8 opacity-80"
                referrerPolicy="no-referrer"

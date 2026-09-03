@@ -40,7 +40,7 @@ export default function WallpaperMode() {
           {/* Dynamic Backgrounds */}
           <div className="absolute inset-0 pointer-events-none">
             {/* Logo */}
-            <motion.img src="https://rawofficial.co/wp-content/uploads/2026/02/RAW-TM-Logo-RED.png" className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-32 z-20 opacity-20" referrerPolicy="no-referrer" />
+            <motion.img src="/brand/raw-logo-red.png" className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-32 z-20 opacity-20" referrerPolicy="no-referrer" />
             
             {/* Mouse Visuals */}
             <motion.div className="absolute w-20 h-20 bg-red-600/10 rounded-full blur-3xl" animate={{ x: mouse.x - 40, y: mouse.y - 40 }} transition={{ type: 'tween', ease: 'linear', duration: 0.05 }} />

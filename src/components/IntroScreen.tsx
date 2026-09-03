@@ -94,7 +94,7 @@ export default function IntroScreen() {
             className="mb-16 relative group"
         >
             <div className="absolute inset-0 bg-red-600/30 blur-[60px] animate-pulse pointer-events-none mix-blend-screen" />
-            <img src="https://rawofficial.co/wp-content/uploads/2026/02/RAW-TM-Logo-RED.png" alt="RAW Official" className="relative h-24 md:h-36 object-contain filter drop-shadow-[0_0_30px_rgba(220,38,38,0.6)]" />
+            <img src="/brand/raw-logo-red.png" alt="RAW Official" className="relative h-24 md:h-36 object-contain filter drop-shadow-[0_0_30px_rgba(220,38,38,0.6)]" />
             
             {/* Horizontal Light Sweep */}
             <motion.div 

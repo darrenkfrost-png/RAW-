@@ -26,6 +26,7 @@ const VisualWave = memo(() => (
     <div className="w-28 h-4 relative overflow-hidden">
       <svg viewBox="0 0 128 24" className="w-full h-full" preserveAspectRatio="none">
         <motion.path
+          d="M0 12 Q 16 0, 32 12 T 64 12 T 96 12 T 128 12"
           initial={{ pathLength: 0, opacity: 0 }}
           animate={{ 
             pathLength: 1, 

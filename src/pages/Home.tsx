@@ -107,7 +107,7 @@ export default function Home() {
                   className="relative"
                 >
                   <img 
-                    src="https://rawofficial.co/wp-content/uploads/2026/02/RAW-TM-Logo-RED.png" 
+                    src="/brand/raw-logo-red.png" 
                     alt="RAW Official" 
                     className="h-28 lg:h-36 object-contain relative z-10 drop-shadow-[0_0_20px_rgba(225,29,72,0.4)]"
                     referrerPolicy="no-referrer"
