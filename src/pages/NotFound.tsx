@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion } from "motion/react";
 import { Home, ShoppingBag, Radar } from "lucide-react";
@@ -21,6 +22,13 @@ import { Home, ShoppingBag, Radar } from "lucide-react";
  */
 export default function NotFound() {
   const { pathname } = useLocation();
+
+  /* The router is the only thing that knows an address did not match, so the
+     404 title is set HERE rather than inferred from a list of known routes
+     elsewhere. Runs after usePageMeta, so it wins. */
+  useEffect(() => {
+    document.title = "Page not found — RAW Official";
+  }, [pathname]);
 
   return (
     <div className="section-container flex min-h-[70vh] flex-col items-center justify-center py-24 text-center">

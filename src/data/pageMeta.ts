@@ -71,6 +71,7 @@ const STATIC: Record<string, PageMeta> = {
   "/protocol-stacks": { title: `Protocol Stacks — ${SUFFIX}`, description: "Ready-made RAW protocol stacks." },
   "/performance-system": { title: `Performance System — ${SUFFIX}`, description: "How the RAW range fits together." },
   "/analytics": { title: `Analytics — ${SUFFIX}`, description: "System telemetry." },
+  "/defrost": { title: `DeFrost OS — ${SUFFIX}`, description: "The DeFrost OS desktop." },
 };
 
 export const metaForPath = (path: string): PageMeta => {
@@ -94,8 +95,24 @@ export const metaForPath = (path: string): PageMeta => {
     return { title: `${name} — ${SUFFIX}`, description: `RAW ${name} products.` };
   }
 
+  /* ⚠️ AN UNLISTED ROUTE IS NOT A MISSING PAGE.
+     This used to return the not-found title for anything absent from the map
+     above — so /defrost, a page that renders perfectly, announced itself as
+     "Page not found" in the browser tab, in history and to a screen reader.
+     A hand-kept list will always fall behind the router, so the fallback now
+     builds a decent title from the address instead of asserting a 404. The
+     real 404 page sets its own metadata (see NotFound), which is the only
+     place that actually knows the route did not match. */
+  const segment = path.split("/").filter(Boolean).pop() || "";
+  const name = segment
+    .replace(/-/g, " ")
+    // The first letter of each WORD. The \b matters: without it every
+    // letter is capitalised, and the literal backspace previously here
+    // matched nothing at all.
+    .replace(/\b\w/g, (c) => c.toUpperCase());
+
   return {
-    title: `Page not found — ${SUFFIX}`,
-    description: "That address is not one of ours.",
+    title: name ? `${name} — ${SUFFIX}` : `${SUFFIX} | Performance & Recovery Protocol`,
+    description: "Train with intent, recover with purpose.",
   };
 };
