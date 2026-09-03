@@ -282,8 +282,20 @@ export default function CartDrawer() {
                     onClick={() => setIsCartOpen(false)} 
                     className="button-premium w-full py-8 text-[12px] group relative overflow-hidden"
                   >
-                     <span className="relative z-20 flex items-center gap-6 justify-center">
-                        Initialize_Execution_Protocol <ArrowRight className="w-6 h-6 group-hover:translate-x-3 transition-transform duration-1000" />
+                     {/* ⚠️ THIS BUTTON SAID ONLY "Initialize_Execution_Protocol".
+                         The brand's tactical language is right everywhere else,
+                         but this is the single most important control on the
+                         site and nobody arriving from an Instagram post reads
+                         that as "pay for these". The plain word leads and the
+                         brand voice follows underneath — the till should never
+                         need decoding. */}
+                     <span className="relative z-20 flex flex-col items-center justify-center gap-1">
+                        <span className="flex items-center gap-4">
+                          Checkout <ArrowRight className="w-6 h-6 group-hover:translate-x-3 transition-transform duration-1000" />
+                        </span>
+                        <span className="font-mono text-[9px] uppercase tracking-[0.35em] opacity-45">
+                          Initialize_Execution_Protocol
+                        </span>
                      </span>
                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-[150%] skew-x-[-25deg] group-hover:animate-[shimmer_2s_infinite] pointer-events-none" />
                   </Link>

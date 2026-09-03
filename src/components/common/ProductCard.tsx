@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { motion, useMotionValue, useSpring, useTransform, useReducedMotion } from "motion/react";
 import { Search, Layers, Plus, ExternalLink } from "lucide-react";
 import { useProtocol } from "../../context/ProtocolContext";
+import { useCart } from "../../context/CartContext";
 import { useCompare } from "../../context/CompareContext";
 import LazyImage from "../LazyImage";
 import { Tooltip } from "./Tooltip";
@@ -57,6 +58,7 @@ export interface ProductCardProps {
 function ProductCardComponent({ product, idx, onQuickView }: ProductCardProps) {
   const { setFocusedProduct, setIsAIChatOpen, setInitialAction } = useUI();
   const { addToProtocol } = useProtocol();
+  const { addToCart, setIsCartOpen } = useCart();
   const { toggleProduct, selectedItems } = useCompare();
   const cardRef = useRef<HTMLDivElement>(null);
   const reduced = useReducedMotion();
@@ -158,7 +160,7 @@ function ProductCardComponent({ product, idx, onQuickView }: ProductCardProps) {
             </button>
           </Tooltip>
 
-          <Tooltip content="Add to protocol">
+          <Tooltip content="Add to protocol stack">
             <button
               onClick={(e) => { e.preventDefault(); e.stopPropagation(); addToProtocol(product); }}
               className="flex h-11 w-11 items-center justify-center rounded-full bg-red-600 text-white shadow-[0_10px_30px_rgba(220,38,38,0.35)] transition-colors hover:bg-white hover:text-red-700"
@@ -209,12 +211,26 @@ function ProductCardComponent({ product, idx, onQuickView }: ProductCardProps) {
             >
               Details <ExternalLink className="h-3 w-3" />
             </Link>
+            {/* ⚠️ THIS SAID "Add" AND DID NOT ADD TO THE CART.
+                It called addToProtocol — the stack builder — so on a shop page
+                the one button a customer reads as "buy this" left the basket
+                empty and the badge unchanged. Verified before the change:
+                clicking it produced no cart item and no badge at all. A shop's
+                primary action must be the purchase. The stack builder is still
+                on the tile itself, and now says what it is.
+                The cart also opens on add: a silent badge in the corner is not
+                enough feedback for the most important click on the page. */}
             <button
-              onClick={(e) => { e.preventDefault(); e.stopPropagation(); addToProtocol(product); }}
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                addToCart(product, 1);
+                setIsCartOpen(true);
+              }}
               className="rounded-xl bg-red-600 py-3 font-mono text-[10px] font-black uppercase tracking-[0.2em] text-white transition-colors hover:bg-red-500"
-              aria-label={`Add ${product.name} to protocol`}
+              aria-label={`Add ${product.name} to cart`}
             >
-              Add
+              Add to cart
             </button>
           </div>
         </div>
