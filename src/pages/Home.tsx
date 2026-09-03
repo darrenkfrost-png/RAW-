@@ -251,8 +251,16 @@ export default function Home() {
 
       {/* STAY SAFE WITH RAW — the live campaign promotion */}
       <section className="relative z-10 border-y border-editorial-border bg-editorial-bg overflow-hidden">
-        <Link to="/stay-safe" className="group block">
-          <div className="absolute inset-0 bg-gradient-to-r from-red-950/40 via-transparent to-transparent opacity-60 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
+        <Link to="/stay-safe" className="group block relative">
+          {/* The campaign's own key art carries the section */}
+          <img
+            src="/promo/assets/hero-banner.jpg"
+            alt=""
+            loading="lazy"
+            aria-hidden="true"
+            className="absolute inset-0 w-full h-full object-cover object-right opacity-40 group-hover:opacity-55 saturate-[1.1] transition-opacity duration-700 pointer-events-none"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-black via-black/70 to-transparent pointer-events-none" />
           <div className="section-container relative py-14 md:py-20 flex flex-col md:flex-row md:items-center gap-8 md:gap-12">
             <div className="flex-1 min-w-0">
               <span className="font-mono text-[10px] font-bold uppercase tracking-[0.5em] text-red-500 block mb-4">
