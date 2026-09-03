@@ -26,8 +26,16 @@ const VisualWave = memo(() => (
     <div className="w-28 h-4 relative overflow-hidden">
       <svg viewBox="0 0 128 24" className="w-full h-full" preserveAspectRatio="none">
         <motion.path
+          /* ⚠️ THE `d` MUST BE IN `initial` TOO, not just as an attribute.
+             Motion keeps its own map of animated values and writes them to the
+             DOM each frame; with `d` animated only in `animate`, that map holds
+             undefined on the first frame and motion writes d="undefined",
+             which is the console error this app logged on EVERY page (the
+             status bar is in the Layout). Traced with a probe installed before
+             the app mounts: the writer was motion's own renderSVG. A static
+             attribute does not help — motion overwrites it. */
           d="M0 12 Q 16 0, 32 12 T 64 12 T 96 12 T 128 12"
-          initial={{ pathLength: 0, opacity: 0 }}
+          initial={{ pathLength: 0, opacity: 0, d: "M0 12 Q 16 0, 32 12 T 64 12 T 96 12 T 128 12" }}
           animate={{ 
             pathLength: 1, 
             opacity: 1,
