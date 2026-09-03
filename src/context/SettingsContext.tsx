@@ -52,7 +52,11 @@ const defaultSettings: Settings = {
   videoWallpaperOpacity: 0.33,
   screensaverEnabled: true,
   screensaverDelayMs: 60000,
-  screensaverVideoId: 'wide',
+  /* ⚠️ NOT 'wide'. That reel is 133MB (measured). A screensaver that arrives
+     unasked after sixty seconds must not start a 133MB download; the local
+     campaign films are ~4MB. The heavy reels remain available by explicit
+     choice, with their weight shown. */
+  screensaverVideoId: 'giveaway',
   screensaverShuffle: true,
   videoWallpaperShuffle: true,
   activeWallpaper: 'polyrhythm',

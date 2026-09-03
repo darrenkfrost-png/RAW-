@@ -80,7 +80,11 @@ export default function WallpaperSettingsPanel() {
                           <span className="font-mono text-[9px] uppercase tracking-wider">{v.label}</span>
                           {/* The heavy remote masters are marked, so choosing one
                               on a phone is a decision rather than a surprise. */}
-                          {!v.light && <span className="ml-2 font-mono text-[8px] uppercase text-amber-500/70">HD</span>}
+                          {!v.light && (
+                            <span className="ml-2 font-mono text-[8px] uppercase text-amber-500/70">
+                              {v.megabytes ? `${v.megabytes}MB` : 'HD'}
+                            </span>
+                          )}
                         </button>
                       ))}
                     </div>

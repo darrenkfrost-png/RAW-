@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Film, X } from "lucide-react";
 import { useSettings } from "../context/SettingsContext";
-import { VIDEO_LIBRARY, videoById, nextVideo } from "../data/videoLibrary";
+import { VIDEO_LIBRARY, videoById, nextVideo, lightVideos } from "../data/videoLibrary";
 
 /**
  * THE SCREENSAVER — RAW takes the whole screen when the room goes quiet.
@@ -78,7 +78,7 @@ export default function Screensaver() {
 
   // Every arrival draws a fresh film.
   useEffect(() => {
-    if (active && settings.screensaverShuffle) setRotated(nextVideo().id);
+    if (active && settings.screensaverShuffle) setRotated(nextVideo(lightVideos()).id);
     if (!active) setRotated(null);
   }, [active, settings.screensaverShuffle]);
 
@@ -210,7 +210,7 @@ export default function Screensaver() {
                               : "border-white/10 text-white/60 hover:border-white/30 hover:text-white"
                           }`}
                         >
-                          {v.label}
+                          {v.label}{v.megabytes && v.megabytes > 20 ? ` · ${v.megabytes}MB` : ""}
                         </button>
                       );
                     })}

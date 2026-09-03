@@ -20,33 +20,36 @@ export interface VideoAsset {
   poster?: string;
   /** Local and modestly sized: safe to start automatically. */
   light: boolean;
+  /** Measured with a HEAD request, not estimated. Shown in the picker so
+   *  choosing a 133MB master on a phone is an informed decision. */
+  megabytes?: number;
 }
 
 export const VIDEO_LIBRARY: VideoAsset[] = [
   // ── Campaign films (local, in this repository) ─────────────────────────
   {
-    id: "giveaway",
+    id: "giveaway", megabytes: 4,
     label: "Stay Safe — The Giveaway",
     src: "/promo/assets/campaign-giveaway.mp4",
     poster: "/promo/assets/hero-banner.jpg",
     light: true,
   },
   {
-    id: "promotion",
+    id: "promotion", megabytes: 4,
     label: "Stay Safe — The Promotion",
     src: "/promo/assets/campaign-promotion.mp4",
     poster: "/promo/assets/covered-wide.jpg",
     light: true,
   },
   {
-    id: "distribution",
+    id: "distribution", megabytes: 4,
     label: "Stay Safe — Distribution",
     src: "/promo/assets/campaign-distribution.mp4",
     poster: "/promo/assets/free-means-free.jpg",
     light: true,
   },
   {
-    id: "distribution-2",
+    id: "distribution-2", megabytes: 4,
     label: "Stay Safe — Distribution II",
     src: "/promo/assets/campaign-distribution-2.mp4",
     poster: "/promo/assets/hero-banner.jpg",
@@ -55,25 +58,25 @@ export const VIDEO_LIBRARY: VideoAsset[] = [
 
   // ── Brand reels (remote masters on the RAW media host) ─────────────────
   {
-    id: "wide",
+    id: "wide", megabytes: 133,
     label: "RAW Official — Wide",
     src: "https://videos.files.wordpress.com/zsH6jAkj/raw-official-wide-3840-final.mp4",
     light: false,
   },
   {
-    id: "combat",
+    id: "combat", megabytes: 97,
     label: "Combat Reel",
     src: "https://videos.files.wordpress.com/h8D4zswX/raw-combat-reel-2160x2160-1.mp4",
     light: false,
   },
   {
-    id: "nutrients",
+    id: "nutrients", megabytes: 61,
     label: "Nutrients Reel",
     src: "https://videos.files.wordpress.com/jqb5XX8H/raw-nutrients-reel-2160x2160-1.mp4",
     light: false,
   },
   {
-    id: "recovery",
+    id: "recovery", megabytes: 103,
     label: "Recovery Reel",
     src: "https://videos.files.wordpress.com/K2dk0F8f/raw-recovery-reel-2160x2160-1.mp4",
     light: false,

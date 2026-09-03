@@ -6,12 +6,23 @@ export function EngagementVideo() {
   const containerRef = useRef(null);
   const isInView = useInView(containerRef, { once: true, margin: "200px" });
 
+  /* ⚠️ THIS IS THE SAME 133MB REEL THE HERO USES, LOADED A SECOND TIME ON THE
+     SAME PAGE. It already waited to come into view, which is good — but on a
+     phone or a metered connection a 133MB decorative loop is indefensible
+     however patiently it waits. Those visitors get the still instead, which
+     at brightness-50 behind a hover effect loses nothing worth having. */
+  const heavyOk =
+    typeof navigator !== "undefined" &&
+    !(navigator as any).connection?.saveData &&
+    !window.matchMedia("(prefers-reduced-motion: reduce)").matches &&
+    window.innerWidth >= 900;
+
   return (
     <div ref={containerRef} className="lg:col-span-8 relative aspect-video group overflow-hidden border border-editorial-border-light bg-editorial-card rounded-[2.5rem] shadow-depth-2 m-12 lg:m-24 z-10">
       {/* High-Tech Overlay Grid */}
       <div className="absolute inset-0 z-10 pointer-events-none neural-grid-overlay"></div>
       
-      {isInView ? (
+      {isInView && heavyOk ? (
         <video 
           {...({
             autoPlay: true,
@@ -25,8 +36,11 @@ export function EngagementVideo() {
           <source src="https://videos.files.wordpress.com/zsH6jAkj/raw-official-wide-3840-final.mp4" type="video/mp4" />
         </video>
       ) : (
-        <div className="w-full h-full bg-editorial-bg flex items-center justify-center">
-           <Play className="w-12 h-12 text-zinc-800 animate-pulse" />
+        <div
+          className="w-full h-full bg-editorial-bg bg-cover bg-center flex items-center justify-center"
+          style={{ backgroundImage: "url('https://rawofficial.co/wp-content/uploads/2026/02/combatIMG-scaled.jpg')" }}
+        >
+           <Play className="w-12 h-12 text-white/40" />
         </div>
       )}
 
