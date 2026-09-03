@@ -31,7 +31,7 @@ export default function LazyImage({ src, alt, className = "", containerClassName
                  className="absolute inset-0 bg-gradient-to-r from-transparent via-red-600/10 to-transparent"
                />
                <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="font-mono text-[8px] text-zinc-700 tracking-[0.5em] animate-pulse uppercase">Syncing_Visual_Buffer...</span>
+                  <span className="font-mono text-[8px] text-zinc-700 tracking-[0.5em] uppercase">Syncing_Visual_Buffer...</span>
                </div>
             </div>
           </motion.div>
@@ -66,12 +66,11 @@ export default function LazyImage({ src, alt, className = "", containerClassName
         />
       )}
 
-      {/* Technical Scanning Layer (Subtle) */}
-      {isLoaded && (
-        <div className="absolute inset-0 pointer-events-none z-10 opacity-10">
-           <div className="absolute top-0 left-0 w-full h-[1px] bg-red-600/30 animate-scan" />
-        </div>
-      )}
+      {/* ⚠️ A permanent `animate-scan` line used to live here, running on EVERY
+          image for as long as it was mounted. On the 47-product shelf that is
+          47 infinite animations behind the merchandise, at opacity-10 where
+          it read as flicker rather than as an effect. Removed: an animation
+          nobody can identify is not decoration, it is noise. */}
     </div>
   );
 }

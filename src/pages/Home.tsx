@@ -679,14 +679,14 @@ export default function Home() {
                   title: "Neural Synergy Enhancement Deployed", 
                   date: "24.05.2026",
                   summary: "Technical architectural shift in bio-kinetic feedback loops now active for all active operatives.",
-                  image: "https://rawofficial.co/wp-content/uploads/2026/02/team-1024x683.jpg"
+                  image: "/promo/assets/covered-wide.jpg"
                 },
                 { 
                   tag: "SECTOR_EXPANSION", 
                   title: "Bangkok Training Hub Initialization", 
                   date: "18.05.2026",
                   summary: "Primary kinetic facility in Sector Delta reaches total operational capacity. Academy intakes open.",
-                  image: "https://rawofficial.co/wp-content/uploads/2026/02/academy-1024x683.jpg"
+                  image: "/promo/assets/boxes-real.jpg"
                 },
                 { 
                   tag: "BIO_LOGISTICS", 
@@ -740,7 +740,7 @@ export default function Home() {
       <section className="py-32 xl:py-64 relative overflow-hidden text-center bg-editorial-bg border-y border-red-900/40 z-10 group/cares">
         <Atmosphere glowOpacity={0.05} gridMode="lines" intensity="high" />
         <div className="absolute inset-0 bg-[#dc2626]/5 pointer-events-none group-hover/cares:bg-[#dc2626]/10 transition-colors duration-[2500ms]" />
-        <div className="absolute inset-0 bg-[url('https://rawofficial.co/wp-content/uploads/2026/02/team-1024x683.jpg')] bg-cover bg-center opacity-0 group-hover/cares:opacity-30 transition-opacity duration-[2000ms] mix-blend-screen pointer-events-none grayscale group-hover/cares:grayscale-[50%] transform-gpu group-hover/cares:scale-105" />
+        <div className="absolute inset-0 bg-[url('/promo/assets/covered-wide.jpg')] bg-cover bg-center opacity-0 group-hover/cares:opacity-30 transition-opacity duration-[2000ms] mix-blend-screen pointer-events-none grayscale group-hover/cares:grayscale-[50%] transform-gpu group-hover/cares:scale-105" />
         
         <div className="section-container relative z-10 flex flex-col items-center">
           <div className="w-40 h-40 bg-editorial-bg/80 backdrop-blur-3xl border border-red-500/40 rounded-[3.5rem] flex items-center justify-center mx-auto mb-20 shadow-[0_40px_100px_rgba(220,38,38,0.3),inset_0_0_40px_rgba(220,38,38,0.1)] transform group-hover/cares:rotate-[15deg] transition-transform duration-[1500ms] ease-[0.16,1,0.3,1] overflow-hidden relative">

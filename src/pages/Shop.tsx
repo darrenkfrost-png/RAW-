@@ -278,7 +278,7 @@ export default function Shop() {
           
       <motion.div 
         layout
-        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-x-8 gap-y-12 relative z-10"
+        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 lg:gap-6 relative z-10"
       >
         <AnimatePresence mode="popLayout" initial={false}>
           {isLoading ? (
