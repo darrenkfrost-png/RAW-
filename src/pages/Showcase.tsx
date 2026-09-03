@@ -1,7 +1,9 @@
 import { useEffect, useMemo, useRef, useState, useCallback } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "motion/react";
-import { X, ChevronLeft, ChevronRight, Play, Camera, Film, LayoutGrid } from "lucide-react";
+import { X, ChevronLeft, ChevronRight, Play, Camera, Film, LayoutGrid, Youtube, Music2 } from "lucide-react";
 import { SHOWCASE, ShowcaseItem } from "../data/showcase";
+import { SOCIAL } from "../data/social";
+import SocialEmbed from "../components/SocialEmbed";
 import { Atmosphere } from "../components/common/Atmosphere";
 
 /**
@@ -24,12 +26,14 @@ import { Atmosphere } from "../components/common/Atmosphere";
  *    footer, exactly as asked — this page is the media itself.
  */
 
-type Filter = "all" | "image" | "video";
+type Filter = "all" | "image" | "video" | "youtube" | "tiktok";
 
 const FILTERS: { id: Filter; label: string; icon: typeof LayoutGrid }[] = [
   { id: "all", label: "Everything", icon: LayoutGrid },
   { id: "image", label: "Photography", icon: Camera },
   { id: "video", label: "Film", icon: Film },
+  { id: "youtube", label: "YouTube", icon: Youtube },
+  { id: "tiktok", label: "TikTok", icon: Music2 },
 ];
 
 /** A tile that knows how to be either medium without the grid caring. */
@@ -112,19 +116,36 @@ export default function Showcase() {
   const [filter, setFilter] = useState<Filter>("all");
   const [openAt, setOpenAt] = useState<number | null>(null);
 
-  const items = useMemo(
-    () => (filter === "all" ? SHOWCASE : SHOWCASE.filter((i) => i.kind === filter)),
-    [filter],
-  );
+  const items = useMemo(() => {
+    if (filter === "all") return SHOWCASE;
+    if (filter === "image" || filter === "video") return SHOWCASE.filter((i) => i.kind === filter);
+    return [];
+  }, [filter]);
+
+  const socialFor = (p: "youtube" | "tiktok") => SOCIAL.filter((s) => s.platform === p);
 
   const counts = useMemo(
     () => ({
-      all: SHOWCASE.length,
+      all: SHOWCASE.length + SOCIAL.length,
       image: SHOWCASE.filter((i) => i.kind === "image").length,
       video: SHOWCASE.filter((i) => i.kind === "video").length,
+      youtube: socialFor("youtube").length,
+      tiktok: socialFor("tiktok").length,
     }),
     [],
   );
+
+  /* The lightbox holds an index into `items`, and social posts are not
+     lightbox material (they open their own player), so the two lists stay
+     separate: `items` is what the viewer can page through, `social` is the
+     wall below it. Filtering a platform simply empties one and fills the
+     other. */
+  const social = useMemo(() => {
+    if (filter === "youtube") return socialFor("youtube");
+    if (filter === "tiktok") return socialFor("tiktok");
+    if (filter === "all") return SOCIAL;
+    return [];
+  }, [filter]);
 
   // Changing the filter must close the lightbox: the index it holds points
   // into the OLD list, so leaving it open would show an unrelated item.
@@ -195,7 +216,7 @@ export default function Showcase() {
         </div>
 
         {/* The wall */}
-        {items.length === 0 ? (
+        {items.length === 0 && social.length === 0 ? (
           <p className="py-24 text-center font-mono text-[11px] uppercase tracking-[0.3em] text-editorial-text-muted">
             Nothing here yet
           </p>
@@ -204,6 +225,30 @@ export default function Showcase() {
             {items.map((item, i) => (
               <Tile key={item.id} item={item} index={i} onOpen={() => setOpenAt(i)} />
             ))}
+          </div>
+        )}
+
+        {/* ── THE CHANNELS ─────────────────────────────────────────────────
+            Every post here is a poster until it is clicked; the real player
+            is built on demand. See SocialEmbed for why that matters at this
+            many items. */}
+        {social.length > 0 && (
+          <div className="mt-20">
+            {filter === "all" && (
+              <div className="mb-8 flex items-baseline gap-4 border-t border-editorial-border pt-12">
+                <h2 className="font-sans text-2xl font-black uppercase tracking-tight md:text-3xl">
+                  The channels
+                </h2>
+                <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-editorial-text-muted">
+                  {counts.youtube} YouTube · {counts.tiktok} TikTok
+                </span>
+              </div>
+            )}
+            <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+              {social.map((item) => (
+                <SocialEmbed key={item.id} item={item} />
+              ))}
+            </div>
           </div>
         )}
       </section>
