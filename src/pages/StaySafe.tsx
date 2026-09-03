@@ -103,10 +103,16 @@ export default function StaySafe() {
             src={ASSET(FILMS[film].src)}
             poster={ASSET("hero-banner.jpg")}
             autoPlay muted loop playsInline
-            className="absolute inset-0 w-full h-full object-cover opacity-80"
+            /* ⚠️ THE FILMS CARRY THEIR OWN BURNED-IN HEADLINE. On a wide screen
+               it sits off to the side and reads as art behind our type; at
+               375px the crop drags it straight under this page's headline and
+               the two sets of words fight. So the phone gets a dimmer film and
+               a heavier scrim — the footage still moves, but only our words
+               are meant to be read. */
+            className="absolute inset-0 w-full h-full object-cover opacity-40 md:opacity-80"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-black/20 pointer-events-none" />
-          <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-transparent to-transparent pointer-events-none" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-black/50 md:via-black/40 md:to-black/20 pointer-events-none" />
+          <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/30 to-transparent md:from-black/70 md:via-transparent pointer-events-none" />
 
           <div className="relative h-full flex flex-col justify-end px-6 md:px-14 pb-10 md:pb-14">
             <motion.span

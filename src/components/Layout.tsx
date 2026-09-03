@@ -8,13 +8,13 @@ import CompareTray from "./CompareTray";
 import CustomCursor from "./CustomCursor";
 import PageLoader from "./PageLoader";
 import WallpaperMode from "./WallpaperMode";
-import { Atmosphere } from "./common/Atmosphere";
 import ShopIframePanel from "./ShopIframePanel";
 import VoiceFeedbackOverlay from "./VoiceFeedbackOverlay";
 import WallpaperSettingsPanel from "./WallpaperSettingsPanel";
 import VoiceInteractionHub from "./VoiceInteractionHub";
 import VoiceSettingsDropdown from "./VoiceSettingsDropdown";
 import Particles from "./Particles";
+import AmbientField from "./AmbientField";
 import { useUI } from "../context/UIContext";
 import { useSettings } from "../context/SettingsContext";
 import { motion, AnimatePresence, useScroll } from "motion/react";
@@ -29,11 +29,16 @@ export default function Layout() {
       {/* Background Layer - Deep & Immersive */}
       <div className="fixed inset-0 z-[var(--z-background)] bg-editorial-bg" aria-hidden="true" />
       
-      {/* Visuals - Atmosphere & Particles */}
+      {/* THE AMBIENT FIELD — one canvas, route-aware, behind everything.
+          It replaces the app-wide Atmosphere instance that used to sit here:
+          same job, one rAF and one pointer listener instead of several
+          animated blur layers, and a different character per channel. */}
+      <AmbientField />
+
+      {/* Visuals - Particles & fixed light furniture */}
       <div className="fixed inset-0 z-[1] pointer-events-none" aria-hidden="true">
         <Particles />
-        <Atmosphere glowOpacity={0.08} gridMode="dots" intensity="low" />
-        
+
         {/* Cinematic Background Enhancements */}
         <div className="absolute inset-x-0 -top-40 h-[800px] bg-[radial-gradient(ellipse_at_50%_0%,rgba(220,38,38,0.06),transparent_60%)] mix-blend-screen pointer-events-none" />
         <div className="absolute inset-x-0 bottom-0 h-[600px] bg-[radial-gradient(ellipse_at_50%_100%,rgba(220,38,38,0.04),transparent_60%)] mix-blend-screen pointer-events-none" />
@@ -41,9 +46,12 @@ export default function Layout() {
         {/* Subtle Edge Lights */}
         <div className="absolute top-0 bottom-0 left-0 w-24 bg-gradient-to-r from-red-600/5 to-transparent mix-blend-color-dodge pointer-events-none opacity-50" />
         <div className="absolute top-0 bottom-0 right-0 w-24 bg-gradient-to-l from-red-600/5 to-transparent mix-blend-color-dodge pointer-events-none opacity-50" />
-        
-        {/* High-End Ambient Noise */}
-        <div className="absolute inset-0 bg-[#0a0a0c] opacity-[0.98] mix-blend-color z-[-1]" />
+        {/* ⚠️ A near-black `mix-blend-mode: color` sheet used to sit here at 98%
+            opacity, labelled "ambient noise". That blend takes the hue and
+            saturation of its own colour — and grey has none — so it was not
+            adding texture, it was draining the colour out of every layer
+            beneath it. Measured against the ambient field with it hidden: the
+            same red read visibly deeper. Removed rather than tuned. */}
       </div>
 
       {/* Main Content wrapper - High Fidelity Interaction Layer */}
