@@ -269,12 +269,20 @@ export default function ProductDetail() {
     fetchDescription();
   }, [product.id, product.name, product.category, product.keyBenefits]);
   const related = allProducts.filter(p => p.category === product.category && p.id !== product.id).slice(0, 4);
+  /* ⚠️ THE PLACEHOLDERS ARE GONE, AND THAT MATTERS MORE NOW THAN IT DID.
+     This gallery shipped with two Unsplash stock photos and Google's demo
+     clip "ForBiggerBlazes.mp4" sitting beside the real product shot — scaffold
+     content nobody removed. It was easy to overlook while the viewer opened
+     halfway down the page; now that a click fills the screen with whatever is
+     in this list, a stranger's gym photo and a browser-vendor test video are
+     presented as this product's own media, full size, to a customer deciding
+     whether to buy.
+     Only genuine RAW media belongs here. Add real photography and the entries
+     come straight back — the gallery, the viewer and the thumbnails all read
+     this array. */
   const galleryItems: GalleryItem[] = [
     {type: 'image', url: getHighResImageUrl(product.image)},
     {type: '3d', url: "interactive-model"},
-    {type: 'image', url: "https://images.unsplash.com/photo-1546483875-ad9014c88eba?q=80&w=2000&auto=format&fit=crop"},
-    {type: 'video', url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"},
-    {type: 'image', url: "https://images.unsplash.com/photo-1584017947282-2c89bb079730?q=80&w=2000&auto=format&fit=crop"}
   ];
 
   const cascadingOptions = allProducts.slice(0, 6).map(p => ({
