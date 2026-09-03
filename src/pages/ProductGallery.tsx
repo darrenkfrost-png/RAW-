@@ -55,13 +55,13 @@ export default function ProductGallery() {
 
         <div className="absolute bottom-6 left-6 right-6 flex justify-between items-center z-20">
             <div className="flex gap-4">
-                 <button onClick={prev} className="p-3 bg-editorial-bg/50 hover:bg-red-600 text-white rounded-full backdrop-blur-md border border-editorial-border-light transition-all">
+                 <button onClick={prev} aria-label="Previous product" className="p-3 bg-editorial-bg/50 hover:bg-red-600 text-white rounded-full backdrop-blur-md border border-editorial-border-light transition-all">
                    <ChevronLeft className="w-5 h-5" />
                  </button>
-                 <button onClick={() => setIsPlaying(!isPlaying)} className="p-3 bg-editorial-bg/50 hover:bg-red-600 text-white rounded-full backdrop-blur-md border border-editorial-border-light transition-all">
+                 <button onClick={() => setIsPlaying(!isPlaying)} aria-label={isPlaying ? "Pause slideshow" : "Play slideshow"} className="p-3 bg-editorial-bg/50 hover:bg-red-600 text-white rounded-full backdrop-blur-md border border-editorial-border-light transition-all">
                     {isPlaying ? <Pause className="w-5 h-5"/> : <Play className="w-5 h-5"/> }
                  </button>
-                 <button onClick={next} className="p-3 bg-editorial-bg/50 hover:bg-red-600 text-white rounded-full backdrop-blur-md border border-editorial-border-light transition-all">
+                 <button onClick={next} aria-label="Next product" className="p-3 bg-editorial-bg/50 hover:bg-red-600 text-white rounded-full backdrop-blur-md border border-editorial-border-light transition-all">
                    <ChevronRight className="w-5 h-5"/>
                  </button>
             </div>

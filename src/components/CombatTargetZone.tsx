@@ -65,8 +65,11 @@ export default function CombatTargetZone() {
                    key={target.id}
                    onMouseEnter={() => setActiveTarget(target)}
                    onMouseLeave={() => setActiveTarget(null)}
+                   onFocus={() => setActiveTarget(target)}
+                   onBlur={() => setActiveTarget(null)}
+                   aria-label={`${target.label.replace(/_/g, " ")} — ${target.stat.replace(/_/g, " ")}`}
                    style={{ left: `${target.x}%`, top: `${target.y}%` }}
-                   className="absolute group/node z-20"
+                   className="absolute group/node z-20 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 rounded-full"
                 >
                    <div className="relative">
                       <motion.div

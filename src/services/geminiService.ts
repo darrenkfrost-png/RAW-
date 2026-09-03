@@ -130,6 +130,41 @@ function parseClientCommand(transcript: string) {
   };
 }
 
+/**
+ * ⚠️ WHEN THE ADVISOR IS OFFLINE, IT SAYS SO. IT DOES NOT INVENT.
+ *
+ * These methods used to answer an unreachable server with fabricated output
+ * dressed as real analysis: invented percentages ("BIO-UTILIZATION INTENT:
+ * +18.2% vs baseline", "NEURAL LATENCY REDUCTION: 12ms"), a vision "scan"
+ * reporting "OCR MATCH DETECTED: positive RAW markings verified" for an image
+ * it had never seen, a stream announcing "SECURE FEED RESTORED — Authorized
+ * Advisor online" at the exact moment it was not, and product copy describing
+ * a "micro-filtered isolate peptide lattice" for whatever it was handed,
+ * including a power bank.
+ *
+ * That is not a resilience feature, it is a machine telling a customer things
+ * about a supplement that nobody checked. And it was not a rare edge case:
+ * every AI route lives on the Express server, so a STATIC deployment — which
+ * is what the Netlify and Vercel configs build — has no /api at all, and
+ * 100% of AI interactions would have returned this invented material.
+ * Measured on the running app: POST /api/gemini/description -> 404.
+ *
+ * An offline advisor is a small disappointment. An advisor that quietly makes
+ * up health claims is a liability. So every fallback below now states plainly
+ * that the service is unavailable.
+ *
+ * The one exception is `command`, which falls back to parseClientCommand —
+ * a real keyword parser doing real work locally. It invents nothing.
+ */
+const OFFLINE_NOTICE = `### Advisor unavailable
+
+The AI advisor could not be reached, so there is nothing to report here — this
+message is not analysis, and nothing has been generated in its place.
+
+This usually means the site is running without its AI service connected.
+Everything else on the site works normally, and the product pages carry the
+real specifications.`;
+
 export const geminiService = {
   async analyze(prompt: string, systemInstruction?: string): Promise<GeminiResponse> {
     try {
@@ -141,24 +176,8 @@ export const geminiService = {
       if (!response.ok) throw new Error('Analysis failed');
       return await response.json();
     } catch (error) {
-      console.warn('Gemini analyze failed, deploying client-side local analysis fallback matrix:', error);
-      return {
-        text: `### [RAW_NEURAL_CORE - RESILIENT ANALYTICAL OVERLAY]
-**SUBJECT MATCH**: Computational Optimization Matrix
-**TIMESTAMP**: ${new Date().toISOString()}
-
-#### 1. SPECTRAL DECOMPOSITION & OPTIMIZATION PARAMETERS:
-Analysis of the biometric profile indicates high cellular recovery efficiency under active physical loads. Its structural indices correspond directly to top-tier amino-kinetic absorption standards.
-
-- **BIO-UTILIZATION INTENT**: +18.2% vs baseline control matrix.
-- **NEURAL LATENCY REDUCTION**: Active kinetic response decreased by 12ms.
-- **YIELD INDEX**: Optimal alignment under physical cardiovascular loads.
-
-#### 2. SYSTEM OPERATION DIRECTIVE:
-Directives suggest immediate nutrient integration under active recovery sequences. Perfect alignment with RAW performance supplements is confirmed.
-
-*Fallback Resilience Mode enabled. Analytical parameters generated locally.*`
-      };
+      console.warn('Gemini analyze unavailable:', error);
+      return { text: OFFLINE_NOTICE };
     }
   },
 
@@ -196,23 +215,10 @@ Directives suggest immediate nutrient integration under active recovery sequence
         }
       }
     } catch (error) {
-      console.warn('Gemini analyzeStream failed, simulating real-time sequence emission:', error);
-      const fallbackText = `### [RAW_NEURAL_CORE - SECURE FEED RESTORED]
-Authorized Advisor online. Client-side resilience failover active.
-
-I have processed your biological workload. Multiple matching optimized supplements have been filtered for your immediate training requirements:
-1. **Intense Lift Sequence**: Raw Whey Isolate + Amino Hydration Hydrolized Lattice.
-2. **Sub-neural Cardiovascular Recovery**: Key minerals unified with EAAs.
-3. **Rest & Down-regulation Node**: Deep sleep synchronization protocol.
-
-Ready for physical deployment.`;
-      
-      const words = fallbackText.split(" ");
-      for (let i = 0; i < words.length; i += 3) {
-        const chunk = words.slice(i, i + 3).join(" ") + " ";
-        onChunk(chunk);
-        await new Promise(resolve => setTimeout(resolve, 30));
-      }
+      console.warn('Gemini analyzeStream unavailable:', error);
+      // Emitted in one piece: a typewriter effect on an error would imitate a
+      // live answer, which is the very impression this must not create.
+      onChunk(OFFLINE_NOTICE);
     }
   },
 
@@ -226,15 +232,12 @@ Ready for physical deployment.`;
       if (!response.ok) throw new Error('Vision analysis failed');
       return await response.json();
     } catch (error) {
-      console.warn('Gemini vision failed, deploying client-side local scan matrix:', error);
+      console.warn('Gemini vision unavailable:', error);
       return {
-        text: `### [RAW_VISUAL_CORE - RESILIENT SCANNED OVERVIEW]
-**SCAN TARGET DIAGNOSTICS**: High-contrast Base64 frame
-**OCR MATCH DETECTED**: Positive RAW performance markings verified
+        text: `### Scan unavailable
 
-The visual scan confirms a high-formula protein isolate structure containing high bio-availability parameters. Highly suited for instantaneous lean muscle synthesization following physical load states.
-
-*Optical parameters analyzed under local visual core simulation.*`
+The image could not be sent for analysis, so nothing was scanned and no result
+is being shown. Nothing about this product has been read or verified here.`,
       };
     }
   },
@@ -264,14 +267,12 @@ The visual scan confirms a high-formula protein isolate structure containing hig
       if (!response.ok) throw new Error('Description generation failed');
       return await response.json();
     } catch (error) {
-      console.warn('Gemini description failed, deploying client-side local summary builder:', error);
-      const benefitsText = keyBenefits && keyBenefits.length > 0 ? keyBenefits.join(", ") : "high cellular bio-utilization";
+      console.warn('Gemini description unavailable:', error);
+      // Deliberately returns the product's own name and nothing more: writing
+      // marketing claims for an arbitrary product is exactly the fabrication
+      // this fallback existed to produce.
       return {
-        text: `[RAW INTEGRATED SYSTEM - SYNTHESIS CORE VERSION 4.1]
-PRODUCT: ${productName.toUpperCase()}
-CLASSIFICATION: ${category.toUpperCase()}
-
-Specifically engineered to maximize physiological recovery and muscular resilience following high-intensity workloads. It features a micro-filtered isolate peptide lattice that supports ${benefitsText}, assuring maximum functional output with minimal down-regulation.`
+        text: `Description unavailable for ${productName}. The generator could not be reached; see the product's own specifications on this page.`,
       };
     }
   }

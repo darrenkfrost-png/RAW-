@@ -87,25 +87,46 @@ export default function SystemHealthDashboard() {
   useEffect(() => {
     if (!isOpen) return;
 
+    let misses = 0;
+    let stopPolling = () => {}; // reassigned once the interval exists
+
     const checkLatency = async () => {
-      const start = performance.now();
+      const started = performance.now();
       try {
         const res = await fetch("/api/health");
         if (res.ok) {
-          const latency = Math.round(performance.now() - start);
-          setPing(latency);
+          misses = 0;
+          setPing(Math.round(performance.now() - started));
           setApiStatus('ONLINE');
-        } else {
-          setApiStatus('OFFLINE');
+          return;
         }
-      } catch (e) {
+        throw new Error(String(res.status));
+      } catch {
         setApiStatus('OFFLINE');
+        if (++misses >= 5) stopPolling();
       }
     };
 
     checkLatency();
-    const interval = setInterval(checkLatency, 4000);
-    return () => clearInterval(interval);
+
+    /* Two guards this poll did not have:
+       1. It kept firing every 4s while the tab was in the background — a
+          request every four seconds behind another window, forever, for a
+          panel nobody is looking at.
+       2. It never gave up. On a STATIC deployment there is no /api at all
+          (the AI and health routes live on the Express server), so this
+          would 404 every four seconds for as long as the panel stayed open.
+          After five consecutive failures it stops and reports OFFLINE, which
+          is the true answer anyway. */
+    let interval: ReturnType<typeof setInterval> | null = null;
+    const start = () => { if (!interval) interval = setInterval(checkLatency, 4000); };
+    const stop = () => { if (interval) { clearInterval(interval); interval = null; } };
+    stopPolling = stop;
+    const onVisibility = () => (document.hidden ? stop() : (checkLatency(), start()));
+
+    if (!document.hidden) start();
+    document.addEventListener("visibilitychange", onVisibility);
+    return () => { stop(); document.removeEventListener("visibilitychange", onVisibility); };
   }, [isOpen]);
 
   // Local Storage test & viewport total image scraper diagnostics + Memory Heap

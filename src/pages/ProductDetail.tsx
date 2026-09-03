@@ -662,6 +662,7 @@ export default function ProductDetail() {
                    y.set(0);
                    setIsZoomed(true);
                }}
+               aria-label="Zoom image"
                className="absolute bottom-8 right-8 bg-editorial-bg/90 p-5 backdrop-blur-md rounded-[1.5rem] border border-editorial-border-light filter backdrop-saturate-[1.5] group/zoom transition-all duration-[600ms] hover:scale-110 hover:border-red-500/50 shadow-[0_20px_50px_rgba(0,0,0,0.08)] z-20"
              >
                <ZoomIn className="w-6 h-6 text-editorial-text-muted group-hover/zoom:text-editorial-text transition-colors duration-[600ms] drop-shadow-[0_2px_4px_rgba(0,0,0,1)]" />
@@ -1471,6 +1472,8 @@ export default function ProductDetail() {
                                  onMouseEnter={() => setIsHoveringStar(i)}
                                  onMouseLeave={() => setIsHoveringStar(null)}
                                  onClick={() => setNewReview({ ...newReview, rating: i })}
+                                 aria-label={`Rate ${i} out of 5`}
+                                 aria-pressed={i === newReview.rating}
                                  className="transition-transform active:scale-95"
                               >
                                  <Star 

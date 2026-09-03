@@ -467,6 +467,8 @@ export default function Navbar() {
               <Tooltip content="SYSTEM_DIAGNOSTICS">
                 <MagneticWrapper className="hidden lg:block">
                    <button 
+                     aria-label="System health"
+                     aria-expanded={isSystemHealthOpen}
                      onClick={() => setIsSystemHealthOpen(!isSystemHealthOpen)}
                      className={`p-3.5 transition-colors duration-500 rounded-full focus:outline-none focus:ring-2 focus:ring-white ${isSystemHealthOpen ? 'bg-emerald-500/20 text-emerald-500' : 'text-white-muted hover:text-emerald-500 hover:bg-emerald-500/10'} hover:shadow-[0_0_15px_rgba(16,185,129,0.3)]`}
                    >
@@ -478,6 +480,8 @@ export default function Navbar() {
               <Tooltip content="WALLPAPER_ENV">
                 <MagneticWrapper className="hidden lg:block">
                    <button 
+                     aria-label="Display settings"
+                     aria-expanded={isWallpaperSettingsOpen}
                      onClick={() => setIsWallpaperSettingsOpen(!isWallpaperSettingsOpen)}
                      className={`p-3.5 transition-colors duration-500 rounded-full focus:outline-none focus:ring-2 focus:ring-white ${isWallpaperSettingsOpen ? 'bg-red-600/20 text-red-500' : 'text-white-muted hover:text-editorial-text hover:bg-editorial-text/5'}`}
                    >
@@ -489,6 +493,7 @@ export default function Navbar() {
               <Tooltip content="WALLPAPER_MODE">
                 <MagneticWrapper className="hidden lg:block">
                   <button 
+                    aria-label="Wallpaper mode"
                     onClick={() => setIsWallpaperMode(true)}
                     className="p-3.5 text-editorial-text-muted hover:text-red-500 transition-colors duration-500 group bg-transparent hover:bg-editorial-text/5 rounded-full block focus:outline-none focus:ring-2 focus:ring-white"
                   >
@@ -508,6 +513,7 @@ export default function Navbar() {
               <Tooltip content="CART">
                 <MagneticWrapper>
                   <button 
+                    aria-label="Open cart"
                     onClick={() => setIsCartOpen(true)}
                     className="relative cursor-pointer group outline-none text-editorial-text-muted hover:text-editorial-text transition-colors duration-500 p-2 sm:p-3.5 bg-transparent hover:bg-editorial-text/5 rounded-full focus:ring-2 focus:ring-white"
                   >
@@ -530,6 +536,8 @@ export default function Navbar() {
               </Tooltip>
               <MagneticWrapper>
                 <button 
+                  aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
+                  aria-expanded={isMobileMenuOpen}
                   onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                   className="md:hidden text-editorial-text-muted hover:text-editorial-text transition-colors duration-500 p-3.5 bg-transparent hover:bg-editorial-text/5 rounded-full"
                 >

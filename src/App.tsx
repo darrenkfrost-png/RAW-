@@ -32,6 +32,7 @@ const KnowledgeCore = lazy(() => import("./pages/KnowledgeCore"));
 const DeFrost = lazy(() => import("./pages/DeFrost"));
 const StaySafe = lazy(() => import("./pages/StaySafe"));
 const Showcase = lazy(() => import("./pages/Showcase"));
+const NotFound = lazy(() => import("./pages/NotFound"));
 
 import { ErrorBoundary } from "./components/common/ErrorBoundary";
 import ScrollToTop from "./components/ScrollToTop";
@@ -126,6 +127,11 @@ function AppContent() {
               <Route path="defrost" element={<DeFrost />} />
               <Route path="target/:type" element={<CustomerType />} />
               <Route path="category/:slug" element={<Shop />} />
+              {/* ⚠️ MUST STAY LAST. Without this any unknown address rendered the
+                  shell with an entirely empty main region — measured at 0
+                  characters — which is what a mistyped or outdated campaign
+                  link produces. */}
+              <Route path="*" element={<NotFound />} />
             </Route>
           </Routes>
         </Suspense>
