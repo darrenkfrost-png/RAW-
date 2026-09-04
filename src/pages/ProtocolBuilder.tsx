@@ -214,7 +214,7 @@ export default function ProtocolBuilder() {
             initial={{ opacity: 0, scale: 1.1 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-            className="text-7xl md:text-9xl xl:text-[140px] font-sans font-black uppercase tracking-[-0.05em] leading-[0.8] drop-shadow-strong text-premium"
+            className="font-sans font-black uppercase tracking-[-0.05em] leading-[0.8] drop-shadow-strong text-premium text-display-lg"
           >
             Protocol <br/> Builder
           </motion.h1>
@@ -336,7 +336,7 @@ export default function ProtocolBuilder() {
                      <ShieldCheck className="w-4 h-4 text-red-500" />
                      <span className="text-meta-premium !text-red-500">VALIDATED_RECOMENDATION</span>
                   </div>
-                  <h2 className="text-5xl md:text-7xl font-sans font-black uppercase tracking-tighter mb-6 drop-shadow-strong text-premium">Target Protocol</h2>
+                  <h2 className="font-sans font-black uppercase tracking-tighter mb-6 drop-shadow-strong text-premium text-display-sm">Target Protocol</h2>
                   <p className="text-meta-premium opacity-60">Deployment methodology optimized for your parameters.</p>
                 </div>
 
@@ -382,13 +382,13 @@ export default function ProtocolBuilder() {
                   <div className="flex flex-col md:flex-row gap-6 w-full xl:w-auto items-center">
                     <button 
                       onClick={addAllToProtocol}
-                      className="button-premium px-12 py-6 w-full md:w-auto text-[11px]"
+                      className="button-premium px-12 py-6 w-full md:w-auto text-[0.6875rem]"
                     >
                       Deploy Protocol Stack <ArrowRight className="w-5 h-5" />
                     </button>
                     <button 
                       onClick={handleEditSelections}
-                      className="button-secondary px-12 py-6 w-full md:w-auto text-[11px]"
+                      className="button-secondary px-12 py-6 w-full md:w-auto text-[0.6875rem]"
                     >
                       Reset_Configurator
                     </button>

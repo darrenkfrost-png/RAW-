@@ -27,19 +27,19 @@ export default function OurStory() {
           className="max-w-[1200px] relative z-10"
         >
           <div className="absolute -left-8 md:-left-16 top-0 h-full w-1.5 bg-gradient-to-b from-red-600 via-red-900/50 to-transparent hidden lg:block shadow-[0_0_20px_#dc2626]" />
-          <span className="text-[13px] font-black uppercase tracking-[0.6em] text-red-500 mb-12 block flex items-center gap-4 drop-shadow-[0_0_10px_rgba(220,38,38,0.5)]">
+          <span className="text-[0.8125rem] font-black uppercase tracking-[0.3em] sm:tracking-[0.6em] [overflow-wrap:anywhere] text-red-500 mb-12 block flex items-center gap-4 drop-shadow-[0_0_10px_rgba(220,38,38,0.5)]">
              <div className="w-2.5 h-2.5 bg-red-500 rounded-full animate-pulse shadow-[0_0_15px_currentColor]" /> PROJECT_ORIGINS // SEC_001
           </span>
-          <h1 className="font-sans font-black text-7xl md:text-[140px] xl:text-[180px] uppercase tracking-tighter leading-[0.85] mb-24 drop-shadow-[0_10px_30px_rgba(0,0,0,0.1)] text-editorial-text relative">
+          <h1 className="font-sans font-black uppercase tracking-tighter leading-[0.85] mb-24 drop-shadow-[0_10px_30px_rgba(0,0,0,0.1)] text-editorial-text relative text-display-xl">
             THE LEGACY <br /> OF <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-red-800 drop-shadow-[0_0_20px_rgba(220,38,38,0.4)] relative inline-block mt-4 pb-4">RAW</span>
           </h1>
           <div className="grid md:grid-cols-2 gap-16 xl:gap-24 text-editorial-text-muted font-light leading-relaxed text-2xl lg:text-3xl max-w-5xl">
             <p className="relative pl-8 md:pl-12 border-l border-editorial-border py-2">
-               <span className="absolute -left-8 -top-3 text-red-500 font-mono text-[13px] font-black drop-shadow-[0_0_5px_currentColor] md:hidden">01</span>
+               <span className="absolute -left-8 -top-3 text-red-500 font-mono text-[0.8125rem] font-black drop-shadow-[0_0_5px_currentColor] md:hidden">01</span>
               RAW was born from a simple observation: performance has become filtered. Soft. Compromised. We saw an industry obsessed with convenience and "hacks" while ignoring the fundamental truth of the grind.
             </p>
             <p className="relative pl-8 md:pl-12 border-l border-editorial-border py-2">
-              <span className="absolute -left-8 -top-3 text-red-500 font-mono text-[13px] font-black drop-shadow-[0_0_5px_currentColor] md:hidden">02</span>
+              <span className="absolute -left-8 -top-3 text-red-500 font-mono text-[0.8125rem] font-black drop-shadow-[0_0_5px_currentColor] md:hidden">02</span>
               Our mission began in a small garage with a single goal: to create the purest, most effective tools for recovery and performance. No fluff. No compromises. Just RAW results.
             </p>
           </div>
@@ -80,7 +80,7 @@ export default function OurStory() {
            <div className="h-full w-full border border-editorial-border relative bg-editorial-bg/10 backdrop-blur-[2px] rounded-[3rem] shadow-[inset_0_0_100px_rgba(0,0,0,0.1)] overflow-hidden">
               <Atmosphere glowOpacity={0.02} gridMode="lines" intensity="low" />
               <div className="absolute top-10 left-10 flex flex-col gap-3">
-                 <span className="font-mono text-[11px] text-red-600 font-black uppercase tracking-widest drop-shadow-[0_0_5px_currentColor]">LEGACY_SCAN_ACTIVE</span>
+                 <span className="font-mono text-[0.6875rem] text-red-600 font-black uppercase tracking-widest drop-shadow-[0_0_5px_currentColor]">LEGACY_SCAN_ACTIVE</span>
                  <div className="w-32 h-[3px] bg-zinc-800 overflow-hidden shadow-[0_0_15px_rgba(220,38,38,0.5)]">
                     <motion.div 
                       animate={{ x: ["-100%", "100%"] }}
@@ -89,7 +89,7 @@ export default function OurStory() {
                     />
                  </div>
               </div>
-              <div className="absolute bottom-10 right-10 text-right font-mono text-[11px] text-editorial-text-muted space-y-3 uppercase tracking-widest font-bold bg-editorial-bg/50 p-4 rounded-xl backdrop-blur-md border border-editorial-border shadow-[0_10px_30px_rgba(0,0,0,0.08)]">
+              <div className="absolute bottom-10 right-10 text-right font-mono text-[0.6875rem] text-editorial-text-muted space-y-3 uppercase tracking-widest font-bold bg-editorial-bg/50 p-4 rounded-xl backdrop-blur-md border border-editorial-border shadow-[0_10px_30px_rgba(0,0,0,0.08)]">
                  <div className="drop-shadow-[0_2px_4px_rgba(0,0,0,0.1)]">COORDS: 51.5074° N, 0.1278° W</div>
                  <div className="drop-shadow-[0_2px_4px_rgba(0,0,0,0.1)]">EST_DATE: 04_20_2026</div>
                  <div className="text-red-600 drop-shadow-[0_0_10px_rgba(220,38,38,0.8)] animate-pulse">STABILITY: NOMINAL</div>
@@ -97,7 +97,7 @@ export default function OurStory() {
            </div>
         </div>
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none mix-blend-overlay z-10">
-           <h2 className="font-sans font-black text-[20vw] uppercase tracking-tighter text-editorial-text opacity-30 blur-[1px] scale-105 group-hover:scale-100 transition-transform duration-[4000ms] drop-shadow-[0_10px_30px_rgba(0,0,0,1)] mix-blend-screen">NO COMPROMISE</h2>
+           <h2 className="font-sans font-black text-[clamp(2.5rem,17vw,30rem)] uppercase tracking-tighter text-editorial-text opacity-30 blur-[1px] scale-105 group-hover:scale-100 transition-transform duration-[4000ms] drop-shadow-[0_10px_30px_rgba(0,0,0,1)] mix-blend-screen">NO COMPROMISE</h2>
         </div>
       </section>
 
@@ -115,14 +115,14 @@ export default function OurStory() {
           <div className="space-y-16">
             <div className="flex items-center gap-5">
                <div className="w-2.5 h-2.5 bg-red-500 animate-pulse shadow-[0_0_15px_#dc2626] rounded-full" />
-               <span className="text-[13px] font-black tracking-[0.6em] text-red-500 drop-shadow-[0_0_10px_rgba(220,38,38,0.5)] uppercase">DIRECTIVE_ALPHA</span>
+               <span className="text-[0.8125rem] font-black tracking-[0.3em] sm:tracking-[0.6em] [overflow-wrap:anywhere] text-red-500 drop-shadow-[0_0_10px_rgba(220,38,38,0.5)] uppercase">DIRECTIVE_ALPHA</span>
             </div>
-            <h2 className="font-sans font-black text-8xl md:text-[140px] xl:text-[160px] uppercase tracking-tighter mb-20 leading-[0.8] drop-shadow-[0_10px_30px_rgba(0,0,0,0.1)]">UNFILTERED <br /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-red-900 drop-shadow-[0_0_20px_rgba(220,38,38,0.4)] block mt-4 pb-4">AMBITION</span></h2>
+            <h2 className="font-sans font-black uppercase tracking-tighter mb-20 leading-[0.8] drop-shadow-[0_10px_30px_rgba(0,0,0,0.1)] text-display-xl">UNFILTERED <br /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-red-900 drop-shadow-[0_0_20px_rgba(220,38,38,0.4)] block mt-4 pb-4">AMBITION</span></h2>
             <div className="pl-12 border-l-4 w-full max-w-3xl border-red-600 shadow-[-5px_0_30px_rgba(220,38,38,0.3)] bg-gradient-to-r from-red-900/10 via-red-900/5 to-transparent py-8 rounded-r-[2rem]">
               <p className="text-3xl md:text-5xl leading-tight mb-12 font-light italic text-editorial-text drop-shadow-[0_2px_4px_rgba(0,0,0,0.1)] pr-8">
                 "We don't build gear for the casual. We build gear for the obsessed. For the ones who wake up while the world is still dreaming and push past the point where others quit."
               </p>
-              <div className="text-[12px] uppercase tracking-[0.5em] font-black text-editorial-text flex items-center gap-5 bg-editorial-bg/80 backdrop-blur-md py-5 px-10 rounded-xl w-fit border border-editorial-border shadow-[0_15px_40px_rgba(0,0,0,0.1)] hover:shadow-[0_15px_40px_rgba(220,38,38,0.2)] hover:border-red-500/30 transition-all duration-500">
+              <div className="text-[0.75rem] uppercase tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] font-black text-editorial-text flex items-center gap-5 bg-editorial-bg/80 backdrop-blur-md py-5 px-10 rounded-xl w-fit border border-editorial-border shadow-[0_15px_40px_rgba(0,0,0,0.1)] hover:shadow-[0_15px_40px_rgba(220,38,38,0.2)] hover:border-red-500/30 transition-all duration-500">
                  <span className="w-12 h-[3px] bg-red-600 shadow-[0_0_10px_#dc2626]"></span> RAW_PERFORMANCE // 001
               </div>
             </div>
@@ -141,8 +141,8 @@ export default function OurStory() {
               <div className="absolute inset-0 bg-red-900/10 opacity-0 group-hover/img:opacity-100 transition-opacity duration-1000 z-10 pointer-events-none mix-blend-screen" />
               
               <div className="absolute top-10 right-10 bg-editorial-bg/90 backdrop-blur-2xl border border-editorial-border-light p-8 flex flex-col gap-4 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.1)] z-20 group-hover/img:border-red-500/30 group-hover/img:shadow-[0_20px_50px_rgba(220,38,38,0.2)] transition-all duration-500">
-                <span className="text-[11px] uppercase tracking-[0.5em] font-black text-red-500 drop-shadow-[0_0_5px_currentColor]">ARCHIVE_FILE // 001</span>
-                <span className="font-mono text-[10px] text-editorial-text-muted font-black uppercase tracking-widest">IDENT_VERIFIED_ACCESS: <span className="text-emerald-500">GRANTED</span></span>
+                <span className="text-[0.6875rem] uppercase tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] font-black text-red-500 drop-shadow-[0_0_5px_currentColor]">ARCHIVE_FILE // 001</span>
+                <span className="font-mono text-[0.6875rem] text-editorial-text-muted font-black uppercase tracking-widest">IDENT_VERIFIED_ACCESS: <span className="text-emerald-500">GRANTED</span></span>
               </div>
               
               {/* Image HUD Decoration */}
@@ -153,7 +153,7 @@ export default function OurStory() {
                           <motion.div animate={{ height: ["0%", "100%", "20%"] }} transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }} className="absolute bottom-0 w-full bg-red-600 shadow-[0_0_10px_#dc2626]" />
                        </div>
                     </div>
-                    <span className="font-mono text-[11px] text-editorial-text-muted font-bold flex flex-col justify-end uppercase tracking-widest drop-shadow-[0_2px_4px_rgba(0,0,0,0.1)]">SIGNAL_STRENGTH<br/><span className="text-editorial-text text-base font-black mt-1">94.08%</span></span>
+                    <span className="font-mono text-[0.6875rem] text-editorial-text-muted font-bold flex flex-col justify-end uppercase tracking-widest drop-shadow-[0_2px_4px_rgba(0,0,0,0.1)]">SIGNAL_STRENGTH<br/><span className="text-editorial-text text-base font-black mt-1">94.08%</span></span>
                  </div>
               </div>
             </div>
@@ -173,11 +173,11 @@ export default function OurStory() {
           transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
           className="mb-40 space-y-12 relative z-10"
         >
-          <span className="text-[13px] font-black uppercase tracking-[0.6em] text-red-500 block drop-shadow-[0_0_10px_rgba(220,38,38,0.5)] flex items-center justify-center gap-5">
+          <span className="text-[0.8125rem] font-black uppercase tracking-[0.3em] sm:tracking-[0.6em] [overflow-wrap:anywhere] text-red-500 block drop-shadow-[0_0_10px_rgba(220,38,38,0.5)] flex items-center justify-center gap-5">
              <div className="w-2.5 h-2.5 bg-red-500 rounded-full animate-pulse shadow-[0_0_10px_currentColor]" />
              System Benchmarks
           </span>
-          <h3 className="font-sans font-black text-8xl md:text-[120px] xl:text-[160px] uppercase tracking-tighter text-editorial-text leading-[0.8] drop-shadow-[0_10px_30px_rgba(0,0,0,0.1)]">OUR <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-red-800 drop-shadow-[0_0_30px_rgba(220,38,38,0.5)] pb-4 inline-block mt-4">STANDARDS</span></h3>
+          <h3 className="font-sans font-black uppercase tracking-tighter text-editorial-text leading-[0.8] drop-shadow-[0_10px_30px_rgba(0,0,0,0.1)] text-display-xl">OUR <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-red-800 drop-shadow-[0_0_30px_rgba(220,38,38,0.5)] pb-4 inline-block mt-4">STANDARDS</span></h3>
         </motion.div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 border border-editorial-border bg-editorial-bg/60 gap-px rounded-[3rem] overflow-hidden shadow-[0_30px_100px_rgba(0,0,0,0.1)] relative z-10 backdrop-blur-2xl">
@@ -192,15 +192,15 @@ export default function OurStory() {
               <motion.div 
                  animate={{ opacity: [0.03, 0.08, 0.03] }}
                  transition={{ duration: 5, repeat: Infinity, delay: i * 0.7 }}
-                 className="absolute -right-10 -bottom-10 font-sans font-black text-[160px] text-editorial-text pointer-events-none uppercase leading-none mix-blend-overlay blur-[2px]"
+                 className="absolute -right-10 -bottom-10 font-sans font-black text-editorial-text pointer-events-none uppercase leading-none mix-blend-overlay blur-[2px] text-display-xl"
               >
                  {stat.label.substring(0, 3)}
               </motion.div>
               <div className="relative z-10 flex flex-col items-center justify-center h-full w-full">
                  <div className={`font-sans font-black text-6xl md:text-7xl xl:text-8xl mb-8 italic tracking-tighter text-editorial-text group-hover:scale-110 transition-all duration-[800ms] ease-[0.16,1,0.3,1] drop-shadow-[0_5px_15px_rgba(0,0,0,0.1)] ${stat.glow}`}>{stat.value}</div>
-                 <div className={`text-[13px] font-black uppercase tracking-[0.5em] mb-12 drop-shadow-[0_0_10px_currentColor] ${stat.color}`}>{stat.label}</div>
+                 <div className={`text-[0.8125rem] font-black uppercase tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] mb-12 drop-shadow-[0_0_10px_currentColor] ${stat.color}`}>{stat.label}</div>
                  <div className="h-[3px] w-16 bg-zinc-800 mx-auto group-hover:w-full group-hover:bg-current transition-all duration-[800ms] ease-[0.16,1,0.3,1] mb-12 shadow-[0_0_15px_currentColor] rounded-full" style={{ color: stat.color.replace('text-', '') /* Hack for generic tailwind colours, would typically use CSS vars */ }} />
-                 <div className="bg-editorial-bg/50 border border-editorial-border px-6 py-3 rounded-xl backdrop-blur-md font-mono text-[11px] font-black text-editorial-text-muted tracking-[0.3em] uppercase group-hover:text-editorial-text group-hover:border-editorial-border-light transition-all duration-500">{stat.detail}</div>
+                 <div className="bg-editorial-bg/50 border border-editorial-border px-6 py-3 rounded-xl backdrop-blur-md font-mono text-[0.6875rem] font-black text-editorial-text-muted tracking-[0.3em] uppercase group-hover:text-editorial-text group-hover:border-editorial-border-light transition-all duration-500">{stat.detail}</div>
               </div>
             </div>
           ))}

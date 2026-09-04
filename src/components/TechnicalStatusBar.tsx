@@ -58,7 +58,7 @@ export default function TechnicalStatusBar() {
               className="flex min-h-11 items-center justify-center gap-3 p-2 rounded-lg text-meta-premium opacity-40 hover:opacity-100 hover:bg-white/5 transition-all duration-300 group"
             >
               <Maximize className="w-4 h-4 group-hover:scale-110 transition-transform" />
-              <span className="hidden md:inline text-[10px] uppercase font-black">Canvas</span>
+              <span className="hidden md:inline text-[0.6875rem] uppercase font-black">Canvas</span>
             </button>
           </Tooltip>
 
@@ -68,7 +68,7 @@ export default function TechnicalStatusBar() {
               className={`flex min-h-11 items-center justify-center gap-3 p-2 rounded-lg transition-all duration-300 group ${showScaleSlider ? 'bg-red-600/20 text-red-500' : 'text-meta-premium opacity-40 hover:opacity-100 hover:bg-white/5'}`}
             >
               <Settings2 className="w-4 h-4 group-hover:rotate-90 transition-transform duration-500" />
-              <span className="hidden md:inline text-[10px] uppercase font-black">Res:</span> <span className="font-bold text-editorial-text text-[10px]">{Math.round(uiScale * 100)}%</span>
+              <span className="hidden md:inline text-[0.6875rem] uppercase font-black">Res:</span> <span className="font-bold text-editorial-text text-[0.6875rem]">{Math.round(uiScale * 100)}%</span>
             </button>
 
             <AnimatePresence>
@@ -102,7 +102,7 @@ export default function TechnicalStatusBar() {
                     />
                   </div>
                   
-                  <div className="flex justify-between mt-4 text-[10px] font-mono font-bold text-zinc-600 uppercase">
+                  <div className="flex justify-between mt-4 text-[0.6875rem] font-mono font-bold text-zinc-600 uppercase">
                     <span>50%</span>
                     <span className="text-white">100%</span>
                     <span>150%</span>
@@ -110,7 +110,7 @@ export default function TechnicalStatusBar() {
                   
                   <button 
                     onClick={() => setUIScale(1)}
-                    className="mt-8 w-full bg-red-600/10 border border-red-600/30 text-red-500 hover:bg-red-600 hover:text-white py-3 transition-all duration-300 font-black uppercase text-[10px] tracking-widest rounded-xl"
+                    className="mt-8 w-full bg-red-600/10 border border-red-600/30 text-red-500 hover:bg-red-600 hover:text-white py-3 transition-all duration-300 font-black uppercase text-[0.6875rem] tracking-widest rounded-xl"
                   >
                     Reset Optimization
                   </button>
@@ -130,7 +130,7 @@ export default function TechnicalStatusBar() {
                       <button
                         key={level}
                         onClick={() => updateSettings({ visualFidelity: level })}
-                        className={`py-3 px-2 rounded-xl text-[10px] font-black tracking-widest uppercase transition-all duration-300 border ${settings.visualFidelity === level ? 'bg-red-600/10 border-red-600 text-red-500 shadow-[0_0_15px_rgba(220,38,38,0.2)]' : 'bg-zinc-950 border-white/5 text-zinc-500 hover:border-white/20 hover:text-white'}`}
+                        className={`py-3 px-2 rounded-xl text-[0.6875rem] font-black tracking-widest uppercase transition-all duration-300 border ${settings.visualFidelity === level ? 'bg-red-600/10 border-red-600 text-red-500 shadow-[0_0_15px_rgba(220,38,38,0.2)]' : 'bg-zinc-950 border-white/5 text-zinc-500 hover:border-white/20 hover:text-white'}`}
                       >
                         {level}
                       </button>
@@ -144,8 +144,8 @@ export default function TechnicalStatusBar() {
         
         <div className="flex items-center gap-6 border-l border-white/5 pl-8 h-8 ml-4">
            <div className="flex flex-col items-end">
-              <span className="text-[9px] font-mono font-bold text-zinc-700 tracking-[0.4em] uppercase mb-0.5">TIME_SYNC</span>
-              <span className="font-mono font-black text-[12px] text-white tracking-widest uppercase">UTC: {timeString}</span>
+              <span className="text-[0.6875rem] font-mono font-bold text-zinc-700 tracking-[0.4em] uppercase mb-0.5">TIME_SYNC</span>
+              <span className="font-mono font-black text-[0.75rem] text-white tracking-widest uppercase">UTC: {timeString}</span>
            </div>
         </div>
       </div>

@@ -249,7 +249,7 @@ export default function ImmersiveReaderHUD() {
               <BookOpen className="w-5 h-5" />
             </div>
             <div>
-              <span className="block font-mono text-[9px] text-zinc-500 uppercase tracking-[0.4em] font-black">
+              <span className="block font-mono text-[0.6875rem] text-zinc-500 uppercase tracking-[0.4em] font-black">
                 RAW_IMMERSIVE_DOC_READER // STABILITY_ACK
               </span>
               <h2 className="text-xl font-bold uppercase tracking-tight text-white">
@@ -268,7 +268,7 @@ export default function ImmersiveReaderHUD() {
               >
                 <ZoomOut className="w-4 h-4" />
               </button>
-              <div className="font-mono text-[10px] w-12 text-center text-zinc-400 px-1">
+              <div className="font-mono text-[0.6875rem] w-12 text-center text-zinc-400 px-1">
                 {fontSize}PX
               </div>
               <button
@@ -315,7 +315,7 @@ export default function ImmersiveReaderHUD() {
               transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
               className="text-center space-y-8 select-text w-full my-auto"
             >
-              <span className="font-mono text-[10px] text-red-500 tracking-[0.6em] font-black uppercase inline-block border-y border-red-500/10 py-1.5 px-6">
+              <span className="font-mono text-[0.6875rem] text-red-500 tracking-[0.3em] sm:tracking-[0.6em] [overflow-wrap:anywhere] font-black uppercase inline-block border-y border-red-500/10 py-1.5 px-6">
                 {activeSection?.title}
               </span>
               
@@ -346,7 +346,7 @@ export default function ImmersiveReaderHUD() {
                 />
               ))
             ) : (
-              <div className="text-[10px] font-mono text-zinc-600 tracking-widest uppercase">
+              <div className="text-[0.6875rem] font-mono text-zinc-600 tracking-widest uppercase">
                 READING_PAUSED
               </div>
             )}
@@ -356,7 +356,7 @@ export default function ImmersiveReaderHUD() {
         {/* HUD Controls Bottom Dock */}
         <footer className="px-8 py-6 border-t border-editorial-border/40 flex flex-col md:flex-row items-center justify-between gap-6 shrink-0 bg-editorial-surface/40 backdrop-blur-md">
           <div className="flex flex-wrap items-center gap-6">
-            <div className="font-mono text-[9px] text-zinc-500">
+            <div className="font-mono text-[0.6875rem] text-zinc-500">
               SECTION {activeSectionIdx + 1} OF {sections.length}
             </div>
 
@@ -364,7 +364,7 @@ export default function ImmersiveReaderHUD() {
             <div className="flex items-center gap-6 bg-zinc-950/85 border border-editorial-border/40 rounded-xl px-4 py-2 shadow-inner hover:border-zinc-800 transition-all">
               {/* Rate Vertical Slider */}
               <div className="flex flex-col items-center gap-1">
-                <span className="font-mono text-[8px] text-zinc-500 uppercase tracking-widest leading-none">
+                <span className="font-mono text-[0.6875rem] text-zinc-500 uppercase tracking-widest leading-none">
                   RATE
                 </span>
                 <div className="h-12 flex items-center justify-center py-1">
@@ -385,7 +385,7 @@ export default function ImmersiveReaderHUD() {
                 </div>
                 <button
                   onClick={() => setSpeechRate(1.0)}
-                  className={`font-mono text-[8.5px] transition-all px-1 rounded-sm ${
+                  className={`font-mono text-[0.6875rem] transition-all px-1 rounded-sm ${
                     Math.abs(speechRate - 1.0) < 0.01
                       ? "text-zinc-650 pointer-events-none cursor-default font-normal"
                       : "text-red-500 hover:text-red-400 cursor-pointer font-bold"
@@ -401,7 +401,7 @@ export default function ImmersiveReaderHUD() {
 
               {/* Pitch Vertical Slider */}
               <div className="flex flex-col items-center gap-1">
-                <span className="font-mono text-[8px] text-zinc-500 uppercase tracking-widest leading-none">
+                <span className="font-mono text-[0.6875rem] text-zinc-500 uppercase tracking-widest leading-none">
                   PITCH
                 </span>
                 <div className="h-12 flex items-center justify-center py-1">
@@ -422,7 +422,7 @@ export default function ImmersiveReaderHUD() {
                 </div>
                 <button
                   onClick={() => setSpeechPitch(1.0)}
-                  className={`font-mono text-[8.5px] transition-all px-1 rounded-sm ${
+                  className={`font-mono text-[0.6875rem] transition-all px-1 rounded-sm ${
                     Math.abs(speechPitch - 1.0) < 0.01
                       ? "text-zinc-650 pointer-events-none cursor-default font-normal"
                       : "text-red-500 hover:text-red-400 cursor-pointer font-bold"
@@ -437,7 +437,7 @@ export default function ImmersiveReaderHUD() {
             {/* Voice select Dropdown */}
             {availableVoices.length > 0 && (
               <div className="flex items-center gap-3 animate-fade-in">
-                <span className="font-mono text-[9px] text-zinc-600 uppercase tracking-widest">
+                <span className="font-mono text-[0.6875rem] text-zinc-600 uppercase tracking-widest">
                   VOICE_SYS:
                 </span>
                 <select
@@ -454,10 +454,10 @@ export default function ImmersiveReaderHUD() {
                       }, 50);
                     }
                   }}
-                  className="bg-zinc-950 hover:bg-zinc-900 text-[10px] text-zinc-400 hover:text-white font-mono rounded-lg border border-editorial-border px-3 py-1.5 focus:border-red-500 outline-none max-w-[180px] md:max-w-[220px] cursor-pointer transition-all truncate"
+                  className="bg-zinc-950 hover:bg-zinc-900 text-[0.6875rem] text-zinc-400 hover:text-white font-mono rounded-lg border border-editorial-border px-3 py-1.5 focus:border-red-500 outline-none max-w-[180px] md:max-w-[220px] cursor-pointer transition-all truncate"
                 >
                   {availableVoices.map((voice) => (
-                    <option key={voice.voiceURI} value={voice.voiceURI} className="bg-zinc-950 text-white font-mono text-[10px]">
+                    <option key={voice.voiceURI} value={voice.voiceURI} className="bg-zinc-950 text-white font-mono text-[0.6875rem]">
                       {voice.name} [{voice.lang}]
                     </option>
                   ))}
@@ -501,7 +501,7 @@ export default function ImmersiveReaderHUD() {
 
           <div className="flex items-center gap-3">
             <Volume2 className="w-4 h-4 text-zinc-500" />
-            <span className="font-mono text-[9px] text-zinc-500 tracking-widest uppercase">
+            <span className="font-mono text-[0.6875rem] text-zinc-500 tracking-widest uppercase">
               COGNITIVE_INTEGRITY_INDEX_99
             </span>
           </div>

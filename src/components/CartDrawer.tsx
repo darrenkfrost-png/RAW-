@@ -209,7 +209,7 @@ export default function CartDrawer() {
                 {/* Suggested Pairings - Premium Treatment */}
                 <div className="pt-20 border-t border-editorial-border space-y-10 relative">
                    <div className="absolute top-0 left-1/2 -ml-[30%] w-[60%] h-[1px] bg-gradient-to-r from-transparent via-red-600/50 to-transparent shadow-[0_0_20px_#dc2626]" />
-                   <div className="flex items-center justify-between text-editorial-text-muted font-mono text-[10px] uppercase tracking-[0.5em] font-black">
+                   <div className="flex items-center justify-between text-editorial-text-muted font-mono text-[0.6875rem] uppercase tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] font-black">
                       <span>Neural_Synergy_Suggestions</span>
                       <div className="flex gap-1.5">
                          {[1,2,3].map(i => <div key={i} className={`w-1 h-3 bg-red-600/30 ${i === 2 ? 'animate-pulse' : ''}`} />)}
@@ -234,7 +234,7 @@ export default function CartDrawer() {
                               </div>
                               <div className="flex-1 space-y-2 min-w-0">
                                  <h4 className="text-xl font-black uppercase tracking-tighter truncate text-editorial-text group-hover/sug:text-editorial-text transition-colors duration-700">{sug.name}</h4>
-                                 <p className="text-[10px] font-mono tracking-widest text-zinc-600 uppercase font-black">{sug.price} // {sug.category}</p>
+                                 <p className="text-[0.6875rem] font-mono tracking-widest text-zinc-600 uppercase font-black">{sug.price} // {sug.category}</p>
                               </div>
                               <div className="w-14 h-14 rounded-full bg-editorial-text/5 border border-editorial-border-light flex items-center justify-center group-hover/sug:bg-red-600 group-hover/sug:border-red-600 transition-all duration-700 group-hover/sug:shadow-depth-2 shrink-0">
                                 <ArrowRight className="w-6 h-6 text-zinc-600 group-hover/sug:text-editorial-text transition-all transform group-hover/sug:translate-x-1" />
@@ -270,7 +270,7 @@ export default function CartDrawer() {
                       key={cartTotal}
                       initial={{ scale: 1.1, opacity: 0 }}
                       animate={{ scale: 1, opacity: 1 }}
-                      className="text-5xl lg:text-7xl font-sans font-black tracking-tighter flex items-baseline gap-2 text-premium"
+                      className="font-sans font-black tracking-tighter flex items-baseline gap-2 text-premium text-display-sm"
                     >
                       <span className="text-2xl text-red-600 font-mono">£</span>
                       {cartTotal.toFixed(2)}
@@ -280,7 +280,7 @@ export default function CartDrawer() {
                   <Link 
                     to="/checkout" 
                     onClick={() => setIsCartOpen(false)} 
-                    className="button-premium w-full py-8 text-[12px] group relative overflow-hidden"
+                    className="button-premium w-full py-8 text-[0.75rem] group relative overflow-hidden"
                   >
                      {/* ⚠️ THIS BUTTON SAID ONLY "Initialize_Execution_Protocol".
                          The brand's tactical language is right everywhere else,
@@ -293,7 +293,7 @@ export default function CartDrawer() {
                         <span className="flex items-center gap-4">
                           Checkout <ArrowRight className="w-6 h-6 group-hover:translate-x-3 transition-transform duration-1000" />
                         </span>
-                        <span className="font-mono text-[9px] uppercase tracking-[0.35em] opacity-45">
+                        <span className="font-mono text-[0.6875rem] uppercase tracking-[0.35em] opacity-45">
                           Initialize_Execution_Protocol
                         </span>
                      </span>

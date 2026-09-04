@@ -38,7 +38,7 @@ function RotationDisplay({ x, y, active }: { x: any, y: any, active: boolean }) 
   
   return (
     <div className="absolute top-6 left-6 z-30 pointer-events-none flex gap-2">
-       <div className={`px-4 py-2 bg-black/40 backdrop-blur-xl border border-white/10 rounded-2xl text-[10px] font-mono text-white/80 uppercase tracking-widest ${active ? 'opacity-100' : 'opacity-0'} transition-opacity duration-300 shadow-xl`}>
+       <div className={`px-4 py-2 bg-black/40 backdrop-blur-xl border border-white/10 rounded-2xl text-[0.6875rem] font-mono text-white/80 uppercase tracking-widest ${active ? 'opacity-100' : 'opacity-0'} transition-opacity duration-300 shadow-xl`}>
           X:<motion.span>{rotationX}</motion.span>° Y:<motion.span>{rotationY}</motion.span>°
        </div>
     </div>
@@ -307,19 +307,23 @@ export default function ProductDetail() {
         
         <div className="flex items-center gap-6">
            <div className="flex flex-col items-end">
-              <span className="font-mono text-[9px] text-zinc-600 uppercase tracking-[0.4em] font-black mb-1">REGISTRY_STATUS</span>
+              <span className="font-mono text-[0.6875rem] text-zinc-600 uppercase tracking-[0.4em] font-black mb-1">REGISTRY_STATUS</span>
               <div className={`flex items-center gap-3 px-5 py-2 rounded-full border ${currentStatus.color} backdrop-blur-3xl shadow-depth-1`}>
                 {currentStatus.icon}
-                <span className="font-mono text-[10px] uppercase font-black tracking-[0.3em]">{currentStatus.label}</span>
+                <span className="font-mono text-[0.6875rem] uppercase font-black tracking-[0.3em]">{currentStatus.label}</span>
               </div>
            </div>
         </div>
       </div>
 
 
+      {/* ⚠️ min-w-0 ON BOTH COLUMNS. On a phone this grid is one auto-sized track, and an
+          auto track takes each item's content minimum — the thumbnail strip and one label row
+          each held it at 404px on a 375px screen, centred and clipped. With min-w-0 the track
+          is the container and the rows inside wrap or shrink as they were designed to. */}
       <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 xl:gap-32 items-start mt-12">
         {/* Product Images */}
-        <div className="space-y-8">
+        <div className="min-w-0 space-y-8">
             <motion.div
              className="aspect-square bg-editorial-bg border border-editorial-border overflow-hidden relative rounded-[4rem] shadow-premium"
              whileHover={{ scale: 1.02 }}
@@ -413,7 +417,10 @@ export default function ProductDetail() {
                             <div className="w-12 h-12 border-2 border-editorial-text/20 rounded-full flex items-center justify-center bg-editorial-bg/20 backdrop-blur-sm mb-4">
                                <Plus className="w-6 h-6 text-editorial-text" />
                             </div>
-                            <div className="flex gap-2 text-[10px] font-mono text-zinc-400 bg-editorial-bg/60 backdrop-blur-md px-4 py-2 rounded-full border border-white/10 uppercase tracking-widest shadow-lg">
+                             {/* Keyboard hints — "Arrows to Rotate", "+/- to Zoom" — mean nothing on a phone,
+                                and as an unwrappable row this pill was 402px wide on a 375px screen. Shown
+                                from md up, where a keyboard is plausible; allowed to wrap even there. */}
+                            <div className="hidden md:flex flex-wrap justify-center gap-2 text-[0.6875rem] font-mono text-zinc-400 bg-editorial-bg/60 backdrop-blur-md px-4 py-2 rounded-full border border-white/10 uppercase tracking-widest shadow-lg">
                               <span><kbd className="text-white">Arrows</kbd> to Rotate</span>
                               <span className="opacity-50">/</span>
                               <span><kbd className="text-white">+/-</kbd> to Zoom</span>
@@ -453,20 +460,20 @@ export default function ProductDetail() {
                         <div className="absolute top-8 left-8 z-20">
                            <div className="flex items-center gap-4 bg-red-600 px-6 py-3 rounded-full border border-red-500/50 shadow-premium">
                               <Play className="w-4 h-4 text-white fill-white" />
-                              <span className="font-mono text-[10px] text-white uppercase tracking-[0.3em] font-black">PRODUCT_DEMONSTRATION</span>
+                              <span className="font-mono text-[0.6875rem] text-white uppercase tracking-[0.3em] font-black">PRODUCT_DEMONSTRATION</span>
                            </div>
                         </div>
                       </div>
                     ) : (
                       <div className="w-full h-full relative">
                          <div className={`absolute inset-0 z-50 pointer-events-none transition-opacity duration-500 flex flex-col items-center justify-center ${!isViewerActive ? 'opacity-100' : 'opacity-0'}`}>
-                            <div className="flex gap-2 text-[10px] font-mono text-white bg-red-600 px-6 py-3 rounded-full border border-red-500/50 uppercase tracking-[0.2em] font-black shadow-premium animate-pulse">
+                            <div className="flex gap-2 text-[0.6875rem] font-mono text-white bg-red-600 px-6 py-3 rounded-full border border-red-500/50 uppercase tracking-[0.2em] font-black shadow-premium animate-pulse">
                                <span>3D_INTERACTIVE_MODEL_ACTIVE</span>
                             </div>
                          </div>
                          <Suspense fallback={
                            <div className="flex h-full w-full items-center justify-center">
-                             <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-editorial-text-muted">
+                             <span className="font-mono text-[0.6875rem] uppercase tracking-[0.3em] text-editorial-text-muted">
                                Loading 3D view…
                              </span>
                            </div>
@@ -537,7 +544,7 @@ export default function ProductDetail() {
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.3, duration: 1, ease: [0.16, 1, 0.3, 1] }}
-          className="lg:sticky lg:top-32"
+          className="min-w-0 lg:sticky lg:top-32"
         >
           <motion.span 
             initial={{ opacity: 0 }}
@@ -551,9 +558,9 @@ export default function ProductDetail() {
             initial={{ opacity: 0, scale: 1.1, filter: "blur(20px)", x: -50 }}
             animate={{ opacity: 1, scale: 1, filter: "blur(0px)", x: 0 }}
             transition={{ delay: 0.6, duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
-            className="font-sans font-black text-7xl md:text-9xl xl:text-[220px] uppercase tracking-[-0.08em] leading-[0.75] mb-16 drop-shadow-[0_40px_120px_rgba(0,0,0,1)] relative text-premium"
+            className="font-sans font-black uppercase tracking-[-0.08em] leading-[0.75] mb-16 drop-shadow-[0_40px_120px_rgba(0,0,0,1)] relative text-premium text-display-2xl"
           >
-            <span className="block italic text-red-600/30 text-4xl md:text-6xl xl:text-8xl tracking-tight mb-12 drop-shadow-none text-meta-premium !lowercase !tracking-normal">
+            <span className="block italic text-red-600/30 tracking-tight mb-12 drop-shadow-none text-meta-premium !lowercase !tracking-normal text-[clamp(1.125rem,5vw,6rem)]">
               <span className="opacity-40">[</span> TARGET_ASSET_IDENT <span className="opacity-40">]</span>
             </span>
             {product.name}
@@ -566,7 +573,7 @@ export default function ProductDetail() {
           >
              <div className="flex flex-col">
                 <span className="text-meta-premium opacity-40 mb-2">PROCUREMENT_VAL</span>
-                <div className="font-sans font-black text-7xl md:text-9xl drop-shadow-[0_0_30px_rgba(0,0,0,0.04)] flex items-start text-premium">
+                <div className="font-sans font-black drop-shadow-[0_0_30px_rgba(0,0,0,0.04)] flex items-start text-premium text-display-lg">
                   <span className="text-4xl text-red-600 mr-4 drop-shadow-[0_0_15px_#dc2626] mt-6 font-mono">£</span>{product.price.replace('£', '')}
                 </div>
              </div>
@@ -592,12 +599,12 @@ export default function ProductDetail() {
             <div className="absolute -right-20 -top-20 w-64 h-64 bg-red-600/5 blur-[100px] rounded-full group-hover:bg-red-600/10 transition-colors duration-1000" />
             <div className="relative z-10">
                <div className="flex items-center justify-between mb-10">
-                  <h2 className="font-mono text-red-500 text-[10px] uppercase tracking-[0.5em] font-black flex items-center gap-4">
+                  <h2 className="font-mono text-red-500 text-[0.6875rem] uppercase tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] font-black flex items-center gap-4">
                      <span className="w-2 h-2 rounded-full bg-red-600 animate-pulse shadow-[0_0_8px_currentColor]" />
                      MISSION_OBJECTIVE_DIAGNOSTIC
                   </h2>
                   <div className="h-[1px] flex-1 mx-8 bg-gradient-to-r from-red-600/40 to-transparent" />
-                  <span className="font-mono text-[10px] text-zinc-700 uppercase tracking-widest font-black opacity-40">INTEL_CORE_V3</span>
+                  <span className="font-mono text-[0.6875rem] text-zinc-700 uppercase tracking-widest font-black opacity-40">INTEL_CORE_V3</span>
                </div>
                <div className="text-white font-medium text-2xl md:text-4xl leading-[1.3] space-y-12">
                    <p className="tracking-tight drop-shadow-sm font-sans font-bold">{product.overview || `The ${product.name} is a high-flux ${product.category} deployment, engineered for tactical efficiency.`}</p>
@@ -610,7 +617,7 @@ export default function ProductDetail() {
                            "{product.whatItDoes}"
                            <div className="mt-8 flex items-center gap-4 border-t border-white/10 pt-8">
                               <div className="h-1 lg:w-20 bg-red-600" />
-                              <span className="font-mono text-[10px] uppercase tracking-[0.6em] text-red-500 font-black">CORE_MANTRA_01</span>
+                              <span className="font-mono text-[0.6875rem] uppercase tracking-[0.3em] sm:tracking-[0.6em] [overflow-wrap:anywhere] text-red-500 font-black">CORE_MANTRA_01</span>
                            </div>
                        </div>
                    )}
@@ -646,7 +653,7 @@ export default function ProductDetail() {
               
               <MagneticWrapper>
                 {product.stockStatus === 'OUT_OF_STOCK' ? (
-                  <button className="w-full xl:w-auto xl:flex-1 h-[100px] bg-zinc-800 border-b-[6px] border-editorial-border border border-editorial-border text-editorial-text-muted font-black uppercase tracking-[0.4em] text-[14px] rounded-[2.5rem] px-14 flex items-center justify-center cursor-not-allowed shadow-depth-2">
+                  <button className="w-full xl:w-auto xl:flex-1 h-[100px] bg-zinc-800 border-b-[6px] border-editorial-border border border-editorial-border text-editorial-text-muted font-black uppercase tracking-[0.4em] text-[0.875rem] rounded-[2.5rem] px-14 flex items-center justify-center cursor-not-allowed shadow-depth-2">
                     OUT_OF_STOCK // OFFLINE
                   </button>
                 ) : (
@@ -655,7 +662,7 @@ export default function ProductDetail() {
                        addToCart(product, quantity);
                        addToProtocol(product);
                     }}
-                    className="w-full xl:w-auto xl:flex-1 h-[100px] bg-red-600 border-b-[6px] border-red-900 hover:border-white text-white font-black uppercase tracking-[0.4em] text-[14px] hover:bg-editorial-text hover:text-editorial-bg transition-all duration-[800ms] ease-[0.16,1,0.3,1] outline-none relative overflow-hidden group rounded-[2.5rem] shadow-[0_40px_100px_rgba(220,38,38,0.4)] hover:shadow-glow-intense whitespace-nowrap px-14 flex items-center justify-center transform-gpu active:border-b-0 active:translate-y-[6px]"
+                    className="w-full xl:w-auto xl:flex-1 h-[100px] bg-red-600 border-b-[6px] border-red-900 hover:border-white text-white font-black uppercase tracking-[0.4em] text-[0.875rem] hover:bg-editorial-text hover:text-editorial-bg transition-all duration-[800ms] ease-[0.16,1,0.3,1] outline-none relative overflow-hidden group rounded-[2.5rem] shadow-[0_40px_100px_rgba(220,38,38,0.4)] hover:shadow-glow-intense whitespace-nowrap px-14 flex items-center justify-center transform-gpu active:border-b-0 active:translate-y-[6px]"
                   >
                     <span className="relative z-10 transition-colors drop-shadow-[0_4px_8px_rgba(0,0,0,0.4)] group-hover:drop-shadow-none flex items-center gap-6">
                        PROCURE_PROTOCOL <ArrowRight className="w-6 h-6 opacity-0 -ml-6 group-hover:opacity-100 group-hover:ml-0 transition-all duration-[800ms]" />
@@ -684,7 +691,7 @@ export default function ProductDetail() {
             </button>
             
             <div className="pt-10 border-t border-editorial-border-light flex flex-col md:flex-row md:items-center justify-between gap-6">
-              <span className="font-mono text-[11px] text-editorial-text-muted uppercase tracking-[0.4em] font-bold drop-shadow-[0_2px_4px_rgba(0,0,0,0.1)]">Transmit Signal:</span>
+              <span className="font-mono text-[0.6875rem] text-editorial-text-muted uppercase tracking-[0.4em] font-bold drop-shadow-[0_2px_4px_rgba(0,0,0,0.1)]">Transmit Signal:</span>
               <div className="flex items-center gap-4">
                 <button onClick={() => {
                   navigator.clipboard.writeText(window.location.href);
@@ -708,13 +715,13 @@ export default function ProductDetail() {
           </motion.div>
 
           <div className="space-y-6 pt-12 border-t border-editorial-border-light">
-            <div className="flex items-center gap-6 text-[12px] font-bold uppercase tracking-[0.4em] text-editorial-text-muted group">
+            <div className="flex items-center gap-6 text-[0.75rem] font-bold uppercase tracking-[0.25em] sm:tracking-[0.4em] [overflow-wrap:anywhere] text-editorial-text-muted group">
               <Shield className="w-6 h-6 text-emerald-500 drop-shadow-[0_0_10px_#10b981] group-hover:scale-110 transition-transform duration-[800ms]" /> <span className="group-hover:text-editorial-text transition-colors duration-[800ms]">Gold Standard Tested</span>
             </div>
-            <div className="flex items-center gap-6 text-[12px] font-bold uppercase tracking-[0.4em] text-editorial-text-muted group">
+            <div className="flex items-center gap-6 text-[0.75rem] font-bold uppercase tracking-[0.25em] sm:tracking-[0.4em] [overflow-wrap:anywhere] text-editorial-text-muted group">
               <Truck className="w-6 h-6 text-blue-500 drop-shadow-[0_0_10px_#3b82f6] group-hover:scale-110 transition-transform duration-[800ms]" /> <span className="group-hover:text-editorial-text transition-colors duration-[800ms]">Priority Elite Shipping</span>
             </div>
-            <div className="flex items-center gap-6 text-[12px] font-bold uppercase tracking-[0.4em] text-editorial-text-muted group">
+            <div className="flex items-center gap-6 text-[0.75rem] font-bold uppercase tracking-[0.25em] sm:tracking-[0.4em] [overflow-wrap:anywhere] text-editorial-text-muted group">
               <RefreshCw className="w-6 h-6 text-purple-500 drop-shadow-[0_0_10px_#a855f7] group-hover:scale-110 transition-transform duration-[800ms]" /> <span className="group-hover:text-editorial-text transition-colors duration-[800ms]">Conscious Recovery Guarantee</span>
             </div>
           </div>
@@ -722,10 +729,10 @@ export default function ProductDetail() {
           {/* Responsible Use Notice */}
           <div className="mt-12 bg-editorial-surface/50 border border-editorial-border p-6 rounded-2xl relative overflow-hidden group">
             <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-white/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
-            <h5 className="font-mono text-[9px] font-bold text-editorial-text-muted uppercase tracking-widest mb-2 flex items-center gap-2">
+            <h5 className="font-mono text-[0.6875rem] font-bold text-editorial-text-muted uppercase tracking-widest mb-2 flex items-center gap-2">
               <span className="w-1.5 h-1.5 rounded-full bg-zinc-600" /> Responsible Use Notice
             </h5>
-            <p className="text-[11px] leading-relaxed text-editorial-text-muted font-light mix-blend-screen">
+            <p className="text-[0.6875rem] leading-relaxed text-editorial-text-muted font-light mix-blend-screen">
               RAW Official products are designed to support active lifestyles and performance routines. Supplements should be used as directed on the label and are not intended to diagnose, treat, cure, or prevent disease. Always consult a qualified professional if you are pregnant, taking medication, under 18, or managing a health condition.
             </p>
           </div>
@@ -764,9 +771,9 @@ export default function ProductDetail() {
               <div className="space-y-12 relative z-10">
                   <div className="flex items-center gap-5">
                       <span className="w-12 h-[2px] bg-red-600 shadow-[0_0_10px_#dc2626]" />
-                      <span className="font-mono text-[11px] text-zinc-500 uppercase tracking-[0.5em] font-black">Performance_Architecture</span>
+                      <span className="font-mono text-[0.6875rem] text-zinc-500 uppercase tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] font-black">Performance_Architecture</span>
                   </div>
-                  <h2 className="text-6xl md:text-8xl font-black uppercase tracking-tighter text-white leading-[0.8] transition-all duration-1000 group-hover/cinematic:drop-shadow-[0_0_30px_rgba(239,68,68,0.2)]">
+                  <h2 className="font-black uppercase tracking-tighter text-white leading-[0.8] transition-all duration-1000 group-hover/cinematic:drop-shadow-[0_0_30px_rgba(239,68,68,0.2)] text-display-md">
                     Validated <br /> 
                     <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-red-600 to-red-900 italic">Integrity</span>
                   </h2>
@@ -775,11 +782,11 @@ export default function ProductDetail() {
                   </p>
                   <div className="grid grid-cols-2 gap-8">
                       <div className="space-y-3 bg-white/5 p-8 rounded-3xl border border-white/5 hover:border-red-500/20 transition-all">
-                          <span className="block text-[10px] font-mono text-zinc-500 uppercase tracking-widest font-black">Batch_ID</span>
+                          <span className="block text-[0.6875rem] font-mono text-zinc-500 uppercase tracking-widest font-black">Batch_ID</span>
                           <span className="block text-2xl font-black text-white italic">#RAW_ALPHA_74</span>
                       </div>
                       <div className="space-y-3 bg-white/5 p-8 rounded-3xl border border-white/5 hover:border-red-500/20 transition-all">
-                          <span className="block text-[10px] font-mono text-zinc-500 uppercase tracking-widest font-black">Sector_Rank</span>
+                          <span className="block text-[0.6875rem] font-mono text-zinc-500 uppercase tracking-widest font-black">Sector_Rank</span>
                           <span className="block text-2xl font-black text-red-500 italic">ELITE_01</span>
                       </div>
                   </div>
@@ -798,7 +805,7 @@ export default function ProductDetail() {
                             <div className="absolute -top-4 -right-4 w-12 h-12 bg-editorial-bg border border-red-600/40 rounded-2xl flex items-center justify-center font-mono text-xs font-black text-red-500 shadow-xl">V.04</div>
                         </motion.div>
                         <div className="flex flex-col items-center text-center gap-2">
-                            <span className="font-mono text-[10px] text-zinc-600 uppercase tracking-[0.5em] font-black">Live_Telemetry_Signal</span>
+                            <span className="font-mono text-[0.6875rem] text-zinc-600 uppercase tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] font-black">Live_Telemetry_Signal</span>
                             <div className="flex gap-2">
                                 {[1,2,3,4,5,6,7].map(i => (
                                     <motion.div 
@@ -868,23 +875,23 @@ export default function ProductDetail() {
         <div className="absolute inset-0 bg-[#dc2626]/5 pointer-events-none opacity-50 mix-blend-screen" />
         <Atmosphere glowOpacity={0.02} gridMode="lines" intensity="low" />
         <div className="absolute top-0 right-0 p-10 opacity-[0.02] pointer-events-none text-red-500">
-           <span className="font-sans font-black text-[15vw] leading-[0.8] uppercase">ANALYSIS</span>
+           <span className="font-sans font-black text-[clamp(3rem,15vw,30rem)] leading-[0.8] uppercase">ANALYSIS</span>
         </div>
         
         <div className="max-w-[var(--content-max-width)] mx-auto px-[var(--shell-padding-mobile)] md:px-[var(--shell-padding)] lg:px-[var(--shell-padding-lg)] relative z-10 flex flex-col lg:grid lg:grid-cols-12 gap-20 lg:gap-32 pb-32">
            <div className="lg:col-span-4">
               <div className="flex items-center gap-5 mb-14 bg-editorial-bg border border-red-500/30 px-6 py-4 w-fit rounded-[1.5rem] shadow-[0_10px_20px_rgba(220,38,38,0.1)]">
                  <div className="w-2.5 h-2.5 bg-red-500 rounded-full animate-ping shadow-[0_0_10px_#dc2626]" />
-                 <span className="font-mono text-[12px] text-red-500 font-bold tracking-[0.5em] uppercase drop-shadow-[0_0_5px_currentColor]">BIO_BLUEPRINT_ACCESS // GRANTED</span>
+                 <span className="font-mono text-[0.75rem] text-red-500 font-bold tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] uppercase drop-shadow-[0_0_5px_currentColor]">BIO_BLUEPRINT_ACCESS // GRANTED</span>
               </div>
-              <h2 className="font-sans font-black text-6xl md:text-8xl uppercase tracking-[-0.05em] leading-[0.95] mb-12 text-editorial-text drop-shadow-[0_10px_30px_rgba(0,0,0,0.15)]">SPECIFICATION <br /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-red-900 drop-shadow-[0_0_20px_rgba(220,38,38,0.4)]">PROTOCOL</span></h2>
+              <h2 className="font-sans font-black uppercase tracking-[-0.05em] leading-[0.95] mb-12 text-editorial-text drop-shadow-[0_10px_30px_rgba(0,0,0,0.15)] text-display-md">SPECIFICATION <br /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-red-900 drop-shadow-[0_0_20px_rgba(220,38,38,0.4)]">PROTOCOL</span></h2>
               <p className="text-editorial-text font-light text-xl md:text-2xl leading-relaxed max-w-xl drop-shadow-[0_2px_4px_rgba(0,0,0,0.1)] mb-16">
                  Each unit is batch-tested for molecular integrity and bioavailability. Our laboratory environments maintain a Grade-5 sterile environment ensuring the highest concentration of active compounds.
               </p>
               
               <div className="hidden lg:block bg-editorial-surface/20 rounded-[3rem] p-10 border border-editorial-border backdrop-blur-3xl group/radar relative overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-b from-red-600/5 to-transparent opacity-0 group-hover/radar:opacity-100 transition-opacity duration-1000" />
-                <div className="flex items-center gap-4 mb-10 text-[10px] font-mono tracking-[0.4em] uppercase text-editorial-text-muted">
+                <div className="flex items-center gap-4 mb-10 text-[0.6875rem] font-mono tracking-[0.4em] uppercase text-editorial-text-muted">
                     <Target className="w-4 h-4 text-red-500 animate-pulse" />
                     Neural_Telemetry_Radar
                 </div>
@@ -921,8 +928,8 @@ export default function ProductDetail() {
                 >
                    <div className="absolute inset-0 bg-red-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-[1000ms] pointer-events-none mix-blend-screen" />
                    <div className="flex justify-between items-start mb-10 relative z-10">
-                      <span className="font-mono text-[10px] font-bold text-editorial-text-muted tracking-[0.4em] uppercase">{spec.label}</span>
-                      <span className={`font-mono text-[10px] font-bold tracking-[0.3em] uppercase drop-shadow-[0_0_8px_currentColor] group-hover:animate-pulse ${spec.color}`}>{spec.stat}</span>
+                      <span className="font-mono text-[0.6875rem] font-bold text-editorial-text-muted tracking-[0.4em] uppercase">{spec.label}</span>
+                      <span className={`font-mono text-[0.6875rem] font-bold tracking-[0.3em] uppercase drop-shadow-[0_0_8px_currentColor] group-hover:animate-pulse ${spec.color}`}>{spec.stat}</span>
                    </div>
                    <div className="font-sans font-black text-5xl md:text-6xl text-editorial-text group-hover:scale-[1.05] group-hover:translate-x-3 transition-transform duration-[1000ms] ease-[0.16,1,0.3,1] drop-shadow-[0_4px_10px_rgba(0,0,0,0.15)] relative z-10">{spec.value}</div>
                    <div className="mt-10 h-[3px] w-12 bg-zinc-800 group-hover:w-full group-hover:bg-red-600 transition-all duration-[1000ms] ease-[0.16,1,0.3,1] relative z-10 shadow-[0_0_15px_rgba(220,38,38,0.5)]" />
@@ -1014,7 +1021,7 @@ export default function ProductDetail() {
                     </p>
                     <div className="flex flex-wrap gap-4">
                         {["STERILE_ENV", "SPECTRO_VERIFIED", "BATCH_TRACEABLE", "GMP_COMPLIANT"].map((badge, i) => (
-                            <span key={i} className="font-mono text-[10px] uppercase text-red-500 bg-red-950/20 px-4 py-2 rounded-full border border-red-500/20">
+                            <span key={i} className="font-mono text-[0.6875rem] uppercase text-red-500 bg-red-950/20 px-4 py-2 rounded-full border border-red-500/20">
                                 {badge}
                             </span>
                         ))}
@@ -1033,7 +1040,7 @@ export default function ProductDetail() {
               <span className="text-meta-premium mb-8 block flex items-center gap-4">
                 <div className="w-2.5 h-2.5 bg-red-500 rounded-full animate-ping" /> OPERATIVE_FEEDBACK_LOG
               </span>
-              <h2 className="font-sans font-black text-6xl md:text-8xl xl:text-[120px] uppercase tracking-[-0.05em] leading-[0.8] text-premium">Mission <br /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-red-900">Debrief</span></h2>
+              <h2 className="font-sans font-black uppercase tracking-[-0.05em] leading-[0.8] text-premium text-display-md">Mission <br /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-red-900">Debrief</span></h2>
             </div>
             {/* No reviews means no score. Showing five filled stars over a
                 score of nothing is the same lie the invented reviews told. */}
@@ -1048,7 +1055,7 @@ export default function ProductDetail() {
                          ))}
                       </div>
                    </div>
-                   <span className="font-mono text-[10px] text-zinc-600 uppercase tracking-widest font-black">
+                   <span className="font-mono text-[0.6875rem] text-zinc-600 uppercase tracking-widest font-black">
                      BASED_ON_{visibleReviews.length}_REPORTS
                    </span>
                  </>
@@ -1059,7 +1066,7 @@ export default function ProductDetail() {
                          <Star key={i} className="w-8 h-8 text-zinc-800" />
                       ))}
                    </div>
-                   <span className="font-mono text-[10px] text-zinc-600 uppercase tracking-widest font-black">
+                   <span className="font-mono text-[0.6875rem] text-zinc-600 uppercase tracking-widest font-black">
                      No reviews yet
                    </span>
                  </>
@@ -1070,12 +1077,12 @@ export default function ProductDetail() {
           <div className="grid lg:grid-cols-12 gap-20">
             <div className="lg:col-span-4 space-y-12">
                <div className="bg-editorial-surface/40 p-10 rounded-[2.5rem] border border-editorial-border backdrop-blur-3xl">
-                  <h4 className="font-mono text-[11px] font-black uppercase tracking-[0.4em] text-red-500 mb-10 flex items-center gap-3">
+                  <h4 className="font-mono text-[0.6875rem] font-black uppercase tracking-[0.4em] text-red-500 mb-10 flex items-center gap-3">
                      <Plus className="w-4 h-4" /> SUBMIT_REPORT
                   </h4>
                   <form onSubmit={handleReviewSubmit} className="space-y-8">
                      <div>
-                        <label className="font-mono text-[9px] uppercase tracking-widest text-zinc-500 mb-4 block">IDENTIFIER</label>
+                        <label className="font-mono text-[0.6875rem] uppercase tracking-widest text-zinc-500 mb-4 block">IDENTIFIER</label>
                         <input 
                            type="text" 
                            placeholder="OPERATIVE_NAME"
@@ -1085,7 +1092,7 @@ export default function ProductDetail() {
                         />
                      </div>
                      <div>
-                        <label className="font-mono text-[9px] uppercase tracking-widest text-zinc-500 mb-4 block">EFFICIENCY_RATING</label>
+                        <label className="font-mono text-[0.6875rem] uppercase tracking-widest text-zinc-500 mb-4 block">EFFICIENCY_RATING</label>
                         <div className="flex gap-4">
                            {[1,2,3,4,5].map(i => (
                               <button
@@ -1110,7 +1117,7 @@ export default function ProductDetail() {
                         </div>
                      </div>
                      <div>
-                        <label className="font-mono text-[9px] uppercase tracking-widest text-zinc-500 mb-4 block">DEBRIEF_LOG</label>
+                        <label className="font-mono text-[0.6875rem] uppercase tracking-widest text-zinc-500 mb-4 block">DEBRIEF_LOG</label>
                         <textarea 
                            placeholder="FIELD_NOTES..."
                            value={newReview.content}
@@ -1119,13 +1126,13 @@ export default function ProductDetail() {
                            className="w-full bg-black/40 border border-editorial-border-light rounded-2xl p-5 text-white font-mono text-sm focus:border-red-600 outline-none transition-all resize-none"
                         />
                      </div>
-                     <button type="submit" className="button-premium w-full !text-[12px]">TRANSMIT_LOG</button>
+                     <button type="submit" className="button-premium w-full !text-[0.75rem]">TRANSMIT_LOG</button>
                   </form>
                </div>
                
                <div className="flex items-center gap-6 p-8 bg-red-600/5 border border-red-500/20 rounded-3xl">
                   <Bot className="w-10 h-10 text-red-500" />
-                  <p className="text-[11px] font-mono leading-relaxed text-zinc-400">
+                  <p className="text-[0.6875rem] font-mono leading-relaxed text-zinc-400">
                      <span className="text-red-500 font-black tracking-widest block mb-2">AUTO_MODERATION: ACTIVE</span>
                      All debrief logs are subject to neural screening for integrity and system compliance before public distribution.
                   </p>
@@ -1149,7 +1156,7 @@ export default function ProductDetail() {
                               ))}
                            </div>
                            <div className="w-[1px] h-4 bg-editorial-border-light mx-2" />
-                           <span className="font-mono text-[9px] text-zinc-600 uppercase tracking-widest font-black">{review.date}</span>
+                           <span className="font-mono text-[0.6875rem] text-zinc-600 uppercase tracking-widest font-black">{review.date}</span>
                         </div>
                         <div className="flex items-start gap-8">
                            <div className="w-14 h-14 bg-editorial-surface border border-editorial-border rounded-2xl flex items-center justify-center font-mono font-black text-red-500 text-lg shadow-depth-1 group-hover/review:scale-110 transition-transform duration-700">
@@ -1163,12 +1170,12 @@ export default function ProductDetail() {
                               <div className="flex items-center gap-6">
                                  <button 
                                     onClick={() => toggleReportStatus(review.id)}
-                                    className={`font-mono text-[9px] uppercase tracking-widest font-black transition-colors ${review.reported ? 'text-red-500' : 'text-zinc-700 hover:text-white'}`}
+                                    className={`font-mono text-[0.6875rem] uppercase tracking-widest font-black transition-colors ${review.reported ? 'text-red-500' : 'text-zinc-700 hover:text-white'}`}
                                  >
                                     {review.reported ? '[ REPORTED ]' : '[ FLAG_FOR_REVISION ]'}
                                  </button>
                                  <div className="h-1.5 w-1.5 rounded-full bg-zinc-800" />
-                                 <span className="font-mono text-[9px] text-zinc-700 uppercase tracking-widest font-black">ENCRYPTED_SIG: {review.id.slice(0, 8)}</span>
+                                 <span className="font-mono text-[0.6875rem] text-zinc-700 uppercase tracking-widest font-black">ENCRYPTED_SIG: {review.id.slice(0, 8)}</span>
                               </div>
                            </div>
                         </div>
@@ -1178,7 +1185,7 @@ export default function ProductDetail() {
                
                {visibleReviews.length === 0 && (
                   <div className="p-20 text-center border-2 border-dashed border-editorial-border rounded-[3rem]">
-                     <span className="font-mono text-zinc-600 uppercase tracking-[0.5em] font-black">NO_DEBRIEF_LOGS_ON_FILE</span>
+                     <span className="font-mono text-zinc-600 uppercase tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] font-black">NO_DEBRIEF_LOGS_ON_FILE</span>
                   </div>
                )}
             </div>
@@ -1190,7 +1197,7 @@ export default function ProductDetail() {
           <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-red-600/50 to-transparent shadow-[0_0_20px_#dc2626] opacity-50" />
           <div className="max-w-[var(--content-max-width)] mx-auto px-[var(--shell-padding-mobile)] md:px-[var(--shell-padding)] lg:px-[var(--shell-padding-lg)] relative z-10 pb-32">
             <div className="mb-16 relative z-10 text-center flex flex-col items-center">
-              <span className="text-[12px] font-bold uppercase tracking-[0.5em] text-red-500 mb-8 block drop-shadow-[0_0_10px_rgba(220,38,38,0.5)] flex items-center justify-center gap-4">
+              <span className="text-[0.75rem] font-bold uppercase tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] text-red-500 mb-8 block drop-shadow-[0_0_10px_rgba(220,38,38,0.5)] flex items-center justify-center gap-4">
                  <div className="w-2.5 h-2.5 rounded-full bg-red-500 shadow-[0_0_10px_currentColor] animate-pulse" /> Complete the Protocol
               </span>
               <h3 className="font-sans font-black text-4xl md:text-6xl uppercase tracking-tighter mb-16 text-editorial-text drop-shadow-[0_5px_15px_rgba(0,0,0,0.1)] text-center">Protocol <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-red-900">Expansion</span></h3>
@@ -1220,7 +1227,7 @@ export default function ProductDetail() {
                       <h4 className="font-sans font-black text-2xl uppercase tracking-tight text-editorial-text mb-3 drop-shadow-[0_2px_4px_rgba(0,0,0,0.1)] line-clamp-1">{p.name}</h4>
                       <div className="flex items-center justify-between mt-auto">
                         <span className="font-mono text-editorial-text-muted text-lg font-bold drop-shadow-[0_2px_4px_rgba(0,0,0,0.1)]">{p.price}</span>
-                        <span className="font-mono text-[10px] uppercase font-bold tracking-[0.3em] text-red-500 bg-red-950/30 px-3 py-1.5 rounded-lg border border-red-900/50">View Struct</span>
+                        <span className="font-mono text-[0.6875rem] uppercase font-bold tracking-[0.3em] text-red-500 bg-red-950/30 px-3 py-1.5 rounded-lg border border-red-900/50">View Struct</span>
                       </div>
                    </Link>
                  </motion.div>
@@ -1253,7 +1260,7 @@ export default function ProductDetail() {
                      <h4 className="font-sans font-black uppercase text-2xl text-editorial-text tracking-widest leading-none drop-shadow-[0_4px_8px_rgba(0,0,0,0.1)] mb-2">{product.name}</h4>
                      <div className="flex items-center gap-4">
                         <div className="w-2 h-2 bg-red-600 rounded-full animate-pulse shadow-[0_0_10px_#dc2626]" />
-                        <span className="font-mono text-[10px] text-editorial-text-muted font-black uppercase tracking-[0.4em]">DEPLOYMENT_READY // {product.price}</span>
+                        <span className="font-mono text-[0.6875rem] text-editorial-text-muted font-black uppercase tracking-[0.4em]">DEPLOYMENT_READY // {product.price}</span>
                      </div>
                   </div>
                 </div>
@@ -1269,7 +1276,7 @@ export default function ProductDetail() {
                         addToCart(product, quantity);
                         addToProtocol(product);
                      }}
-                     className="bg-red-600 text-white font-black uppercase tracking-[0.4em] text-[11px] px-12 py-6 rounded-[1.5rem] hover:bg-editorial-text hover:text-editorial-bg transition-all duration-700 shadow-glow group whitespace-nowrap"
+                     className="bg-red-600 text-white font-black uppercase tracking-[0.4em] text-[0.6875rem] px-12 py-6 rounded-[1.5rem] hover:bg-editorial-text hover:text-editorial-bg transition-all duration-700 shadow-glow group whitespace-nowrap"
                    >
                      EXECUTE_ORDER <ArrowRight className="w-4 h-4 inline ml-3 group-hover:translate-x-2 transition-transform" />
                    </button>

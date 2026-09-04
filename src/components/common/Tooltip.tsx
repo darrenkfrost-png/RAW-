@@ -55,7 +55,7 @@ export const Tooltip: React.FC<TooltipProps> = ({ children, content, placement =
             transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
             className={`absolute ${currentStyles.wrapper} px-4 py-2 bg-editorial-bg border border-editorial-border border-opacity-50 rounded-xl shadow-[0_20px_50px_rgba(0,0,0,0.5),0_0_20px_rgba(220,38,38,0.2)] z-[var(--z-tooltip)] pointer-events-none whitespace-nowrap`}
           >
-            <span className="font-mono text-[9px] text-zinc-300 uppercase tracking-widest font-bold">
+            <span className="font-mono text-[0.6875rem] text-zinc-300 uppercase tracking-widest font-bold">
               {content}
             </span>
             {/* Tooltip arrow */}

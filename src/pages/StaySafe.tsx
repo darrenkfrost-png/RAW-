@@ -73,7 +73,7 @@ export default function StaySafe() {
       <div className="flex items-center justify-between gap-4 px-6 md:px-10 py-4 border-b border-editorial-border">
         <div className="flex items-center gap-3 min-w-0">
           <ShieldCheck size={16} className="text-red-500 flex-shrink-0" />
-          <span className="font-mono text-[10px] uppercase tracking-[0.35em] text-editorial-text-muted truncate">
+          <span className="font-mono text-[0.6875rem] uppercase tracking-[0.35em] text-editorial-text-muted truncate">
             {variant === "landing" ? "CAMPAIGN // STAY_SAFE_WITH_RAW" : "CAMPAIGN // FEEDBACK_LOOP"}
           </span>
         </div>
@@ -81,14 +81,14 @@ export default function StaySafe() {
           {variant === "landing" ? (
             <Link
               to="/stay-safe/feedback"
-              className="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-editorial-border hover:border-red-500/40 text-editorial-text-muted hover:text-red-400 transition-colors font-mono text-[10px] uppercase tracking-[0.2em]"
+              className="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-editorial-border hover:border-red-500/40 text-editorial-text-muted hover:text-red-400 transition-colors font-mono text-[0.6875rem] uppercase tracking-[0.2em]"
             >
               <MessageSquare size={12} /> Feedback form
             </Link>
           ) : (
             <Link
               to="/stay-safe"
-              className="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-editorial-border hover:border-red-500/40 text-editorial-text-muted hover:text-red-400 transition-colors font-mono text-[10px] uppercase tracking-[0.2em]"
+              className="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-editorial-border hover:border-red-500/40 text-editorial-text-muted hover:text-red-400 transition-colors font-mono text-[0.6875rem] uppercase tracking-[0.2em]"
             >
               <ArrowLeft size={12} /> Campaign page
             </Link>
@@ -118,13 +118,13 @@ export default function StaySafe() {
           <div className="relative h-full flex flex-col justify-end px-6 md:px-14 pb-10 md:pb-14">
             <motion.span
               initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}
-              className="font-mono text-[10px] font-bold uppercase tracking-[0.5em] text-red-500 mb-4"
+              className="font-mono text-[0.6875rem] font-bold uppercase tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] text-red-500 mb-4"
             >
               LIVE_CAMPAIGN // #STAYSAFEWITHRAW
             </motion.span>
             <motion.h1
               initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, delay: 0.1 }}
-              className="font-sans font-black text-4xl md:text-7xl uppercase leading-[0.9] tracking-tight max-w-4xl"
+              className="font-sans font-black uppercase leading-[0.9] tracking-tight max-w-4xl text-display-sm"
             >
               100,000 free condoms.<br />
               <span className="text-red-500">No catch.</span>
@@ -143,7 +143,7 @@ export default function StaySafe() {
             >
               <button
                 onClick={scrollToSignup}
-                className="inline-flex items-center gap-3 px-8 py-4 bg-red-600 hover:bg-red-500 rounded-full font-mono text-[11px] font-bold uppercase tracking-[0.3em] text-white transition-colors"
+                className="inline-flex items-center gap-3 px-8 py-4 bg-red-600 hover:bg-red-500 rounded-full font-mono text-[0.6875rem] font-bold uppercase tracking-[0.3em] text-white transition-colors"
               >
                 Claim your free pack <ArrowDown size={14} />
               </button>
@@ -158,7 +158,7 @@ export default function StaySafe() {
                     className={`w-2.5 h-2.5 rounded-full transition-all ${i === film ? "bg-red-500 scale-125" : "bg-white/25 hover:bg-white/50"}`}
                   />
                 ))}
-                <span className="ml-2 font-mono text-[9px] uppercase tracking-[0.3em] text-white/40">{FILMS[film].label}</span>
+                <span className="ml-2 font-mono text-[0.6875rem] uppercase tracking-[0.3em] text-white/40">{FILMS[film].label}</span>
               </div>
             </motion.div>
           </div>
@@ -172,7 +172,7 @@ export default function StaySafe() {
             {PILLARS.map((p, i) => (
               <div key={p.label} className={`flex items-center gap-3 px-6 py-5 ${i > 0 ? "border-l border-editorial-border" : ""} ${i > 1 ? "border-t md:border-t-0" : ""}`}>
                 <p.icon size={16} className="text-red-500 flex-shrink-0" />
-                <span className="font-mono text-[9px] md:text-[10px] uppercase tracking-[0.2em] text-editorial-text-muted">{p.label}</span>
+                <span className="font-mono text-[0.6875rem] md:text-[0.6875rem] uppercase tracking-[0.2em] text-editorial-text-muted">{p.label}</span>
               </div>
             ))}
           </div>
@@ -183,7 +183,7 @@ export default function StaySafe() {
       <div ref={signupRef} className="relative flex-1 scroll-mt-4">
         {!frameReady && (
           <div className="absolute inset-0 flex items-center justify-center">
-            <span className="font-mono text-[10px] uppercase tracking-[0.4em] text-red-500 animate-pulse">
+            <span className="font-mono text-[0.6875rem] uppercase tracking-[0.4em] text-red-500 animate-pulse">
               LOADING_CAMPAIGN
             </span>
           </div>
@@ -203,7 +203,7 @@ export default function StaySafe() {
       {/* THE CAMPAIGN REEL — key art + films, landing variant only */}
       {variant === "landing" && (
         <section className="border-t border-editorial-border px-6 md:px-14 py-16 md:py-24">
-          <span className="font-mono text-[10px] font-bold uppercase tracking-[0.5em] text-red-500 block mb-3">
+          <span className="font-mono text-[0.6875rem] font-bold uppercase tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] text-red-500 block mb-3">
             CAMPAIGN_ASSETS // THE_REEL
           </span>
           <h2 className="font-sans font-black text-3xl md:text-5xl uppercase tracking-tight mb-10">
@@ -225,7 +225,7 @@ export default function StaySafe() {
                     <Play size={16} className="text-white ml-0.5" />
                   </span>
                 </span>
-                <span className="absolute bottom-2 left-3 font-mono text-[8px] uppercase tracking-[0.3em] text-white/60">{f.label}</span>
+                <span className="absolute bottom-2 left-3 font-mono text-[0.6875rem] uppercase tracking-[0.3em] text-white/60">{f.label}</span>
               </button>
             ))}
           </div>
@@ -240,7 +240,7 @@ export default function StaySafe() {
                   loading="lazy"
                   className="w-full h-full max-h-[420px] object-cover group-hover:scale-[1.02] transition-transform duration-700"
                 />
-                <figcaption className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/80 to-transparent px-5 pt-10 pb-4 font-mono text-[9px] uppercase tracking-[0.3em] text-white/70">
+                <figcaption className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/80 to-transparent px-5 pt-10 pb-4 font-mono text-[0.6875rem] uppercase tracking-[0.3em] text-white/70">
                   {s.label}
                 </figcaption>
               </figure>
@@ -257,7 +257,7 @@ export default function StaySafe() {
             </div>
             <button
               onClick={scrollToSignup}
-              className="flex-shrink-0 inline-flex items-center gap-3 px-6 py-3 border border-red-500/40 hover:border-red-500 hover:bg-red-500/10 rounded-full font-mono text-[10px] font-bold uppercase tracking-[0.3em] text-red-400 transition-all"
+              className="flex-shrink-0 inline-flex items-center gap-3 px-6 py-3 border border-red-500/40 hover:border-red-500 hover:bg-red-500/10 rounded-full font-mono text-[0.6875rem] font-bold uppercase tracking-[0.3em] text-red-400 transition-all"
             >
               Sign up above ↑
             </button>

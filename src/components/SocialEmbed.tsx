@@ -90,15 +90,15 @@ export function SocialEmbed({ item }: { item: SocialItem }) {
       </span>
 
       {/* Which platform this came from — stated, not guessed at by the viewer. */}
-      <span className="absolute left-3 top-3 rounded-full border border-white/15 bg-black/70 px-2.5 py-1 font-mono text-[8px] font-black uppercase tracking-[0.25em] text-white/75 backdrop-blur-md">
+      <span className="absolute left-3 top-3 rounded-full border border-white/15 bg-black/70 px-2.5 py-1 font-mono text-[0.6875rem] font-black uppercase tracking-[0.25em] text-white/75 backdrop-blur-md">
         {item.platform === "youtube" ? "YouTube" : "TikTok"}
       </span>
 
       <div className="absolute inset-x-0 bottom-0 p-3.5">
-        <p className="line-clamp-2 font-sans text-[13px] font-bold leading-tight text-white">
+        <p className="line-clamp-2 font-sans text-[0.8125rem] font-bold leading-tight text-white">
           {item.title}
         </p>
-        <p className="mt-1 font-mono text-[8px] uppercase tracking-[0.3em] text-white/40">
+        <p className="mt-1 font-mono text-[0.6875rem] uppercase tracking-[0.3em] text-white/40">
           {item.author}
         </p>
       </div>

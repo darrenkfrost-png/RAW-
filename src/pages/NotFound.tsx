@@ -45,7 +45,7 @@ export default function NotFound() {
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7, delay: 0.1 }}
-        className="mb-4 font-mono text-[10px] font-black uppercase tracking-[0.5em] text-red-500"
+        className="mb-4 font-mono text-[0.6875rem] font-black uppercase tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] text-red-500"
       >
         ERROR_404 // SIGNAL_LOST
       </motion.span>
@@ -54,7 +54,7 @@ export default function NotFound() {
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.15 }}
-        className="mb-6 font-sans text-5xl font-black uppercase leading-[0.9] tracking-tight md:text-7xl"
+        className="mb-6 font-sans font-black uppercase leading-[0.9] tracking-tight text-display-sm"
       >
         This page
         <br />
@@ -77,7 +77,7 @@ export default function NotFound() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.8, delay: 0.3 }}
-        className="mb-12 max-w-full truncate font-mono text-[11px] text-editorial-text-muted/50"
+        className="mb-12 max-w-full truncate font-mono text-[0.6875rem] text-editorial-text-muted/50"
       >
         {pathname}
       </motion.p>
@@ -90,19 +90,19 @@ export default function NotFound() {
       >
         <Link
           to="/"
-          className="flex items-center gap-3 rounded-full bg-red-600 px-7 py-4 font-mono text-[10px] font-black uppercase tracking-[0.3em] text-white transition-colors hover:bg-red-500"
+          className="flex items-center gap-3 rounded-full bg-red-600 px-7 py-4 font-mono text-[0.6875rem] font-black uppercase tracking-[0.3em] text-white transition-colors hover:bg-red-500"
         >
           <Home size={14} /> Home
         </Link>
         <Link
           to="/shop"
-          className="flex items-center gap-3 rounded-full border border-editorial-border-light px-7 py-4 font-mono text-[10px] font-black uppercase tracking-[0.3em] text-editorial-text-muted transition-colors hover:border-white/30 hover:text-white"
+          className="flex items-center gap-3 rounded-full border border-editorial-border-light px-7 py-4 font-mono text-[0.6875rem] font-black uppercase tracking-[0.3em] text-editorial-text-muted transition-colors hover:border-white/30 hover:text-white"
         >
           <ShoppingBag size={14} /> The archive
         </Link>
         <Link
           to="/stay-safe"
-          className="flex items-center gap-3 rounded-full border border-editorial-border-light px-7 py-4 font-mono text-[10px] font-black uppercase tracking-[0.3em] text-editorial-text-muted transition-colors hover:border-white/30 hover:text-white"
+          className="flex items-center gap-3 rounded-full border border-editorial-border-light px-7 py-4 font-mono text-[0.6875rem] font-black uppercase tracking-[0.3em] text-editorial-text-muted transition-colors hover:border-white/30 hover:text-white"
         >
           Stay Safe
         </Link>

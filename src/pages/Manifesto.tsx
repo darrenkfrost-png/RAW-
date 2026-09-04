@@ -37,7 +37,7 @@ export default function Manifesto() {
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           onClick={() => setActiveReaderItem(manifestoReaderItem)}
-          className="inline-flex items-center gap-3 bg-red-950/30 hover:bg-red-900/20 border border-red-500/30 text-red-500 hover:text-white px-6 py-3.5 rounded-full font-mono text-[11px] font-black uppercase tracking-[0.3em] shadow-[0_10px_25px_rgba(220,38,38,0.15)] hover:shadow-[0_15px_30px_rgba(220,38,38,0.3)] transition-all duration-300 backdrop-blur-md cursor-pointer group"
+          className="inline-flex items-center gap-3 bg-red-950/30 hover:bg-red-900/20 border border-red-500/30 text-red-500 hover:text-white px-6 py-3.5 rounded-full font-mono text-[0.6875rem] font-black uppercase tracking-[0.3em] shadow-[0_10px_25px_rgba(220,38,38,0.15)] hover:shadow-[0_15px_30px_rgba(220,38,38,0.3)] transition-all duration-300 backdrop-blur-md cursor-pointer group"
         >
           <Volume2 className="w-4 h-4 animate-pulse shrink-0" />
           <span>Vocalize_Core_Narrative</span>
@@ -52,16 +52,16 @@ export default function Manifesto() {
       >
         <div className="flex items-center justify-center gap-5 mb-14 border border-editorial-border bg-editorial-bg/50 backdrop-blur-md w-fit mx-auto px-8 py-4 rounded-full shadow-[0_10px_30px_rgba(0,0,0,0.08)]">
            <div className="w-2.5 h-2.5 bg-red-500 rounded-full animate-pulse shadow-[0_0_15px_rgba(220,38,38,0.8)]" />
-           <span className="font-mono text-[13px] text-red-500 font-black tracking-[0.6em] block uppercase drop-shadow-[0_0_8px_rgba(220,38,38,0.5)]">Core_Directive // M-001</span>
+           <span className="font-mono text-[0.8125rem] text-red-500 font-black tracking-[0.3em] sm:tracking-[0.6em] [overflow-wrap:anywhere] block uppercase drop-shadow-[0_0_8px_rgba(220,38,38,0.5)]">Core_Directive // M-001</span>
         </div>
-        <h1 className="text-8xl md:text-[160px] xl:text-[220px] font-black uppercase tracking-[-0.04em] leading-[0.8] text-editorial-text drop-shadow-[0_15px_40px_rgba(0,0,0,0.15)] relative z-10 px-4 mb-20">
+        <h1 className="font-black uppercase tracking-[-0.04em] leading-[0.8] text-editorial-text drop-shadow-[0_15px_40px_rgba(0,0,0,0.15)] relative z-10 px-4 mb-20 text-display-2xl">
           The<br />
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-red-600 to-red-900 drop-shadow-[0_0_50px_rgba(220,38,38,0.5)] inline-block pb-8 mt-4 relative z-10">Manifesto</span>
           <div className="absolute top-1/2 left-0 w-full h-[400px] bg-red-900/10 blur-[200px] -z-10 mix-blend-screen pointer-events-none" />
         </h1>
       </motion.div>
 
-      <div className="max-w-6xl mx-auto space-y-32 xl:space-y-40 text-3xl md:text-5xl xl:text-[64px] font-light leading-snug xl:leading-tight text-editorial-text relative z-10 px-4">
+      <div className="max-w-6xl mx-auto space-y-32 xl:space-y-40 text-3xl font-light leading-snug xl:leading-tight text-editorial-text relative z-10 px-4 text-display-sm">
          <motion.div
            initial={{ opacity: 0, y: 50 }}
            whileInView={{ opacity: 1, y: 0 }}
@@ -90,7 +90,7 @@ export default function Manifesto() {
         whileInView={{ opacity: 1, scale: 1 }}
         viewport={{ once: true, margin: "-200px" }}
         transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-        className="relative p-16 md:p-32 xl:p-48 border border-editorial-border bg-editorial-bg text-red-500 my-48 xl:my-64 overflow-hidden shadow-[0_40px_120px_rgba(220,38,38,0.2)] group rounded-[4rem]"
+        className="relative p-6 sm:p-12 md:p-32 xl:p-48 border border-editorial-border bg-editorial-bg text-red-500 my-24 sm:my-48 xl:my-64 overflow-hidden shadow-[0_40px_120px_rgba(220,38,38,0.2)] group rounded-[2rem] sm:rounded-[4rem]"
       >
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-red-900/30 via-[#050505] to-editorial-bg opacity-90 pointer-events-none z-0 mix-blend-screen" />
         <Atmosphere glowOpacity={0.02} gridMode="lines" intensity="low" />
@@ -107,8 +107,8 @@ export default function Manifesto() {
         <div className="absolute bottom-10 right-10 w-[3px] h-[50px] bg-red-600 shadow-[0_0_20px_#dc2626] transition-opacity duration-700 z-20 rounded-full" />
         <div className="absolute bottom-10 right-10 h-[3px] w-[50px] bg-red-600 shadow-[0_0_20px_#dc2626] transition-opacity duration-700 z-20 rounded-full" />
         
-        <p className="relative z-30 text-center leading-[1.05] text-6xl md:text-8xl xl:text-[130px] font-black text-editorial-text drop-shadow-[0_10px_30px_rgba(0,0,0,0.15)] max-w-[1400px] mx-auto uppercase tracking-[-0.03em] mix-blend-screen mt-4">
-            "Purity is our weapon.<br /> <span className="text-transparent bg-clip-text bg-gradient-to-b from-red-400 to-red-600 drop-shadow-[0_10px_40px_rgba(220,38,38,0.8)] block my-16 xl:my-24 hover:scale-105 transition-transform duration-[1500ms] ease-[0.16,1,0.3,1] relative inline-block py-4 text-[72px] md:text-[100px] xl:text-[160px] z-10">Performance is our mandate.</span><br /> Only the elite survive the algorithm."
+        <p className="relative z-30 text-center leading-[1.05] font-black text-editorial-text drop-shadow-[0_10px_30px_rgba(0,0,0,0.15)] max-w-[1400px] mx-auto uppercase tracking-[-0.03em] mix-blend-screen mt-4 text-display-lg [overflow-wrap:anywhere]">
+            "Purity is our weapon.<br /> <span className="text-transparent bg-clip-text bg-gradient-to-b from-red-400 to-red-600 drop-shadow-[0_10px_40px_rgba(220,38,38,0.8)] block my-16 xl:my-24 hover:scale-105 transition-transform duration-[1500ms] ease-[0.16,1,0.3,1] relative inline-block py-4 z-10 text-display-lg">Performance is our mandate.</span><br /> Only the elite survive the algorithm."
         </p>
       </motion.div>
 

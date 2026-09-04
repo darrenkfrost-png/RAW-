@@ -223,7 +223,7 @@ export default function Navbar() {
                  >
                    <X className="w-6 h-6 text-editorial-text group-hover:-rotate-90 group-hover:text-red-500 transition-all duration-500" />
                  </button>
-                 <h2 className="text-4xl md:text-5xl xl:text-[64px] font-sans font-black uppercase text-premium mb-8 drop-shadow-[0_10px_30px_rgba(0,0,0,0.15)] leading-[0.85] tracking-tight">Explore<br/><span className="text-transparent bg-clip-text bg-gradient-to-br from-red-500 to-red-900 drop-shadow-[0_0_15px_rgba(220,38,38,0.4)] pb-2 inline-block">Everything.</span></h2>
+                 <h2 className="font-sans font-black uppercase text-premium mb-8 drop-shadow-[0_10px_30px_rgba(0,0,0,0.15)] leading-[0.85] tracking-tight text-display-sm">Explore<br/><span className="text-transparent bg-clip-text bg-gradient-to-br from-red-500 to-red-900 drop-shadow-[0_0_15px_rgba(220,38,38,0.4)] pb-2 inline-block">Everything.</span></h2>
                  <p className="text-meta-premium max-w-[280px]">Unlock peak human performance protocols.</p>
                  <div className="mt-12 w-16 h-[3px] bg-red-600 shadow-[0_0_15px_#dc2626]" />
               </div>
@@ -236,7 +236,7 @@ export default function Navbar() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.3 + (idx * 0.1), ease: [0.16,1,0.3,1] }}
               >
-                <h3 className="text-red-500 font-sans font-bold tracking-[0.2em] text-[10px] uppercase flex items-center gap-3">
+                <h3 className="text-red-500 font-sans font-bold tracking-[0.2em] text-[0.6875rem] uppercase flex items-center gap-3">
                    <div className="w-1.5 h-1.5 bg-red-500 rounded-full animate-[pulse_2s_cubic-bezier(0.4,0,0.6,1)_infinite] shadow-[0_0_8px_#dc2626]" />
                    {cat}
                 </h3>
@@ -297,7 +297,7 @@ export default function Navbar() {
           <div className="flex gap-4 items-center">
             <motion.div 
               style={{ scale: linkScale, opacity: linkOpacity }}
-              className="hidden md:flex gap-6 text-[10px] font-bold uppercase tracking-[0.2em]" 
+              className="hidden md:flex gap-6 text-[0.6875rem] font-bold uppercase tracking-[0.2em]" 
             >
               {[
                 { label: 'Explore', action: () => setIsMegaMenuOpen(!isMegaMenuOpen) },
@@ -314,11 +314,11 @@ export default function Navbar() {
                 <MagneticWrapper key={i}>
                   <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="relative group flex items-center justify-center">
                     {link.to ? (
-                      <Link to={link.to} className="block px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/5 group-hover:border-red-500/30 backdrop-blur-md rounded-lg transition-all duration-300 shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)] text-meta-premium !opacity-100 !tracking-[0.15em] !text-[11px] !xl:text-[11px] group-hover:text-white relative z-10">
+                      <Link to={link.to} className="block px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/5 group-hover:border-red-500/30 backdrop-blur-md rounded-lg transition-all duration-300 shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)] text-meta-premium !opacity-100 !tracking-[0.15em] !text-[0.6875rem] !xl:text-[0.6875rem] group-hover:text-white relative z-10">
                         {link.label}
                       </Link>
                     ) : (
-                      <button onClick={link.action} className="block px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/5 group-hover:border-red-500/30 backdrop-blur-md rounded-lg transition-all duration-300 shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)] text-meta-premium !opacity-100 !tracking-[0.15em] !text-[11px] !xl:text-[11px] group-hover:text-white relative z-10">
+                      <button onClick={link.action} className="block px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/5 group-hover:border-red-500/30 backdrop-blur-md rounded-lg transition-all duration-300 shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)] text-meta-premium !opacity-100 !tracking-[0.15em] !text-[0.6875rem] !xl:text-[0.6875rem] group-hover:text-white relative z-10">
                         {link.label}
                       </button>
                     )}
@@ -330,7 +330,7 @@ export default function Navbar() {
               <MagneticWrapper>
                 <button 
                   onClick={() => setIsShopIframeOpen(true)}
-                  className="bg-white/5 hover:bg-red-600 border border-white/10 text-zinc-300 hover:text-white px-6 py-2 rounded-lg transition-all text-meta-premium !opacity-100 !tracking-[0.15em] !text-[11px] !xl:text-[11px]"
+                  className="bg-white/5 hover:bg-red-600 border border-white/10 text-zinc-300 hover:text-white px-6 py-2 rounded-lg transition-all text-meta-premium !opacity-100 !tracking-[0.15em] !text-[0.6875rem] !xl:text-[0.6875rem]"
                 >
                   Uplink
                 </button>
@@ -431,7 +431,7 @@ export default function Navbar() {
                         initial={{ scale: 0, filter: "blur(4px)" }}
                         animate={{ scale: 1, filter: "blur(0px)" }}
                         transition={{ type: "spring", stiffness: 400, damping: 20 }}
-                        className="absolute -top-0.5 -right-0.5 sm:-top-1 sm:-right-1 w-4 h-4 sm:w-5 sm:h-5 bg-red-600 text-white text-[8px] sm:text-[9px] font-black rounded-full flex items-center justify-center shadow-[0_0_15px_#dc2626] border border-red-400/50"
+                        className="absolute -top-0.5 -right-0.5 sm:-top-1 sm:-right-1 w-4 h-4 sm:w-5 sm:h-5 bg-red-600 text-white text-[0.6875rem] sm:text-[0.6875rem] font-black rounded-full flex items-center justify-center shadow-[0_0_15px_#dc2626] border border-red-400/50"
                       >
                         {itemCount}
                       </motion.span>
@@ -476,7 +476,7 @@ export default function Navbar() {
                       <Command className="w-5 h-5 text-red-600 drop-shadow-[0_0_8px_#dc2626]" />
                       <span className="text-meta-premium">Inventory_Search // PROTOCOL_SRCH</span>
                       <div className="w-2.5 h-2.5 bg-red-500 rounded-full animate-ping ml-4 shadow-[0_0_10px_#dc2626]" />
-                      <div className="hidden lg:flex items-center gap-3 ml-6 pl-6 border-l border-white/10 uppercase font-mono text-[9px] text-zinc-500 tracking-[0.2em]">
+                      <div className="hidden lg:flex items-center gap-3 ml-6 pl-6 border-l border-white/10 uppercase font-mono text-[0.6875rem] text-zinc-500 tracking-[0.2em]">
                          Shortcut: <kbd className="px-2 py-1 bg-white/5 border border-white/10 rounded font-sans text-white">⌘K</kbd>
                       </div>
                    </div>
@@ -489,13 +489,13 @@ export default function Navbar() {
                </div>
 
                <div className="relative group/input mb-10 w-full xl:w-2/3">
-                  <span className="absolute -top-12 left-0 font-mono text-[12px] text-red-500 font-bold uppercase tracking-[0.5em] flex items-center gap-4 drop-shadow-[0_0_10px_rgba(220,38,38,0.5)]">
+                  <span className="absolute -top-12 left-0 font-mono text-[0.75rem] text-red-500 font-bold uppercase tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] flex items-center gap-4 drop-shadow-[0_0_10px_rgba(220,38,38,0.5)]">
                     <div className="w-2 h-2 bg-red-500 rounded-full shadow-[0_0_10px_currentColor] animate-pulse" /> INPUT_QUERY:
                   </span>
                   <input 
                     autoFocus
                     placeholder="IDENTIFY PROTOCOL..."
-                    className="w-full bg-transparent border-b-[3px] border-editorial-border-light py-10 text-4xl sm:text-5xl md:text-[60px] xl:text-[80px] font-sans font-black uppercase tracking-tighter text-editorial-text placeholder:text-editorial-text/10 focus:outline-none focus:border-red-600 focus:bg-white/[0.01] transition-all duration-[600ms] ease-fluid drop-shadow-[0_10px_30px_rgba(0,0,0,0.15)] leading-none"
+                    className="w-full bg-transparent border-b-[3px] border-editorial-border-light py-10 md:text-[3.75rem] font-sans font-black uppercase tracking-tighter text-editorial-text placeholder:text-editorial-text/10 focus:outline-none focus:border-red-600 focus:bg-white/[0.01] transition-all duration-[600ms] ease-fluid drop-shadow-[0_10px_30px_rgba(0,0,0,0.15)] leading-none text-display-sm"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                   />
@@ -550,8 +550,8 @@ export default function Navbar() {
                           <div className="col-span-full py-48 text-center border-t border-dashed border-editorial-border mt-10 relative overflow-hidden bg-editorial-bg rounded-[3rem]">
                              <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-red-900/5 via-transparent to-transparent pointer-events-none mix-blend-screen opacity-50" />
                              <div className="w-1.5 h-20 bg-red-600 mx-auto mb-12 shadow-[0_0_20px_#dc2626]" />
-                             <p className="font-mono text-xl text-editorial-text-muted uppercase tracking-[0.5em] font-bold drop-shadow-[0_2px_4px_rgba(0,0,0,0.1)]">ZERO_NODES_IDENTIFIED_FOR: <br /><span className="text-editorial-text text-3xl mt-4 block">{searchQuery}</span></p>
-                             <p className="font-mono text-[12px] text-zinc-600 uppercase mt-8 tracking-widest font-bold">CHECK_PROTOCOL_INDEX_AND_RETRY</p>
+                             <p className="font-mono text-xl text-editorial-text-muted uppercase tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] font-bold drop-shadow-[0_2px_4px_rgba(0,0,0,0.1)]">ZERO_NODES_IDENTIFIED_FOR: <br /><span className="text-editorial-text text-3xl mt-4 block">{searchQuery}</span></p>
+                             <p className="font-mono text-[0.75rem] text-zinc-600 uppercase mt-8 tracking-widest font-bold">CHECK_PROTOCOL_INDEX_AND_RETRY</p>
                           </div>
                         )}
                         {!searchQuery && (
@@ -565,7 +565,7 @@ export default function Navbar() {
                                     <button 
                                        key={tag}
                                        onClick={() => setSearchQuery(tag)}
-                                       className="px-10 py-5 bg-editorial-bg border border-editorial-border rounded-[1.5rem] font-mono text-[12px] text-editorial-text-muted hover:text-editorial-text hover:border-red-500/50 hover:bg-editorial-bg transition-all duration-[800ms] uppercase tracking-widest font-bold shadow-[0_10px_30px_rgba(0,0,0,0.1)] transform-gpu hover:-translate-y-1 hover:shadow-[0_20px_50px_rgba(220,38,38,0.2)] group"
+                                       className="px-10 py-5 bg-editorial-bg border border-editorial-border rounded-[1.5rem] font-mono text-[0.75rem] text-editorial-text-muted hover:text-editorial-text hover:border-red-500/50 hover:bg-editorial-bg transition-all duration-[800ms] uppercase tracking-widest font-bold shadow-[0_10px_30px_rgba(0,0,0,0.1)] transform-gpu hover:-translate-y-1 hover:shadow-[0_20px_50px_rgba(220,38,38,0.2)] group"
                                     >
                                        {tag} <ArrowRight className="w-4 h-4 inline-block ml-3 opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all duration-[800ms] text-red-500" />
                                     </button>
@@ -580,17 +580,17 @@ export default function Navbar() {
                <div className="mt-12 pt-12 border-t border-editorial-border flex justify-between items-center opacity-40">
                   <div className="flex gap-12">
                      <div className="flex flex-col gap-2">
-                        <span className="font-mono text-[10px] text-editorial-text-muted uppercase">INDEX_STATION</span>
-                        <span className="font-mono text-[12px] text-editorial-text">BANGKOK_CORE_NODE_04</span>
+                        <span className="font-mono text-[0.6875rem] text-editorial-text-muted uppercase">INDEX_STATION</span>
+                        <span className="font-mono text-[0.75rem] text-editorial-text">BANGKOK_CORE_NODE_04</span>
                      </div>
                      <div className="flex flex-col gap-2">
-                        <span className="font-mono text-[10px] text-editorial-text-muted uppercase">ACCESS_LEVEL</span>
-                        <span className="font-mono text-[12px] text-red-600 uppercase">AUTHORISED_OPERATIVE</span>
+                        <span className="font-mono text-[0.6875rem] text-editorial-text-muted uppercase">ACCESS_LEVEL</span>
+                        <span className="font-mono text-[0.75rem] text-red-600 uppercase">AUTHORISED_OPERATIVE</span>
                      </div>
                   </div>
                   <div className="text-right">
-                     <span className="font-mono text-[10px] text-zinc-700 uppercase tracking-[0.5em] block">PROTOCOL: SEARCH.EXE</span>
-                     <span className="font-mono text-[10px] text-zinc-600 uppercase tracking-widest block mt-2">LATENCY: 0.003MS // VERIFIED</span>
+                     <span className="font-mono text-[0.6875rem] text-zinc-700 uppercase tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] block">PROTOCOL: SEARCH.EXE</span>
+                     <span className="font-mono text-[0.6875rem] text-zinc-600 uppercase tracking-widest block mt-2">LATENCY: 0.003MS // VERIFIED</span>
                   </div>
                </div>
             </div>
@@ -707,10 +707,10 @@ export default function Navbar() {
             </motion.div>
             
             <div className="mt-auto space-y-8 relative z-10 border-t border-editorial-border pt-8">
-               <div className="flex items-center gap-4 text-[10px] font-bold uppercase tracking-[0.4em] text-red-500 bg-red-950/20 p-4 rounded-xl border border-red-900/30">
+               <div className="flex items-center gap-4 text-[0.6875rem] font-bold uppercase tracking-[0.4em] text-red-500 bg-red-950/20 p-4 rounded-xl border border-red-900/30">
                   <Lock className="w-4 h-4 shadow-[0_0_10px_currentColor]" /> SECURE_PROTOCOL_ESTABLISHED_
                </div>
-               <div className="flex justify-between items-center text-[9px] font-black tracking-[0.5em] text-zinc-600">
+               <div className="flex justify-between items-center text-[0.6875rem] font-black tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] text-zinc-600">
                   <span>V.04_NODE</span>
                   <span>OP_ID: 2471</span>
                </div>

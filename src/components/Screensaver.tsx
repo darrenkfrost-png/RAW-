@@ -150,7 +150,7 @@ export default function Screensaver() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 0.75, y: 0 }}
               transition={{ duration: 1.4, delay: 0.3 }}
-              className="mt-8 font-mono text-[10px] uppercase tracking-[0.45em] text-white/70 md:text-[11px]"
+              className="mt-8 font-mono text-[0.6875rem] uppercase tracking-[0.45em] text-white/70 md:text-[0.6875rem]"
             >
               Train with intent · Recover with purpose
             </motion.p>
@@ -158,7 +158,7 @@ export default function Screensaver() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 0.35 }}
               transition={{ duration: 1.4, delay: 0.5 }}
-              className="mt-3 font-mono text-[9px] uppercase tracking-[0.35em] text-red-400/60"
+              className="mt-3 font-mono text-[0.6875rem] uppercase tracking-[0.35em] text-red-400/60"
             >
               #StaySafeWithRAW
             </motion.p>
@@ -167,7 +167,7 @@ export default function Screensaver() {
           {/* Clock, and the way out — stated, so nobody wonders. */}
           <div className="pointer-events-none absolute inset-x-0 bottom-8 flex flex-col items-center gap-2">
             <span className="font-sans text-3xl font-black tracking-tight text-white/80">{clock}</span>
-            <span className="font-mono text-[9px] uppercase tracking-[0.4em] text-white/30">
+            <span className="font-mono text-[0.6875rem] uppercase tracking-[0.4em] text-white/30">
               Move to resume
             </span>
           </div>
@@ -194,7 +194,7 @@ export default function Screensaver() {
                   transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
                   className="max-h-[80vh] w-64 overflow-y-auto rounded-r-2xl border border-l-0 border-white/10 bg-black/85 p-4 backdrop-blur-xl"
                 >
-                  <p className="mb-4 font-mono text-[9px] uppercase tracking-[0.35em] text-white/40">
+                  <p className="mb-4 font-mono text-[0.6875rem] uppercase tracking-[0.35em] text-white/40">
                     Choose a film
                   </p>
                   <div className="space-y-1.5">
@@ -204,7 +204,7 @@ export default function Screensaver() {
                         <button
                           key={v.id}
                           onClick={() => { setRotated(v.id); updateSettings({ screensaverVideoId: v.id }); }}
-                          className={`block w-full rounded-lg border px-3 py-2.5 text-left font-mono text-[10px] uppercase tracking-[0.12em] transition-colors ${
+                          className={`block w-full rounded-lg border px-3 py-2.5 text-left font-mono text-[0.6875rem] uppercase tracking-[0.12em] transition-colors ${
                             on
                               ? "border-red-500 bg-red-600/15 text-red-300"
                               : "border-white/10 text-white/60 hover:border-white/30 hover:text-white"
@@ -218,7 +218,7 @@ export default function Screensaver() {
 
                   <button
                     onClick={dismiss}
-                    className="mt-4 flex w-full items-center justify-center gap-2 rounded-lg border border-white/15 py-2.5 font-mono text-[10px] uppercase tracking-[0.25em] text-white/70 transition-colors hover:border-red-500 hover:text-white"
+                    className="mt-4 flex w-full items-center justify-center gap-2 rounded-lg border border-white/15 py-2.5 font-mono text-[0.6875rem] uppercase tracking-[0.25em] text-white/70 transition-colors hover:border-red-500 hover:text-white"
                   >
                     <X size={12} /> Exit
                   </button>

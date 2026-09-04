@@ -87,9 +87,9 @@ export default function ProtocolStacks() {
                 <div className="flex gap-2">
                   {[1,2,3].map(i => <div key={i} className="w-1.5 h-8 bg-red-600 shadow-[0_0_15px_#dc2626]" style={{ animation: `pulse 2s infinite ${i * 0.2}s` }} />)}
                 </div>
-                <span className="font-mono text-[11px] text-zinc-500 uppercase tracking-[0.5em] font-black">Curated_Records // Archive_v2.5</span>
+                <span className="font-mono text-[0.6875rem] text-zinc-500 uppercase tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] font-black">Curated_Records // Archive_v2.5</span>
               </motion.div>
-              <h1 className="text-7xl md:text-9xl xl:text-[160px] font-black text-white uppercase tracking-tighter leading-[0.8] drop-shadow-[0_10px_30px_rgba(0,0,0,0.2)]">
+              <h1 className="font-black text-white uppercase tracking-tighter leading-[0.8] drop-shadow-[0_10px_30px_rgba(0,0,0,0.2)] text-display-xl">
                 Performance <br/> <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-red-900 italic">Stacks</span>
               </h1>
               <p className="text-xl xl:text-3xl text-editorial-text-muted font-light leading-relaxed max-w-2xl border-l-4 border-red-600/50 pl-10 py-4 shadow-[inset_20px_0_40px_rgba(220,38,38,0.05)]">
@@ -101,7 +101,7 @@ export default function ProtocolStacks() {
               <div className="p-10 bg-editorial-surface/40 backdrop-blur-3xl border border-editorial-border rounded-[3rem] shadow-depth-3 relative overflow-hidden group/sys">
                   <div className="absolute inset-0 bg-gradient-to-br from-red-600/5 to-transparent pointer-events-none" />
                   <div className="flex justify-between items-center mb-10">
-                      <h3 className="text-zinc-600 font-mono text-[10px] uppercase tracking-widest font-black flex items-center gap-3">
+                      <h3 className="text-zinc-600 font-mono text-[0.6875rem] uppercase tracking-widest font-black flex items-center gap-3">
                         <Cpu className="w-4 h-4" /> System_Hierarchy
                       </h3>
                       <div className="flex gap-2">
@@ -116,7 +116,7 @@ export default function ProtocolStacks() {
                         { label: "Combat_Readiness", level: "Elite" }
                       ].map((stat, i) => (
                         <div key={i} className="space-y-3">
-                            <div className="flex justify-between items-center text-[10px] font-mono text-zinc-500 uppercase tracking-widest font-black">
+                            <div className="flex justify-between items-center text-[0.6875rem] font-mono text-zinc-500 uppercase tracking-widest font-black">
                                 <span>{stat.label}</span>
                                 <span>{stat.level || `${stat.value}%`}</span>
                             </div>
@@ -148,25 +148,25 @@ export default function ProtocolStacks() {
               <div className="lg:col-span-4 lg:sticky lg:top-40 space-y-12">
                 <div className="space-y-10">
                   <div className="flex items-center gap-6">
-                     <span className="font-mono text-[11px] text-red-500 font-black uppercase tracking-[0.5em] transition-all duration-700 group-hover/section:tracking-[0.8em]">PROTOCOL_{idx < 9 ? '0' : ''}{idx + 1}</span>
+                     <span className="font-mono text-[0.6875rem] text-red-500 font-black uppercase tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] transition-all duration-700 group-hover/section:tracking-[0.8em]">PROTOCOL_{idx < 9 ? '0' : ''}{idx + 1}</span>
                      <div className="h-[1px] flex-1 bg-editorial-text/5 group-hover/section:bg-red-600/30 transition-all duration-700" />
                   </div>
-                  <h2 className="text-5xl lg:text-7xl font-black text-editorial-text uppercase tracking-tighter leading-[0.85] group-hover/section:text-red-500 transition-colors duration-700 italic">{stack.title}</h2>
+                  <h2 className="font-black text-editorial-text uppercase tracking-tighter leading-[0.85] group-hover/section:text-red-500 transition-colors duration-700 italic text-display-sm">{stack.title}</h2>
                 </div>
 
                 <div className="space-y-8">
                     <div className="p-10 bg-editorial-surface/40 backdrop-blur-3xl border border-editorial-border rounded-[2.5rem] border-l-4 border-l-red-600 shadow-depth-2 hover:shadow-depth-3 transition-all">
-                      <span className="font-mono text-[10px] text-zinc-600 uppercase tracking-widest font-black block mb-4">Target_Objective</span>
+                      <span className="font-mono text-[0.6875rem] text-zinc-600 uppercase tracking-widest font-black block mb-4">Target_Objective</span>
                       <p className="font-sans text-xl text-white uppercase leading-tight font-black">{stack.target}</p>
                     </div>
 
                     <div className="grid grid-cols-2 gap-4">
                         <div className="p-6 bg-black/20 border border-white/5 rounded-2xl">
-                           <span className="text-[8px] font-mono text-zinc-600 uppercase tracking-widest block mb-2">Intensity</span>
+                           <span className="text-[0.6875rem] font-mono text-zinc-600 uppercase tracking-widest block mb-2">Intensity</span>
                            <span className="text-sm font-black text-white">{stack.intensity}</span>
                         </div>
                         <div className="p-6 bg-black/20 border border-white/5 rounded-2xl">
-                           <span className="text-[8px] font-mono text-zinc-600 uppercase tracking-widest block mb-2">Synergy</span>
+                           <span className="text-[0.6875rem] font-mono text-zinc-600 uppercase tracking-widest block mb-2">Synergy</span>
                            <span className="text-sm font-black text-white">{stack.synergy}</span>
                         </div>
                     </div>
@@ -208,7 +208,7 @@ export default function ProtocolStacks() {
                         </div>
                         
                         <div className="flex-1 space-y-6 relative z-10">
-                          <span className="font-mono text-[10px] text-red-500 uppercase tracking-[0.5em] block font-black transition-all duration-700 group-hover/card:tracking-[0.7em]">{product.category}</span>
+                          <span className="font-mono text-[0.6875rem] text-red-500 uppercase tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] block font-black transition-all duration-700 group-hover/card:tracking-[0.7em]">{product.category}</span>
                           <h3 className="font-black text-editorial-text uppercase text-3xl lg:text-4xl leading-[0.8] tracking-tighter transition-all duration-1000 group-hover:text-red-500">{product.name}</h3>
                           <p className="text-editorial-text-muted font-light leading-relaxed group-hover/card:text-editorial-text transition-colors text-base line-clamp-3">
                              {product.description || "Every batch of this premium performance architecture undergoes a multi-phase validation cycle."}
@@ -217,7 +217,7 @@ export default function ProtocolStacks() {
                         
                         <div className="flex items-center justify-between mt-16 pt-10 border-t border-editorial-border/30 relative z-10 group/foo">
                           <span className="font-sans font-black text-3xl text-white group-hover/card:text-red-500 transition-colors">{product.price}</span>
-                          <div className="flex items-center gap-4 text-[10px] font-mono text-zinc-500 uppercase tracking-[0.4em] font-black group-hover/foo:text-white transition-all transform-gpu group-hover/foo:translate-x-[-8px]">
+                          <div className="flex items-center gap-4 text-[0.6875rem] font-mono text-zinc-500 uppercase tracking-[0.4em] font-black group-hover/foo:text-white transition-all transform-gpu group-hover/foo:translate-x-[-8px]">
                              View_Spec <div className="w-12 h-[1px] bg-red-600/20 group-hover/foo:w-24 group-hover/foo:bg-red-600 transition-all duration-1000" />
                           </div>
                         </div>
@@ -236,9 +236,9 @@ export default function ProtocolStacks() {
                 <div className="space-y-6">
                     <div className="flex items-center gap-5">
                        <span className="w-12 h-[1px] bg-red-600" />
-                       <span className="font-mono text-[11px] text-zinc-500 uppercase tracking-[0.5em] font-black">Comparative_Performance_Matrix</span>
+                       <span className="font-mono text-[0.6875rem] text-zinc-500 uppercase tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] font-black">Comparative_Performance_Matrix</span>
                     </div>
-                    <h2 className="text-6xl md:text-8xl font-black uppercase tracking-tighter text-white">Cross-Protocol <br /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-red-900 italic">Benchmarks</span></h2>
+                    <h2 className="font-black uppercase tracking-tighter text-white text-display-md">Cross-Protocol <br /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-red-900 italic">Benchmarks</span></h2>
                 </div>
                 <div className="p-8 bg-editorial-surface/20 border border-editorial-border rounded-3xl max-w-md">
                    <p className="text-sm text-editorial-text-muted font-light leading-relaxed">System-wide data analysis of stack utilization across all sectors. Benchmarks based on 10,000+ operative deployments.</p>
@@ -249,11 +249,11 @@ export default function ProtocolStacks() {
                 <table className="w-full border-collapse">
                    <thead>
                       <tr className="border-b border-editorial-border">
-                         <th className="py-10 text-left font-mono text-[10px] text-zinc-600 uppercase tracking-widest font-black">Protocol_Core</th>
-                         <th className="py-10 text-center font-mono text-[10px] text-zinc-600 uppercase tracking-widest font-black">Output_Impact</th>
-                         <th className="py-10 text-center font-mono text-[10px] text-zinc-600 uppercase tracking-widest font-black">Bio_Stress_Index</th>
-                         <th className="py-10 text-center font-mono text-[10px] text-zinc-600 uppercase tracking-widest font-black">Deployment</th>
-                         <th className="py-10 text-right font-mono text-[10px] text-zinc-600 uppercase tracking-widest font-black">Status</th>
+                         <th className="py-10 text-left font-mono text-[0.6875rem] text-zinc-600 uppercase tracking-widest font-black">Protocol_Core</th>
+                         <th className="py-10 text-center font-mono text-[0.6875rem] text-zinc-600 uppercase tracking-widest font-black">Output_Impact</th>
+                         <th className="py-10 text-center font-mono text-[0.6875rem] text-zinc-600 uppercase tracking-widest font-black">Bio_Stress_Index</th>
+                         <th className="py-10 text-center font-mono text-[0.6875rem] text-zinc-600 uppercase tracking-widest font-black">Deployment</th>
+                         <th className="py-10 text-right font-mono text-[0.6875rem] text-zinc-600 uppercase tracking-widest font-black">Status</th>
                       </tr>
                    </thead>
                    <tbody>
@@ -261,7 +261,7 @@ export default function ProtocolStacks() {
                         <tr key={i} className="border-b border-editorial-border/30 hover:bg-white/5 transition-colors group/row">
                            <td className="py-10">
                               <span className="block font-black text-xl lg:text-2xl text-white uppercase tracking-tight group-hover/row:text-red-500 transition-colors">{stack.title.replace('RAW_', '').replace('_PROTOCOL', '')}</span>
-                              <span className="block font-mono text-[9px] text-zinc-600 uppercase tracking-widest mt-2">{stack.id}_SYS_ID</span>
+                              <span className="block font-mono text-[0.6875rem] text-zinc-600 uppercase tracking-widest mt-2">{stack.id}_SYS_ID</span>
                            </td>
                            <td className="py-10 text-center">
                               <div className="flex items-center justify-center gap-1">
@@ -271,13 +271,13 @@ export default function ProtocolStacks() {
                               </div>
                            </td>
                            <td className="py-10 text-center">
-                               <span className="font-mono text-[11px] font-black text-white">{i * 12 + 40}%</span>
+                               <span className="font-mono text-[0.6875rem] font-black text-white">{i * 12 + 40}%</span>
                            </td>
                            <td className="py-10 text-center">
-                              <span className="px-5 py-2 bg-editorial-surface border border-editorial-border rounded-xl font-mono text-[9px] text-zinc-500 uppercase font-black">{stack.intensity}</span>
+                              <span className="px-5 py-2 bg-editorial-surface border border-editorial-border rounded-xl font-mono text-[0.6875rem] text-zinc-500 uppercase font-black">{stack.intensity}</span>
                            </td>
                            <td className="py-10 text-right">
-                              <div className="flex items-center justify-end gap-3 font-mono text-[9px] font-black text-emerald-500">
+                              <div className="flex items-center justify-end gap-3 font-mono text-[0.6875rem] font-black text-emerald-500">
                                  <div className="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_10px_#10b981]" /> VERIFIED
                               </div>
                            </td>

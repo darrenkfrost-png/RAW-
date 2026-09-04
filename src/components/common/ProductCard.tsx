@@ -130,7 +130,7 @@ function ProductCardComponent({ product, idx, onQuickView }: ProductCardProps) {
         />
 
         {/* One badge, one fact: what shelf this belongs to. */}
-        <span className="absolute left-3 top-3 z-20 rounded-full border border-white/15 bg-black/65 px-3 py-1.5 font-mono text-[9px] font-black uppercase tracking-[0.25em] text-white/80 backdrop-blur-md">
+        <span className="absolute left-3 top-3 z-20 rounded-full border border-white/15 bg-black/65 px-3 py-1.5 font-mono text-[0.6875rem] font-black uppercase tracking-[0.25em] text-white/80 backdrop-blur-md">
           {product.category}
         </span>
 
@@ -171,7 +171,7 @@ function ProductCardComponent({ product, idx, onQuickView }: ProductCardProps) {
         </h3>
 
         {product.shortBenefit && (
-          <p className="mt-2 line-clamp-2 text-[12px] leading-relaxed text-editorial-text-muted">
+          <p className="mt-2 line-clamp-2 text-[0.75rem] leading-relaxed text-editorial-text-muted">
             {product.shortBenefit}
           </p>
         )}
@@ -194,7 +194,7 @@ function ProductCardComponent({ product, idx, onQuickView }: ProductCardProps) {
                  controls that appear on every product tile. With 47 products
                  that was 94 of the 115 undersized targets on the page, all
                  from this single line. */
-              className="flex min-h-11 items-center justify-center gap-2 rounded-xl border border-editorial-border-light py-3 font-mono text-[10px] font-black uppercase tracking-[0.2em] text-editorial-text-muted transition-colors hover:border-white/30 hover:text-white"
+              className="flex min-h-11 items-center justify-center gap-2 rounded-xl border border-editorial-border-light py-3 font-mono text-[0.6875rem] font-black uppercase tracking-[0.2em] text-editorial-text-muted transition-colors hover:border-white/30 hover:text-white"
               aria-label={`View details for ${product.name}`}
             >
               Details <ExternalLink className="h-3 w-3" />
@@ -215,7 +215,7 @@ function ProductCardComponent({ product, idx, onQuickView }: ProductCardProps) {
                 addToCart(product, 1);
                 setIsCartOpen(true);
               }}
-              className="min-h-11 rounded-xl bg-red-600 py-3 font-mono text-[10px] font-black uppercase tracking-[0.2em] text-white transition-colors hover:bg-red-500"
+              className="min-h-11 rounded-xl bg-red-600 py-3 font-mono text-[0.6875rem] font-black uppercase tracking-[0.2em] text-white transition-colors hover:bg-red-500"
               aria-label={`Add ${product.name} to cart`}
             >
               Add to cart

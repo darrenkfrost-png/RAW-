@@ -88,7 +88,7 @@ export default function MaximumOverdrive() {
              data-text="110% PROTOCOL ACTIVE"
            >
              <AlertOctagon className="w-32 h-32" />
-             <h1 className="text-6xl md:text-8xl font-black uppercase tracking-tighter mix-blend-screen text-center">
+             <h1 className="font-black uppercase tracking-tighter mix-blend-screen text-center text-display-md">
                110% PROTOCOL<br />ACTIVE
              </h1>
            </motion.div>

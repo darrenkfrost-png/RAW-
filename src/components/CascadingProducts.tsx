@@ -22,7 +22,7 @@ export default function CascadingProducts() {
            style={{ left: `${(i * 12) + 5}%` }}
          >
            <img src={product.image} alt={product.name} className="w-24 h-24 object-contain" />
-           <p className="text-editorial-text text-[8px] mt-2 text-center uppercase tracking-widest">{product.name}</p>
+           <p className="text-editorial-text text-[0.6875rem] mt-2 text-center uppercase tracking-widest">{product.name}</p>
          </motion.div>
        ))}
        

@@ -95,7 +95,7 @@ export default function NeuralCommandTerminal({ isOpen, onClose }: { isOpen: boo
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
               />
-              <div className="text-[9px] font-black text-editorial-text-muted bg-editorial-bg px-3 py-1 rounded-md border border-editorial-border">
+              <div className="text-[0.6875rem] font-black text-editorial-text-muted bg-editorial-bg px-3 py-1 rounded-md border border-editorial-border">
                 ESC_TO_EXIT
               </div>
             </div>
@@ -103,7 +103,7 @@ export default function NeuralCommandTerminal({ isOpen, onClose }: { isOpen: boo
             <div className="space-y-4 overflow-y-auto pr-2 custom-scrollbar">
                 {execFilteredCommands.length > 0 && (
                     <div className="space-y-2">
-                        <div className="text-[8px] font-black tracking-[0.4em] text-zinc-600 uppercase px-2">System Commands</div>
+                        <div className="text-[0.6875rem] font-black tracking-[0.4em] text-zinc-600 uppercase px-2">System Commands</div>
                         {execFilteredCommands.map((cmd) => (
                             <button
                                 key={cmd.id}
@@ -113,7 +113,7 @@ export default function NeuralCommandTerminal({ isOpen, onClose }: { isOpen: boo
                                 <div className="flex items-center gap-3">
                                     <Terminal className="w-4 h-4 text-editorial-text-muted" />
                                     <span className="font-mono text-sm">{cmd.label}</span>
-                                    <span className="text-[9px] text-zinc-500 border border-editorial-border px-1.5 rounded">{cmd.category}</span>
+                                    <span className="text-[0.6875rem] text-zinc-500 border border-editorial-border px-1.5 rounded">{cmd.category}</span>
                                 </div>
                                 <Command className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" />
                             </button>
@@ -123,7 +123,7 @@ export default function NeuralCommandTerminal({ isOpen, onClose }: { isOpen: boo
 
                 {navItems.length > 0 && (
                     <div className="space-y-2">
-                        <div className="text-[8px] font-black tracking-[0.4em] text-zinc-600 uppercase px-2">Navigation</div>
+                        <div className="text-[0.6875rem] font-black tracking-[0.4em] text-zinc-600 uppercase px-2">Navigation</div>
                         {navItems.map((item) => (
                             <button
                                 key={item.path}
@@ -142,7 +142,7 @@ export default function NeuralCommandTerminal({ isOpen, onClose }: { isOpen: boo
                 
                 {filteredProducts.length > 0 && (
                     <div className="space-y-2">
-                       <div className="text-[8px] font-black tracking-[0.4em] text-zinc-600 uppercase px-2">Products</div>
+                       <div className="text-[0.6875rem] font-black tracking-[0.4em] text-zinc-600 uppercase px-2">Products</div>
                        {filteredProducts.map((product) => (
                             <button
                                 key={product.id}
@@ -152,7 +152,7 @@ export default function NeuralCommandTerminal({ isOpen, onClose }: { isOpen: boo
                                 <img src={product.image} className="w-10 h-10 object-cover rounded-lg" alt="" referrerPolicy="no-referrer" />
                                 <div className="flex flex-col items-start gap-1">
                                     <span className="font-mono text-sm">{product.name}</span>
-                                    <span className="text-[9px] text-zinc-600">{product.category}</span>
+                                    <span className="text-[0.6875rem] text-zinc-600">{product.category}</span>
                                 </div>
                             </button>
                        ))}

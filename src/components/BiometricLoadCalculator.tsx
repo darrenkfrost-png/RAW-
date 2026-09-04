@@ -72,7 +72,7 @@ export default function BiometricLoadCalculator() {
               <Scale className="w-5 h-5 shadow-[0_0_8px_currentColor]" />
             </span>
             <div>
-              <span className="text-[10px] font-mono font-black text-blue-500 uppercase tracking-[0.3em] block">PROTOCOL CALCULATOR</span>
+              <span className="text-[0.6875rem] font-mono font-black text-blue-500 uppercase tracking-[0.3em] block">PROTOCOL CALCULATOR</span>
               <h3 className="text-2xl font-sans font-black uppercase tracking-tight text-white">BIOMETRIC EXERTION FORMULA</h3>
             </div>
           </div>
@@ -81,7 +81,7 @@ export default function BiometricLoadCalculator() {
             {/* Weight Slider */}
             <div className="space-y-4">
               <div className="flex justify-between items-center">
-                <label className="text-[11px] font-bold tracking-widest text-zinc-500 uppercase block">SUBJECT_MASS_BODY</label>
+                <label className="text-[0.6875rem] font-bold tracking-widest text-zinc-500 uppercase block">SUBJECT_MASS_BODY</label>
                 <span className="font-mono text-lg font-black text-white">{weight} <span className="text-xs text-zinc-500">KG</span></span>
               </div>
               <input
@@ -92,7 +92,7 @@ export default function BiometricLoadCalculator() {
                 onChange={(e) => setWeight(parseInt(e.target.value))}
                 className="w-full accent-blue-600 bg-zinc-900 border border-zinc-800 rounded-lg h-1.5 cursor-pointer"
               />
-              <div className="flex justify-between text-[9px] font-mono font-bold text-zinc-700">
+              <div className="flex justify-between text-[0.6875rem] font-mono font-bold text-zinc-700">
                 <span>45 KG</span>
                 <span>90 KG (MEAN)</span>
                 <span>135 KG</span>
@@ -102,7 +102,7 @@ export default function BiometricLoadCalculator() {
             {/* Duration Slider */}
             <div className="space-y-4">
               <div className="flex justify-between items-center">
-                <label className="text-[11px] font-bold tracking-widest text-zinc-500 uppercase block">ACTIVE_DURATION_LOAD</label>
+                <label className="text-[0.6875rem] font-bold tracking-widest text-zinc-500 uppercase block">ACTIVE_DURATION_LOAD</label>
                 <span className="font-mono text-lg font-black text-white">{duration} <span className="text-xs text-zinc-500">MINS</span></span>
               </div>
               <input
@@ -113,7 +113,7 @@ export default function BiometricLoadCalculator() {
                 onChange={(e) => setDuration(parseInt(e.target.value))}
                 className="w-full accent-blue-600 bg-zinc-900 border border-zinc-800 rounded-lg h-1.5 cursor-pointer"
               />
-              <div className="flex justify-between text-[9px] font-mono font-bold text-zinc-700">
+              <div className="flex justify-between text-[0.6875rem] font-mono font-bold text-zinc-700">
                 <span>15 MIN</span>
                 <span>90 MIN</span>
                 <span>180 MIN</span>
@@ -124,13 +124,13 @@ export default function BiometricLoadCalculator() {
             <div className="grid md:grid-cols-2 gap-8">
               {/* Focus Selector */}
               <div className="space-y-4">
-                <span className="text-[11px] font-bold tracking-widest text-zinc-500 uppercase block">NEURAL_FOCUS_PROFILE</span>
+                <span className="text-[0.6875rem] font-bold tracking-widest text-zinc-500 uppercase block">NEURAL_FOCUS_PROFILE</span>
                 <div className="grid grid-cols-2 gap-3">
                   {(['strength', 'aerobic', 'focus', 'combat'] as const).map((mode) => (
                     <button
                       key={mode}
                       onClick={() => setFocusArea(mode)}
-                      className={`py-3.5 px-4 font-mono font-bold uppercase text-[9px] tracking-widest border rounded-xl transition-all duration-300 ${focusArea === mode ? 'bg-blue-600 border-blue-500 text-white shadow-[0_4px_15px_rgba(59,130,246,0.3)]' : 'bg-zinc-950 border-zinc-900 text-zinc-500 hover:text-white hover:border-zinc-800'}`}
+                      className={`py-3.5 px-4 font-mono font-bold uppercase text-[0.6875rem] tracking-widest border rounded-xl transition-all duration-300 ${focusArea === mode ? 'bg-blue-600 border-blue-500 text-white shadow-[0_4px_15px_rgba(59,130,246,0.3)]' : 'bg-zinc-950 border-zinc-900 text-zinc-500 hover:text-white hover:border-zinc-800'}`}
                     >
                       {mode}
                     </button>
@@ -140,13 +140,13 @@ export default function BiometricLoadCalculator() {
 
               {/* Intensity Selector */}
               <div className="space-y-4">
-                <span className="text-[11px] font-bold tracking-widest text-zinc-500 uppercase block">BIOENERGY_INTENSITY_LEVEL</span>
+                <span className="text-[0.6875rem] font-bold tracking-widest text-zinc-500 uppercase block">BIOENERGY_INTENSITY_LEVEL</span>
                 <div className="grid grid-cols-2 gap-3">
                   {(['low', 'moderate', 'high', 'overdrive'] as const).map((level) => (
                     <button
                       key={level}
                       onClick={() => setIntensity(level)}
-                      className={`py-3.5 px-4 font-mono font-bold uppercase text-[9px] tracking-widest border rounded-xl transition-all duration-300 ${intensity === level ? 'bg-blue-600 border-blue-500 text-white shadow-[0_4px_15px_rgba(59,130,246,0.3)]' : 'bg-zinc-950 border-zinc-900 text-emerald-500 hover:text-white hover:border-zinc-800'}`}
+                      className={`py-3.5 px-4 font-mono font-bold uppercase text-[0.6875rem] tracking-widest border rounded-xl transition-all duration-300 ${intensity === level ? 'bg-blue-600 border-blue-500 text-white shadow-[0_4px_15px_rgba(59,130,246,0.3)]' : 'bg-zinc-950 border-zinc-900 text-emerald-500 hover:text-white hover:border-zinc-800'}`}
                     >
                       {level}
                     </button>
@@ -161,56 +161,56 @@ export default function BiometricLoadCalculator() {
         <div className="flex-1 bg-zinc-950/60 border border-zinc-900 rounded-3xl p-8 lg:p-10 flex flex-col justify-between space-y-12">
           {/* Target Recommended Dosage Outputs */}
           <div className="space-y-8">
-            <span className="text-[9px] font-mono font-black text-zinc-500 uppercase tracking-[0.4em] flex items-center gap-3">
+            <span className="text-[0.6875rem] font-mono font-black text-zinc-500 uppercase tracking-[0.4em] flex items-center gap-3">
               <Activity className="w-3.5 h-3.5 text-blue-500 animate-[pulse_2s_infinite]" /> BIOAVAILABLE_OPTIMAL_YIELDS
             </span>
 
             <div className="grid grid-cols-2 gap-6 pt-2">
               {/* Water Requirement */}
               <div className="bg-zinc-950 border border-zinc-900 rounded-2xl p-5 space-y-1">
-                <div className="flex items-center gap-2 text-[10px] text-zinc-500 font-bold tracking-wider uppercase">
+                <div className="flex items-center gap-2 text-[0.6875rem] text-zinc-500 font-bold tracking-wider uppercase">
                   <Droplet className="w-3.5 h-3.5 text-sky-400" /> Session Hydration
                 </div>
-                <div className="text-2xl font-mono font-black text-white">{calculations.sessionWater} <span className="text-[11px] text-sky-400">ML</span></div>
+                <div className="text-2xl font-mono font-black text-white">{calculations.sessionWater} <span className="text-[0.6875rem] text-sky-400">ML</span></div>
               </div>
 
               {/* Electrolyte Density */}
               <div className="bg-zinc-950 border border-zinc-900 rounded-2xl p-5 space-y-1">
-                <div className="flex items-center gap-2 text-[10px] text-zinc-500 font-bold tracking-wider uppercase">
+                <div className="flex items-center gap-2 text-[0.6875rem] text-zinc-500 font-bold tracking-wider uppercase">
                   <Zap className="w-3.5 h-3.5 text-yellow-400" /> Electrolytes Net
                 </div>
-                <div className="text-2xl font-mono font-black text-white">{calculations.sodiumElectrolytes} <span className="text-[11px] text-yellow-400">MG</span></div>
+                <div className="text-2xl font-mono font-black text-white">{calculations.sodiumElectrolytes} <span className="text-[0.6875rem] text-yellow-400">MG</span></div>
               </div>
 
               {/* Amino Lattice */}
               <div className="bg-zinc-950 border border-zinc-900 rounded-2xl p-5 space-y-1">
-                <div className="flex items-center gap-2 text-[10px] text-zinc-500 font-bold tracking-wider uppercase">
+                <div className="flex items-center gap-2 text-[0.6875rem] text-zinc-500 font-bold tracking-wider uppercase">
                   <Activity className="w-3.5 h-3.5 text-red-500" /> Amino Acids Needed
                 </div>
-                <div className="text-2xl font-mono font-black text-white">{calculations.aminoAcids} <span className="text-[11px] text-red-500">GRAMS</span></div>
+                <div className="text-2xl font-mono font-black text-white">{calculations.aminoAcids} <span className="text-[0.6875rem] text-red-500">GRAMS</span></div>
               </div>
 
               {/* Cognitive Optimizer */}
               <div className="bg-zinc-950 border border-zinc-900 rounded-2xl p-5 space-y-1">
-                <div className="flex items-center gap-2 text-[10px] text-zinc-500 font-bold tracking-wider uppercase">
+                <div className="flex items-center gap-2 text-[0.6875rem] text-zinc-500 font-bold tracking-wider uppercase">
                   <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" /> Neural Sustain
                 </div>
-                <div className="text-2xl font-mono font-black text-white">{calculations.cognitiveSustain} <span className="text-[11px] text-emerald-400">MG</span></div>
+                <div className="text-2xl font-mono font-black text-white">{calculations.cognitiveSustain} <span className="text-[0.6875rem] text-emerald-400">MG</span></div>
               </div>
             </div>
           </div>
 
           {/* Supplement Core Pairing Suggestions */}
           <div className="border-t border-zinc-900 pt-8 space-y-4">
-            <span className="text-[9px] font-mono font-black text-zinc-600 uppercase tracking-[0.4em] block">ESTABLISHED SYSTEM PAIRING</span>
+            <span className="text-[0.6875rem] font-mono font-black text-zinc-600 uppercase tracking-[0.4em] block">ESTABLISHED SYSTEM PAIRING</span>
             <div className="space-y-4">
-              <span className="font-sans font-black uppercase text-[15px] text-white tracking-wider block bg-gradient-to-r from-blue-500/10 to-transparent border-l-2 border-blue-500 pl-4 py-1.5">{calculations.headline}</span>
-              <p className="text-[11px] text-zinc-400 leading-relaxed font-light">{calculations.details}</p>
+              <span className="font-sans font-black uppercase text-[0.9375rem] text-white tracking-wider block bg-gradient-to-r from-blue-500/10 to-transparent border-l-2 border-blue-500 pl-4 py-1.5">{calculations.headline}</span>
+              <p className="text-[0.6875rem] text-zinc-400 leading-relaxed font-light">{calculations.details}</p>
             </div>
             
             <div className="bg-blue-600/10 border border-blue-500/20 px-4.5 py-3 rounded-xl flex justify-between items-center">
-              <span className="text-[9px] font-mono font-black text-blue-500 uppercase tracking-widest">DOSAGE_DIRECTIVE</span>
-              <span className="text-[11px] font-mono font-black text-white uppercase">{calculations.dosage}</span>
+              <span className="text-[0.6875rem] font-mono font-black text-blue-500 uppercase tracking-widest">DOSAGE_DIRECTIVE</span>
+              <span className="text-[0.6875rem] font-mono font-black text-white uppercase">{calculations.dosage}</span>
             </div>
           </div>
         </div>

@@ -78,7 +78,7 @@ export default function SystemVisualizer() {
             <h3 className="text-4xl text-premium">PROTOCOL_NEURAL_PULSE</h3>
           </div>
           <div className="text-right space-y-4">
-            <span className="text-[10px] text-zinc-600 font-black uppercase block tracking-[0.4em]">SYNC_COEFFICIENT</span>
+            <span className="text-[0.6875rem] text-zinc-600 font-black uppercase block tracking-[0.4em]">SYNC_COEFFICIENT</span>
             <div className="flex items-baseline gap-4 justify-end">
                 <span className="text-5xl font-mono font-black text-editorial-text tracking-tight drop-shadow-[0_0_20px_rgba(0,0,0,0.06)]">0.9998</span>
                 <span className="text-red-500 font-mono text-xs font-bold font-black tracking-widest">INDEX</span>
@@ -135,7 +135,7 @@ export default function SystemVisualizer() {
           </div>
         </div>
         
-        <div className="flex justify-between mt-16 border-t border-editorial-border pt-12 font-mono text-[11px] text-editorial-text-muted tracking-[0.5em] relative z-10 font-bold uppercase overflow-hidden">
+        <div className="flex justify-between mt-16 border-t border-editorial-border pt-12 font-mono text-[0.6875rem] text-editorial-text-muted tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] relative z-10 font-bold uppercase overflow-hidden">
             <div className="flex gap-20">
                 <span className="flex items-center gap-4 text-editorial-text">
                    <span className="text-zinc-600">LATENCY_CORE:</span> 0.002MS

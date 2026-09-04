@@ -88,7 +88,7 @@ export default function InstallPrompt() {
               <p className="font-sans text-sm font-black uppercase tracking-tight text-white">
                 Keep RAW on your home screen
               </p>
-              <p className="mt-1 text-[12px] leading-relaxed text-white/55">
+              <p className="mt-1 text-[0.75rem] leading-relaxed text-white/55">
                 Opens full screen, and the pages you have already seen still work
                 without a signal.
               </p>
@@ -105,13 +105,13 @@ export default function InstallPrompt() {
           <div className="mt-4 flex gap-2">
             <button
               onClick={install}
-              className="flex min-h-11 flex-1 items-center justify-center gap-2 rounded-xl bg-red-600 font-mono text-[10px] font-black uppercase tracking-[0.2em] text-white transition-colors hover:bg-red-500"
+              className="flex min-h-11 flex-1 items-center justify-center gap-2 rounded-xl bg-red-600 font-mono text-[0.6875rem] font-black uppercase tracking-[0.2em] text-white transition-colors hover:bg-red-500"
             >
               <Download size={13} /> Install
             </button>
             <button
               onClick={dismiss}
-              className="min-h-11 rounded-xl border border-white/12 px-5 font-mono text-[10px] font-black uppercase tracking-[0.2em] text-white/60 transition-colors hover:border-white/30 hover:text-white"
+              className="min-h-11 rounded-xl border border-white/12 px-5 font-mono text-[0.6875rem] font-black uppercase tracking-[0.2em] text-white/60 transition-colors hover:border-white/30 hover:text-white"
             >
               Not now
             </button>

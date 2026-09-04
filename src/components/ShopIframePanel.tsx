@@ -45,11 +45,11 @@ export default function ShopIframePanel() {
               <div className="flex items-center gap-6">
                 <div className="flex items-center gap-3 bg-red-950/20 px-4 py-2 rounded-xl border border-red-900/30">
                   <Globe size={14} className="text-red-500 animate-pulse" />
-                  <span className="font-mono text-[10px] text-editorial-text font-black tracking-[0.3em] uppercase">EXT_NODE_UPLINK</span>
+                  <span className="font-mono text-[0.6875rem] text-editorial-text font-black tracking-[0.3em] uppercase">EXT_NODE_UPLINK</span>
                 </div>
                 <div className="hidden md:flex items-center gap-3 px-4 py-2 bg-editorial-text/5 rounded-xl border border-editorial-border-light">
                   <Terminal size={12} className="text-editorial-text-muted" />
-                  <span className="font-mono text-[9px] text-editorial-text-muted font-bold tracking-widest truncate max-w-[200px]">HTTPS://RAWOFFICIAL.CO</span>
+                  <span className="font-mono text-[0.6875rem] text-editorial-text-muted font-bold tracking-widest truncate max-w-[200px]">HTTPS://RAWOFFICIAL.CO</span>
                 </div>
               </div>
 
@@ -107,7 +107,7 @@ export default function ShopIframePanel() {
                       </motion.div>
                     </div>
                     <div className="flex flex-col items-center gap-2">
-                      <span className="font-mono text-[11px] text-red-500 font-black tracking-[0.5em] uppercase">ESTABLISHING_ENCRYPTED_UPLINK</span>
+                      <span className="font-mono text-[0.6875rem] text-red-500 font-black tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] uppercase">ESTABLISHING_ENCRYPTED_UPLINK</span>
                       <div className="h-1 w-48 bg-editorial-surface rounded-full overflow-hidden mt-4">
                          <motion.div 
                            initial={{ x: "-100%" }}
@@ -136,15 +136,15 @@ export default function ShopIframePanel() {
               <div className="flex items-center gap-6">
                 <div className="flex items-center gap-2">
                   <Shield size={10} className="text-emerald-500" />
-                  <span className="font-mono text-[8px] text-editorial-text-muted uppercase tracking-widest">TLS_ENCRYPTION: ACTIVE</span>
+                  <span className="font-mono text-[0.6875rem] text-editorial-text-muted uppercase tracking-widest">TLS_ENCRYPTION: ACTIVE</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <div className="w-1.5 h-1.5 bg-red-600 rounded-full animate-pulse shadow-[0_0_5px_#dc2626]" />
-                  <span className="font-mono text-[8px] text-editorial-text-muted uppercase tracking-widest">ORACLE_LISTENING</span>
+                  <span className="font-mono text-[0.6875rem] text-editorial-text-muted uppercase tracking-widest">ORACLE_LISTENING</span>
                 </div>
               </div>
               <div className="text-right">
-                <span className="font-mono text-[8px] text-zinc-700 tracking-[0.2em]">© RAW_OFFICIAL // PROCUREMENT_NODE_01</span>
+                <span className="font-mono text-[0.6875rem] text-zinc-700 tracking-[0.2em]">© RAW_OFFICIAL // PROCUREMENT_NODE_01</span>
               </div>
             </div>
           </motion.div>

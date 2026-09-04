@@ -21,13 +21,13 @@ export default function RawCares() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
         >
-          <span className="text-[13px] font-black uppercase tracking-[0.6em] text-red-500 mb-14 block flex items-center justify-center gap-5 border border-editorial-border bg-editorial-bg/60 w-fit mx-auto px-8 py-4 rounded-full backdrop-blur-md shadow-[0_10px_30px_rgba(0,0,0,0.08)]">
+          <span className="text-[0.8125rem] font-black uppercase tracking-[0.3em] sm:tracking-[0.6em] [overflow-wrap:anywhere] text-red-500 mb-14 block flex items-center justify-center gap-5 border border-editorial-border bg-editorial-bg/60 w-fit mx-auto px-8 py-4 rounded-full backdrop-blur-md shadow-[0_10px_30px_rgba(0,0,0,0.08)]">
             <div className="w-2.5 h-2.5 bg-red-500 rounded-full animate-pulse shadow-[0_0_15px_currentColor]" /> Global_Initiative // 001
           </span>
-          <h1 className="font-sans font-black text-8xl md:text-[14vw] xl:text-[200px] uppercase tracking-tighter leading-[0.8] mb-12 text-editorial-text drop-shadow-[0_10px_30px_rgba(0,0,0,0.1)] relative">
+          <h1 className="font-sans font-black uppercase tracking-tighter leading-[0.8] mb-12 text-editorial-text drop-shadow-[0_10px_30px_rgba(0,0,0,0.1)] relative text-display-2xl">
             RAW <br /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-red-800 drop-shadow-[0_0_30px_rgba(220,38,38,0.4)] pb-8 mt-4 inline-block">CARES</span>
           </h1>
-          <p className="font-mono text-[13px] text-editorial-text-muted uppercase tracking-[0.5em] font-bold mt-12 bg-editorial-bg/80 border border-editorial-border py-6 px-12 rounded-2xl inline-block backdrop-blur-3xl shadow-[0_20px_50px_rgba(0,0,0,0.1)]">Community Deployment. Strength Protocols. Legacy Maintenance.</p>
+          <p className="font-mono text-[0.8125rem] text-editorial-text-muted uppercase tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] font-bold mt-12 bg-editorial-bg/80 border border-editorial-border py-6 px-12 rounded-2xl inline-block backdrop-blur-3xl shadow-[0_20px_50px_rgba(0,0,0,0.1)]">Community Deployment. Strength Protocols. Legacy Maintenance.</p>
         </motion.div>
       </section>
 
@@ -46,10 +46,10 @@ export default function RawCares() {
             <div className="mb-10 transform translate-y-8 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-1000 ease-[0.16,1,0.3,1] delay-100">
                <div className="flex items-center gap-4 border border-editorial-border-light bg-editorial-bg/80 backdrop-blur-md px-6 py-4 rounded-xl w-fit shadow-[0_10px_30px_rgba(0,0,0,0.1)]">
                  <div className="w-2 h-2 bg-red-500 rounded-full shadow-[0_0_10px_#dc2626]" /> 
-                 <span className="text-[11px] font-black uppercase tracking-[0.5em] text-red-500">Operation: Youth</span>
+                 <span className="text-[0.6875rem] font-black uppercase tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] text-red-500">Operation: Youth</span>
                </div>
             </div>
-            <h3 className="font-sans font-black text-6xl xl:text-8xl uppercase mb-8 text-editorial-text drop-shadow-[0_10px_30px_rgba(0,0,0,1)] transform transition-transform duration-1000 ease-[0.16,1,0.3,1] group-hover:-translate-y-4 leading-[0.85]">Youth <br/> Performance</h3>
+            <h3 className="font-sans font-black uppercase mb-8 text-editorial-text drop-shadow-[0_10px_30px_rgba(0,0,0,1)] transform transition-transform duration-1000 ease-[0.16,1,0.3,1] group-hover:-translate-y-4 leading-[0.85] text-display-md">Youth <br/> Performance</h3>
             <p className="text-editorial-text max-w-xl font-light leading-relaxed text-xl xl:text-2xl transform opacity-0 group-hover:opacity-100 transition-opacity duration-1000 delay-200">Empowering the next generation of operatives with proper biomechanical guidance and elite hardware.</p>
           </div>
         </div>
@@ -67,10 +67,10 @@ export default function RawCares() {
             <div className="mb-10 transform translate-y-8 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-1000 ease-[0.16,1,0.3,1] delay-100">
                <div className="flex items-center gap-4 border border-editorial-border-light bg-editorial-bg/80 backdrop-blur-md px-6 py-4 rounded-xl w-fit shadow-[0_10px_30px_rgba(0,0,0,0.1)]">
                   <div className="w-2 h-2 bg-emerald-500 rounded-full shadow-[0_0_10px_#10b981]" />
-                  <span className="text-[11px] font-black uppercase tracking-[0.5em] text-emerald-500">Operation: Reach</span>
+                  <span className="text-[0.6875rem] font-black uppercase tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] text-emerald-500">Operation: Reach</span>
                </div>
             </div>
-            <h3 className="font-sans font-black text-6xl xl:text-8xl uppercase mb-8 text-editorial-text drop-shadow-[0_10px_30px_rgba(0,0,0,1)] transform transition-transform duration-1000 ease-[0.16,1,0.3,1] group-hover:-translate-y-4 leading-[0.85]">Global <br/> Reach</h3>
+            <h3 className="font-sans font-black uppercase mb-8 text-editorial-text drop-shadow-[0_10px_30px_rgba(0,0,0,1)] transform transition-transform duration-1000 ease-[0.16,1,0.3,1] group-hover:-translate-y-4 leading-[0.85] text-display-md">Global <br/> Reach</h3>
             <p className="text-editorial-text max-w-xl font-light leading-relaxed text-xl xl:text-2xl transform opacity-0 group-hover:opacity-100 transition-opacity duration-1000 delay-200">Deploying recovery nodes and combat training facilities in critical scarcity sectors globally.</p>
           </div>
         </div>
@@ -121,10 +121,10 @@ export default function RawCares() {
         <Atmosphere glowOpacity={0.02} gridMode="lines" intensity="low" />
         
         <div className="max-w-[var(--content-max-width)] mx-auto text-center relative z-10 flex flex-col items-center">
-          <h2 className="font-sans text-6xl md:text-8xl xl:text-[140px] uppercase tracking-tighter mb-12 font-black text-editorial-text drop-shadow-[0_10px_30px_rgba(0,0,0,0.1)] leading-[0.85]">INITIALIZE <br className="hidden md:block" /> <span className="text-transparent bg-clip-text bg-gradient-to-br from-red-500 to-red-900 drop-shadow-[0_0_30px_rgba(220,38,38,0.3)] inline-block mt-4 pb-4">INVOLVEMENT</span></h2>
+          <h2 className="font-sans uppercase tracking-tighter mb-12 font-black text-editorial-text drop-shadow-[0_10px_30px_rgba(0,0,0,0.1)] leading-[0.85] text-display-lg">INITIALIZE <br className="hidden md:block" /> <span className="text-transparent bg-clip-text bg-gradient-to-br from-red-500 to-red-900 drop-shadow-[0_0_30px_rgba(220,38,38,0.3)] inline-block mt-4 pb-4">INVOLVEMENT</span></h2>
           <p className="mb-20 text-editorial-text-muted max-w-2xl xl:max-w-4xl font-light text-2xl xl:text-3xl leading-relaxed drop-shadow-[0_2px_4px_rgba(0,0,0,0.1)]">Engage with our mission architecture. Your equipment requisition directly fuels global structural deployments.</p>
           <MagneticWrapper>
-            <button className="bg-red-600 text-white px-20 py-10 rounded-2xl font-black uppercase tracking-[0.4em] text-[15px] hover:bg-editorial-text hover:text-editorial-bg transition-all duration-500 shadow-[0_20px_50px_rgba(220,38,38,0.4)] hover:shadow-[0_20px_50px_rgba(0,0,0,0.08)] transform-gpu hover:-translate-y-2 border-b-[4px] border-red-800 active:border-b-0 active:translate-y-[2px]">
+            <button className="bg-red-600 text-white px-20 py-10 rounded-2xl font-black uppercase tracking-[0.4em] text-[0.9375rem] hover:bg-editorial-text hover:text-editorial-bg transition-all duration-500 shadow-[0_20px_50px_rgba(220,38,38,0.4)] hover:shadow-[0_20px_50px_rgba(0,0,0,0.08)] transform-gpu hover:-translate-y-2 border-b-[4px] border-red-800 active:border-b-0 active:translate-y-[2px]">
               Deploy Resources
             </button>
           </MagneticWrapper>

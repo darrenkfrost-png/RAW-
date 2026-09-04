@@ -45,7 +45,7 @@ const Chip = ({
   <button
     onClick={onClick}
     aria-pressed={active}
-    className={`px-5 py-3 rounded-xl font-mono text-[10px] font-black uppercase tracking-[0.25em] transition-all duration-500 border relative overflow-hidden group/chip shadow-sm hover-glow ${
+    className={`px-5 py-3 rounded-xl font-mono text-[0.6875rem] font-black uppercase tracking-[0.25em] transition-all duration-500 border relative overflow-hidden group/chip shadow-sm hover-glow ${
       active 
         ? 'bg-red-600 border-red-500 text-white shadow-[0_5px_15px_rgba(220,38,38,0.4)]' 
         : 'bg-editorial-bg border-editorial-border-light text-editorial-text-muted hover:text-editorial-text'
@@ -239,7 +239,7 @@ export default function ShopFilters({ isOpen, onClose, filters, setFilters, tota
             <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-[#050505] via-[#050505]/90 to-transparent">
               <button 
                 onClick={onClose}
-                className="w-full py-4 bg-red-600 border border-red-500 rounded-xl text-[12px] font-bold uppercase tracking-[0.3em] text-white hover:bg-editorial-text hover:text-editorial-bg transition-all duration-300 shadow-[0_0_20px_rgba(220,38,38,0.3)]"
+                className="w-full py-4 bg-red-600 border border-red-500 rounded-xl text-[0.75rem] font-bold uppercase tracking-[0.3em] text-white hover:bg-editorial-text hover:text-editorial-bg transition-all duration-300 shadow-[0_0_20px_rgba(220,38,38,0.3)]"
               >
                 Apply Profile
               </button>

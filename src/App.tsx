@@ -96,7 +96,7 @@ function AppContent() {
             <div className="w-64 h-[1px] bg-white/10 rounded-full overflow-hidden relative shadow-[0_0_10px_rgba(0,0,0,0.5)]">
                <div className="h-full w-1/3 bg-gradient-to-r from-red-800 via-red-500 to-red-400 animate-pulse shadow-[0_0_20px_#dc2626]" />
             </div>
-            <div className="absolute mt-10 text-meta-premium text-red-500 animate-pulse uppercase tracking-[0.5em] font-black">
+            <div className="absolute mt-10 text-meta-premium text-red-500 animate-pulse uppercase tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] font-black">
                DECRYPTING_ASSETS
             </div>
           </div>

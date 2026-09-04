@@ -46,9 +46,9 @@ export default function CustomerType() {
            <div className="max-w-3xl">
              <div className="flex items-center gap-3 mb-6">
                 <Target className="w-5 h-5 text-red-600" />
-                <span className="font-mono text-[10px] text-editorial-text-muted uppercase tracking-widest font-bold">Targeted Profiles</span>
+                <span className="font-mono text-[0.6875rem] text-editorial-text-muted uppercase tracking-widest font-bold">Targeted Profiles</span>
              </div>
-             <h1 className="text-5xl md:text-7xl font-black text-editorial-text uppercase tracking-tighter mb-4">{customer.title}</h1>
+             <h1 className="font-black text-editorial-text uppercase tracking-tighter mb-4 text-display-sm">{customer.title}</h1>
              <p className="font-mono text-sm text-red-500 uppercase tracking-widest font-bold mb-4">{customer.subtitle}</p>
              <p className="text-editorial-text-muted font-light text-lg leading-relaxed">{customer.description}</p>
            </div>
@@ -58,7 +58,7 @@ export default function CustomerType() {
                <Link 
                  key={k} 
                  to={`/target/${k}`}
-                 className={`px-6 py-3 font-mono text-[10px] uppercase font-bold tracking-widest rounded-xl transition-all ${k === type ? 'bg-red-600 text-white' : 'bg-editorial-text/5 text-editorial-text-muted hover:bg-editorial-text/10 hover:text-editorial-text'}`}
+                 className={`px-6 py-3 font-mono text-[0.6875rem] uppercase font-bold tracking-widest rounded-xl transition-all ${k === type ? 'bg-red-600 text-white' : 'bg-editorial-text/5 text-editorial-text-muted hover:bg-editorial-text/10 hover:text-editorial-text'}`}
                >
                  {customerTypes[k as keyof typeof customerTypes].title}
                </Link>
@@ -79,10 +79,10 @@ export default function CustomerType() {
                  <img src={product.image} alt={product.name} className="w-full h-full object-cover mix-blend-screen grayscale group-hover:grayscale-0 transition-all duration-700" />
               </div>
               <div className="flex flex-col flex-1 relative z-10">
-                 <span className="font-mono text-[9px] text-editorial-text-muted uppercase tracking-widest mb-2 block">{product.category}</span>
+                 <span className="font-mono text-[0.6875rem] text-editorial-text-muted uppercase tracking-widest mb-2 block">{product.category}</span>
                  <h3 className="font-black text-xl text-editorial-text uppercase tracking-tight leading-tight space-y-1 mb-2 group-hover:text-red-500 transition-colors">{product.name}</h3>
                  <p className="font-mono text-xs text-red-500 font-bold mb-6">{product.price}</p>
-                 <div className="mt-auto flex items-center justify-between text-editorial-text-muted group-hover:text-editorial-text font-mono text-[10px] uppercase tracking-widest font-bold">
+                 <div className="mt-auto flex items-center justify-between text-editorial-text-muted group-hover:text-editorial-text font-mono text-[0.6875rem] uppercase tracking-widest font-bold">
                     <span>View Product</span>
                     <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                  </div>

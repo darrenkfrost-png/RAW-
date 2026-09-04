@@ -73,12 +73,12 @@ export default function ProtocolDrawer() {
             <div className="absolute inset-0 bg-gradient-to-r from-red-600/10 to-transparent pointer-events-none mix-blend-screen opacity-0 group-hover:opacity-100 transition-opacity" />
             <div className="relative">
               <Layers className="w-6 h-6 text-red-500 group-hover:animate-pulse" />
-              <div className="absolute -top-2 -right-2 w-5 h-5 bg-red-600 rounded-full flex items-center justify-center font-mono text-[9px] font-black text-white outline outline-4 outline-[#020202]">
+              <div className="absolute -top-2 -right-2 w-5 h-5 bg-red-600 rounded-full flex items-center justify-center font-mono text-[0.6875rem] font-black text-white outline outline-4 outline-[#020202]">
                 {protocolItems.length}
               </div>
             </div>
             <div className="hidden sm:flex flex-col text-left">
-              <span className="font-mono text-[10px] text-editorial-text-muted uppercase tracking-widest font-bold">Active Stack</span>
+              <span className="font-mono text-[0.6875rem] text-editorial-text-muted uppercase tracking-widest font-bold">Active Stack</span>
               <span className="font-sans font-black text-sm text-editorial-text uppercase tracking-tight">MY_PROTOCOL</span>
             </div>
           </motion.button>
@@ -102,7 +102,7 @@ export default function ProtocolDrawer() {
                  <div>
                    <div className="flex items-center gap-2 mb-2 block">
                      <div className="w-2 h-2 bg-red-600 rounded-full animate-ping opacity-70 shadow-[0_0_8px_#dc2626]" />
-                     <span className="text-[10px] font-black tracking-[0.4em] text-red-500 uppercase">OUTPUT_SUPPORT_QUEUE</span>
+                     <span className="text-[0.6875rem] font-black tracking-[0.4em] text-red-500 uppercase">OUTPUT_SUPPORT_QUEUE</span>
                    </div>
                    <h2 className="text-3xl font-sans font-black text-editorial-text uppercase tracking-tighter drop-shadow-[0_2px_4px_rgba(0,0,0,0.1)]">MY_PROTOCOL_STACK</h2>
                  </div>
@@ -113,17 +113,17 @@ export default function ProtocolDrawer() {
 
                {/* Advanced Action Row */}
                <div className="flex gap-2 relative z-10 overflow-x-auto custom-scrollbar pb-2">
-                 <button aria-expanded={showAnalysis} onClick={() => setShowAnalysis(!showAnalysis)} className={`shrink-0 px-4 py-2 flex items-center gap-2 font-mono text-[9px] uppercase font-bold tracking-widest rounded-lg border transition-all ${showAnalysis ? 'bg-red-600 text-white border-red-500' : 'bg-editorial-text/5 text-editorial-text-muted border-editorial-border-light hover:border-editorial-text/20 hover:text-editorial-text'}`}>
+                 <button aria-expanded={showAnalysis} onClick={() => setShowAnalysis(!showAnalysis)} className={`shrink-0 px-4 py-2 flex items-center gap-2 font-mono text-[0.6875rem] uppercase font-bold tracking-widest rounded-lg border transition-all ${showAnalysis ? 'bg-red-600 text-white border-red-500' : 'bg-editorial-text/5 text-editorial-text-muted border-editorial-border-light hover:border-editorial-text/20 hover:text-editorial-text'}`}>
                     <Zap className="w-3 h-3" /> Analyse
                  </button>
                  <button 
                   onClick={handleCopy}
                   aria-label="Copy Protocol Summary"
-                  className="shrink-0 px-4 py-2 bg-editorial-text/5 text-editorial-text-muted border border-editorial-border-light hover:border-editorial-text/20 hover:text-editorial-text flex items-center gap-2 font-mono text-[9px] uppercase font-bold tracking-widest rounded-lg transition-all"
+                  className="shrink-0 px-4 py-2 bg-editorial-text/5 text-editorial-text-muted border border-editorial-border-light hover:border-editorial-text/20 hover:text-editorial-text flex items-center gap-2 font-mono text-[0.6875rem] uppercase font-bold tracking-widest rounded-lg transition-all"
                  >
                     <Copy className="w-3 h-3" /> Copy Summary
                  </button>
-                 <button aria-label="Clear Protocol Stack" onClick={clearProtocol} className="shrink-0 px-4 py-2 bg-editorial-text/5 text-editorial-text-muted border border-editorial-border-light hover:border-editorial-text/20 hover:text-editorial-text flex items-center gap-2 font-mono text-[9px] uppercase font-bold tracking-widest rounded-lg transition-all ml-auto">
+                 <button aria-label="Clear Protocol Stack" onClick={clearProtocol} className="shrink-0 px-4 py-2 bg-editorial-text/5 text-editorial-text-muted border border-editorial-border-light hover:border-editorial-text/20 hover:text-editorial-text flex items-center gap-2 font-mono text-[0.6875rem] uppercase font-bold tracking-widest rounded-lg transition-all ml-auto">
                     <Trash2 className="w-3 h-3" /> Clear
                  </button>
                </div>
@@ -140,16 +140,16 @@ export default function ProtocolDrawer() {
                         className="border-b border-editorial-border overflow-hidden"
                      >
                         <div className="p-8 bg-red-950/10 space-y-6">
-                           <h3 className="font-mono text-[10px] text-red-500 uppercase tracking-widest font-bold">Protocol Analysis</h3>
+                           <h3 className="font-mono text-[0.6875rem] text-red-500 uppercase tracking-widest font-bold">Protocol Analysis</h3>
                            
                            {/* Category Balance */}
                            <div>
-                              <span className="text-[10px] text-editorial-text-muted uppercase font-mono tracking-widest mb-3 block">Category Balance</span>
+                              <span className="text-[0.6875rem] text-editorial-text-muted uppercase font-mono tracking-widest mb-3 block">Category Balance</span>
                               <div className="grid grid-cols-2 gap-2">
                                  {Object.entries(analysis.cats).map(([cat, count]) => (
                                     <div key={cat} className="p-3 bg-editorial-bg border border-editorial-border rounded-xl flex justify-between items-center">
-                                       <span className="font-sans font-black text-[11px] text-editorial-text uppercase tracking-tight">{cat}</span>
-                                       <span className="font-mono text-[10px] text-editorial-text-muted">{count as number}</span>
+                                       <span className="font-sans font-black text-[0.6875rem] text-editorial-text uppercase tracking-tight">{cat}</span>
+                                       <span className="font-mono text-[0.6875rem] text-editorial-text-muted">{count as number}</span>
                                     </div>
                                  ))}
                               </div>
@@ -162,7 +162,7 @@ export default function ProtocolDrawer() {
                                     <div className="flex items-start gap-3 p-3 bg-editorial-surface/50 border border-editorial-border-light rounded-xl">
                                        <Crosshair className="w-4 h-4 text-blue-500 shrink-0 mt-0.5" />
                                        <div>
-                                          <span className="block font-mono text-[9px] text-blue-500 uppercase tracking-widest font-bold mb-1">Missing Elements</span>
+                                          <span className="block font-mono text-[0.6875rem] text-blue-500 uppercase tracking-widest font-bold mb-1">Missing Elements</span>
                                           <p className="text-editorial-text-muted text-xs font-light">{analysis.missing.join(', ')}</p>
                                        </div>
                                     </div>
@@ -171,7 +171,7 @@ export default function ProtocolDrawer() {
                                     <div className="flex items-start gap-3 p-3 bg-red-950/30 border border-red-500/20 rounded-xl">
                                        <AlertTriangle className="w-4 h-4 text-red-500 shrink-0 mt-0.5" />
                                        <div>
-                                          <span className="block font-mono text-[9px] text-red-500 uppercase tracking-widest font-bold mb-1">Stack Warning</span>
+                                          <span className="block font-mono text-[0.6875rem] text-red-500 uppercase tracking-widest font-bold mb-1">Stack Warning</span>
                                           <p className="text-editorial-text-muted text-xs font-light">{analysis.warnings.join(', ')}</p>
                                        </div>
                                     </div>
@@ -184,7 +184,7 @@ export default function ProtocolDrawer() {
                </AnimatePresence>
 
                <div className="p-8 space-y-4">
-                 <span className="font-mono text-[10px] text-editorial-text-muted uppercase tracking-[0.3em] font-bold flex justify-between mb-4">
+                 <span className="font-mono text-[0.6875rem] text-editorial-text-muted uppercase tracking-[0.3em] font-bold flex justify-between mb-4">
                    <span>ACTIVE_SELECTIONS</span>
                    <span>TOTAL: {protocolItems.length} UNITS</span>
                  </span>
@@ -205,11 +205,11 @@ export default function ProtocolDrawer() {
                      </div>
                      <div className="flex-1 flex flex-col justify-between py-1">
                        <div>
-                         <h4 className="font-sans font-black text-[13px] uppercase tracking-tight text-editorial-text mb-1 line-clamp-2 leading-tight">{item.name}</h4>
-                         <span className="font-mono text-[9px] text-editorial-text-muted uppercase tracking-widest">{item.category}</span>
+                         <h4 className="font-sans font-black text-[0.8125rem] uppercase tracking-tight text-editorial-text mb-1 line-clamp-2 leading-tight">{item.name}</h4>
+                         <span className="font-mono text-[0.6875rem] text-editorial-text-muted uppercase tracking-widest">{item.category}</span>
                        </div>
                        <div className="flex justify-between items-end mt-2">
-                         <span className="font-mono text-[12px] font-bold text-red-500 drop-shadow-[0_2px_4px_rgba(0,0,0,0.1)]">{item.price}</span>
+                         <span className="font-mono text-[0.75rem] font-bold text-red-500 drop-shadow-[0_2px_4px_rgba(0,0,0,0.1)]">{item.price}</span>
                          <button 
                            onClick={() => removeFromProtocol(item.id)} aria-label="Remove item"
                            className="text-zinc-600 hover:text-red-500 transition-colors"
@@ -227,7 +227,7 @@ export default function ProtocolDrawer() {
             {/* Footer */}
             <div className="p-8 border-t border-editorial-border bg-editorial-bg shrink-0">
               <div className="flex justify-between items-end mb-8">
-                <span className="font-mono text-[11px] text-editorial-text-muted uppercase tracking-[0.3em] font-bold">Estimated Cost</span>
+                <span className="font-mono text-[0.6875rem] text-editorial-text-muted uppercase tracking-[0.3em] font-bold">Estimated Cost</span>
                 <span className="font-mono text-2xl font-black text-editorial-text flex items-start">
                    <span className="text-red-500 text-base mt-0.5 mr-1 drop-shadow-[0_0_8px_currentColor]">£</span>
                    {totalEstimate.toFixed(2)}
@@ -241,7 +241,7 @@ export default function ProtocolDrawer() {
                     // Navigate to checkout
                     navigate('/checkout');
                   }}
-                  className="w-full bg-red-600 border-b-[3px] border-red-800 hover:border-white text-white hover:bg-editorial-text hover:text-editorial-bg rounded-2xl font-black uppercase tracking-[0.4em] text-[11px] px-6 py-5 transition-all duration-[600ms] flex items-center justify-center gap-3 relative overflow-hidden group shadow-[0_15px_30px_rgba(220,38,38,0.3)] hover:shadow-[0_20px_50px_rgba(0,0,0,0.08)] transform-gpu active:translate-y-1 active:border-b-0"
+                  className="w-full bg-red-600 border-b-[3px] border-red-800 hover:border-white text-white hover:bg-editorial-text hover:text-editorial-bg rounded-2xl font-black uppercase tracking-[0.4em] text-[0.6875rem] px-6 py-5 transition-all duration-[600ms] flex items-center justify-center gap-3 relative overflow-hidden group shadow-[0_15px_30px_rgba(220,38,38,0.3)] hover:shadow-[0_20px_50px_rgba(0,0,0,0.08)] transform-gpu active:translate-y-1 active:border-b-0"
                 >
                   <span className="relative z-10 transition-colors">Review Stack</span>
                   <ArrowRight className="w-4 h-4 relative z-10 group-hover:translate-x-2 transition-transform duration-[600ms]" />

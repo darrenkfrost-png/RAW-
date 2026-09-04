@@ -30,11 +30,11 @@ export default function CombatTargetZone() {
   const rotateY = useTransform(springX, [-100, 100], [-5, 5]);
 
   return (
-    <div className="w-full bg-editorial-bg border border-editorial-border p-16 relative overflow-hidden group rounded-[3rem] shadow-[0_30px_80px_rgba(0,0,0,0.1)]">
+    <div className="w-full bg-editorial-bg border border-editorial-border p-6 sm:p-10 lg:p-16 relative overflow-hidden group rounded-[2rem] sm:rounded-[3rem] shadow-[0_30px_80px_rgba(0,0,0,0.1)]">
       <div className="max-w-[1400px] mx-auto grid lg:grid-cols-2 gap-24 xl:gap-32 items-center">
         {/* Silhouette Visualization */}
         <div 
-          className="relative aspect-[3/4] bg-editorial-bg border border-red-900/10 flex items-center justify-center overflow-hidden perspective-1000 rounded-[3rem] shadow-[inset_0_0_80px_rgba(0,0,0,0.1),0_20px_50px_rgba(220,38,38,0.05)] group/scanner"
+          className="relative min-w-0 aspect-[3/4] bg-editorial-bg border border-red-900/10 flex items-center justify-center overflow-hidden perspective-1000 rounded-[3rem] shadow-[inset_0_0_80px_rgba(0,0,0,0.1),0_20px_50px_rgba(220,38,38,0.05)] group/scanner"
           onMouseMove={(e) => {
              const { left, top, width, height } = e.currentTarget.getBoundingClientRect();
              mouseX.set(e.clientX - left - width / 2);
@@ -95,15 +95,15 @@ export default function CombatTargetZone() {
 
 
         {/* Diagnostic Panel */}
-        <div className="space-y-16">
+        <div className="min-w-0 space-y-16">
             <div>
               <div className="flex items-center gap-6 mb-10">
                  <div className="p-3 bg-red-600/10 rounded-xl border border-red-500/20 shadow-[0_5px_15px_rgba(220,38,38,0.2)]">
                    <Crosshair className="w-6 h-6 text-red-600 drop-shadow-[0_0_10px_rgba(220,38,38,0.5)]" />
                  </div>
-                 <span className="font-mono text-[12px] text-editorial-text-muted tracking-[0.5em] uppercase drop-shadow-[0_2px_4px_rgba(0,0,0,0.08)] font-bold">Combat_Efficiency_Model</span>
+                 <span className="font-mono text-[0.75rem] text-editorial-text-muted tracking-[0.3em] sm:tracking-[0.5em] uppercase [overflow-wrap:anywhere] drop-shadow-[0_2px_4px_rgba(0,0,0,0.08)] font-bold">Combat_Efficiency_Model</span>
               </div>
-              <h2 className="font-sans font-black text-6xl md:text-8xl xl:text-[100px] uppercase tracking-[-0.03em] leading-[0.8] mb-12 drop-shadow-[0_10px_30px_rgba(0,0,0,0.1)]">TARGET <br /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-red-800 drop-shadow-[0_0_30px_rgba(220,38,38,0.4)]">ACQUISITION</span></h2>
+              <h2 className="font-sans font-black uppercase tracking-[-0.03em] leading-[0.8] mb-12 drop-shadow-[0_10px_30px_rgba(0,0,0,0.1)] text-display-md">TARGET <br /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-red-800 drop-shadow-[0_0_30px_rgba(220,38,38,0.4)]">ACQUISITION</span></h2>
               <p className="text-xl xl:text-2xl text-editorial-text-muted font-light leading-relaxed drop-shadow-[0_2px_4px_rgba(0,0,0,0.1)] border-l-2 border-red-600 pl-6 bg-gradient-to-r from-red-900/10 to-transparent py-2">
                  Our combat protocols prioritize biomechanical alignment and kinetic energy preservation. Every movement is optimized for speed and structural integrity.
               </p>
@@ -122,23 +122,23 @@ export default function CombatTargetZone() {
                       className="space-y-10 relative z-10"
                     >
                        <div className="flex justify-between items-end border-b border-editorial-border-light pb-6">
-                          <span className="font-mono text-[14px] text-red-500 font-black tracking-[0.4em] drop-shadow-[0_0_8px_rgba(220,38,38,0.5)] flex items-center gap-4">
+                          <span className="font-mono text-[0.875rem] text-red-500 font-black tracking-[0.4em] drop-shadow-[0_0_8px_rgba(220,38,38,0.5)] flex items-center gap-4">
                              <div className="w-2 h-2 bg-red-500 rounded-full shadow-[0_0_10px_currentColor]" /> {activeTarget.label}
                           </span>
-                          <span className="font-mono text-[11px] text-editorial-text-muted tracking-[0.2em] bg-editorial-text/5 px-4 py-2 rounded-lg">REF_{activeTarget.id.toUpperCase()}</span>
+                          <span className="font-mono text-[0.6875rem] text-editorial-text-muted tracking-[0.2em] bg-editorial-text/5 px-4 py-2 rounded-lg">REF_{activeTarget.id.toUpperCase()}</span>
                        </div>
-                       <div className="font-sans font-black text-6xl md:text-7xl italic text-editorial-text tracking-tighter drop-shadow-[0_5px_15px_rgba(0,0,0,0.1)] relative">
+                       <div className="font-sans font-black italic text-editorial-text tracking-tighter drop-shadow-[0_5px_15px_rgba(0,0,0,0.1)] relative text-display-sm">
                            {activeTarget.stat}
                            <div className="absolute -inset-4 bg-red-600/10 blur-[30px] -z-10 mix-blend-screen" />
                        </div>
                        <div className="flex gap-8 pt-4">
                           <div className="flex items-center gap-4 bg-editorial-bg p-4 rounded-xl border border-editorial-border shadow-[inset_0_2px_10px_rgba(0,0,0,0.03)]">
                              <Shield className="w-5 h-5 text-emerald-500 drop-shadow-[0_0_8px_currentColor]" />
-                             <span className="font-mono text-[11px] text-emerald-500 tracking-[0.2em] font-bold">STABILITY_LOCKED</span>
+                             <span className="font-mono text-[0.6875rem] text-emerald-500 tracking-[0.2em] font-bold">STABILITY_LOCKED</span>
                           </div>
                           <div className="flex items-center gap-4 bg-editorial-bg p-4 rounded-xl border border-editorial-border shadow-[inset_0_2px_10px_rgba(0,0,0,0.03)]">
                              <Zap className="w-5 h-5 text-red-600 drop-shadow-[0_0_8px_currentColor]" />
-                             <span className="font-mono text-[11px] text-red-600 tracking-[0.2em] font-bold">ENERGY_MAX</span>
+                             <span className="font-mono text-[0.6875rem] text-red-600 tracking-[0.2em] font-bold">ENERGY_MAX</span>
                           </div>
                        </div>
                     </motion.div>
@@ -157,21 +157,26 @@ export default function CombatTargetZone() {
                           />
                           <Target className="w-20 h-20 text-zinc-800 drop-shadow-[0_0_20px_rgba(0,0,0,0.1)] relative z-10" />
                        </div>
-                       <span className="font-mono text-[12px] text-zinc-600 tracking-[0.5em] uppercase font-bold">Awaiting_Target_Lock...</span>
+                       <span className="font-mono text-[0.75rem] text-zinc-600 tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] uppercase font-bold">Awaiting_Target_Lock...</span>
                     </motion.div>
                   )}
                </AnimatePresence>
             </div>
 
-            <div className="grid grid-cols-2 gap-12 border-t border-editorial-border pt-12">
+            {/* ⚠️ TWO COLUMNS HERE FORCED THE WHOLE TEXT COLUMN TO 434px ON A PHONE. A flex/grid
+               child's minimum width is its content's minimum, and two unbreakable stat cards
+               side by side could not go below 434 — so the heading, the paragraph and this row
+               were all laid out at 434px, centred in a 375px screen and clipped both sides. One
+               column until there is room for two. */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 sm:gap-12 border-t border-editorial-border pt-12">
                <div className="space-y-5 bg-editorial-bg/40 p-6 rounded-2xl border border-editorial-border">
-                  <span className="text-[12px] font-black uppercase text-editorial-text-muted tracking-[0.4em] drop-shadow-[0_2px_4px_rgba(0,0,0,0.08)] block">Active Protocol</span>
+                  <span className="text-[0.75rem] font-black uppercase text-editorial-text-muted tracking-[0.4em] drop-shadow-[0_2px_4px_rgba(0,0,0,0.08)] block">Active Protocol</span>
                   <div className="text-lg xl:text-xl text-editorial-text tracking-[0.3em] font-black drop-shadow-[0_2px_4px_rgba(0,0,0,0.1)] flex items-center gap-3">
                      <div className="w-2.5 h-2.5 bg-emerald-500 rounded-full shadow-[0_0_10px_#10b981]" /> STRIKE_SYNC_V4
                   </div>
                </div>
                <div className="space-y-5 bg-editorial-bg/40 p-6 rounded-2xl border border-editorial-border">
-                  <span className="text-[12px] font-black uppercase text-editorial-text-muted tracking-[0.4em] drop-shadow-[0_2px_4px_rgba(0,0,0,0.08)] block">System Status</span>
+                  <span className="text-[0.75rem] font-black uppercase text-editorial-text-muted tracking-[0.4em] drop-shadow-[0_2px_4px_rgba(0,0,0,0.08)] block">System Status</span>
                   <div className="text-lg xl:text-xl text-red-500 tracking-[0.3em] font-black italic drop-shadow-[0_0_10px_rgba(220,38,38,0.5)] flex items-center gap-3">
                      <div className="w-2.5 h-2.5 bg-red-500 rounded-full animate-pulse shadow-[0_0_10px_#dc2626]" /> PRODUCTION_READY
                   </div>

@@ -148,7 +148,7 @@ function VideoViewer({ src, embedSrc, poster, title, onClose }: VideoViewerProps
           onPointerCancel={onPointerUp}
           className="flex w-full cursor-grab items-center justify-between gap-2 rounded-t-xl border border-b-0 border-white/12 bg-black/90 px-2 py-1.5 backdrop-blur-xl active:cursor-grabbing"
         >
-          <span className="truncate px-1 font-mono text-[8px] uppercase tracking-[0.25em] text-white/45">
+          <span className="truncate px-1 font-mono text-[0.6875rem] uppercase tracking-[0.25em] text-white/45">
             {title || "Now playing"}
           </span>
           {controls}

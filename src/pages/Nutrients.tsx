@@ -3,7 +3,7 @@ import Breadcrumb from '../components/Breadcrumb';
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { allProducts } from "../data/products";
-import { ChevronRight, Zap, Target, BarChart3, Database } from "lucide-react";
+import { ChevronRight, Zap, Target, Database } from "lucide-react";
 import LazyImage from "../components/LazyImage";
 import TechnicalNutrientScanner from "../components/TechnicalNutrientScanner";
 import ProductCard from "../components/common/ProductCard";
@@ -27,7 +27,7 @@ export default function Nutrients() {
   return (
     <div className="bg-editorial-bg min-h-svh text-editorial-text">
       {/* Hero Section */}
-      <section className="relative h-[80vh] flex items-center justify-center overflow-hidden border-b border-editorial-border">
+      <section className="relative h-[80vh] flex flex-col items-center justify-center overflow-hidden border-b border-editorial-border">
         <video 
           {...({
             autoPlay: true,
@@ -62,7 +62,7 @@ export default function Nutrients() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5, duration: 1, ease: [0.16, 1, 0.3, 1] }}
-            className="text-2xl md:text-3xl font-mono font-black uppercase tracking-[0.8em] text-editorial-text drop-shadow-[0_4px_8px_rgba(0,0,0,0.1)] flex items-center justify-center gap-8"
+            className="text-2xl md:text-3xl font-mono font-black uppercase tracking-[0.3em] sm:tracking-[0.8em] [overflow-wrap:anywhere] text-editorial-text drop-shadow-[0_4px_8px_rgba(0,0,0,0.1)] flex items-center justify-center gap-8"
           >
             <div className="w-24 h-[2px] bg-gradient-to-r from-transparent to-blue-600 shadow-[0_0_15px_#2563eb]" /> 
              Fuel with Intent
@@ -77,12 +77,12 @@ export default function Nutrients() {
         <div className="absolute top-0 right-0 p-10 opacity-[0.02] pointer-events-none hidden lg:block">
            <Database className="w-[1000px] h-[1000px] text-editorial-text" />
         </div>
-        <div className="max-w-[var(--content-max-width)] mx-auto grid lg:grid-cols-2 gap-24 xl:gap-32 items-center relative z-10">
+        <div className="max-w-[var(--content-max-width)] mx-auto relative z-10">
           <div>
-            <span className="text-[11px] font-black uppercase tracking-[0.5em] text-blue-500 mb-10 block flex items-center gap-4 drop-shadow-[0_0_8px_rgba(59,130,246,0.5)]">
+            <span className="text-[0.6875rem] font-black uppercase tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] text-blue-500 mb-10 block flex items-center gap-4 drop-shadow-[0_0_8px_rgba(59,130,246,0.5)]">
                <div className="w-2.5 h-2.5 bg-blue-500 rounded-full animate-ping shadow-[0_0_10px_currentColor]" /> Protocol_01 // Nutrients
             </span>
-            <h2 className="font-sans font-black text-6xl md:text-8xl xl:text-[130px] uppercase tracking-[-0.03em] leading-[0.8] mb-12 text-editorial-text drop-shadow-[0_10px_30px_rgba(0,0,0,0.1)]">
+            <h2 className="font-sans font-black uppercase tracking-[-0.03em] leading-[0.8] mb-12 text-editorial-text drop-shadow-[0_10px_30px_rgba(0,0,0,0.1)] text-display-lg">
                Performance <br /> begins <br /> <span className="relative inline-block"><span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-blue-700 drop-shadow-[0_0_30px_rgba(59,130,246,0.4)] relative z-10">internally.</span><div className="absolute top-1/2 left-0 w-full h-1/2 bg-blue-600/20 blur-[60px] pointer-events-none mix-blend-screen" /></span>
             </h2>
             <p className="text-xl xl:text-3xl text-editorial-text-muted font-light leading-relaxed max-w-3xl mb-16 drop-shadow-[0_2px_4px_rgba(0,0,0,0.1)]">
@@ -94,7 +94,7 @@ export default function Nutrients() {
                     <div className="w-14 h-14 rounded-full bg-editorial-text/5 border border-editorial-border-light flex items-center justify-center backdrop-blur-md shadow-[0_10px_20px_rgba(0,0,0,0.08)] group-hover:bg-blue-600 group-hover:border-blue-500 transition-all duration-[800ms] transform-gpu">
                        <Zap className="w-6 h-6 text-editorial-text-muted group-hover:text-editorial-text drop-shadow-[0_0_5px_rgba(59,130,246,0.5)] group-hover:drop-shadow-[0_0_10px_rgba(0,0,0,0.15)] transition-all duration-[800ms] transform-gpu" />
                     </div>
-                    <span className="text-[13px] font-black uppercase tracking-[0.4em] drop-shadow-[0_2px_4px_rgba(0,0,0,0.1)] group-hover:text-blue-400 transition-colors duration-[800ms]">Purity</span>
+                    <span className="text-[0.8125rem] font-black uppercase tracking-[0.4em] drop-shadow-[0_2px_4px_rgba(0,0,0,0.1)] group-hover:text-blue-400 transition-colors duration-[800ms]">Purity</span>
                   </div>
                   <p className="text-base xl:text-lg text-editorial-text-muted font-light max-w-[240px] leading-relaxed group-hover:text-editorial-text-muted transition-colors duration-[800ms]">Lab-tested for maximum bioavailability.</p>
                </div>
@@ -103,27 +103,16 @@ export default function Nutrients() {
                     <div className="w-14 h-14 rounded-full bg-editorial-text/5 border border-editorial-border-light flex items-center justify-center backdrop-blur-md shadow-[0_10px_20px_rgba(0,0,0,0.08)] group-hover:bg-blue-600 group-hover:border-blue-500 transition-all duration-[800ms] transform-gpu">
                        <Target className="w-6 h-6 text-editorial-text-muted group-hover:text-editorial-text drop-shadow-[0_0_5px_rgba(59,130,246,0.5)] group-hover:drop-shadow-[0_0_10px_rgba(0,0,0,0.15)] transition-all duration-[800ms] transform-gpu" />
                     </div>
-                    <span className="text-[13px] font-black uppercase tracking-[0.4em] drop-shadow-[0_2px_4px_rgba(0,0,0,0.1)] group-hover:text-blue-400 transition-colors duration-[800ms]">Focus</span>
+                    <span className="text-[0.8125rem] font-black uppercase tracking-[0.4em] drop-shadow-[0_2px_4px_rgba(0,0,0,0.1)] group-hover:text-blue-400 transition-colors duration-[800ms]">Focus</span>
                   </div>
                   <p className="text-base xl:text-lg text-editorial-text-muted font-light max-w-[240px] leading-relaxed group-hover:text-editorial-text-muted transition-colors duration-[800ms]">Designed for executive and athletic output.</p>
                </div>
             </div>
           </div>
-          <div className="w-full relative">
-            <div className="absolute inset-0 bg-blue-600/10 blur-[150px] rounded-full pointer-events-none mix-blend-screen" />
-            <div className="bg-editorial-bg/80 backdrop-blur-3xl border border-editorial-border rounded-[3rem] p-10 shadow-[0_40px_100px_rgba(0,0,0,0.15)] relative z-10 transition-transform duration-[1500ms] ease-[0.16,1,0.3,1] hover:shadow-[0_50px_100px_rgba(59,130,246,0.15)] hover:-translate-y-2 transform-gpu">
-               <div className="mb-12 flex items-center justify-between border-b border-editorial-border pb-8 relative z-10">
-                 <span className="text-[12px] font-black uppercase tracking-[0.5em] text-editorial-text flex items-center gap-5">
-                    <BarChart3 className="w-6 h-6 text-blue-500 drop-shadow-[0_0_8px_currentColor]" /> Biofeedback_Analysis
-                 </span>
-                 <div className="flex gap-4 items-center bg-editorial-bg/40 px-4 py-2 rounded-xl border border-editorial-border">
-                   <div className="w-2.5 h-2.5 bg-blue-500 rounded-full animate-ping shadow-[0_0_10px_rgba(59,130,246,0.8)]"></div>
-                   <span className="text-[10px] font-mono font-bold text-editorial-text-muted tracking-widest uppercase">REALTIME_DATA</span>
-                 </div>
-               </div>
-               <TechnicalNutrientScanner />
-            </div>
-          </div>
+          {/* A "Biofeedback Analysis" card sat here: accordion rows labelled NEURAL_DENSITY and
+              THERMAL_STABILITY reading ---% and ---°C. Invented readouts with placeholder values,
+              and the rows would not shrink below 485px, so on a phone the whole section was 747px
+              wide and clipped. Removed with the rest of the diagnostics theatre. */}
         </div>
       </section>
 
@@ -137,11 +126,11 @@ export default function Nutrients() {
          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,_var(--tw-gradient-stops))] from-blue-900/10 via-transparent to-transparent pointer-events-none opacity-50 mix-blend-screen" />
         <div className="flex flex-col xl:flex-row justify-between items-end mb-24 gap-12 relative z-10">
           <div className="space-y-8">
-             <span className="text-[12px] font-black uppercase tracking-[0.6em] text-blue-500 block drop-shadow-[0_0_8px_rgba(59,130,246,0.5)] flex items-center gap-4">
+             <span className="text-[0.75rem] font-black uppercase tracking-[0.3em] sm:tracking-[0.6em] [overflow-wrap:anywhere] text-blue-500 block drop-shadow-[0_0_8px_rgba(59,130,246,0.5)] flex items-center gap-4">
                 <div className="w-2.5 h-2.5 bg-blue-500 rounded-full animate-ping shadow-[0_0_10px_currentColor]" />
                 Active Compounds
              </span>
-             <h2 className="font-sans font-black text-6xl md:text-8xl xl:text-[140px] uppercase tracking-[-0.03em] leading-[0.85] text-editorial-text drop-shadow-[0_10px_30px_rgba(0,0,0,0.1)]">The <span className="text-transparent bg-clip-text bg-gradient-to-t from-blue-700 to-blue-400 drop-shadow-[0_0_30px_rgba(59,130,246,0.4)] relative z-10">Inventory</span></h2>
+             <h2 className="font-sans font-black uppercase tracking-[-0.03em] leading-[0.85] text-editorial-text drop-shadow-[0_10px_30px_rgba(0,0,0,0.1)] text-display-lg">The <span className="text-transparent bg-clip-text bg-gradient-to-t from-blue-700 to-blue-400 drop-shadow-[0_0_30px_rgba(59,130,246,0.4)] relative z-10">Inventory</span></h2>
           </div>
           
           {/* Subcategory Filter Bar */}
@@ -150,7 +139,7 @@ export default function Nutrients() {
               <button 
                 key={sub}
                 onClick={() => setSelectedSub(sub)}
-                className={`text-[12px] font-black uppercase tracking-[0.4em] transition-all duration-[800ms] px-10 py-5 rounded-2xl shadow-[0_5px_15px_rgba(0,0,0,0.08)] transform-gpu active:scale-95 ease-[0.16,1,0.3,1] ${selectedSub === sub ? 'bg-blue-600 text-editorial-text shadow-[0_15px_40px_rgba(59,130,246,0.4)] scale-100' : 'bg-editorial-bg text-editorial-text-muted hover:text-editorial-text hover:border-editorial-border-light border border-transparent hover:shadow-[0_10px_30px_rgba(0,0,0,0.04)]'}`}
+                className={`text-[0.75rem] font-black uppercase tracking-[0.4em] transition-all duration-[800ms] px-10 py-5 rounded-2xl shadow-[0_5px_15px_rgba(0,0,0,0.08)] transform-gpu active:scale-95 ease-[0.16,1,0.3,1] ${selectedSub === sub ? 'bg-blue-600 text-editorial-text shadow-[0_15px_40px_rgba(59,130,246,0.4)] scale-100' : 'bg-editorial-bg text-editorial-text-muted hover:text-editorial-text hover:border-editorial-border-light border border-transparent hover:shadow-[0_10px_30px_rgba(0,0,0,0.04)]'}`}
               >
                 {sub}
               </button>
@@ -179,10 +168,10 @@ export default function Nutrients() {
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_left,_var(--tw-gradient-stops))] from-blue-900/5 via-transparent to-transparent pointer-events-none mix-blend-screen" />
         <div className="max-w-[var(--content-max-width)] mx-auto px-[var(--shell-padding-mobile)] md:px-[var(--shell-padding)] lg:px-[var(--shell-padding-lg)] relative z-10 flex flex-col lg:flex-row gap-20">
           <div className="lg:w-1/2">
-            <span className="text-[11px] font-black uppercase tracking-[0.6em] text-blue-500 mb-8 block drop-shadow-[0_0_8px_rgba(59,130,246,0.5)]">
+            <span className="text-[0.6875rem] font-black uppercase tracking-[0.3em] sm:tracking-[0.6em] [overflow-wrap:anywhere] text-blue-500 mb-8 block drop-shadow-[0_0_8px_rgba(59,130,246,0.5)]">
               RAW_EDUCATION // 001
             </span>
-            <h2 className="font-sans font-black text-6xl md:text-7xl xl:text-8xl uppercase tracking-tighter mb-12 text-editorial-text">WHAT IS <span className="text-blue-500">CREATINE?</span></h2>
+            <h2 className="font-sans font-black uppercase tracking-tighter mb-12 text-editorial-text text-display-md">WHAT IS <span className="text-blue-500">CREATINE?</span></h2>
             <div className="space-y-8 text-xl text-editorial-text-muted font-light leading-relaxed">
               <p>More than just a body-building aid, creatine has been scientifically proven to enhance mental cognition and stamina too...</p>
               <p>It is one of the most researched supplements in the world, facilitating ATP production for immediate cellular energy during high-intensity output.</p>
@@ -205,10 +194,10 @@ export default function Nutrients() {
       <section className="py-40 bg-editorial-bg">
         <div className="max-w-[var(--content-max-width)] mx-auto px-[var(--shell-padding-mobile)] md:px-[var(--shell-padding)] lg:px-[var(--shell-padding-lg)]">
           <div className="text-center mb-32">
-            <span className="text-[11px] font-black uppercase tracking-[0.6em] text-blue-500 mb-8 block drop-shadow-[0_0_8px_rgba(59,130,246,0.5)]">
+            <span className="text-[0.6875rem] font-black uppercase tracking-[0.3em] sm:tracking-[0.6em] [overflow-wrap:anywhere] text-blue-500 mb-8 block drop-shadow-[0_0_8px_rgba(59,130,246,0.5)]">
                THE_OPERATIVE_NETWORK
             </span>
-            <h2 className="font-sans font-black text-6xl md:text-8xl uppercase tracking-tight text-editorial-text mb-12">Meet our <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-blue-700 drop-shadow-[0_0_30px_rgba(59,130,246,0.4)]">athletes</span></h2>
+            <h2 className="font-sans font-black uppercase tracking-tight text-editorial-text mb-12 text-display-md">Meet our <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-blue-700 drop-shadow-[0_0_30px_rgba(59,130,246,0.4)]">athletes</span></h2>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
              {[
@@ -234,7 +223,7 @@ export default function Nutrients() {
         
         <div className="flex animate-marquee gap-24 items-center">
           {[...Array(10)].map((_, i) => (
-            <span key={i} className="text-7xl md:text-9xl font-sans font-black uppercase tracking-tighter px-12 text-editorial-text/5 hover:text-editorial-text/20 transition-all duration-700 cursor-default hover:drop-shadow-[0_0_30px_rgba(59,130,246,0.2)]">
+            <span key={i} className="font-sans font-black uppercase tracking-tighter px-12 text-editorial-text/5 hover:text-editorial-text/20 transition-all duration-700 cursor-default hover:drop-shadow-[0_0_30px_rgba(59,130,246,0.2)] text-display-lg">
               Fuel your output <span className="text-blue-500/20 mx-12">{'//'}</span> Purity First <span className="text-blue-500/20 mx-12">{'//'}</span> RAW Official <span className="text-blue-500/20 mx-12">{'//'}</span> Premium Performance
             </span>
           ))}
@@ -247,7 +236,7 @@ export default function Nutrients() {
           which a campaign link can land on directly — carried none. The same
           wording as elsewhere, so it reads as one policy rather than three. */}
       <div className="section-container pb-24">
-        <p className="mx-auto max-w-3xl border-t border-editorial-border pt-10 text-center text-[12px] leading-relaxed text-editorial-text-muted">
+        <p className="mx-auto max-w-3xl border-t border-editorial-border pt-10 text-center text-[0.75rem] leading-relaxed text-editorial-text-muted">
           RAW Official products are designed to support active lifestyles and
           performance routines. Supplements should be used as directed on the
           label and are not intended to diagnose, treat, cure, or prevent

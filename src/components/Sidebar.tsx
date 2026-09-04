@@ -79,7 +79,7 @@ function Sidebar() {
       </div>
 
       <nav className="flex flex-col gap-1.5 p-4 mt-8 flex-1 scrollbar-none overflow-y-auto" aria-label="Primary navigation links">
-         <div className="text-[9px] uppercase tracking-[0.4em] font-mono font-black text-editorial-text-muted/20 ml-4 mb-8 flex items-center gap-4" aria-hidden="true">
+         <div className="text-[0.6875rem] uppercase tracking-[0.4em] font-mono font-black text-editorial-text-muted/20 ml-4 mb-8 flex items-center gap-4" aria-hidden="true">
              <div className="w-4 h-[1px] bg-white/[0.05]" />
              {isSidebarCollapsed ? "---" : "System_Management"}
          </div>
@@ -92,7 +92,7 @@ function Sidebar() {
                   to={link.path}
                   onClick={link.action ? (e) => { e.preventDefault(); link.action(); } : undefined}
                   aria-current={isActive ? "page" : undefined}
-                  className={`relative z-10 flex items-center rounded-2xl transition-all duration-500 font-mono text-[11px] uppercase tracking-[0.2em] font-black whitespace-nowrap focus:outline-none focus:ring-2 focus:ring-red-500/50 group-hover:px-6 ${isSidebarCollapsed ? 'justify-center p-3.5 mx-auto w-12 h-12 group-hover:px-3.5' : 'gap-4 px-5 py-4'} ${isActive ? 'bg-red-600 text-white shadow-[0_10px_30px_rgba(220,38,38,0.4)]' : 'text-zinc-500 hover:bg-white/5 hover:text-white'}`}
+                  className={`relative z-10 flex items-center rounded-2xl transition-all duration-500 font-mono text-[0.6875rem] uppercase tracking-[0.2em] font-black whitespace-nowrap focus:outline-none focus:ring-2 focus:ring-red-500/50 group-hover:px-6 ${isSidebarCollapsed ? 'justify-center p-3.5 mx-auto w-12 h-12 group-hover:px-3.5' : 'gap-4 px-5 py-4'} ${isActive ? 'bg-red-600 text-white shadow-[0_10px_30px_rgba(220,38,38,0.4)]' : 'text-zinc-500 hover:bg-white/5 hover:text-white'}`}
                 >
                    <span className={`flex-shrink-0 transition-all duration-500 ${isActive ? 'scale-110 drop-shadow-[0_0_8px_rgba(255,255,255,0.8)] text-white' : 'group-hover:scale-125 group-hover:text-red-500 group-hover:drop-shadow-[0_0_10px_rgba(220,38,38,0.8)]'}`}>
                       {link.icon}
@@ -134,8 +134,8 @@ function Sidebar() {
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,_var(--tw-gradient-stops))] from-emerald-500/0 via-transparent to-transparent group-hover/metrics:from-emerald-500/5 transition-colors duration-1000" />
           <div className="mb-6 space-y-4 relative z-10">
              <div className="flex justify-between items-center px-1">
-                <span className="text-[8px] font-mono font-black text-zinc-600 tracking-tighter uppercase whitespace-nowrap group-hover/metrics:text-zinc-400 transition-colors">CPU_CORE_0</span>
-                <span className="text-[10px] font-mono font-black text-emerald-500 italic drop-shadow-[0_0_8px_rgba(16,185,129,0.5)]">44.2%</span>
+                <span className="text-[0.6875rem] font-mono font-black text-zinc-600 tracking-tighter uppercase whitespace-nowrap group-hover/metrics:text-zinc-400 transition-colors">CPU_CORE_0</span>
+                <span className="text-[0.6875rem] font-mono font-black text-emerald-500 italic drop-shadow-[0_0_8px_rgba(16,185,129,0.5)]">44.2%</span>
              </div>
              <div className="h-[2px] w-full bg-white/5 rounded-full overflow-hidden relative shadow-[inset_0_0_2px_rgba(0,0,0,0.5)]">
                 <motion.div animate={{ width: ["10%", "80%", "40%", "90%"] }} transition={{ duration: 4, repeat: Infinity }} className="h-full bg-emerald-500 shadow-[0_0_10px_#10b981]" />
@@ -157,7 +157,7 @@ function Sidebar() {
                      animate={{ opacity: 1 }}
                      exit={{ opacity: 0 }}
                      transition={{ duration: 0.2 }}
-                     className="font-mono text-[10px] uppercase tracking-widest text-emerald-500 font-black whitespace-nowrap"
+                     className="font-mono text-[0.6875rem] uppercase tracking-widest text-emerald-500 font-black whitespace-nowrap"
                    >
                      Status: Online
                    </motion.span>

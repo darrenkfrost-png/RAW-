@@ -80,7 +80,7 @@ export default function DiscoveryHub({ isOpen, onClose }: DiscoveryHubProps) {
                 </div>
                 <div>
                   <h3 className="font-sans font-black cinematic-gradient-text text-xl uppercase tracking-wider">System Discovery Hub</h3>
-                  <p className="font-mono text-[9px] text-editorial-text-muted uppercase tracking-[0.2em] mt-1">RAW_SYSTEM_GUIDE // OPERATIONAL_MANUAL</p>
+                  <p className="font-mono text-[0.6875rem] text-editorial-text-muted uppercase tracking-[0.2em] mt-1">RAW_SYSTEM_GUIDE // OPERATIONAL_MANUAL</p>
                 </div>
               </div>
 
@@ -105,7 +105,7 @@ export default function DiscoveryHub({ isOpen, onClose }: DiscoveryHubProps) {
                     
                     <div className="flex items-center gap-3 mb-6">
                       <sect.icon className="w-4 h-4 text-red-500" />
-                      <h4 className="font-mono text-[10px] font-black tracking-[0.25em] uppercase text-zinc-400">{sect.title}</h4>
+                      <h4 className="font-mono text-[0.6875rem] font-black tracking-[0.25em] uppercase text-zinc-400">{sect.title}</h4>
                     </div>
 
                     <div className="space-y-4 flex-1">
@@ -115,7 +115,7 @@ export default function DiscoveryHub({ isOpen, onClose }: DiscoveryHubProps) {
                             {item.keys.map((kbd, kbdIdx) => (
                               <kbd
                                 key={kbdIdx}
-                                className="px-2.5 py-1 bg-white/5 border border-white/10 rounded-md font-mono text-[9px] text-white font-bold uppercase select-none tracking-widest"
+                                className="px-2.5 py-1 bg-white/5 border border-white/10 rounded-md font-mono text-[0.6875rem] text-white font-bold uppercase select-none tracking-widest"
                               >
                                 {kbd}
                               </kbd>
@@ -144,11 +144,11 @@ export default function DiscoveryHub({ isOpen, onClose }: DiscoveryHubProps) {
                 </div>
                 <div className="flex gap-3">
                   <div className="bg-editorial-bg border border-editorial-border px-4 py-2 rounded-xl text-center">
-                    <span className="block text-[8px] font-bold text-zinc-600 uppercase">Latency</span>
+                    <span className="block text-[0.6875rem] font-bold text-zinc-600 uppercase">Latency</span>
                     <span className="font-mono text-xs text-emerald-500">2ms</span>
                   </div>
                   <div className="bg-editorial-bg border border-editorial-border px-4 py-2 rounded-xl text-center">
-                    <span className="block text-[8px] font-bold text-zinc-600 uppercase">Status</span>
+                    <span className="block text-[0.6875rem] font-bold text-zinc-600 uppercase">Status</span>
                     <span className="font-mono text-xs text-red-500">Optimal</span>
                   </div>
                 </div>
@@ -156,7 +156,7 @@ export default function DiscoveryHub({ isOpen, onClose }: DiscoveryHubProps) {
             </div>
 
             {/* Footer */}
-            <div className="mt-8 pt-6 border-t border-editorial-border shrink-0 text-center relative z-10 flex flex-col md:flex-row items-center justify-between gap-4 font-mono text-[9px] text-zinc-600 tracking-widest uppercase">
+            <div className="mt-8 pt-6 border-t border-editorial-border shrink-0 text-center relative z-10 flex flex-col md:flex-row items-center justify-between gap-4 font-mono text-[0.6875rem] text-zinc-600 tracking-widest uppercase">
               <span>RAW_CORE_COMPILER // RUNNING_STATE_STABLE</span>
               <span>UTC TIME_SYNC // SECURE_UPLINK</span>
             </div>

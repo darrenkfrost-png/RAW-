@@ -38,11 +38,11 @@ export default function Logistics() {
         transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
         className="mb-24 xl:mb-32 relative z-10"
       >
-        <span className="font-mono text-[13px] text-red-500 font-bold tracking-[0.6em] mb-12 block uppercase flex items-center gap-5 drop-shadow-[0_0_15px_rgba(220,38,38,0.6)] border border-editorial-border bg-editorial-bg/50 backdrop-blur-md w-fit px-8 py-4 rounded-full shadow-[0_10px_30px_rgba(0,0,0,0.08)]">
+        <span className="font-mono text-[0.8125rem] text-red-500 font-bold tracking-[0.3em] sm:tracking-[0.6em] [overflow-wrap:anywhere] mb-12 block uppercase flex items-center gap-5 drop-shadow-[0_0_15px_rgba(220,38,38,0.6)] border border-editorial-border bg-editorial-bg/50 backdrop-blur-md w-fit px-8 py-4 rounded-full shadow-[0_10px_30px_rgba(0,0,0,0.08)]">
           <div className="w-2.5 h-2.5 bg-red-500 rounded-full animate-pulse shadow-[0_0_15px_currentColor]" />
           System_Protocol // L-001
         </span>
-        <h1 className="text-7xl md:text-9xl xl:text-[180px] font-black uppercase tracking-[-0.03em] mb-12 leading-[0.8] text-editorial-text drop-shadow-[0_15px_40px_rgba(0,0,0,0.1)] relative">
+        <h1 className="font-black uppercase tracking-[-0.03em] mb-12 leading-[0.8] text-editorial-text drop-shadow-[0_15px_40px_rgba(0,0,0,0.1)] relative text-display-xl">
           Global<br />
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-red-600 to-red-900 drop-shadow-[0_0_40px_rgba(220,38,38,0.4)] pb-4 mt-4 inline-block relative z-10">Logistics</span>
           <div className="absolute top-1/2 left-0 w-full h-[300px] bg-red-900/10 blur-[150px] -z-10 mix-blend-screen pointer-events-none" />
@@ -89,7 +89,7 @@ export default function Logistics() {
               <div className="w-4 h-4 bg-red-600 rounded-full animate-ping shadow-[0_0_15px_#dc2626]" />
               <div className="w-1.5 h-1.5 bg-red-500 rounded-full absolute top-1.5 shadow-[0_0_10px_#dc2626]" />
               <div className="mt-2 bg-editorial-bg/80 backdrop-blur-md border border-editorial-border-light px-3 py-1 rounded-md">
-                 <span className="font-mono text-[8px] text-editorial-text font-black tracking-widest uppercase">{point.label}</span>
+                 <span className="font-mono text-[0.6875rem] text-editorial-text font-black tracking-widest uppercase">{point.label}</span>
               </div>
            </motion.div>
         ))}
@@ -97,17 +97,17 @@ export default function Logistics() {
         {/* Global Stats Overlay */}
         <div className="absolute bottom-10 left-10 xl:bottom-20 xl:left-20 flex flex-col gap-6 bg-black/60 backdrop-blur-xl border border-white/10 p-8 rounded-[2rem] shadow-premium">
            <div className="space-y-2">
-              <span className="font-mono text-[9px] text-zinc-500 uppercase tracking-widest">ACTIVE_OPERATIVES</span>
+              <span className="font-mono text-[0.6875rem] text-zinc-500 uppercase tracking-widest">ACTIVE_OPERATIVES</span>
               <div className="text-4xl font-black text-white lining-nums">1.4k</div>
            </div>
            <div className="h-px w-full bg-white/5" />
            <div className="grid grid-cols-2 gap-8">
               <div className="space-y-1">
-                 <span className="font-mono text-[8px] text-zinc-600 uppercase tracking-widest">TRANSIT_FLEET</span>
+                 <span className="font-mono text-[0.6875rem] text-zinc-600 uppercase tracking-widest">TRANSIT_FLEET</span>
                  <span className="text-sm font-bold text-emerald-500">100%_AVAIL</span>
               </div>
               <div className="space-y-1">
-                 <span className="font-mono text-[8px] text-zinc-600 uppercase tracking-widest">SYS_UPTIME</span>
+                 <span className="font-mono text-[0.6875rem] text-zinc-600 uppercase tracking-widest">SYS_UPTIME</span>
                  <span className="text-sm font-bold text-red-500">99.98%</span>
               </div>
            </div>
@@ -115,8 +115,8 @@ export default function Logistics() {
 
         <div className="absolute top-10 right-10 xl:top-20 xl:right-20 pointer-events-none">
            <div className="flex flex-col gap-4 text-right">
-              <span className="font-mono text-[10px] text-red-600 font-black uppercase tracking-[0.6em] animate-pulse">DEPLOYMENT_V_MATRIX</span>
-              <span className="font-mono text-[8px] text-zinc-500 uppercase tracking-widest block opacity-60">LIVE_TELEMETRY: <span className="text-white">ON</span></span>
+              <span className="font-mono text-[0.6875rem] text-red-600 font-black uppercase tracking-[0.3em] sm:tracking-[0.6em] [overflow-wrap:anywhere] animate-pulse">DEPLOYMENT_V_MATRIX</span>
+              <span className="font-mono text-[0.6875rem] text-zinc-500 uppercase tracking-widest block opacity-60">LIVE_TELEMETRY: <span className="text-white">ON</span></span>
            </div>
         </div>
       </motion.section>
@@ -160,17 +160,17 @@ export default function Logistics() {
             <div className="space-y-6">
                 <div className="flex items-center gap-4">
                     <span className="w-12 h-[2px] bg-red-600" />
-                    <span className="font-mono text-[11px] text-zinc-500 uppercase tracking-[0.4em] font-black">Infrastructure_Allocation</span>
+                    <span className="font-mono text-[0.6875rem] text-zinc-500 uppercase tracking-[0.4em] font-black">Infrastructure_Allocation</span>
                 </div>
-                <h2 className="text-5xl md:text-7xl font-black uppercase tracking-tighter text-editorial-text">Sector Fulfillment <span className="text-red-600 italic">Matrix</span></h2>
+                <h2 className="font-black uppercase tracking-tighter text-editorial-text text-display-sm">Sector Fulfillment <span className="text-red-600 italic">Matrix</span></h2>
             </div>
             <div className="flex gap-4 p-4 bg-editorial-bg/60 border border-editorial-border rounded-2xl backdrop-blur-xl">
                  <div className="flex flex-col gap-1 pr-6 border-r border-editorial-border">
-                    <span className="text-[9px] font-mono text-zinc-600 uppercase tracking-widest">ACTIVE_HUBS</span>
+                    <span className="text-[0.6875rem] font-mono text-zinc-600 uppercase tracking-widest">ACTIVE_HUBS</span>
                     <span className="text-2xl font-black text-white">24</span>
                  </div>
                  <div className="flex flex-col gap-1 px-6">
-                    <span className="text-[9px] font-mono text-zinc-600 uppercase tracking-widest">AVG_TRANSIT</span>
+                    <span className="text-[0.6875rem] font-mono text-zinc-600 uppercase tracking-widest">AVG_TRANSIT</span>
                     <span className="text-2xl font-black text-red-500">2.4d</span>
                  </div>
             </div>
@@ -196,7 +196,7 @@ export default function Logistics() {
                     { label: "Sector_Routing", status: "Pending", progress: 0 },
                   ].map((step, i) => (
                     <div key={i} className="space-y-3">
-                        <div className="flex justify-between items-center text-[11px] font-mono font-black uppercase tracking-widest">
+                        <div className="flex justify-between items-center text-[0.6875rem] font-mono font-black uppercase tracking-widest">
                             <span className="text-editorial-text-muted">{step.label}</span>
                             <span className={step.progress === 100 ? "text-emerald-500" : "text-red-500"}>{step.status}</span>
                         </div>
@@ -225,16 +225,16 @@ export default function Logistics() {
                   ].map((node, i) => (
                     <div key={i} className="p-6 bg-white/5 border border-white/5 rounded-3xl hover:border-red-500/20 transition-all group/node">
                         <div className="flex justify-between items-start mb-4">
-                            <span className="font-mono text-[9px] text-zinc-500 uppercase tracking-widest font-black">{node.region}</span>
+                            <span className="font-mono text-[0.6875rem] text-zinc-500 uppercase tracking-widest font-black">{node.region}</span>
                             <div className={`w-2 h-2 rounded-full ${node.status === 'PEAK_LOAD' ? 'bg-yellow-500 animate-pulse' : 'bg-emerald-500'}`} />
                         </div>
                         <h4 className="text-editorial-text font-black text-xl uppercase tracking-tighter mb-2">{node.node}</h4>
-                        <span className={`text-[10px] font-mono font-bold tracking-widest ${node.status === 'PEAK_LOAD' ? 'text-yellow-500' : 'text-zinc-600'}`}>{node.status}</span>
+                        <span className={`text-[0.6875rem] font-mono font-bold tracking-widest ${node.status === 'PEAK_LOAD' ? 'text-yellow-500' : 'text-zinc-600'}`}>{node.status}</span>
                     </div>
                   ))}
                </div>
                <div className="mt-10 p-6 border border-editorial-border bg-editorial-surface/40 rounded-3xl text-center">
-                   <p className="text-[11px] font-mono text-zinc-500 uppercase tracking-widest font-black">All Sectors Synchronized // {new Date().toLocaleTimeString()}</p>
+                   <p className="text-[0.6875rem] font-mono text-zinc-500 uppercase tracking-widest font-black">All Sectors Synchronized // {new Date().toLocaleTimeString()}</p>
                </div>
             </div>
          </div>
@@ -254,15 +254,15 @@ export default function Logistics() {
            <div className="text-center xl:text-left">
              <div className="flex items-center gap-4 mb-8 justify-center xl:justify-start">
                <div className="w-2.5 h-2.5 bg-red-500 rounded-full animate-pulse shadow-[0_0_15px_#dc2626]" />
-               <span className="font-mono text-[12px] text-red-500 font-bold uppercase tracking-[0.4em]">Override_Enabled</span>
+               <span className="font-mono text-[0.75rem] text-red-500 font-bold uppercase tracking-[0.4em]">Override_Enabled</span>
              </div>
-             <h2 className="text-6xl xl:text-8xl font-black uppercase tracking-tighter mb-8 text-editorial-text drop-shadow-[0_10px_30px_rgba(0,0,0,0.1)] leading-[0.9]">Urgent Supply <br/><span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-red-800 drop-shadow-[0_0_30px_rgba(220,38,38,0.3)] pb-4 inline-block mt-2">Request?</span></h2>
+             <h2 className="font-black uppercase tracking-tighter mb-8 text-editorial-text drop-shadow-[0_10px_30px_rgba(0,0,0,0.1)] leading-[0.9] text-display-md">Urgent Supply <br/><span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-red-800 drop-shadow-[0_0_30px_rgba(220,38,38,0.3)] pb-4 inline-block mt-2">Request?</span></h2>
              <p className="text-editorial-text-muted font-light max-w-2xl text-xl xl:text-2xl leading-relaxed mx-auto xl:mx-0 border-l border-red-500/30 pl-6">
                If your sector requires immediate supply payload drops, please contact logistics support directly. Our operatives are standing by to override standard protocols.
              </p>
            </div>
            <MagneticWrapper>
-             <button className="px-16 py-10 bg-red-600 text-white font-black uppercase tracking-[0.4em] text-[14px] hover:bg-editorial-text hover:text-editorial-bg transition-all duration-[800ms] ease-[0.16,1,0.3,1] rounded-2xl shadow-[0_20px_50px_rgba(220,38,38,0.4)] hover:shadow-[0_30px_60px_rgba(0,0,0,0.08)] relative flex items-center justify-center gap-5 w-full md:w-auto overflow-hidden group/btn border-b-[4px] border-red-800 active:border-b-0 active:translate-y-[2px] transform-gpu hover:-translate-y-2">
+             <button className="px-16 py-10 bg-red-600 text-white font-black uppercase tracking-[0.4em] text-[0.875rem] hover:bg-editorial-text hover:text-editorial-bg transition-all duration-[800ms] ease-[0.16,1,0.3,1] rounded-2xl shadow-[0_20px_50px_rgba(220,38,38,0.4)] hover:shadow-[0_30px_60px_rgba(0,0,0,0.08)] relative flex items-center justify-center gap-5 w-full md:w-auto overflow-hidden group/btn border-b-[4px] border-red-800 active:border-b-0 active:translate-y-[2px] transform-gpu hover:-translate-y-2">
                <span className="relative z-10 flex items-center gap-4 drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)] group-hover/btn:drop-shadow-[0_2px_4px_rgba(0,0,0,0.06)]">
                   <ShieldCheck className="w-6 h-6"/> Contact Logistics Node
                </span>

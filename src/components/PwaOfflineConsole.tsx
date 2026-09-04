@@ -61,7 +61,7 @@ export default function PwaOfflineConsole() {
       {/* Header Block */}
       <div className="flex flex-col md:flex-row items-start md:items-center justify-between border-b border-editorial-border/40 pb-5 gap-3">
         <div>
-          <span className="font-mono text-[8px] text-zinc-500 uppercase tracking-[0.4em] font-black">
+          <span className="font-mono text-[0.6875rem] text-zinc-500 uppercase tracking-[0.4em] font-black">
             PWA_FOUNDATORY // OFFLINE_CONSOLE
           </span>
           <h2 className="text-2xl font-black text-white tracking-tight uppercase mt-1">
@@ -70,7 +70,7 @@ export default function PwaOfflineConsole() {
         </div>
 
         {/* Dynamic network status indicator */}
-        <div className={`flex items-center gap-2 font-mono text-[10px] uppercase border px-4 py-2 rounded-xl ${
+        <div className={`flex items-center gap-2 font-mono text-[0.6875rem] uppercase border px-4 py-2 rounded-xl ${
           isOnline 
             ? "text-emerald-500 bg-emerald-500/10 border-emerald-500/25" 
             : "text-amber-500 bg-amber-500/10 border-amber-500/25 animate-pulse"
@@ -98,7 +98,7 @@ export default function PwaOfflineConsole() {
         <div className="bg-black/40 border border-editorial-border p-6 rounded-[2rem] space-y-4">
           <div className="flex items-center gap-3">
             <HardDrive className="w-5 h-5 text-red-500" />
-            <h3 className="font-mono text-[10px] font-black uppercase tracking-widest text-[#f5f5f7]">
+            <h3 className="font-mono text-[0.6875rem] font-black uppercase tracking-widest text-[#f5f5f7]">
               ALLOCATED CACHE METRICS
             </h3>
           </div>
@@ -120,7 +120,7 @@ export default function PwaOfflineConsole() {
 
           <button
             onClick={clearCachedStates}
-            className="w-full py-2.5 bg-zinc-900 hover:bg-zinc-850 border border-editorial-border rounded-xl font-mono text-[9px] uppercase font-black text-zinc-400 hover:text-white tracking-widest transition-all"
+            className="w-full py-2.5 bg-zinc-900 hover:bg-zinc-850 border border-editorial-border rounded-xl font-mono text-[0.6875rem] uppercase font-black text-zinc-400 hover:text-white tracking-widest transition-all"
           >
             FLUSH_LOCAL_CACHE
           </button>
@@ -131,7 +131,7 @@ export default function PwaOfflineConsole() {
           <div className="space-y-4">
             <div className="flex items-center gap-3">
               <RefreshCcw className={`w-5 h-5 text-red-500 ${isSyncing ? "animate-spin" : ""}`} />
-              <h3 className="font-mono text-[10px] font-black uppercase tracking-widest text-[#f5f5f7]">
+              <h3 className="font-mono text-[0.6875rem] font-black uppercase tracking-widest text-[#f5f5f7]">
                 SYNCHRONOUS CONTROL BOARD
               </h3>
             </div>
@@ -142,7 +142,7 @@ export default function PwaOfflineConsole() {
           </div>
 
           <div className="space-y-3">
-            <div className="flex justify-between font-mono text-[9px] text-[#f5f5f7]">
+            <div className="flex justify-between font-mono text-[0.6875rem] text-[#f5f5f7]">
               <span>SYNC_STATUS:</span>
               <span>{isSyncing ? "SYNCING..." : `${syncPercentage}% ONLINE`}</span>
             </div>
@@ -156,7 +156,7 @@ export default function PwaOfflineConsole() {
             <button
               onClick={handleSyncResources}
               disabled={isSyncing}
-              className="w-full py-3 button-premium !text-[9px] font-mono tracking-widest uppercase flex items-center justify-center gap-2"
+              className="w-full py-3 button-premium !text-[0.6875rem] font-mono tracking-widest uppercase flex items-center justify-center gap-2"
             >
               <Download className="w-4 h-4" /> RE_SYNC_SYSTEM_NODES
             </button>
@@ -169,7 +169,7 @@ export default function PwaOfflineConsole() {
       <div className="p-6 bg-red-650/10 border border-red-500/25 rounded-[2rem] space-y-4">
         <div className="flex items-center gap-2">
           <ShieldCheck className="w-5 h-5 text-red-500" />
-          <h4 className="font-mono text-[9px] font-black tracking-widest uppercase text-white">
+          <h4 className="font-mono text-[0.6875rem] font-black tracking-widest uppercase text-white">
             OFFLINE READINESS CHECKLIST
           </h4>
         </div>

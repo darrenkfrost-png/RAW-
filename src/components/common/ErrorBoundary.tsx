@@ -55,22 +55,22 @@ export class ErrorBoundary extends React.Component<Props, State> {
               Something went wrong
             </h2>
             
-            <div className="font-mono text-[11px] md:text-[12px] uppercase tracking-[0.4em] text-meta-premium mb-12 space-y-3 opacity-60">
+            <div className="font-mono text-[0.6875rem] md:text-[0.75rem] uppercase tracking-[0.4em] text-meta-premium mb-12 space-y-3 opacity-60">
                 <div className="flex items-center justify-center gap-3">
                    <Terminal className="w-4 h-4" />
                    <span>This page hit an error it couldn't recover from.</span>
                 </div>
                 <p>Reloading usually fixes it. If it keeps happening, the details below will help us put it right.</p>
                 <div className="h-px w-20 bg-red-600/20 mx-auto my-4" />
-                <p className="text-[10px] text-zinc-600 font-bold overflow-auto max-h-32 text-red-400">ERROR: {this.state.error?.message}</p>
-                <p className="text-[10px] text-zinc-600 font-bold overflow-auto max-h-32 text-red-500">{this.state.errorInfo?.componentStack}</p>
+                <p className="text-[0.6875rem] text-zinc-600 font-bold overflow-auto max-h-32 text-red-400">ERROR: {this.state.error?.message}</p>
+                <p className="text-[0.6875rem] text-zinc-600 font-bold overflow-auto max-h-32 text-red-500">{this.state.errorInfo?.componentStack}</p>
             </div>
             
             <motion.button 
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               onClick={() => window.location.reload()}
-              className="w-full relative group overflow-hidden h-20 rounded-[2rem] bg-red-600 text-white font-black uppercase tracking-[0.4em] text-[13px] shadow-[0_20px_40px_rgba(220,38,38,0.3)] hover:shadow-glow transition-all duration-700"
+              className="w-full relative group overflow-hidden h-20 rounded-[2rem] bg-red-600 text-white font-black uppercase tracking-[0.4em] text-[0.8125rem] shadow-[0_20px_40px_rgba(220,38,38,0.3)] hover:shadow-glow transition-all duration-700"
             >
               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:animate-shimmer" />
               <div className="flex items-center justify-center gap-6 relative z-10">
@@ -79,7 +79,7 @@ export class ErrorBoundary extends React.Component<Props, State> {
               </div>
             </motion.button>
             
-            <p className="mt-8 font-mono text-[9px] text-zinc-600 uppercase tracking-widest font-black opacity-30">
+            <p className="mt-8 font-mono text-[0.6875rem] text-zinc-600 uppercase tracking-widest font-black opacity-30">
                Auto-recovery sequence engaged...
             </p>
           </motion.div>

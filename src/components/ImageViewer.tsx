@@ -155,7 +155,7 @@ export default function ImageViewer({ images, index, onIndexChange, onClose, tit
           {title && (
             <p className="truncate font-sans text-sm font-black uppercase tracking-tight text-white">{title}</p>
           )}
-          <p className="font-mono text-[9px] uppercase tracking-[0.3em] text-white/40">
+          <p className="font-mono text-[0.6875rem] uppercase tracking-[0.3em] text-white/40">
             {index + 1} / {images.length} · {Math.round(scale * 100)}%
           </p>
         </div>
@@ -227,7 +227,7 @@ export default function ImageViewer({ images, index, onIndexChange, onClose, tit
         )}
 
         {scale <= MIN && (
-          <span className="pointer-events-none absolute bottom-3 left-1/2 -translate-x-1/2 font-mono text-[9px] uppercase tracking-[0.3em] text-white/25">
+          <span className="pointer-events-none absolute bottom-3 left-1/2 -translate-x-1/2 font-mono text-[0.6875rem] uppercase tracking-[0.3em] text-white/25">
             Scroll or double-click to zoom
           </span>
         )}

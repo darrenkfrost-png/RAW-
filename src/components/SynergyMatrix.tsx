@@ -65,7 +65,7 @@ export default function SynergyMatrix({ products }: SynergyMatrixProps) {
     return (
       <div className="bg-zinc-950/30 border border-zinc-900 border-dashed rounded-[2.5rem] p-12 text-center text-zinc-500">
         <HelpCircle className="w-10 h-10 mx-auto text-zinc-650 mb-4 animate-bounce" />
-        <span className="font-mono text-[10px] uppercase font-black tracking-widest block mb-2">SYNERGY_AI_MATRIX</span>
+        <span className="font-mono text-[0.6875rem] uppercase font-black tracking-widest block mb-2">SYNERGY_AI_MATRIX</span>
         <p className="text-xs leading-relaxed max-w-sm mx-auto font-light">Select at least two units in the Hardware Decision Matrix above to execute high-fidelity metabolic capability modeling.</p>
       </div>
     );
@@ -83,7 +83,7 @@ export default function SynergyMatrix({ products }: SynergyMatrixProps) {
               <Activity className="w-5 h-5 shadow-[0_0_8px_currentColor]" />
             </span>
             <div>
-              <span className="text-[9px] font-mono font-black text-red-500 uppercase tracking-[0.3em] block">DECISION ENGINE V4.0</span>
+              <span className="text-[0.6875rem] font-mono font-black text-red-500 uppercase tracking-[0.3em] block">DECISION ENGINE V4.0</span>
               <h3 className="text-xl font-sans font-black uppercase text-white tracking-tight">MOLECULAR SYNERGY ASSESSMENT</h3>
             </div>
           </div>
@@ -91,7 +91,7 @@ export default function SynergyMatrix({ products }: SynergyMatrixProps) {
           <div className="space-y-6">
             {/* Neuro-Focus Synergy */}
             <div className="space-y-2">
-              <div className="flex justify-between text-[11px] font-bold tracking-wider uppercase text-zinc-400">
+              <div className="flex justify-between text-[0.6875rem] font-bold tracking-wider uppercase text-zinc-400">
                 <span>Neurofeedback Stimulus</span>
                 <span className="font-mono text-white">{stateScore?.neuroFocus}%</span>
               </div>
@@ -105,7 +105,7 @@ export default function SynergyMatrix({ products }: SynergyMatrixProps) {
 
             {/* Vascular Sustain */}
             <div className="space-y-2">
-              <div className="flex justify-between text-[11px] font-bold tracking-wider uppercase text-zinc-400">
+              <div className="flex justify-between text-[0.6875rem] font-bold tracking-wider uppercase text-zinc-400">
                 <span>Vascular Expansion</span>
                 <span className="font-mono text-white">{stateScore?.vascularSustain}%</span>
               </div>
@@ -119,7 +119,7 @@ export default function SynergyMatrix({ products }: SynergyMatrixProps) {
 
             {/* Cell Endurance */}
             <div className="space-y-2">
-              <div className="flex justify-between text-[11px] font-bold tracking-wider uppercase text-zinc-400">
+              <div className="flex justify-between text-[0.6875rem] font-bold tracking-wider uppercase text-zinc-400">
                 <span>Aerobic ATP Recycle Rate</span>
                 <span className="font-mono text-white">{stateScore?.cellEndurance}%</span>
               </div>
@@ -133,7 +133,7 @@ export default function SynergyMatrix({ products }: SynergyMatrixProps) {
 
             {/* Contra-Indication Warning level */}
             <div className="space-y-2">
-              <div className="flex justify-between text-[11px] font-bold tracking-wider uppercase text-zinc-400">
+              <div className="flex justify-between text-[0.6875rem] font-bold tracking-wider uppercase text-zinc-400">
                 <span>Metabolic Clearance Warn</span>
                 <span className="font-mono text-red-500 font-black">{stateScore?.riskFactor}%</span>
               </div>
@@ -152,14 +152,14 @@ export default function SynergyMatrix({ products }: SynergyMatrixProps) {
           <div className="space-y-4">
             <div className="flex items-center gap-3">
               <TrendingUp className="w-4.5 h-4.5 text-emerald-500" />
-              <span className="text-[10px] font-mono font-black text-emerald-500 uppercase tracking-[0.3em]">INTEGRATION READOUT</span>
+              <span className="text-[0.6875rem] font-mono font-black text-emerald-500 uppercase tracking-[0.3em]">INTEGRATION READOUT</span>
             </div>
-            <p className="text-[12px] text-zinc-300 leading-relaxed font-light">{stateScore?.advice}</p>
+            <p className="text-[0.75rem] text-zinc-300 leading-relaxed font-light">{stateScore?.advice}</p>
           </div>
 
           <div className="border-t border-zinc-900 mt-6 pt-5 flex items-center justify-between">
-            <span className="text-[9px] font-mono font-bold text-zinc-500 tracking-wider">UNIT SYSTEM</span>
-            <div className="flex items-center gap-2 text-[10px] font-mono font-black text-white bg-zinc-900 px-3.5 py-1.5 rounded-lg border border-zinc-800">
+            <span className="text-[0.6875rem] font-mono font-bold text-zinc-500 tracking-wider">UNIT SYSTEM</span>
+            <div className="flex items-center gap-2 text-[0.6875rem] font-mono font-black text-white bg-zinc-900 px-3.5 py-1.5 rounded-lg border border-zinc-800">
               METABOLIC_PERFORMANCE_MATCH_V4 <ArrowUpRight className="w-3.5 h-3.5 text-red-500" />
             </div>
           </div>

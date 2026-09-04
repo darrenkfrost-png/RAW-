@@ -32,7 +32,8 @@ export default function ProductGallery({ galleryItems, activeItem, setActiveItem
 
   return (
     <div className="relative group/gallery">
-      <div className="flex items-center gap-4">
+      {/* Wraps: four fixed thumbnails in one flex line were 404px on a 375px screen. */}
+      <div className="flex flex-wrap items-center gap-4">
         <button 
           onClick={() => setActiveItem(activeItem === 0 ? galleryItems.length - 1 : activeItem - 1)}
           className="p-5 bg-editorial-bg border border-editorial-border rounded-[1.5rem] hover:border-red-500/50 hover:bg-editorial-bg transition-all duration-[500ms] text-editorial-text-muted hover:text-editorial-text shadow-[0_10px_30px_rgba(0,0,0,0.1)] hover:shadow-[0_20px_50px_rgba(220,38,38,0.2)] flex-shrink-0"

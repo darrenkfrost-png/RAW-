@@ -34,7 +34,7 @@ export default function WallpaperSettingsPanel() {
              {/* ── THE FILM BEHIND THE SITE ─────────────────────────────── */}
              <div className="pb-5 border-b border-editorial-border-light">
                 <div className="flex items-center justify-between mb-3">
-                  <span className="font-mono text-[9px] uppercase text-editorial-text-muted tracking-widest flex items-center gap-2">
+                  <span className="font-mono text-[0.6875rem] uppercase text-editorial-text-muted tracking-widest flex items-center gap-2">
                     <Film className="w-3 h-3 text-red-600" /> VIDEO_WALLPAPER
                   </span>
                   <button
@@ -49,7 +49,7 @@ export default function WallpaperSettingsPanel() {
 
                 {settings.videoWallpaper && (
                   <>
-                    <label className="font-mono text-[9px] uppercase text-editorial-text-muted mb-2 block tracking-widest">
+                    <label className="font-mono text-[0.6875rem] uppercase text-editorial-text-muted mb-2 block tracking-widest">
                       OPACITY: {Math.round(settings.videoWallpaperOpacity * 100)}%
                     </label>
                     <input
@@ -60,7 +60,7 @@ export default function WallpaperSettingsPanel() {
                       className="w-full h-1 bg-editorial-text/10 rounded-lg appearance-none cursor-pointer accent-red-600 mb-4"
                     />
                     <div className="flex items-center justify-between mb-3">
-                      <span className="font-mono text-[9px] uppercase text-editorial-text-muted tracking-widest">SHUFFLE_FILMS</span>
+                      <span className="font-mono text-[0.6875rem] uppercase text-editorial-text-muted tracking-widest">SHUFFLE_FILMS</span>
                       <button
                         onClick={() => setSettings(prev => ({...prev, videoWallpaperShuffle: !prev.videoWallpaperShuffle}))}
                         aria-pressed={settings.videoWallpaperShuffle}
@@ -77,11 +77,11 @@ export default function WallpaperSettingsPanel() {
                           onClick={() => setSettings(prev => ({...prev, videoWallpaperId: v.id}))}
                           className={`block w-full text-left px-3 py-2 rounded-lg border transition-all ${settings.videoWallpaperId === v.id ? 'border-red-600 bg-red-600/10 text-red-300' : 'border-editorial-border text-editorial-text-muted hover:border-zinc-700'}`}
                         >
-                          <span className="font-mono text-[9px] uppercase tracking-wider">{v.label}</span>
+                          <span className="font-mono text-[0.6875rem] uppercase tracking-wider">{v.label}</span>
                           {/* The heavy remote masters are marked, so choosing one
                               on a phone is a decision rather than a surprise. */}
                           {!v.light && (
-                            <span className="ml-2 font-mono text-[8px] uppercase text-amber-500/70">
+                            <span className="ml-2 font-mono text-[0.6875rem] uppercase text-amber-500/70">
                               {v.megabytes ? `${v.megabytes}MB` : 'HD'}
                             </span>
                           )}
@@ -95,7 +95,7 @@ export default function WallpaperSettingsPanel() {
              {/* ── THE SCREENSAVER ──────────────────────────────────────── */}
              <div className="pb-5 border-b border-editorial-border-light">
                 <div className="flex items-center justify-between mb-3">
-                  <span className="font-mono text-[9px] uppercase text-editorial-text-muted tracking-widest flex items-center gap-2">
+                  <span className="font-mono text-[0.6875rem] uppercase text-editorial-text-muted tracking-widest flex items-center gap-2">
                     <MonitorPlay className="w-3 h-3 text-red-600" /> SCREENSAVER
                   </span>
                   <button
@@ -107,7 +107,7 @@ export default function WallpaperSettingsPanel() {
                     <span className={`absolute top-0.5 w-4 h-4 bg-white rounded-full transition-all ${settings.screensaverEnabled ? 'left-[1.15rem]' : 'left-0.5'}`} />
                   </button>
                 </div>
-                <label className="font-mono text-[9px] uppercase text-editorial-text-muted mb-2 block tracking-widest">
+                <label className="font-mono text-[0.6875rem] uppercase text-editorial-text-muted mb-2 block tracking-widest">
                   AFTER: {Math.round(settings.screensaverDelayMs / 1000)}s
                 </label>
                 <input
@@ -118,7 +118,7 @@ export default function WallpaperSettingsPanel() {
                   className="w-full h-1 bg-editorial-text/10 rounded-lg appearance-none cursor-pointer accent-red-600 mb-3"
                 />
                 <div className="flex items-center justify-between mb-3">
-                  <span className="font-mono text-[9px] uppercase text-editorial-text-muted tracking-widest">SHUFFLE_FILMS</span>
+                  <span className="font-mono text-[0.6875rem] uppercase text-editorial-text-muted tracking-widest">SHUFFLE_FILMS</span>
                   <button
                     onClick={() => setSettings(prev => ({...prev, screensaverShuffle: !prev.screensaverShuffle}))}
                     aria-pressed={settings.screensaverShuffle}
@@ -130,13 +130,13 @@ export default function WallpaperSettingsPanel() {
                 </div>
                 <button
                   onClick={() => window.dispatchEvent(new Event('raw:screensaver'))}
-                  className="w-full py-2.5 rounded-lg border border-red-600/40 bg-red-600/10 text-red-300 font-mono text-[9px] uppercase tracking-[0.25em] hover:bg-red-600/20 transition-colors"
+                  className="w-full py-2.5 rounded-lg border border-red-600/40 bg-red-600/10 text-red-300 font-mono text-[0.6875rem] uppercase tracking-[0.25em] hover:bg-red-600/20 transition-colors"
                 >
                   Start now
                 </button>
              </div>
 
-             <span className="font-mono text-[9px] uppercase text-editorial-text-muted tracking-widest block">GENERATIVE_ENV</span>
+             <span className="font-mono text-[0.6875rem] uppercase text-editorial-text-muted tracking-widest block">GENERATIVE_ENV</span>
              <div className="h-40 overflow-y-auto pr-2 custom-scrollbar space-y-2">
                {wallpapers.map(w => (
                    <button 
@@ -144,13 +144,13 @@ export default function WallpaperSettingsPanel() {
                       onClick={() => setSettings(prev => ({...prev, activeWallpaper: w}))}
                       className={`block w-full text-left p-3 rounded-xl border ${settings.activeWallpaper === w ? 'border-red-600 bg-red-600/10' : 'border-editorial-border bg-editorial-surface/30 hover:border-zinc-700 hover:bg-editorial-surface/80 transition-all duration-300'}`}
                    >
-                      <span className="font-mono text-[10px] uppercase">{w.replace(/_/g, ' ')}</span>
+                      <span className="font-mono text-[0.6875rem] uppercase">{w.replace(/_/g, ' ')}</span>
                    </button>
                ))}
              </div>
              
              <div className="mt-6 pt-6 border-t border-editorial-border-light">
-                <label className="font-mono text-[9px] uppercase text-editorial-text-muted mb-2 block tracking-widest">
+                <label className="font-mono text-[0.6875rem] uppercase text-editorial-text-muted mb-2 block tracking-widest">
                   ANIMATION_SPEED: {settings.wallpaperSpeed.toFixed(1)}x
                 </label>
                 <input 

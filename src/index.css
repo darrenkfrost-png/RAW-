@@ -7,6 +7,18 @@
   --font-display: "Space Grotesk", sans-serif;
   --font-serif: "Space Grotesk", serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+
+  /* THE DISPLAY SCALE — one fluid size per tier, replacing chains like
+     `text-8xl md:text-9xl xl:text-[180px]` (80 of them). Each is a clamp:
+     a floor a phone can hold, a slope in vw, a ceiling for wide screens.
+     Floors sit at 40-48px because that is where the mobile bases already
+     were on the headings that fit; only the 96-128px mobile bases and one
+     unbroken 17-character word were actually running off the screen. */
+  --text-display-sm: clamp(2.5rem, 1.5rem + 3.2vw, 5rem);
+  --text-display-md: clamp(2.75rem, 1.5rem + 5vw, 7.5rem);
+  --text-display-lg: clamp(2.75rem, 1.5rem + 6vw, 9rem);
+  --text-display-xl: clamp(3rem, 1.5rem + 7.5vw, 11.25rem);
+  --text-display-2xl: clamp(3rem, 1.5rem + 9vw, 13.75rem);
   
   --color-editorial-bg: #050505;
   --color-editorial-surface: #121215;
@@ -90,11 +102,27 @@
 
 @layer base {
   html {
+    /* ⚠️ EVERY SIZE ON THE SITE RIDES THIS ONE LINE.
+       The root grows from 16px on a phone to 19px on a wide screen, and
+       every rem-based size — all of Tailwind's named sizes, and the 766
+       former pixel sizes converted to rem in the same pass — scales with it.
+       Measured before: on a 1920px monitor 185 of 425 text elements were
+       under 12px; on a phone 77 were under 10px.
+       The floor is 16px on purpose: nothing may get SMALLER than it was.
+       `--ui-scale` is the Interface Scale slider, which until now changed
+       a number that nothing read. It is a real multiplier here. */
+    font-size: calc(clamp(16px, 0.85rem + 0.45vw, 19px) * var(--ui-scale, 1));
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
     scroll-behavior: smooth;
   }
+
+  /* A heading may never run off the screen. `anywhere` only bites when a
+     single word is wider than its line — the net under the display scale,
+     not a substitute for it. `balance` evens out multi-line headlines. */
+  h1, h2, h3 { overflow-wrap: anywhere; }
+  h1, h2 { text-wrap: balance; }
   
   html.lenis, html.lenis body {
     height: auto;
@@ -132,12 +160,12 @@
     @apply transition-colors duration-300 ease-fluid;
   }
 
-  h1 { @apply font-display text-[15vw] md:text-[12vw] lg:text-[10vw] xl:text-[9vw] 2xl:text-[140px] tracking-tight leading-[0.8] text-zinc-50 uppercase drop-shadow-[0_20px_50px_rgba(0,0,0,0.8)] font-black; }
+  h1 { @apply font-display text-display-lg tracking-tight leading-[0.8] text-zinc-50 uppercase drop-shadow-[0_20px_50px_rgba(0,0,0,0.8)] font-black; }
   h2 { @apply font-sans text-4xl md:text-5xl lg:text-6xl font-black tracking-tighter leading-[0.9] text-zinc-50 uppercase drop-shadow-xl italic; }
   h3 { @apply font-sans font-black text-2xl md:text-3xl lg:text-4xl tracking-tighter leading-[0.95] text-zinc-100 uppercase; }
-  h4 { @apply font-mono font-black text-[11px] md:text-[12px] tracking-[0.4em] text-editorial-accent uppercase; }
+  h4 { @apply font-mono font-black text-[0.6875rem] md:text-[0.75rem] tracking-[0.4em] text-editorial-accent uppercase; }
   
-  p { @apply leading-[1.65] mb-6 text-editorial-text-muted text-[16px] max-w-[65ch] font-medium tracking-tight; }
+  p { @apply leading-[1.65] mb-6 text-editorial-text-muted text-base max-w-[65ch] font-medium tracking-tight; }
   
   /* Additional text utility */
   .text-editorial { @apply font-serif italic text-3xl text-editorial-text-muted tracking-tight leading-snug; }
@@ -217,7 +245,7 @@
   }
 
   .button-premium {
-    @apply relative overflow-hidden bg-editorial-text text-editorial-bg font-black uppercase text-[11px] tracking-[0.3em] px-10 py-5 rounded-[2rem] transition-all duration-500 hover:scale-[1.03] active:scale-[0.97] shadow-depth-2 hover:shadow-glow-intense hover:bg-editorial-accent hover:text-white;
+    @apply relative overflow-hidden bg-editorial-text text-editorial-bg font-black uppercase text-[0.6875rem] tracking-[0.3em] px-10 py-5 rounded-[2rem] transition-all duration-500 hover:scale-[1.03] active:scale-[0.97] shadow-depth-2 hover:shadow-glow-intense hover:bg-editorial-accent hover:text-white;
   }
 
   .crystal-glass-panel {
@@ -271,7 +299,7 @@
 
   
   .button-secondary {
-    @apply relative overflow-hidden bg-editorial-surface/80 backdrop-blur-xl border border-editorial-border text-editorial-text font-black uppercase text-[11px] tracking-[0.3em] px-10 py-5 rounded-[2rem] transition-all duration-500 hover:bg-editorial-text/5 hover:border-editorial-border active:scale-[0.97] shadow-subtle;
+    @apply relative overflow-hidden bg-editorial-surface/80 backdrop-blur-xl border border-editorial-border text-editorial-text font-black uppercase text-[0.6875rem] tracking-[0.3em] px-10 py-5 rounded-[2rem] transition-all duration-500 hover:bg-editorial-text/5 hover:border-editorial-border active:scale-[0.97] shadow-subtle;
   }
 
   .glass-header {
@@ -313,7 +341,7 @@
   }
 
   .text-meta-premium {
-    @apply font-mono text-[9px] font-black tracking-[0.4em] uppercase text-editorial-text-muted/60 relative inline-flex items-center gap-3;
+    @apply font-mono text-[0.6875rem] font-black tracking-[0.4em] uppercase text-editorial-text-muted/60 relative inline-flex items-center gap-3;
   }
 
   .text-meta-premium::before {

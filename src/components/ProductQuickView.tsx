@@ -60,7 +60,7 @@ export default function ProductQuickView({ product, isOpen, onClose }: { product
                 alt={product.name} 
                 className="w-full h-full object-cover transform-gpu max-w-[80%] mx-auto max-h-[80%] my-auto top-1/2 left-1/2 absolute -translate-x-1/2 -translate-y-1/2 group-hover:scale-[1.1] transition-transform duration-[2000ms] ease-[0.16,1,0.3,1] opacity-80 group-hover:opacity-100 mix-blend-plus-lighter z-0 group-hover:drop-shadow-[0_0_50px_rgba(220,38,38,0.2)]" 
               />
-              <div className="absolute top-8 left-8 font-mono text-[10px] text-editorial-text font-bold tracking-[0.4em] uppercase bg-editorial-accent/90 backdrop-blur-xl px-5 py-2.5 z-40 rounded-xl shadow-[0_0_20px_rgba(220,38,38,0.5)] flex items-center gap-3 border border-white/20">
+              <div className="absolute top-8 left-8 font-mono text-[0.6875rem] text-editorial-text font-bold tracking-[0.4em] uppercase bg-editorial-accent/90 backdrop-blur-xl px-5 py-2.5 z-40 rounded-xl shadow-[0_0_20px_rgba(220,38,38,0.5)] flex items-center gap-3 border border-white/20">
                  <div className="w-2 h-2 bg-white rounded-full animate-pulse shadow-[0_0_10px_#ffffff]" />
                  QUICK_VIEW // {product.id}
               </div>
@@ -82,7 +82,7 @@ export default function ProductQuickView({ product, isOpen, onClose }: { product
                 <span className="text-meta-premium !text-red-500 mb-6 block flex items-center gap-3 drop-shadow-[0_0_8px_rgba(220,38,38,0.5)]">
                   <div className="w-1.5 h-1.5 bg-red-600 rounded-full shadow-[0_0_5px_currentColor]" /> {product.category}
                 </span>
-                <h2 className="text-4xl md:text-5xl lg:text-7xl font-sans font-black uppercase tracking-tighter leading-none mb-8 text-premium drop-shadow-sm">
+                <h2 className="font-sans font-black uppercase tracking-tighter leading-none mb-8 text-premium drop-shadow-sm text-display-sm">
                   {product.name}
                 </h2>
                 <div className="text-3xl md:text-4xl font-sans font-black mb-10 border-b border-editorial-border-light pb-8 text-premium drop-shadow-md inline-block w-full">
@@ -101,7 +101,7 @@ export default function ProductQuickView({ product, isOpen, onClose }: { product
                     addToCart(product, 1);
                     onClose();
                   }}
-                  className="w-full bg-red-600 text-white py-6 rounded-[1.5rem] font-sans font-black uppercase tracking-[0.25em] text-[11px] hover:bg-editorial-text hover:text-editorial-bg transition-all duration-500 flex items-center justify-center gap-4 shadow-[0_20px_50px_rgba(220,38,38,0.3)] hover:shadow-[0_20px_50px_rgba(0,0,0,0.08)] border border-red-600 hover:border-white group"
+                  className="w-full bg-red-600 text-white py-6 rounded-[1.5rem] font-sans font-black uppercase tracking-[0.25em] text-[0.6875rem] hover:bg-editorial-text hover:text-editorial-bg transition-all duration-500 flex items-center justify-center gap-4 shadow-[0_20px_50px_rgba(220,38,38,0.3)] hover:shadow-[0_20px_50px_rgba(0,0,0,0.08)] border border-red-600 hover:border-white group"
                  >
                    AUTHORIZE DEPLOYMENT
                  </button>

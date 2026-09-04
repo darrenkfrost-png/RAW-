@@ -31,7 +31,7 @@ export default function CompareTray() {
         </div>
         <Link 
             to="/compare" 
-            className="px-8 py-4 bg-editorial-text hover:bg-zinc-200 text-editorial-bg rounded-[2rem] font-mono font-black uppercase text-[10px] tracking-[0.25em] transition-all flex items-center gap-2 shadow-[0_0_20px_rgba(0,0,0,0.04)] hover:scale-[1.02] active:scale-95"
+            className="px-8 py-4 bg-editorial-text hover:bg-zinc-200 text-editorial-bg rounded-[2rem] font-mono font-black uppercase text-[0.6875rem] tracking-[0.25em] transition-all flex items-center gap-2 shadow-[0_0_20px_rgba(0,0,0,0.04)] hover:scale-[1.02] active:scale-95"
         >
             <Layers size={14} className="text-editorial-accent" /> Compare ({selectedItems.length}/3)
         </Link>

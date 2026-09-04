@@ -71,10 +71,10 @@ export default function Contact() {
           transition={{ duration: 0.8, ease: [0.16,1,0.3,1] }}
           className="flex flex-col justify-center"
         >
-          <span className="text-[12px] font-black uppercase tracking-[0.5em] text-red-500 mb-8 block flex items-center gap-4 drop-shadow-[0_0_8px_rgba(220,38,38,0.5)]">
+          <span className="text-[0.75rem] font-black uppercase tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] text-red-500 mb-8 block flex items-center gap-4 drop-shadow-[0_0_8px_rgba(220,38,38,0.5)]">
             <div className="w-2 h-2 bg-red-500 rounded-full animate-ping shadow-[0_0_8px_currentColor]" /> Comm_Link Established
           </span>
-          <h1 className="font-sans font-black text-6xl md:text-8xl xl:text-[120px] uppercase tracking-tighter leading-[0.8] mb-16 text-editorial-text drop-shadow-[0_5px_15px_rgba(0,0,0,0.1)]">
+          <h1 className="font-sans font-black uppercase tracking-tighter leading-[0.8] mb-16 text-editorial-text drop-shadow-[0_5px_15px_rgba(0,0,0,0.1)] text-display-md">
             CONNECT <br /> WITH THE <br /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-red-800 drop-shadow-[0_0_15px_rgba(220,38,38,0.4)] pb-3 inline-block">PACK</span>
           </h1>
           
@@ -87,7 +87,7 @@ export default function Contact() {
               <div className="flex-1 border-b border-editorial-border pb-6 text-left">
                 <h4 className="font-sans font-black text-editorial-text uppercase tracking-tighter text-2xl xl:text-3xl mb-2 group-hover:text-red-500 transition-colors drop-shadow-[0_2px_4px_rgba(0,0,0,0.08)]">Email Us</h4>
                 <p className="text-editorial-text-muted font-light text-xl xl:text-2xl">hello@rawofficial.co</p>
-                <p className="text-red-500/70 text-[10px] xl:text-[11px] mt-4 font-black uppercase tracking-[0.3em]">Response within 24 hours</p>
+                <p className="text-red-500/70 text-[0.6875rem] xl:text-[0.6875rem] mt-4 font-black uppercase tracking-[0.3em]">Response within 24 hours</p>
               </div>
             </button>
 
@@ -99,7 +99,7 @@ export default function Contact() {
               <div className="flex-1 border-b border-editorial-border pb-6 text-left">
                 <h4 className="font-sans font-black text-editorial-text uppercase tracking-tighter text-2xl xl:text-3xl mb-2 group-hover:text-red-500 transition-colors drop-shadow-[0_2px_4px_rgba(0,0,0,0.08)]">Speak to Us</h4>
                 <p className="text-editorial-text-muted font-light text-xl xl:text-2xl">+44 7394 903735</p>
-                <p className="text-red-500/70 text-[10px] xl:text-[11px] mt-4 font-black uppercase tracking-[0.3em]">Mon - Fri, 9am - 6pm GMT</p>
+                <p className="text-red-500/70 text-[0.6875rem] xl:text-[0.6875rem] mt-4 font-black uppercase tracking-[0.3em]">Mon - Fri, 9am - 6pm GMT</p>
               </div>
             </button>
 
@@ -148,7 +148,7 @@ export default function Contact() {
                </p>
                <button
                  onClick={() => { setIsSubmitted(false); reset(); }}
-                 className="mt-10 rounded-xl border border-editorial-border-light px-6 py-3 font-mono text-[10px] font-black uppercase tracking-[0.25em] text-editorial-text-muted transition-colors hover:border-white/30 hover:text-white"
+                 className="mt-10 rounded-xl border border-editorial-border-light px-6 py-3 font-mono text-[0.6875rem] font-black uppercase tracking-[0.25em] text-editorial-text-muted transition-colors hover:border-white/30 hover:text-white"
                >
                  Write another
                </button>
@@ -157,14 +157,14 @@ export default function Contact() {
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-10 relative z-10">
               <div className="grid md:grid-cols-2 gap-8">
                 <div className="space-y-4 group/input">
-                  <label className="text-[11px] xl:text-[12px] font-black uppercase tracking-[0.4em] text-red-500 flex items-center gap-4 drop-shadow-[0_0_5px_rgba(220,38,38,0.5)]">
+                  <label className="text-[0.6875rem] xl:text-[0.75rem] font-black uppercase tracking-[0.4em] text-red-500 flex items-center gap-4 drop-shadow-[0_0_5px_rgba(220,38,38,0.5)]">
                     Full Name
                   </label>
                   <input {...register("name")} className={`w-full bg-editorial-bg/80 border ${errors.name ? 'border-red-500' : 'border-editorial-border'} rounded-2xl px-8 py-6 focus:border-red-500 focus:ring-2 focus:ring-red-500/50 focus:ring-offset-2 focus:ring-offset-black outline-none transition-all duration-300 font-mono text-editorial-text text-lg`} />
                   {errors.name && <p className="text-red-500 text-xs mt-2">{errors.name.message}</p>}
                 </div>
                 <div className="space-y-4 group/input">
-                  <label className="text-[11px] xl:text-[12px] font-black uppercase tracking-[0.4em] text-red-500 flex items-center gap-4 drop-shadow-[0_0_5px_rgba(220,38,38,0.5)]">
+                  <label className="text-[0.6875rem] xl:text-[0.75rem] font-black uppercase tracking-[0.4em] text-red-500 flex items-center gap-4 drop-shadow-[0_0_5px_rgba(220,38,38,0.5)]">
                     Email Address
                   </label>
                   <input {...register("email")} className={`w-full bg-editorial-bg/80 border ${errors.email ? 'border-red-500' : 'border-editorial-border'} rounded-2xl px-8 py-6 focus:border-red-500 focus:ring-2 focus:ring-red-500/50 focus:ring-offset-2 focus:ring-offset-black outline-none transition-all duration-300 font-mono text-editorial-text text-lg`} />
@@ -172,7 +172,7 @@ export default function Contact() {
                 </div>
               </div>
               <div className="space-y-4 group/input">
-                <label className="text-[11px] xl:text-[12px] font-black uppercase tracking-[0.4em] text-red-500 flex items-center gap-4 drop-shadow-[0_0_5px_rgba(220,38,38,0.5)]">
+                <label className="text-[0.6875rem] xl:text-[0.75rem] font-black uppercase tracking-[0.4em] text-red-500 flex items-center gap-4 drop-shadow-[0_0_5px_rgba(220,38,38,0.5)]">
                   Subject
                 </label>
                 <div className="relative">
@@ -185,13 +185,13 @@ export default function Contact() {
                 </div>
               </div>
               <div className="space-y-4 group/input">
-                <label className="text-[11px] xl:text-[12px] font-black uppercase tracking-[0.4em] text-red-500 flex items-center gap-4 drop-shadow-[0_0_5px_rgba(220,38,38,0.5)]">
+                <label className="text-[0.6875rem] xl:text-[0.75rem] font-black uppercase tracking-[0.4em] text-red-500 flex items-center gap-4 drop-shadow-[0_0_5px_rgba(220,38,38,0.5)]">
                   Message
                 </label>
                 <textarea {...register("message")} className={`w-full bg-editorial-bg/80 border ${errors.message ? 'border-red-500' : 'border-editorial-border'} rounded-2xl px-8 py-6 focus:border-red-500 focus:ring-2 focus:ring-red-500/50 focus:ring-offset-2 focus:ring-offset-black outline-none transition-all duration-300 resize-none font-mono text-editorial-text text-lg custom-scrollbar`}></textarea>
                 {errors.message && <p className="text-red-500 text-xs mt-2">{errors.message.message}</p>}
               </div>
-              <button type="submit" className="bg-red-600 border border-red-500 text-white w-full py-8 rounded-2xl font-black uppercase tracking-[0.4em] text-[13px] flex items-center justify-center gap-4 hover:bg-editorial-text hover:text-editorial-bg hover:border-white focus:ring-2 focus:ring-red-400 focus:ring-offset-2 focus:ring-offset-black transition-all duration-500 shadow-[0_20px_40px_rgba(220,38,38,0.4)] hover:shadow-[0_20px_50px_rgba(0,0,0,0.06)] group/btn transform-gpu hover:-translate-y-1 relative overflow-hidden">
+              <button type="submit" className="bg-red-600 border border-red-500 text-white w-full py-8 rounded-2xl font-black uppercase tracking-[0.4em] text-[0.8125rem] flex items-center justify-center gap-4 hover:bg-editorial-text hover:text-editorial-bg hover:border-white focus:ring-2 focus:ring-red-400 focus:ring-offset-2 focus:ring-offset-black transition-all duration-500 shadow-[0_20px_40px_rgba(220,38,38,0.4)] hover:shadow-[0_20px_50px_rgba(0,0,0,0.06)] group/btn transform-gpu hover:-translate-y-1 relative overflow-hidden">
                 <span className="relative z-10 flex items-center justify-center gap-4 drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]">
                   Transmit Message <Send className="w-5 h-5 group-hover/btn:translate-x-2 group-hover/btn:-translate-y-1 transition-transform duration-300" />
                 </span>

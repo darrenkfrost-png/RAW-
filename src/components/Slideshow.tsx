@@ -63,7 +63,7 @@ export default function Slideshow({ images }: SlideshowProps) {
         <motion.div 
           initial={{ y: -20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          className="bg-editorial-bg/60 backdrop-blur-md px-3 py-1 font-mono text-[10px] text-editorial-text border border-editorial-border rounded-full"
+          className="bg-editorial-bg/60 backdrop-blur-md px-3 py-1 font-mono text-[0.6875rem] text-editorial-text border border-editorial-border rounded-full"
         >
           <span className="text-editorial-text font-bold">{index + 1}</span> / {images.length}
         </motion.div>

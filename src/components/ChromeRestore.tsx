@@ -82,7 +82,7 @@ export default function ChromeRestore() {
             className="mb-1 w-[min(15rem,calc(100vw-2rem))] overflow-hidden rounded-2xl border border-white/10 bg-black/92 p-3 shadow-2xl backdrop-blur-xl"
           >
             <div className="mb-3 flex items-center justify-between px-1">
-              <p className="font-mono text-[9px] uppercase tracking-[0.3em] text-white/35">Display</p>
+              <p className="font-mono text-[0.6875rem] uppercase tracking-[0.3em] text-white/35">Display</p>
               <button
                 onClick={() => setOpen(false)}
                 aria-label="Close display panel"
@@ -103,7 +103,7 @@ export default function ChromeRestore() {
                     aria-pressed={!hidden}
                     /* min-h-11 = 44px: the smallest tap target that is reliable
                        on a phone. */
-                    className={`flex min-h-11 w-full items-center gap-3 rounded-lg border px-3 py-2 text-left font-mono text-[10px] uppercase tracking-[0.12em] transition-colors ${
+                    className={`flex min-h-11 w-full items-center gap-3 rounded-lg border px-3 py-2 text-left font-mono text-[0.6875rem] uppercase tracking-[0.12em] transition-colors ${
                       hidden
                         ? "border-white/10 text-white/45 hover:border-red-500/60 hover:text-white"
                         : "border-red-500/40 bg-red-600/10 text-red-200"
@@ -120,13 +120,13 @@ export default function ChromeRestore() {
             <div className="mt-3 grid grid-cols-2 gap-2">
               <button
                 onClick={restoreChrome}
-                className="min-h-11 rounded-lg bg-red-600 px-2 font-mono text-[10px] font-black uppercase tracking-[0.15em] text-white transition-colors hover:bg-red-500"
+                className="min-h-11 rounded-lg bg-red-600 px-2 font-mono text-[0.6875rem] font-black uppercase tracking-[0.15em] text-white transition-colors hover:bg-red-500"
               >
                 Show all
               </button>
               <button
                 onClick={enterFocusMode}
-                className="min-h-11 rounded-lg border border-white/15 px-2 font-mono text-[10px] font-black uppercase tracking-[0.15em] text-white/70 transition-colors hover:border-white/35 hover:text-white"
+                className="min-h-11 rounded-lg border border-white/15 px-2 font-mono text-[0.6875rem] font-black uppercase tracking-[0.15em] text-white/70 transition-colors hover:border-white/35 hover:text-white"
               >
                 Hide all
               </button>
@@ -147,7 +147,7 @@ export default function ChromeRestore() {
           alt=""
           className="h-6 w-auto object-contain opacity-85 transition-opacity duration-500 group-hover:opacity-100"
         />
-        <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-600 font-mono text-[9px] font-black text-white">
+        <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-600 font-mono text-[0.6875rem] font-black text-white">
           {chromeHidden.length}
         </span>
       </button>

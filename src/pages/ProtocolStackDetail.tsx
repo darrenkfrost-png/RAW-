@@ -99,18 +99,22 @@ export default function ProtocolStackDetail() {
        <div className="max-w-[var(--content-max-width)] mx-auto relative z-10">
          <Breadcrumb items={[{ label: "Home", path: "/" }, { label: "Protocol Stacks", path: "/protocol-stacks" }, { label: stack.title }]} />
          
+          {/* ⚠️ min-w-0 ON BOTH COLUMNS. Hiding the module list collapsed this grid's single
+              phone track from 576px to the container width: every module row is a flex line
+              whose text block, though min-w-0 itself, still reports its full nowrap width to
+              an AUTO-sized track. The item minimum is what the track listens to. */}
          <div className="mt-8 mb-20 grid lg:grid-cols-2 gap-16 lg:gap-32 items-center">
             {/* Left Intel */}
-            <div>
+            <div className="min-w-0">
                <div className="flex items-center gap-3 mb-6">
                  <Layers className="w-5 h-5 text-red-600 animate-pulse" />
-                 <span className="font-mono text-[10px] text-red-500 font-bold uppercase tracking-widest">Protocol Series</span>
+                 <span className="font-mono text-[0.6875rem] text-red-500 font-bold uppercase tracking-widest">Protocol Series</span>
                </div>
                <h1 className="text-4xl md:text-6xl font-black text-editorial-text uppercase tracking-tighter mb-8">{stack.title}</h1>
                <div className="mb-8 p-5 bg-editorial-bg border border-red-500/20 rounded-xl flex items-start gap-4">
                   <Target className="w-5 h-5 text-red-500 mt-1" />
                   <div>
-                    <span className="font-mono text-[9px] text-editorial-text-muted uppercase font-bold tracking-widest block mb-1">Target Profile</span>
+                    <span className="font-mono text-[0.6875rem] text-editorial-text-muted uppercase font-bold tracking-widest block mb-1">Target Profile</span>
                     <p className="text-sm text-editorial-text font-bold">{stack.target}</p>
                   </div>
                </div>
@@ -118,7 +122,7 @@ export default function ProtocolStackDetail() {
                
                <div className="grid sm:grid-cols-2 gap-8 mb-12">
                  <div>
-                    <span className="font-mono text-[10px] text-editorial-text-muted uppercase tracking-widest font-bold block border-b border-editorial-border-light pb-2 mb-4">Core Benefits</span>
+                    <span className="font-mono text-[0.6875rem] text-editorial-text-muted uppercase tracking-widest font-bold block border-b border-editorial-border-light pb-2 mb-4">Core Benefits</span>
                     <ul className="space-y-3">
                       {stack.benefits.map((b, i) => (
                         <li key={i} className="flex items-center gap-3 text-xs uppercase font-mono tracking-widest text-editorial-text">
@@ -128,8 +132,8 @@ export default function ProtocolStackDetail() {
                     </ul>
                  </div>
                  <div>
-                    <span className="font-mono text-[10px] text-editorial-text-muted uppercase tracking-widest font-bold block border-b border-editorial-border-light pb-2 mb-4">Stack Metrics</span>
-                    <ul className="space-y-3 font-mono text-[11px] text-editorial-text">
+                    <span className="font-mono text-[0.6875rem] text-editorial-text-muted uppercase tracking-widest font-bold block border-b border-editorial-border-light pb-2 mb-4">Stack Metrics</span>
+                    <ul className="space-y-3 font-mono text-[0.6875rem] text-editorial-text">
                       <li>UNITS INCLUDED: <span className="text-editorial-text font-bold">{stack.products.length}</span></li>
                       <li>ESTIMATED DEPLOYMENT: <span className="text-red-500 font-bold">£{totalEstimate.toFixed(2)}</span></li>
                       <li>SYNERGY FACTOR: <span className="text-blue-500 font-bold">ALPHA+</span></li>
@@ -145,12 +149,12 @@ export default function ProtocolStackDetail() {
             </div>
 
             {/* Right Matrix Output */}
-            <div className="relative">
+            <div className="relative min-w-0">
               <div className="absolute inset-0 bg-editorial-bg rounded-[3rem] shadow-[0_20px_100px_rgba(0,0,0,0.1)] border border-editorial-border" />
               <div className="relative z-10 p-10 lg:p-12">
                  <h3 className="font-sans font-black text-editorial-text text-xl uppercase tracking-tighter mb-8 border-b border-editorial-border pb-4 flex items-center justify-between">
                     <span>Component Matrix</span>
-                    <span className="font-mono text-[10px] text-red-500 tracking-widest">LIVE_STATUS: ONLINE</span>
+                    <span className="font-mono text-[0.6875rem] text-red-500 tracking-widest">LIVE_STATUS: ONLINE</span>
                  </h3>
 
                  <div className="space-y-4">
@@ -161,7 +165,7 @@ export default function ProtocolStackDetail() {
                            <img src={p.image} alt={p.name} className="w-full h-full object-cover mix-blend-screen grayscale group-hover:grayscale-0 transition-all font-light" />
                         </div>
                         <div className="flex-1 min-w-0">
-                           <span className="font-mono text-[9px] text-editorial-text-muted uppercase tracking-widest block mb-1">Module 0{i + 1}</span>
+                           <span className="font-mono text-[0.6875rem] text-editorial-text-muted uppercase tracking-widest block mb-1">Module 0{i + 1}</span>
                            <h4 className="font-sans font-black text-editorial-text text-sm uppercase tracking-tight truncate group-hover:text-red-500 transition-colors">{p.name}</h4>
                         </div>
                         <div className="shrink-0 flex items-center justify-center w-10 h-10 border border-editorial-border-light rounded-full group-hover:bg-red-600 group-hover:border-red-500 group-hover:text-white text-editorial-text-muted transition-all">

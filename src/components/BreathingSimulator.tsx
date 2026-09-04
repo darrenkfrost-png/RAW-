@@ -250,14 +250,14 @@ export default function BreathingSimulator() {
         {/* Selector & Information Hub */}
         <div className="lg:col-span-5 space-y-10 w-full">
           <div className="space-y-4">
-            <span className="text-[10px] font-mono font-black text-emerald-500 uppercase tracking-[0.4em] block">PROTOCOL // 04 RESET</span>
+            <span className="text-[0.6875rem] font-mono font-black text-emerald-500 uppercase tracking-[0.4em] block">PROTOCOL // 04 RESET</span>
             <h3 className="text-3xl font-sans font-black uppercase text-white tracking-tight">AUTONOMIC DOWN-REGULATOR</h3>
             <p className="text-xs text-zinc-500 leading-relaxed font-light">Optimize heart rate variability (HRV) and balance CNS activity through isometric respiratory synchronization.</p>
           </div>
 
           {/* Technique selectors */}
           <div className="space-y-4">
-            <span className="text-[9px] font-mono font-black text-zinc-500 tracking-widest uppercase block">SELECT RESPIRATORY VECTOR</span>
+            <span className="text-[0.6875rem] font-mono font-black text-zinc-500 tracking-widest uppercase block">SELECT RESPIRATORY VECTOR</span>
             <div className="space-y-3">
               {TECHNIQUES.map((tech, idx) => (
                 <button
@@ -266,10 +266,10 @@ export default function BreathingSimulator() {
                   className={`w-full text-left p-5 rounded-2xl border transition-all duration-500 flex items-center justify-between group ${techIndex === idx ? 'bg-zinc-950 border-emerald-500/40 shadow-inner' : 'bg-zinc-950/40 border-zinc-900/60 hover:bg-zinc-950'}`}
                 >
                   <div className="space-y-1 max-w-[80%]">
-                    <span className={`block text-[11px] font-mono font-black tracking-widest ${techIndex === idx ? tech.color : 'text-zinc-400 group-hover:text-white'}`}>{tech.name}</span>
-                    <span className="block text-[10px] text-zinc-500 font-light truncate">{tech.description}</span>
+                    <span className={`block text-[0.6875rem] font-mono font-black tracking-widest ${techIndex === idx ? tech.color : 'text-zinc-400 group-hover:text-white'}`}>{tech.name}</span>
+                    <span className="block text-[0.6875rem] text-zinc-500 font-light truncate">{tech.description}</span>
                   </div>
-                  <span className="text-[10px] font-mono font-black text-zinc-600 bg-zinc-900 border border-zinc-800 px-3 py-1.5 rounded-lg group-hover:text-zinc-300">
+                  <span className="text-[0.6875rem] font-mono font-black text-zinc-600 bg-zinc-900 border border-zinc-800 px-3 py-1.5 rounded-lg group-hover:text-zinc-300">
                     {tech.inhale}-{tech.hold1}-{tech.exhale}-{tech.hold2}
                   </span>
                 </button>
@@ -280,12 +280,12 @@ export default function BreathingSimulator() {
           {/* Micro Telemetry Metrics */}
           <div className="grid grid-cols-3 gap-6 border-t border-zinc-900 pt-8">
             <div className="bg-zinc-950/40 border border-zinc-900/60 rounded-xl p-4 text-center">
-              <span className="text-[8px] font-mono font-bold text-zinc-500 uppercase block tracking-wider mb-1">COMPLETED</span>
-              <span className="text-lg font-mono font-black text-white">{completedCycles} <span className="text-[9px] text-zinc-650">SETS</span></span>
+              <span className="text-[0.6875rem] font-mono font-bold text-zinc-500 uppercase block tracking-wider mb-1">COMPLETED</span>
+              <span className="text-lg font-mono font-black text-white">{completedCycles} <span className="text-[0.6875rem] text-zinc-650">SETS</span></span>
             </div>
             
             <div className="bg-zinc-950/40 border border-zinc-900/60 rounded-xl p-4 text-center">
-              <span className="text-[8px] font-mono font-bold text-zinc-500 uppercase block tracking-wider mb-1">HEART RATE</span>
+              <span className="text-[0.6875rem] font-mono font-bold text-zinc-500 uppercase block tracking-wider mb-1">HEART RATE</span>
               <span className="text-lg font-mono font-black text-emerald-500 flex items-center justify-center gap-1">
                 <Heart className="w-3.5 h-3.5 fill-current animate-pulse text-red-500 shrink-0" />
                 {simulatedHeartRate}
@@ -293,7 +293,7 @@ export default function BreathingSimulator() {
             </div>
 
             <div className="bg-zinc-950/40 border border-zinc-900/60 rounded-xl p-4 text-center">
-              <span className="text-[8px] font-mono font-bold text-zinc-500 uppercase block tracking-wider mb-1">CO2 BUFFER</span>
+              <span className="text-[0.6875rem] font-mono font-bold text-zinc-500 uppercase block tracking-wider mb-1">CO2 BUFFER</span>
               <span className="text-lg font-mono font-black text-blue-400">96.8%</span>
             </div>
           </div>
@@ -337,7 +337,7 @@ export default function BreathingSimulator() {
                     initial={{ opacity: 0, y: 5 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -5 }}
-                    className={`font-sans font-black text-[13px] tracking-[0.25em] block ${isActive ? currentTech.color : 'text-zinc-500'}`}
+                    className={`font-sans font-black text-[0.8125rem] tracking-[0.25em] block ${isActive ? currentTech.color : 'text-zinc-500'}`}
                   >
                     {isActive ? stepName : 'IDLE_OFF'}
                   </motion.span>
@@ -354,7 +354,7 @@ export default function BreathingSimulator() {
           <div className="flex items-center gap-6">
             <button
               onClick={() => setIsActive(!isActive)}
-              className={`flex items-center gap-3 py-4 px-8 rounded-full border text-[10px] font-mono font-black uppercase tracking-widest cursor-pointer transition-all duration-300 ${isActive ? 'bg-red-650/10 border-red-500/30 text-red-500 hover:bg-red-600 hover:text-white' : 'bg-emerald-600 border-emerald-500 text-white hover:bg-emerald-500 hover:shadow-[0_4px_20px_rgba(16,185,129,0.4)]'}`}
+              className={`flex items-center gap-3 py-4 px-8 rounded-full border text-[0.6875rem] font-mono font-black uppercase tracking-widest cursor-pointer transition-all duration-300 ${isActive ? 'bg-red-650/10 border-red-500/30 text-red-500 hover:bg-red-600 hover:text-white' : 'bg-emerald-600 border-emerald-500 text-white hover:bg-emerald-500 hover:shadow-[0_4px_20px_rgba(16,185,129,0.4)]'}`}
             >
               {isActive ? (
                 <>

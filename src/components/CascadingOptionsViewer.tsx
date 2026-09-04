@@ -39,7 +39,7 @@ const CascadingOptionsViewer: React.FC<CascadingOptionsViewerProps> = ({ options
             />
           </div>
           <h4 className="font-sans font-black text-lg uppercase tracking-tight text-editorial-text mb-2">{option.title}</h4>
-          <p className="font-mono text-[10px] text-editorial-text-muted uppercase tracking-widest leading-relaxed">
+          <p className="font-mono text-[0.6875rem] text-editorial-text-muted uppercase tracking-widest leading-relaxed">
             {option.description}
           </p>
         </motion.button>

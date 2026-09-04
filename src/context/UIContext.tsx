@@ -155,6 +155,14 @@ export function UIProvider({ children }: { children: React.ReactNode }) {
   // Persistence
   // Removed redundant useEffect: state is initialized lazily via useState
   
+  /* ⚠️ THE INTERFACE SCALE SLIDER CHANGED A NUMBER THAT NOTHING READ.
+     Its only consumers were two labels that displayed the percentage. It
+     now multiplies the fluid root font-size (html {} in index.css), so
+     50%-150% is a real, whole-site text size — the "autosize" control. */
+  useEffect(() => {
+    try { document.documentElement.style.setProperty('--ui-scale', String(uiScale)); } catch { /* no document */ }
+  }, [uiScale]);
+
   const updateScale = useCallback((scale: number) => {
     setUIScale(scale);
     try {

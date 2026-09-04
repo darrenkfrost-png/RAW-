@@ -108,7 +108,7 @@ function Tile({ item, onOpen, index }: { item: ShowcaseItem; onOpen: () => void;
             {item.caption}
           </p>
         )}
-        <p className="font-mono text-[9px] uppercase tracking-[0.3em] text-white/45">{item.credit}</p>
+        <p className="font-mono text-[0.6875rem] uppercase tracking-[0.3em] text-white/45">{item.credit}</p>
       </div>
     </motion.button>
   );
@@ -183,10 +183,10 @@ export default function Showcase() {
 
       <section className="section-container relative z-10 pb-32">
         <div className="max-w-3xl">
-          <span className="mb-5 block font-mono text-[10px] font-bold uppercase tracking-[0.5em] text-red-500">
+          <span className="mb-5 block font-mono text-[0.6875rem] font-bold uppercase tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] text-red-500">
             MEDIA_ARCHIVE // SHOWCASE
           </span>
-          <h1 className="mb-6 font-sans text-5xl font-black uppercase leading-[0.9] tracking-tight md:text-7xl">
+          <h1 className="mb-6 font-sans font-black uppercase leading-[0.9] tracking-tight text-display-sm">
             The showcase
           </h1>
           <p className="max-w-xl text-sm leading-relaxed text-editorial-text-muted md:text-base">
@@ -204,7 +204,7 @@ export default function Showcase() {
                 key={f.id}
                 onClick={() => changeFilter(f.id)}
                 aria-pressed={active}
-                className={`flex items-center gap-2.5 rounded-full border px-5 py-2.5 font-mono text-[10px] font-bold uppercase tracking-[0.25em] transition-all
+                className={`flex items-center gap-2.5 rounded-full border px-5 py-2.5 font-mono text-[0.6875rem] font-bold uppercase tracking-[0.25em] transition-all
                   ${active
                     ? "border-red-500 bg-red-500/10 text-red-300"
                     : "border-editorial-border text-editorial-text-muted hover:border-white/25 hover:text-white"}`}
@@ -219,7 +219,7 @@ export default function Showcase() {
 
         {/* The wall */}
         {items.length === 0 && social.length === 0 ? (
-          <p className="py-24 text-center font-mono text-[11px] uppercase tracking-[0.3em] text-editorial-text-muted">
+          <p className="py-24 text-center font-mono text-[0.6875rem] uppercase tracking-[0.3em] text-editorial-text-muted">
             Nothing here yet
           </p>
         ) : (
@@ -241,7 +241,7 @@ export default function Showcase() {
                 <h2 className="font-sans text-2xl font-black uppercase tracking-tight md:text-3xl">
                   The channels
                 </h2>
-                <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-editorial-text-muted">
+                <span className="font-mono text-[0.6875rem] uppercase tracking-[0.3em] text-editorial-text-muted">
                   {counts.youtube} YouTube · {counts.tiktok} TikTok
                 </span>
               </div>

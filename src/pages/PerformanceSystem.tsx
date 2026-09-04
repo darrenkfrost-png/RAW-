@@ -66,10 +66,10 @@ export default function PerformanceSystem() {
                  <div className="w-3 h-3 rounded-full bg-red-600 animate-ping absolute inset-0" />
                  <div className="w-3 h-3 rounded-full bg-red-600 relative" />
               </div>
-              <span className="font-mono text-[10px] text-editorial-text-muted uppercase tracking-[0.5em] font-black">NEURAL_ORDNANCE // V4.0</span>
+              <span className="font-mono text-[0.6875rem] text-editorial-text-muted uppercase tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] font-black">NEURAL_ORDNANCE // V4.0</span>
            </motion.div>
            
-           <h1 className="text-6xl md:text-8xl lg:text-9xl font-black text-editorial-text uppercase tracking-tighter mb-12 leading-[0.8] relative">
+           <h1 className="font-black text-editorial-text uppercase tracking-tighter mb-12 leading-[0.8] relative text-display-lg">
              <motion.span 
                initial={{ opacity: 0, x: -50 }}
                animate={{ opacity: 1, x: 0 }}
@@ -121,7 +121,7 @@ export default function PerformanceSystem() {
                   
                   {/* Tactical ID */}
                   <div className="absolute top-10 right-10 flex flex-col items-end opacity-20 group-hover:opacity-100 transition-opacity duration-700">
-                     <span className="font-mono text-5xl lg:text-7xl font-black text-editorial-text leading-none">0{idx + 1}</span>
+                     <span className="font-mono font-black text-editorial-text leading-none text-display-sm">0{idx + 1}</span>
                      <div className="h-[2px] w-20 bg-red-600 mt-2 scale-x-0 group-hover:scale-x-100 transition-transform origin-right duration-700" />
                   </div>
 
@@ -138,7 +138,7 @@ export default function PerformanceSystem() {
                   <div className="space-y-8">
                     <div>
                        <h2 className="text-4xl lg:text-5xl font-black text-editorial-text uppercase tracking-tighter mb-4 transition-colors duration-700 group-hover:text-editorial-text">{sys.title}</h2>
-                       <p className="font-mono text-[10px] text-editorial-text-muted uppercase tracking-[0.4em] font-black">{sys.subtitle}</p>
+                       <p className="font-mono text-[0.6875rem] text-editorial-text-muted uppercase tracking-[0.4em] font-black">{sys.subtitle}</p>
                     </div>
 
                     <p className="text-editorial-text-muted font-medium leading-relaxed text-base lg:text-lg">
@@ -148,7 +148,7 @@ export default function PerformanceSystem() {
                     {/* Telemetry Dots */}
                     <div className="pt-8 flex flex-wrap gap-3">
                        {['HORMESIS', 'ADAPTATION', 'OUTPUT', 'RECOVERY'].map((tag, i) => (
-                         <div key={i} className="px-4 py-2 bg-editorial-text/5 border border-editorial-border rounded-full font-mono text-[8px] text-zinc-600 uppercase tracking-widest group-hover:border-red-600/20 group-hover:text-editorial-text transition-all duration-700">
+                         <div key={i} className="px-4 py-2 bg-editorial-text/5 border border-editorial-border rounded-full font-mono text-[0.6875rem] text-zinc-600 uppercase tracking-widest group-hover:border-red-600/20 group-hover:text-editorial-text transition-all duration-700">
                             {tag}_INIT
                          </div>
                        ))}
@@ -172,7 +172,7 @@ export default function PerformanceSystem() {
         <div className="mt-32 pt-20 border-t border-editorial-border text-center relative overflow-hidden">
            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[80%] h-[1px] bg-gradient-to-r from-transparent via-red-600/50 to-transparent shadow-[0_0_20px_rgba(220,38,38,0.3)]" />
            <div className="flex flex-col items-center gap-8">
-              <p className="font-mono text-[10px] text-zinc-600 uppercase tracking-[0.8em] font-black">CONTINUOUS_SYSTEM_UPGRADE</p>
+              <p className="font-mono text-[0.6875rem] text-zinc-600 uppercase tracking-[0.3em] sm:tracking-[0.8em] [overflow-wrap:anywhere] font-black">CONTINUOUS_SYSTEM_UPGRADE</p>
               <div className="flex gap-4">
                  {[1,2,3,4,5].map(i => <div key={i} className="w-1 h-6 bg-red-600/20 border border-editorial-border" />)}
               </div>

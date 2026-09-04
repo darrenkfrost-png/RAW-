@@ -49,15 +49,15 @@ export function EngagementVideo() {
         <div className="space-y-4 crystal-glass-panel p-5 layered-shadows-premium border-red-500/20">
           <div className="flex items-center gap-4">
             <div className="w-2 h-2 rounded-full bg-editorial-accent animate-ping shadow-[0_0_10px_currentColor]" />
-            <span className="font-mono text-[10px] cinematic-gradient-text font-black uppercase tracking-[0.4em]">LIVE_CORE_FEED</span>
+            <span className="font-mono text-[0.6875rem] cinematic-gradient-text font-black uppercase tracking-[0.4em]">LIVE_CORE_FEED</span>
           </div>
-          <p className="font-mono text-[9px] text-zinc-400 font-black tracking-widest flex items-center gap-3">
+          <p className="font-mono text-[0.6875rem] text-zinc-400 font-black tracking-widest flex items-center gap-3">
              <span className="w-1 h-3 bg-red-500 rounded-sm" /> 3840x2160 // 60FPS
           </p>
         </div>
         <div className="text-right crystal-glass-panel p-5 layered-shadows-premium border-red-500/20 space-y-3">
-          <span className="font-mono text-[10px] text-zinc-400 font-black block tracking-[0.5em] uppercase">04:TRN // OPTIMIZED</span>
-          <span className="font-mono text-[9px] text-zinc-600 font-black block tracking-widest flex items-center gap-3 justify-end">
+          <span className="font-mono text-[0.6875rem] text-zinc-400 font-black block tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] uppercase">04:TRN // OPTIMIZED</span>
+          <span className="font-mono text-[0.6875rem] text-zinc-600 font-black block tracking-widest flex items-center gap-3 justify-end">
              ENCODE_STATUS: <span className="text-white">VERIFIED</span>
           </span>
         </div>

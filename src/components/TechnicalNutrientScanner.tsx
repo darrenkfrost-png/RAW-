@@ -60,12 +60,12 @@ export default function TechnicalNutrientScanner() {  const [activeNode, setActi
                     </div>
                     <div className="absolute inset-0 bg-red-500/20 blur-xl animate-pulse rounded-2xl" />
                 </div>
-                <span className="text-[12px] font-black uppercase tracking-[0.5em] text-red-500 drop-shadow-[0_0_10px_rgba(220,38,38,0.4)]">QUANTUM_TELEMETRY_FEED</span>
+                <span className="text-[0.75rem] font-black uppercase tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] text-red-500 drop-shadow-[0_0_10px_rgba(220,38,38,0.4)]">QUANTUM_TELEMETRY_FEED</span>
               </div>
               <h4 className="text-4xl font-sans font-black text-editorial-text uppercase tracking-tighter">BIO_KINETIC_STREAM</h4>
             </div>
             <div className="text-right">
-              <span className="text-[10px] text-editorial-text-muted font-black uppercase block tracking-[0.4em] mb-3">INTEGRITY_READOUT</span>
+              <span className="text-[0.6875rem] text-editorial-text-muted font-black uppercase block tracking-[0.4em] mb-3">INTEGRITY_READOUT</span>
               <span className="text-2xl text-emerald-500 font-mono font-black uppercase tracking-tight flex items-center gap-4 justify-end">
                  <div className="w-3 h-3 bg-emerald-500 rounded-full animate-[pulse_1s_infinite] shadow-[0_0_15px_currentColor]" /> 99.98%
               </span>
@@ -124,7 +124,7 @@ export default function TechnicalNutrientScanner() {  const [activeNode, setActi
                     <span className={`p-3 rounded-xl border transition-colors duration-[800ms] shadow-[0_10px_20px_rgba(0,0,0,0.08)] ${activeNode === i ? 'bg-red-600/10 border-red-500/30 text-red-500 drop-shadow-[0_0_10px_#ef4444]' : 'bg-editorial-surface border-editorial-border text-zinc-600'}`}>
                       {node.icon}
                     </span>
-                    <span className={`text-[12px] font-black tracking-[0.5em] uppercase transition-colors duration-[800ms] ${activeNode === i ? 'text-editorial-text drop-shadow-[0_0_15px_rgba(0,0,0,0.08)]' : 'text-editorial-text-muted'}`}>
+                    <span className={`text-[0.75rem] font-black tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] uppercase transition-colors duration-[800ms] ${activeNode === i ? 'text-editorial-text drop-shadow-[0_0_15px_rgba(0,0,0,0.08)]' : 'text-editorial-text-muted'}`}>
                       {node.label}
                     </span>
                   </div>
@@ -133,7 +133,7 @@ export default function TechnicalNutrientScanner() {  const [activeNode, setActi
                   <span className={`text-6xl font-sans font-black tracking-[-0.03em] transition-colors duration-[800ms] drop-shadow-[0_10px_20px_rgba(0,0,0,0.1)] ${activeNode === i ? 'text-editorial-text' : 'text-zinc-700'}`}>
                     {activeNode === i ? node.value.toFixed(1) : "---"}
                   </span>
-                  <span className={`text-[13px] font-bold tracking-widest transition-colors duration-[800ms] ${activeNode === i ? 'text-red-500' : 'text-zinc-800'}`}>{node.unit}</span>
+                  <span className={`text-[0.8125rem] font-bold tracking-widest transition-colors duration-[800ms] ${activeNode === i ? 'text-red-500' : 'text-zinc-800'}`}>{node.unit}</span>
                 </div>
               </button>
             </MagneticWrapper>

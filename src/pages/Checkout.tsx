@@ -65,7 +65,7 @@ export default function Checkout() {
            <ShieldCheck className="w-12 h-12 text-zinc-800 mx-auto mb-6" />
            <span className="font-mono text-xs text-editorial-text-muted uppercase tracking-widest font-bold block mb-2">Cart Empty</span>
            <p className="text-zinc-600 font-light mx-auto mb-8">You have no active hardware or nutrient protocols in your deployment queue.</p>
-           <Link to="/shop" className="inline-block bg-red-600 text-white hover:bg-editorial-text hover:text-editorial-bg transition-all px-8 py-4 rounded-xl font-black uppercase text-[10px] tracking-widest">
+           <Link to="/shop" className="inline-block bg-red-600 text-white hover:bg-editorial-text hover:text-editorial-bg transition-all px-8 py-4 rounded-xl font-black uppercase text-[0.6875rem] tracking-widest">
              Browse Archive
            </Link>
         </motion.div>
@@ -89,11 +89,11 @@ export default function Checkout() {
           <div className="w-24 h-24 bg-emerald-500/10 border border-emerald-500/30 rounded-full flex items-center justify-center mx-auto mb-12 shadow-[0_0_30px_rgba(16,185,129,0.3)]">
              <CheckCircle className="w-12 h-12 text-emerald-500 drop-shadow-[0_0_15px_rgba(16,185,129,0.5)]" />
           </div>
-          <h1 className="text-5xl md:text-7xl font-black uppercase tracking-tighter mb-6 text-editorial-text drop-shadow-[0_2px_10px_rgba(0,0,0,0.1)]">Logistics <br /><span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-emerald-700 pb-2">Initialized</span></h1>
-          <p className="text-editorial-text-muted mb-12 font-mono text-[11px] xl:text-[12px] tracking-[0.4em] uppercase font-bold drop-shadow-[0_2px_4px_rgba(0,0,0,0.08)]">
+          <h1 className="font-black uppercase tracking-tighter mb-6 text-editorial-text drop-shadow-[0_2px_10px_rgba(0,0,0,0.1)] text-display-sm">Logistics <br /><span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-emerald-700 pb-2">Initialized</span></h1>
+          <p className="text-editorial-text-muted mb-12 font-mono text-[0.6875rem] xl:text-[0.75rem] tracking-[0.4em] uppercase font-bold drop-shadow-[0_2px_4px_rgba(0,0,0,0.08)]">
             Order Protocol Confirmed. Awaiting Dispatch.
           </p>
-          <div className="font-mono text-[11px] text-editorial-text-muted mb-12 border-t border-editorial-border-light pt-10 bg-editorial-bg/60 p-8 rounded-2xl border border-editorial-border inline-block text-left relative z-10 w-full max-w-md mx-auto shadow-[0_10px_30px_rgba(0,0,0,0.08)]">
+          <div className="font-mono text-[0.6875rem] text-editorial-text-muted mb-12 border-t border-editorial-border-light pt-10 bg-editorial-bg/60 p-8 rounded-2xl border border-editorial-border inline-block text-left relative z-10 w-full max-w-md mx-auto shadow-[0_10px_30px_rgba(0,0,0,0.08)]">
             <div className="flex justify-between items-center mb-6">
               <span className="font-bold tracking-widest">TRANSACTION_HASH:</span>
               <span className="text-editorial-text drop-shadow-[0_0_5px_rgba(0,0,0,0.06)]">{Math.random().toString(36).substr(2, 12).toUpperCase()}</span>
@@ -107,7 +107,7 @@ export default function Checkout() {
             </div>
           </div>
           <br className="hidden md:block"/>
-          <Link to="/" className="inline-flex items-center gap-4 bg-editorial-text text-editorial-bg px-12 py-6 font-black uppercase tracking-[0.4em] text-[12px] hover:bg-emerald-500 hover:text-editorial-text transition-all duration-500 rounded-2xl shadow-[0_15px_40px_rgba(0,0,0,0.08)] hover:shadow-[0_20px_50px_rgba(16,185,129,0.3)] relative z-10 mx-auto group/btn transform-gpu hover:-translate-y-1">
+          <Link to="/" className="inline-flex items-center gap-4 bg-editorial-text text-editorial-bg px-12 py-6 font-black uppercase tracking-[0.4em] text-[0.75rem] hover:bg-emerald-500 hover:text-editorial-text transition-all duration-500 rounded-2xl shadow-[0_15px_40px_rgba(0,0,0,0.08)] hover:shadow-[0_20px_50px_rgba(16,185,129,0.3)] relative z-10 mx-auto group/btn transform-gpu hover:-translate-y-1">
             Return to Base <ArrowRight className="w-5 h-5 group-hover/btn:translate-x-2 transition-transform duration-300" />
           </Link>
         </motion.div>
@@ -119,10 +119,10 @@ export default function Checkout() {
     <div className="pt-32 xl:pt-48 pb-32 px-[var(--shell-padding-mobile)] md:px-[var(--shell-padding)] lg:px-[var(--shell-padding-lg)] max-w-[var(--content-max-width)] mx-auto min-h-[80vh] relative">
       <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-red-900/10 blur-[200px] pointer-events-none rounded-full mix-blend-screen" />
       <div className="mb-20 border-b border-editorial-border pb-12 relative z-10">
-        <span className="font-mono text-[11px] xl:text-[12px] text-red-500 font-black tracking-[0.5em] mb-8 block uppercase flex items-center gap-4 drop-shadow-[0_0_8px_rgba(220,38,38,0.5)]">
+        <span className="font-mono text-[0.6875rem] xl:text-[0.75rem] text-red-500 font-black tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] mb-8 block uppercase flex items-center gap-4 drop-shadow-[0_0_8px_rgba(220,38,38,0.5)]">
           <ShieldCheck className="w-6 h-6" /> SECURE_CHECKOUT // SSL_ENCRYPTED
         </span>
-        <h1 className="text-6xl md:text-8xl xl:text-[120px] font-black uppercase tracking-tighter leading-[0.85] text-editorial-text drop-shadow-[0_10px_30px_rgba(0,0,0,0.1)]">
+        <h1 className="font-black uppercase tracking-tighter leading-[0.85] text-editorial-text drop-shadow-[0_10px_30px_rgba(0,0,0,0.1)] text-display-md">
           Finalize <br /> <span className="text-transparent bg-clip-text bg-gradient-to-br from-red-500 to-red-900 drop-shadow-[0_0_20px_rgba(220,38,38,0.3)] pb-4 inline-block">Logistics</span>
         </h1>
       </div>
@@ -131,7 +131,7 @@ export default function Checkout() {
         <div>
           {!PAYMENTS_ENABLED && (
             <div className="mb-10 rounded-2xl border border-amber-500/40 bg-amber-500/[0.07] p-6">
-              <p className="font-mono text-[10px] font-black uppercase tracking-[0.3em] text-amber-400">
+              <p className="font-mono text-[0.6875rem] font-black uppercase tracking-[0.3em] text-amber-400">
                 Ordering is not open yet
               </p>
               <p className="mt-3 text-sm leading-relaxed text-editorial-text-muted">
@@ -148,7 +148,7 @@ export default function Checkout() {
               role="status"
               className="mb-10 rounded-2xl border border-red-500/50 bg-red-500/10 p-6"
             >
-              <p className="font-mono text-[10px] font-black uppercase tracking-[0.3em] text-red-300">
+              <p className="font-mono text-[0.6875rem] font-black uppercase tracking-[0.3em] text-red-300">
                 No order was placed
               </p>
               <p className="mt-3 text-sm leading-relaxed text-editorial-text-muted">
@@ -165,7 +165,7 @@ export default function Checkout() {
               <div className="absolute top-0 right-0 w-full h-[2px] bg-gradient-to-r from-transparent via-red-600/50 to-transparent transform translate-x-full group-hover:translate-x-0 transition-transform duration-[1500ms] ease-[0.16,1,0.3,1] shadow-[0_0_15px_#dc2626]" />
               <h2 className="font-sans font-black text-3xl uppercase tracking-tighter border-b border-editorial-border pb-8 text-editorial-text group-hover:text-red-500 transition-colors duration-[800ms] drop-shadow-[0_2px_4px_rgba(0,0,0,0.08)]">Contact Information</h2>
               <div className="space-y-4">
-                <label className="text-[11px] font-black uppercase tracking-[0.4em] text-editorial-text-muted ml-2">Email Address</label>
+                <label className="text-[0.6875rem] font-black uppercase tracking-[0.4em] text-editorial-text-muted ml-2">Email Address</label>
                 <input required type="email" className="w-full bg-editorial-bg/80 backdrop-blur-md border border-editorial-border rounded-2xl px-8 py-6 focus:border-red-500 outline-none transition-all duration-[500ms] font-mono text-lg text-editorial-text shadow-[inset_0_2px_10px_rgba(0,0,0,0.1)] focus:shadow-[0_0_20px_rgba(220,38,38,0.2)] focus:bg-editorial-bg placeholder:text-zinc-600 hover:border-editorial-border-light" placeholder="operative@domain.com" />
               </div>
             </div>
@@ -176,25 +176,25 @@ export default function Checkout() {
               <h2 className="font-sans font-black text-3xl uppercase tracking-tighter border-b border-editorial-border pb-8 text-editorial-text group-hover:text-red-500 transition-colors duration-[800ms] drop-shadow-[0_2px_4px_rgba(0,0,0,0.08)]">Shipping Protocol</h2>
               <div className="grid md:grid-cols-2 gap-8">
                 <div className="space-y-4">
-                  <label className="text-[11px] font-black uppercase tracking-[0.4em] text-editorial-text-muted ml-2">First Name</label>
+                  <label className="text-[0.6875rem] font-black uppercase tracking-[0.4em] text-editorial-text-muted ml-2">First Name</label>
                   <input required type="text" className="w-full bg-editorial-bg/80 backdrop-blur-md border border-editorial-border rounded-2xl px-8 py-6 focus:border-red-500 outline-none transition-all duration-[500ms] font-mono text-lg text-editorial-text shadow-[inset_0_2px_10px_rgba(0,0,0,0.1)] focus:shadow-[0_0_20px_rgba(220,38,38,0.2)] focus:bg-editorial-bg hover:border-editorial-border-light disabled:cursor-not-allowed disabled:opacity-40" />
                 </div>
                 <div className="space-y-4">
-                  <label className="text-[11px] font-black uppercase tracking-[0.4em] text-editorial-text-muted ml-2">Last Name</label>
+                  <label className="text-[0.6875rem] font-black uppercase tracking-[0.4em] text-editorial-text-muted ml-2">Last Name</label>
                   <input required type="text" className="w-full bg-editorial-bg/80 backdrop-blur-md border border-editorial-border rounded-2xl px-8 py-6 focus:border-red-500 outline-none transition-all duration-[500ms] font-mono text-lg text-editorial-text shadow-[inset_0_2px_10px_rgba(0,0,0,0.1)] focus:shadow-[0_0_20px_rgba(220,38,38,0.2)] focus:bg-editorial-bg hover:border-editorial-border-light disabled:cursor-not-allowed disabled:opacity-40" />
                 </div>
               </div>
               <div className="space-y-4">
-                <label className="text-[11px] font-black uppercase tracking-[0.4em] text-editorial-text-muted ml-2">Sector / Address</label>
+                <label className="text-[0.6875rem] font-black uppercase tracking-[0.4em] text-editorial-text-muted ml-2">Sector / Address</label>
                 <input required type="text" className="w-full bg-editorial-bg/80 backdrop-blur-md border border-editorial-border rounded-2xl px-8 py-6 focus:border-red-500 outline-none transition-all duration-[500ms] font-mono text-lg text-editorial-text shadow-[inset_0_2px_10px_rgba(0,0,0,0.1)] focus:shadow-[0_0_20px_rgba(220,38,38,0.2)] focus:bg-editorial-bg hover:border-editorial-border-light disabled:cursor-not-allowed disabled:opacity-40" />
               </div>
               <div className="grid md:grid-cols-2 gap-8">
                 <div className="space-y-4">
-                  <label className="text-[11px] font-black uppercase tracking-[0.4em] text-editorial-text-muted ml-2">City</label>
+                  <label className="text-[0.6875rem] font-black uppercase tracking-[0.4em] text-editorial-text-muted ml-2">City</label>
                   <input required type="text" className="w-full bg-editorial-bg/80 backdrop-blur-md border border-editorial-border rounded-2xl px-8 py-6 focus:border-red-500 outline-none transition-all duration-[500ms] font-mono text-lg text-editorial-text shadow-[inset_0_2px_10px_rgba(0,0,0,0.1)] focus:shadow-[0_0_20px_rgba(220,38,38,0.2)] focus:bg-editorial-bg hover:border-editorial-border-light disabled:cursor-not-allowed disabled:opacity-40" />
                 </div>
                 <div className="space-y-4">
-                  <label className="text-[11px] font-black uppercase tracking-[0.4em] text-editorial-text-muted ml-2">Postal Code</label>
+                  <label className="text-[0.6875rem] font-black uppercase tracking-[0.4em] text-editorial-text-muted ml-2">Postal Code</label>
                   <input required type="text" className="w-full bg-editorial-bg/80 backdrop-blur-md border border-editorial-border rounded-2xl px-8 py-6 focus:border-red-500 outline-none transition-all duration-[500ms] font-mono text-lg text-editorial-text shadow-[inset_0_2px_10px_rgba(0,0,0,0.1)] focus:shadow-[0_0_20px_rgba(220,38,38,0.2)] focus:bg-editorial-bg hover:border-editorial-border-light disabled:cursor-not-allowed disabled:opacity-40" />
                 </div>
               </div>
@@ -210,16 +210,16 @@ export default function Checkout() {
               
               <h2 className="font-sans font-black text-3xl uppercase tracking-tighter border-b border-editorial-border pb-8 relative z-10 text-editorial-text group-hover:text-red-500 transition-colors duration-[800ms] drop-shadow-[0_2px_4px_rgba(0,0,0,0.08)]">Payment Mechanism</h2>
               <div className="space-y-4 relative z-10">
-                <label className="text-[11px] font-black uppercase tracking-[0.4em] text-editorial-text-muted ml-2">Card Number</label>
+                <label className="text-[0.6875rem] font-black uppercase tracking-[0.4em] text-editorial-text-muted ml-2">Card Number</label>
                 <input required={PAYMENTS_ENABLED} disabled={!PAYMENTS_ENABLED} autoComplete="off" type="text" pattern="[0-9]{16}" placeholder="0000 0000 0000 0000" className="w-full bg-editorial-bg/80 backdrop-blur-md border border-editorial-border rounded-2xl px-8 py-6 focus:border-red-500 outline-none transition-all duration-[500ms] font-mono text-xl text-editorial-text tracking-widest shadow-[inset_0_2px_10px_rgba(0,0,0,0.1)] focus:shadow-[0_0_20px_rgba(220,38,38,0.2)] focus:bg-editorial-bg placeholder:text-zinc-600 hover:border-editorial-border-light disabled:cursor-not-allowed disabled:opacity-40" />
               </div>
               <div className="grid md:grid-cols-2 gap-8 relative z-10">
                 <div className="space-y-4">
-                  <label className="text-[11px] font-black uppercase tracking-[0.4em] text-editorial-text-muted ml-2">Expiry (MM/YY)</label>
+                  <label className="text-[0.6875rem] font-black uppercase tracking-[0.4em] text-editorial-text-muted ml-2">Expiry (MM/YY)</label>
                   <input required={PAYMENTS_ENABLED} disabled={!PAYMENTS_ENABLED} autoComplete="off" type="text" placeholder="12/25" className="w-full bg-editorial-bg/80 backdrop-blur-md border border-editorial-border rounded-2xl px-8 py-6 focus:border-red-500 outline-none transition-all duration-[500ms] font-mono text-xl text-editorial-text tracking-widest shadow-[inset_0_2px_10px_rgba(0,0,0,0.1)] focus:shadow-[0_0_20px_rgba(220,38,38,0.2)] focus:bg-editorial-bg placeholder:text-zinc-600 hover:border-editorial-border-light disabled:cursor-not-allowed disabled:opacity-40" />
                 </div>
                 <div className="space-y-4">
-                  <label className="text-[11px] font-black uppercase tracking-[0.4em] text-editorial-text-muted ml-2">CVC</label>
+                  <label className="text-[0.6875rem] font-black uppercase tracking-[0.4em] text-editorial-text-muted ml-2">CVC</label>
                   <input required={PAYMENTS_ENABLED} disabled={!PAYMENTS_ENABLED} autoComplete="off" type="password" placeholder="***" className="w-full bg-editorial-bg/80 backdrop-blur-md border border-editorial-border rounded-2xl px-8 py-6 focus:border-red-500 outline-none transition-all duration-[500ms] font-mono text-xl text-editorial-text tracking-widest shadow-[inset_0_2px_10px_rgba(0,0,0,0.1)] focus:shadow-[0_0_20px_rgba(220,38,38,0.2)] focus:bg-editorial-bg placeholder:text-zinc-600 hover:border-editorial-border-light disabled:cursor-not-allowed disabled:opacity-40" />
                 </div>
               </div>
@@ -234,7 +234,7 @@ export default function Checkout() {
             <h2 className="font-sans font-black text-3xl uppercase tracking-tighter mb-10 border-b border-editorial-border pb-8 text-editorial-text drop-shadow-[0_2px_4px_rgba(0,0,0,0.08)]">Payload Summary</h2>
             
             {items.length === 0 ? (
-              <p className="text-editorial-text-muted font-mono text-[11px] font-black uppercase tracking-[0.4em] text-center py-16 bg-editorial-bg/40 rounded-2xl border border-editorial-border">No items in payload</p>
+              <p className="text-editorial-text-muted font-mono text-[0.6875rem] font-black uppercase tracking-[0.4em] text-center py-16 bg-editorial-bg/40 rounded-2xl border border-editorial-border">No items in payload</p>
             ) : (
               <div className="space-y-6 mb-12 max-h-[45vh] overflow-y-auto custom-scrollbar pr-4 relative z-10">
                 {items.map((item) => (
@@ -245,7 +245,7 @@ export default function Checkout() {
                     </div>
                     <div className="flex-1 flex flex-col justify-center">
                       <h3 className="text-sm xl:text-base font-black uppercase tracking-widest text-editorial-text drop-shadow-[0_2px_4px_rgba(0,0,0,0.08)] mb-3">{item.name}</h3>
-                      <p className="font-mono text-[11px] text-red-500 font-black uppercase tracking-[0.4em]">QTY: {item.quantity}</p>
+                      <p className="font-mono text-[0.6875rem] text-red-500 font-black uppercase tracking-[0.4em]">QTY: {item.quantity}</p>
                     </div>
                     <div className="font-black text-xl xl:text-2xl tracking-tighter text-editorial-text flex items-center drop-shadow-[0_2px_4px_rgba(0,0,0,0.08)]">
                       £{(parseFloat(item.price.replace("£", "")) * item.quantity).toFixed(2)}
@@ -256,11 +256,11 @@ export default function Checkout() {
             )}
 
             <div className="space-y-6 border-t border-editorial-border pt-10 relative z-10">
-              <div className="flex justify-between font-mono text-[11px] xl:text-[12px] font-bold uppercase tracking-[0.4em] text-editorial-text-muted">
+              <div className="flex justify-between font-mono text-[0.6875rem] xl:text-[0.75rem] font-bold uppercase tracking-[0.4em] text-editorial-text-muted">
                 <span>Subtotal</span>
                 <span className="text-editorial-text">£{cartTotal.toFixed(2)}</span>
               </div>
-              <div className="flex justify-between font-mono text-[11px] xl:text-[12px] font-bold uppercase tracking-[0.4em] text-editorial-text-muted">
+              <div className="flex justify-between font-mono text-[0.6875rem] xl:text-[0.75rem] font-bold uppercase tracking-[0.4em] text-editorial-text-muted">
                 <span>Global Logistics</span>
                 <span className="text-emerald-500 font-black drop-shadow-[0_0_8px_rgba(16,185,129,0.5)]">COMPLIMENTARY</span>
               </div>
@@ -276,7 +276,7 @@ export default function Checkout() {
               form="checkout-form"
               type="submit"
               disabled={items.length === 0 || isProcessing}
-              className="w-full mt-12 bg-red-600 border-b-[4px] border-red-800 text-white py-7 rounded-2xl font-black uppercase tracking-[0.4em] text-[13px] hover:bg-editorial-text hover:text-editorial-bg transition-all duration-[800ms] ease-[0.16,1,0.3,1] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-4 relative overflow-hidden group/btn shadow-[0_20px_50px_rgba(220,38,38,0.3)] hover:shadow-[0_30px_80px_rgba(0,0,0,0.08)] transform-gpu active:border-b-0 active:translate-y-[2px] z-10"
+              className="w-full mt-12 bg-red-600 border-b-[4px] border-red-800 text-white py-7 rounded-2xl font-black uppercase tracking-[0.4em] text-[0.8125rem] hover:bg-editorial-text hover:text-editorial-bg transition-all duration-[800ms] ease-[0.16,1,0.3,1] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-4 relative overflow-hidden group/btn shadow-[0_20px_50px_rgba(220,38,38,0.3)] hover:shadow-[0_30px_80px_rgba(0,0,0,0.08)] transform-gpu active:border-b-0 active:translate-y-[2px] z-10"
             >
               {isProcessing ? (
                 <>

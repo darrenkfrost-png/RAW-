@@ -36,7 +36,7 @@ export default function LazyImage({ src, alt, className = "", containerClassName
                  className="absolute inset-0 bg-gradient-to-r from-transparent via-red-600/10 to-transparent"
                />
                <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="font-mono text-[8px] text-zinc-700 tracking-[0.5em] uppercase">Syncing_Visual_Buffer...</span>
+                  <span className="font-mono text-[0.6875rem] text-zinc-700 tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] uppercase">Syncing_Visual_Buffer...</span>
                </div>
             </div>
           </motion.div>
@@ -46,8 +46,8 @@ export default function LazyImage({ src, alt, className = "", containerClassName
       {/* Error Fallback */}
       {hasError ? (
         <div className="absolute inset-0 flex flex-col items-center justify-center p-4 text-center bg-editorial-bg border border-red-900/50">
-           <span className="font-mono text-[9px] text-red-600 font-black mb-2 uppercase">[ DATA_CORRUPTION_DETECTED ]</span>
-           <span className="font-mono text-[7px] text-zinc-600 uppercase">FAILED_TO_FETCH_REMOTE_ASSET</span>
+           <span className="font-mono text-[0.6875rem] text-red-600 font-black mb-2 uppercase">[ DATA_CORRUPTION_DETECTED ]</span>
+           <span className="font-mono text-[0.6875rem] text-zinc-600 uppercase">FAILED_TO_FETCH_REMOTE_ASSET</span>
         </div>
       ) : (
         <motion.img

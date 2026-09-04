@@ -28,7 +28,7 @@ const FallingText = ({ text, x }: FallingTextProps) => (
     initial={{ y: -50, opacity: 0 }} 
     animate={{ y: '100vh', opacity: [0, 1, 0] }} 
     transition={{ duration: 5, ease: "linear", repeat: Infinity }}
-    className="absolute font-mono text-red-600/50 text-[10px]"
+    className="absolute font-mono text-red-600/50 text-[0.6875rem]"
     style={{ left: `${x}%`}}
   >
     {text}

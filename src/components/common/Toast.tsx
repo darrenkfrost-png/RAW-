@@ -65,7 +65,7 @@ export const ToastProvider: React.FC<{ children: ReactNode }> = ({ children }) =
             >
               <button
                 onClick={clearAll}
-                className="px-8 py-4 bg-red-600 shadow-[0_10px_30px_rgba(220,38,38,0.3)] hover:bg-black text-[10px] font-black uppercase tracking-[0.5em] rounded-2xl border border-red-500/20 backdrop-blur-3xl transition-all active:scale-95 flex items-center gap-4 group/clear text-white"
+                className="px-8 py-4 bg-red-600 shadow-[0_10px_30px_rgba(220,38,38,0.3)] hover:bg-black text-[0.6875rem] font-black uppercase tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] rounded-2xl border border-red-500/20 backdrop-blur-3xl transition-all active:scale-95 flex items-center gap-4 group/clear text-white"
               >
                 <X className="w-4 h-4 group-hover/clear:rotate-90 transition-transform" />
                 Clear_Stack
@@ -117,12 +117,12 @@ export const ToastProvider: React.FC<{ children: ReactNode }> = ({ children }) =
                   ) : toast.type === 'success' ? (
                     <Check className="w-5 h-5" />
                   ) : (
-                    <div className="font-mono text-[10px] font-black italic">!</div>
+                    <div className="font-mono text-[0.6875rem] font-black italic">!</div>
                   )}
                 </div>
 
                 <div className="flex-1 min-w-0 pr-6">
-                  <div className="font-mono text-[9px] font-black tracking-[.25em] uppercase text-editorial-text-muted mb-0.5 flex items-center gap-2">
+                  <div className="font-mono text-[0.6875rem] font-black tracking-[.25em] uppercase text-editorial-text-muted mb-0.5 flex items-center gap-2">
                     {toast.type === 'success' && 'PROTOCOL_VERIFIED'}
                     {toast.type === 'error' && 'INTEGRITY_COMPROMISED'}
                     {toast.type === 'info' && 'DATA_HANDSHAKE'}

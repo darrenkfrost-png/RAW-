@@ -41,7 +41,7 @@ export default function NeuralTimeline() {
               <div className="space-y-4">
                 <div className="flex items-center justify-center lg:justify-start gap-4">
                    <div className={`w-2 h-2 ${event.color} rounded-full`} />
-                   <span className="font-mono text-[10px] tracking-[0.5em] text-red-600">{event.title}</span>
+                   <span className="font-mono text-[0.6875rem] tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] text-red-600">{event.title}</span>
                 </div>
                 <p className="font-serif italic text-2xl md:text-3xl text-editorial-text-muted font-light max-w-xl mx-auto lg:mx-0">
                   {event.detail}
@@ -56,8 +56,8 @@ export default function NeuralTimeline() {
       </div>
 
       {/* Decorative Symbols */}
-      <div className="absolute top-0 right-10 opacity-[0.05] pointer-events-none text-9xl font-black italic select-none">H.RITAGE</div>
-      <div className="absolute bottom-0 left-10 opacity-[0.05] pointer-events-none text-9xl font-black italic select-none">M.SSION</div>
+      <div className="absolute top-0 right-10 opacity-[0.05] pointer-events-none font-black italic select-none text-display-lg">H.RITAGE</div>
+      <div className="absolute bottom-0 left-10 opacity-[0.05] pointer-events-none font-black italic select-none text-display-lg">M.SSION</div>
     </div>
   );
 }

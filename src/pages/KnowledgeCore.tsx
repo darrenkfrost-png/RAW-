@@ -69,13 +69,13 @@ export default function KnowledgeCore() {
               <div className="flex gap-1.5">
                 {[1,2,3].map(i => <div key={i} className={`w-1 h-4 bg-red-600 ${i === 2 ? 'animate-pulse' : ''}`} />)}
               </div>
-              <span className="font-mono text-[11px] text-editorial-accent uppercase tracking-[0.5em] font-black">SYSTEM_DIAGNOSTIC_BANK // V4.0</span>
+              <span className="font-mono text-[0.6875rem] text-editorial-accent uppercase tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] font-black">SYSTEM_DIAGNOSTIC_BANK // V4.0</span>
            </motion.div>
            <motion.h1 
              initial={{ scale: 1.05, opacity: 0, filter: "blur(10px)" }}
              animate={{ scale: 1, opacity: 1, filter: "blur(0px)" }}
              transition={{ duration: 1.2 }}
-             className="text-7xl md:text-9xl xl:text-[140px] font-black text-editorial-text uppercase tracking-[-0.05em] leading-[0.8] drop-shadow-[0_20px_50px_rgba(0,0,0,0.15)]"
+             className="font-black text-editorial-text uppercase tracking-[-0.05em] leading-[0.8] drop-shadow-[0_20px_50px_rgba(0,0,0,0.15)] text-display-lg"
            >
              Knowledge Core
            </motion.h1>
@@ -83,11 +83,11 @@ export default function KnowledgeCore() {
              initial={{ opacity: 0 }}
              animate={{ opacity: 1 }}
              transition={{ delay: 0.5 }}
-             className="text-editorial-text-muted font-mono text-[11px] md:text-[13px] tracking-[0.3em] uppercase max-w-2xl mx-auto leading-relaxed border-y border-editorial-border py-8"
+             className="text-editorial-text-muted font-mono text-[0.6875rem] md:text-[0.8125rem] tracking-[0.3em] uppercase max-w-2xl mx-auto leading-relaxed border-y border-editorial-border py-8"
            >
              Complete intelligence indexing. Access protocol methodologies, product applications, and pairing directives.
            </motion.p>
-           <div className="font-mono text-[11px] text-red-500 tracking-[0.6em] font-black flex items-center justify-center gap-5">
+           <div className="font-mono text-[0.6875rem] text-red-500 tracking-[0.3em] sm:tracking-[0.6em] [overflow-wrap:anywhere] font-black flex items-center justify-center gap-5">
               <span className="w-3 h-3 bg-red-600 rounded-full animate-pulse shadow-[0_0_15px_#dc2626]"></span>
               SYNCHRONIZED_UNITS: {filteredContent.length}
            </div>
@@ -103,7 +103,7 @@ export default function KnowledgeCore() {
                value={searchQuery}
                onChange={(e) => setSearchQuery(e.target.value)}
                aria-label="Search knowledge base"
-               className="w-full bg-editorial-bg border border-editorial-border rounded-2xl pl-16 pr-6 py-5 text-editorial-text focus:outline-none focus:border-red-500/50 transition-all font-mono text-[11px] uppercase tracking-[0.3em] font-black placeholder:text-zinc-800 shadow-inner focus:shadow-[0_0_30px_rgba(220,38,38,0.1)]"
+               className="w-full bg-editorial-bg border border-editorial-border rounded-2xl pl-16 pr-6 py-5 text-editorial-text focus:outline-none focus:border-red-500/50 transition-all font-mono text-[0.6875rem] uppercase tracking-[0.3em] font-black placeholder:text-zinc-800 shadow-inner focus:shadow-[0_0_30px_rgba(220,38,38,0.1)]"
              />
            </div>
            <div className="flex items-center gap-3 overflow-x-auto w-full xl:w-auto pb-4 xl:pb-0 scrollbar-hide">
@@ -111,7 +111,7 @@ export default function KnowledgeCore() {
                <button 
                  key={cat}
                  onClick={() => setSelectedCategory(cat)}
-                 className={`shrink-0 px-8 py-5 rounded-2xl font-mono text-[11px] uppercase font-black tracking-[0.3em] transition-all duration-500 ${selectedCategory === cat ? 'bg-red-600 text-white shadow-[0_10px_20px_rgba(220,38,38,0.3)]' : 'bg-editorial-text/5 text-editorial-text-muted hover:text-editorial-text hover:border-editorial-border-light border border-transparent'}`}
+                 className={`shrink-0 px-8 py-5 rounded-2xl font-mono text-[0.6875rem] uppercase font-black tracking-[0.3em] transition-all duration-500 ${selectedCategory === cat ? 'bg-red-600 text-white shadow-[0_10px_20px_rgba(220,38,38,0.3)]' : 'bg-editorial-text/5 text-editorial-text-muted hover:text-editorial-text hover:border-editorial-border-light border border-transparent'}`}
                  aria-pressed={selectedCategory === cat}
                >
                  {cat}
@@ -132,9 +132,9 @@ export default function KnowledgeCore() {
                >
                  <div className="flex-1 space-y-6">
                     <div className="flex items-center gap-6">
-                       <span className="font-mono text-[10px] text-red-500 font-black uppercase tracking-[0.4em] drop-shadow-[0_0_8px_currentColor]">DATA_ID: {item.id}</span>
+                       <span className="font-mono text-[0.6875rem] text-red-500 font-black uppercase tracking-[0.4em] drop-shadow-[0_0_8px_currentColor]">DATA_ID: {item.id}</span>
                        <div className="w-1.5 h-1.5 rounded-full bg-zinc-800" />
-                       <span className="font-mono text-[10px] text-editorial-text-muted uppercase tracking-[0.4em] font-black group-hover:text-editorial-text transition-colors">{item.category}</span>
+                       <span className="font-mono text-[0.6875rem] text-editorial-text-muted uppercase tracking-[0.4em] font-black group-hover:text-editorial-text transition-colors">{item.category}</span>
                     </div>
                     <h3 className="text-3xl md:text-5xl font-black text-editorial-text uppercase tracking-tighter group-hover:text-red-500 transition-all duration-700">{item.name}</h3>
                     <p className="text-editorial-text-muted font-light text-lg line-clamp-1 group-hover:line-clamp-none transition-all duration-[1000ms] leading-relaxed group-hover:text-editorial-text">{item.shortBenefit}</p>
@@ -190,7 +190,7 @@ export default function KnowledgeCore() {
                                  <div className="absolute inset-x-0 top-0 h-[1px] bg-red-600/30" />
                                  <ShieldCheck className="w-8 h-8 text-red-500 shrink-0 mt-1 drop-shadow-[0_0_10px_currentColor]" />
                                  <div className="space-y-3">
-                                   <span className="font-mono text-[10px] text-red-500 uppercase font-black tracking-[0.4em] block drop-shadow-sm">RESPONSIBLE_USE_DIRECTIVE</span>
+                                   <span className="font-mono text-[0.6875rem] text-red-500 uppercase font-black tracking-[0.4em] block drop-shadow-sm">RESPONSIBLE_USE_DIRECTIVE</span>
                                    <p className="text-editorial-text-muted leading-relaxed font-light text-base md:text-lg">{item.responsibleUse}</p>
                                  </div>
                               </div>
@@ -219,7 +219,7 @@ export default function KnowledgeCore() {
 function InfoBlock({ label, content }: { label: string, content: string }) {
   return (
     <div>
-       <span className="block font-mono text-[10px] text-editorial-text-muted uppercase font-bold tracking-widest mb-3 border-b border-editorial-border pb-2">{label}</span>
+       <span className="block font-mono text-[0.6875rem] text-editorial-text-muted uppercase font-bold tracking-widest mb-3 border-b border-editorial-border pb-2">{label}</span>
        <p className="text-sm text-editorial-text font-light leading-relaxed">{content}</p>
     </div>
   );
@@ -228,7 +228,7 @@ function InfoBlock({ label, content }: { label: string, content: string }) {
 function InfoList({ label, items, highlight }: { label: string, items: string[], highlight?: boolean }) {
   return (
     <div>
-       <span className="block font-mono text-[10px] text-editorial-text-muted uppercase font-bold tracking-widest mb-3 border-b border-editorial-border pb-2">{label}</span>
+       <span className="block font-mono text-[0.6875rem] text-editorial-text-muted uppercase font-bold tracking-widest mb-3 border-b border-editorial-border pb-2">{label}</span>
        <ul className="space-y-2">
          {items.map((item, i) => (
            <li key={i} className="text-sm text-editorial-text font-light flex items-start gap-3">

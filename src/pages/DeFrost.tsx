@@ -84,7 +84,7 @@ export default function DeFrost() {
       <div className="relative z-10 px-8 py-5 flex items-center justify-between pointer-events-none text-white overflow-hidden select-none select-none shrink-0 border-b border-white/[0.03]">
         <div className="flex items-center gap-4">
           <div>
-            <span className="block font-mono text-[8px] text-red-500 uppercase tracking-[0.4em] font-black">
+            <span className="block font-mono text-[0.6875rem] text-red-500 uppercase tracking-[0.4em] font-black">
               NEURAL_OPERATIVE_SYSTEM // VER4.0.0
             </span>
             <h1 className="text-xl font-black uppercase tracking-wider text-white">
@@ -94,7 +94,7 @@ export default function DeFrost() {
           <div className="pointer-events-auto flex items-center gap-1 bg-white/5 border border-white/10 p-1.5 rounded-xl ml-4">
             <button
               onClick={cycleWallpaper}
-              className="p-1 px-3 hover:bg-white/5 border border-white/10 rounded-lg text-zinc-400 hover:text-white flex items-center gap-1.5 font-mono text-[8px] uppercase tracking-wider transition-all"
+              className="p-1 px-3 hover:bg-white/5 border border-white/10 rounded-lg text-zinc-400 hover:text-white flex items-center gap-1.5 font-mono text-[0.6875rem] uppercase tracking-wider transition-all"
               title="Cycle Landscape Backdrops"
             >
               <RotateCw className="w-3 h-3 animate-spin" /> ATMOSPHERE: {activeWallpaper.name}
@@ -105,11 +105,11 @@ export default function DeFrost() {
         {/* Floating Clocks & Calendar */}
         <div className="flex items-center gap-6">
           <div className="text-right">
-            <span className="block font-mono text-[9px] text-zinc-555 uppercase tracking-widest">{dateStr}</span>
+            <span className="block font-mono text-[0.6875rem] text-zinc-555 uppercase tracking-widest">{dateStr}</span>
             <span className="font-mono text-xs font-black text-white mt-1 block tracking-wider uppercase">{timeStr}</span>
           </div>
           <div className="h-8 w-px bg-white/5" />
-          <div className="text-right font-mono text-[9px] text-[#22c55e] bg-[#22c55e]/10 border border-[#22c55e]/20 px-3 py-1.5 rounded-lg flex items-center gap-2">
+          <div className="text-right font-mono text-[0.6875rem] text-[#22c55e] bg-[#22c55e]/10 border border-[#22c55e]/20 px-3 py-1.5 rounded-lg flex items-center gap-2">
             <ShieldCheck className="w-3.5 h-3.5 animate-pulse" /> ROOT SECURE
           </div>
         </div>
@@ -138,7 +138,7 @@ export default function DeFrost() {
                 <h4 className="font-sans font-extrabold text-xs text-white uppercase tracking-wider group-hover:text-red-500 transition-colors leading-none">
                   {app.label}
                 </h4>
-                <p className="font-mono text-[9px] text-zinc-500 uppercase tracking-tight mt-1">
+                <p className="font-mono text-[0.6875rem] text-zinc-500 uppercase tracking-tight mt-1">
                   {app.desc}
                 </p>
                 {openApps[app.id] && (
@@ -153,25 +153,25 @@ export default function DeFrost() {
         <div className="flex-1 relative border border-white/[0.02] bg-[#ffffff]/[0.005] rounded-[3rem] p-8 overflow-hidden hidden md:flex flex-col justify-end">
           
           <div className="absolute top-8 left-8 p-6 bg-black/30 border border-white/[0.03] backdrop-blur-3xl rounded-[2rem] max-w-sm pointer-events-none select-none">
-            <span className="block font-mono text-[8px] text-zinc-555 uppercase tracking-widest mb-2 font-black leading-none">
+            <span className="block font-mono text-[0.6875rem] text-zinc-555 uppercase tracking-widest mb-2 font-black leading-none">
               ACTIVE_DESKTOP_WIDGET
             </span>
             <div className="space-y-4">
               <div className="flex items-center gap-3">
                 <Activity className="w-5 h-5 text-red-500 animate-pulse" />
                 <div>
-                  <h5 className="font-mono text-[10px] text-white tracking-widest font-black uppercase">SYSTEM_LOAD_LEVEL</h5>
+                  <h5 className="font-mono text-[0.6875rem] text-white tracking-widest font-black uppercase">SYSTEM_LOAD_LEVEL</h5>
                   <p className="text-xs text-zinc-400 font-light mt-0.5 leading-normal">Interactive VM core operational. Port 3000 mapping secure.</p>
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-4 border-t border-white/[0.04] pt-3">
                 <div>
-                  <span className="block font-mono text-[8px] text-zinc-555 leading-none uppercase">UI_SCALE</span>
-                  <span className="font-mono text-[11px] text-white font-bold block mt-1">{(uiScale * 100).toFixed(0)}% SCALE</span>
+                  <span className="block font-mono text-[0.6875rem] text-zinc-555 leading-none uppercase">UI_SCALE</span>
+                  <span className="font-mono text-[0.6875rem] text-white font-bold block mt-1">{(uiScale * 100).toFixed(0)}% SCALE</span>
                 </div>
                 <div>
-                  <span className="block font-mono text-[8px] text-zinc-555 leading-none uppercase">FIDELITY</span>
-                  <span className="font-mono text-[11px] text-white font-bold block mt-1">{visualFidelity}% RESOLUTION</span>
+                  <span className="block font-mono text-[0.6875rem] text-zinc-555 leading-none uppercase">FIDELITY</span>
+                  <span className="font-mono text-[0.6875rem] text-white font-bold block mt-1">{visualFidelity}% RESOLUTION</span>
                 </div>
               </div>
             </div>
@@ -181,7 +181,7 @@ export default function DeFrost() {
             <span className="font-serif text-3xl md:text-4xl text-zinc-700/60 font-medium block uppercase tracking-tight italic">
               "The discipline is the system."
             </span>
-            <span className="font-mono text-[9px] text-zinc-500/80 uppercase tracking-[0.25em] block pt-1 leading-none">
+            <span className="font-mono text-[0.6875rem] text-zinc-500/80 uppercase tracking-[0.25em] block pt-1 leading-none">
               SECURE DEPLOYMENT ENGINE // GLOBAL CORE
             </span>
           </div>
@@ -288,7 +288,7 @@ export default function DeFrost() {
             height="h-[600px]"
           >
             <div className="p-8 space-y-6 flex-1 overflow-y-auto custom-scrollbar bg-neutral-950/90 text-white font-sans select-text">
-              <span className="block font-mono text-[8px] text-zinc-555 uppercase tracking-[0.4em] font-black">
+              <span className="block font-mono text-[0.6875rem] text-zinc-555 uppercase tracking-[0.4em] font-black">
                 SYS_METRICS_HUD
               </span>
               <h2 className="text-2xl font-black uppercase text-white tracking-tight border-b border-white/5 pb-4">
@@ -296,14 +296,14 @@ export default function DeFrost() {
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="p-5 bg-black rounded-2xl border border-white/5 space-y-3">
-                  <h4 className="font-mono text-[9px] text-[#22c55e] tracking-widest font-bold uppercase">RENDERER_STATUS_OK</h4>
+                  <h4 className="font-mono text-[0.6875rem] text-[#22c55e] tracking-widest font-bold uppercase">RENDERER_STATUS_OK</h4>
                   <div className="space-y-2 text-xs text-zinc-400">
                     <p>Current DPI Matrix Resolution: <strong className="text-white">{visualFidelity}%</strong></p>
                     <p>Root Scaling Matrix offset: <strong className="text-white">{(uiScale * 100).toFixed(0)}% Scale</strong></p>
                   </div>
                 </div>
                 <div className="p-5 bg-black rounded-2xl border border-white/5 space-y-3">
-                  <h4 className="font-mono text-[9px] text-red-500 tracking-widest font-bold uppercase">REPLAY CORE ACTIVE</h4>
+                  <h4 className="font-mono text-[0.6875rem] text-red-500 tracking-widest font-bold uppercase">REPLAY CORE ACTIVE</h4>
                   <div className="space-y-2 text-xs text-zinc-400">
                     <p>Active Animation frames: <strong className="text-[#3b82f6]">60 FPS NOMINAL</strong></p>
                     <p>Allocated Thread memory: <strong className="text-[#22c55e]">3.2 MB heap size</strong></p>

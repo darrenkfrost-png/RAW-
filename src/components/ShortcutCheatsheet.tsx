@@ -57,7 +57,7 @@ export default function ShortcutCheatsheet({ isOpen, onClose }: ShortcutCheatshe
                   <Keyboard className="w-5 h-5" />
                 </span>
                 <div>
-                  <span className="text-[9px] text-zinc-600 font-bold uppercase tracking-[0.4em] block">PROTOCOL DIRECTIVES HUD</span>
+                  <span className="text-[0.6875rem] text-zinc-600 font-bold uppercase tracking-[0.4em] block">PROTOCOL DIRECTIVES HUD</span>
                   <h3 className="text-xl font-sans font-black uppercase text-white tracking-widest flex items-center gap-2">INTERFACE CONTROL SIGNALS</h3>
                 </div>
               </div>
@@ -73,14 +73,14 @@ export default function ShortcutCheatsheet({ isOpen, onClose }: ShortcutCheatshe
             <div className="relative z-10 space-y-8 max-h-[500px] overflow-y-auto pr-2 custom-scrollbar">
               {/* Keyboard triggers */}
               <div className="space-y-4">
-                <span className="text-[10px] text-zinc-500 font-black tracking-widest uppercase flex items-center gap-2">
+                <span className="text-[0.6875rem] text-zinc-500 font-black tracking-widest uppercase flex items-center gap-2">
                   <Keyboard className="w-3.5 h-3.5 text-red-500" /> SYSTEM KEYBOARD TELEMETRICS
                 </span>
                 <div className="grid md:grid-cols-2 gap-4">
                   {keys.map((k) => (
                     <div key={k.key} className="bg-zinc-900/60 border border-zinc-900/80 rounded-xl p-4 flex items-center justify-between">
-                      <span className="text-zinc-500 text-[10px] uppercase font-bold">{k.desc}</span>
-                      <kbd className="bg-zinc-950 px-2.5 py-1 text-[10px] rounded border border-zinc-850 font-black text-rose-500 shadow-md">{k.key}</kbd>
+                      <span className="text-zinc-500 text-[0.6875rem] uppercase font-bold">{k.desc}</span>
+                      <kbd className="bg-zinc-950 px-2.5 py-1 text-[0.6875rem] rounded border border-zinc-850 font-black text-rose-500 shadow-md">{k.key}</kbd>
                     </div>
                   ))}
                 </div>
@@ -88,22 +88,22 @@ export default function ShortcutCheatsheet({ isOpen, onClose }: ShortcutCheatshe
 
               {/* Voice triggers */}
               <div className="space-y-4 pt-4 border-t border-zinc-900">
-                <span className="text-[10px] text-zinc-500 font-black tracking-widest uppercase flex items-center gap-2">
+                <span className="text-[0.6875rem] text-zinc-500 font-black tracking-widest uppercase flex items-center gap-2">
                   <Mic className="w-3.5 h-3.5 text-blue-500" /> NEural VOICE TRANSMISSIONS
                 </span>
-                <p className="text-[10px] text-zinc-650 font-light leading-relaxed uppercase">Transmit these spoken phrases directly after clicking the dynamic command terminal halo or pressing Ctrl+K.</p>
+                <p className="text-[0.6875rem] text-zinc-650 font-light leading-relaxed uppercase">Transmit these spoken phrases directly after clicking the dynamic command terminal halo or pressing Ctrl+K.</p>
                 <div className="space-y-3.5 pt-2">
                   {voiceCommands.map((v) => (
                     <div key={v.cmd} className="bg-zinc-900/30 border border-zinc-900/60 rounded-xl p-4 flex items-center justify-between text-xs gap-6 hover:border-zinc-800 transition-colors duration-300">
-                      <span className="text-white font-bold max-w-[45%] truncate text-[11px] font-mono tracking-widest uppercase text-emerald-500 bg-emerald-500/5 px-2.5 py-1 rounded-md border border-emerald-500/10">"{v.cmd}"</span>
-                      <span className="text-zinc-500 text-right text-[10px] uppercase font-bold">{v.desc}</span>
+                      <span className="text-white font-bold max-w-[45%] truncate text-[0.6875rem] font-mono tracking-widest uppercase text-emerald-500 bg-emerald-500/5 px-2.5 py-1 rounded-md border border-emerald-500/10">"{v.cmd}"</span>
+                      <span className="text-zinc-500 text-right text-[0.6875rem] uppercase font-bold">{v.desc}</span>
                     </div>
                   ))}
                 </div>
               </div>
             </div>
             
-            <div className="border-t border-zinc-900 mt-8 pt-5 text-center text-[9px] text-zinc-650 uppercase font-bold relative z-10">
+            <div className="border-t border-zinc-900 mt-8 pt-5 text-center text-[0.6875rem] text-zinc-650 uppercase font-bold relative z-10">
               UPLINK DEPLOYED SECURELY ON ENCRYPTED PORT 3000
             </div>
           </motion.div>

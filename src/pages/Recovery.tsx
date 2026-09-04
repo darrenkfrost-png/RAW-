@@ -28,7 +28,7 @@ export default function Recovery() {
   return (
     <div className="bg-editorial-bg min-h-svh">
       {/* Video Hero */}
-      <section className="relative h-[80vh] flex items-center justify-center overflow-hidden">
+      <section className="relative h-[80vh] flex flex-col items-center justify-center overflow-hidden">
         <video 
           {...({
             autoPlay: true,
@@ -66,13 +66,13 @@ export default function Recovery() {
             />
             <h2 className="text-white font-mono text-xl uppercase tracking-[0.3em] mb-12">Train with purpose. Recover with intent.</h2>
             
-            <span className="text-emerald-500 font-black uppercase tracking-[0.6em] text-[13px] mb-14 block flex items-center justify-center gap-5 drop-shadow-[0_0_10px_rgba(16,185,129,0.5)] border border-editorial-border bg-editorial-bg/60 backdrop-blur-md px-8 py-4 rounded-full w-fit shadow-[0_10px_30px_rgba(0,0,0,0.08)]">
+            <span className="text-emerald-500 font-black uppercase tracking-[0.3em] sm:tracking-[0.6em] [overflow-wrap:anywhere] text-[0.8125rem] mb-14 block flex items-center justify-center gap-5 drop-shadow-[0_0_10px_rgba(16,185,129,0.5)] border border-editorial-border bg-editorial-bg/60 backdrop-blur-md px-8 py-4 rounded-full w-fit shadow-[0_10px_30px_rgba(0,0,0,0.08)]">
                <div className="w-2.5 h-2.5 bg-emerald-500 rounded-full animate-pulse shadow-[0_0_15px_currentColor]" /> Protocol_03
             </span>
-            <h1 className="font-sans font-black text-8xl md:text-[120px] xl:text-[180px] uppercase tracking-tighter leading-[0.8] mb-16 text-editorial-text drop-shadow-[0_10px_30px_rgba(0,0,0,0.1)]">
+            <h1 className="font-sans font-black uppercase tracking-tighter leading-[0.8] mb-16 text-editorial-text drop-shadow-[0_10px_30px_rgba(0,0,0,0.1)] text-display-xl">
               MASTER <br /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-emerald-700 drop-shadow-[0_0_30px_rgba(16,185,129,0.4)] pb-8 mt-4 inline-block">RECOVERY</span>
             </h1>
-            <p className="text-editorial-text-muted font-mono text-[12px] md:text-[14px] xl:text-[15px] uppercase tracking-[0.4em] font-bold max-w-4xl mx-auto drop-shadow-[0_2px_4px_rgba(0,0,0,0.1)] flex flex-col md:flex-row items-center justify-center gap-4 xl:gap-8 bg-editorial-bg/80 px-10 py-5 rounded-2xl border border-editorial-border backdrop-blur-3xl shadow-[0_20px_50px_rgba(0,0,0,0.1)]">
+            <p className="text-editorial-text-muted font-mono text-[0.75rem] md:text-[0.875rem] xl:text-[0.9375rem] uppercase tracking-[0.4em] font-bold max-w-4xl mx-auto drop-shadow-[0_2px_4px_rgba(0,0,0,0.1)] flex flex-col md:flex-row items-center justify-center gap-4 xl:gap-8 bg-editorial-bg/80 px-10 py-5 rounded-2xl border border-editorial-border backdrop-blur-3xl shadow-[0_20px_50px_rgba(0,0,0,0.1)]">
               <span className="text-emerald-500 hidden md:inline-block shadow-[0_0_10px_#10b981]">{"//"}</span> Strategic restoration for consistent output. <span className="text-emerald-500 hidden md:inline-block shadow-[0_0_10px_#10b981]">{"//"}</span>
             </p>
           </motion.div>
@@ -84,10 +84,10 @@ export default function Recovery() {
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,_var(--tw-gradient-stops))] from-emerald-900/10 via-transparent to-transparent pointer-events-none opacity-50 mix-blend-screen" />
         <div className="max-w-[var(--content-max-width)] mx-auto flex flex-col lg:flex-row gap-24 xl:gap-32 items-center relative z-10">
           <div className="flex-1 space-y-12 xl:space-y-16">
-            <span className="text-[13px] font-black uppercase tracking-[0.5em] text-emerald-500 mb-8 block flex items-center gap-5 drop-shadow-[0_0_10px_rgba(16,185,129,0.5)]">
+            <span className="text-[0.8125rem] font-black uppercase tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] text-emerald-500 mb-8 block flex items-center gap-5 drop-shadow-[0_0_10px_rgba(16,185,129,0.5)]">
                <div className="w-2.5 h-2.5 bg-emerald-500 rounded-full animate-pulse shadow-[0_0_15px_currentColor]" /> Protocol_03 // Philosophy
             </span>
-            <h2 className="font-sans font-black text-6xl md:text-8xl xl:text-[100px] uppercase tracking-tighter leading-[0.85] text-editorial-text drop-shadow-[0_10px_30px_rgba(0,0,0,0.1)]">
+            <h2 className="font-sans font-black uppercase tracking-tighter leading-[0.85] text-editorial-text drop-shadow-[0_10px_30px_rgba(0,0,0,0.1)] text-display-md">
               Recovery is not downtime, <br /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 to-emerald-800 drop-shadow-[0_0_30px_rgba(16,185,129,0.4)] mt-4 inline-block pb-4">it's part of the game.</span>
             </h2>
             <p className="text-2xl xl:text-3xl text-editorial-text-muted font-light leading-relaxed max-w-3xl drop-shadow-[0_2px_4px_rgba(0,0,0,0.1)] border-l-4 border-emerald-600 pl-8 md:pl-12 bg-gradient-to-r from-emerald-600/10 via-emerald-600/5 to-transparent py-4 rounded-r-[2rem]">
@@ -99,8 +99,8 @@ export default function Recovery() {
                     <Snowflake className="w-10 h-10 group-hover:drop-shadow-[0_0_15px_rgba(0,0,0,0.15)] transition-all duration-500" />
                   </div>
                   <div>
-                    <h4 className="text-[13px] font-black text-editorial-text uppercase tracking-widest drop-shadow-[0_2px_4px_rgba(0,0,0,0.1)] group-hover:text-emerald-500 transition-colors duration-500 mb-2">Cold Exposure</h4>
-                    <p className="text-[11px] text-editorial-text-muted uppercase font-black tracking-widest group-hover:text-editorial-text-muted transition-colors duration-500">Inflammation Control</p>
+                    <h4 className="text-[0.8125rem] font-black text-editorial-text uppercase tracking-widest drop-shadow-[0_2px_4px_rgba(0,0,0,0.1)] group-hover:text-emerald-500 transition-colors duration-500 mb-2">Cold Exposure</h4>
+                    <p className="text-[0.6875rem] text-editorial-text-muted uppercase font-black tracking-widest group-hover:text-editorial-text-muted transition-colors duration-500">Inflammation Control</p>
                   </div>
                </div>
                <div className="space-y-8 group">
@@ -108,8 +108,8 @@ export default function Recovery() {
                     <Wind className="w-10 h-10 group-hover:drop-shadow-[0_0_15px_rgba(0,0,0,0.15)] transition-all duration-500" />
                   </div>
                   <div>
-                    <h4 className="text-[13px] font-black text-editorial-text uppercase tracking-widest drop-shadow-[0_2px_4px_rgba(0,0,0,0.1)] group-hover:text-emerald-500 transition-colors duration-500 mb-2">Respiratory Flow</h4>
-                    <p className="text-[11px] text-editorial-text-muted uppercase font-black tracking-widest group-hover:text-editorial-text-muted transition-colors duration-500">CNS Regulation</p>
+                    <h4 className="text-[0.8125rem] font-black text-editorial-text uppercase tracking-widest drop-shadow-[0_2px_4px_rgba(0,0,0,0.1)] group-hover:text-emerald-500 transition-colors duration-500 mb-2">Respiratory Flow</h4>
+                    <p className="text-[0.6875rem] text-editorial-text-muted uppercase font-black tracking-widest group-hover:text-editorial-text-muted transition-colors duration-500">CNS Regulation</p>
                   </div>
                </div>
                <div className="space-y-8 group">
@@ -117,8 +117,8 @@ export default function Recovery() {
                     <RefreshCcw className="w-10 h-10 group-hover:drop-shadow-[0_0_15px_rgba(0,0,0,0.15)] transition-all duration-500" />
                   </div>
                   <div>
-                    <h4 className="text-[13px] font-black text-editorial-text uppercase tracking-widest drop-shadow-[0_2px_4px_rgba(0,0,0,0.1)] group-hover:text-emerald-500 transition-colors duration-500 mb-2">Rapid Reset</h4>
-                    <p className="text-[11px] text-editorial-text-muted uppercase font-black tracking-widest group-hover:text-editorial-text-muted transition-colors duration-500">Metabolic Clearance</p>
+                    <h4 className="text-[0.8125rem] font-black text-editorial-text uppercase tracking-widest drop-shadow-[0_2px_4px_rgba(0,0,0,0.1)] group-hover:text-emerald-500 transition-colors duration-500 mb-2">Rapid Reset</h4>
+                    <p className="text-[0.6875rem] text-editorial-text-muted uppercase font-black tracking-widest group-hover:text-editorial-text-muted transition-colors duration-500">Metabolic Clearance</p>
                   </div>
                </div>
             </div>
@@ -154,10 +154,10 @@ export default function Recovery() {
         <div className="max-w-[var(--content-max-width)] mx-auto z-10 relative">
           <div className="mb-40 flex flex-col items-center gap-10 text-center">
              <div className="space-y-6">
-                <span className="text-[13px] font-black uppercase tracking-[0.5em] text-emerald-500 mb-6 block flex justify-center items-center gap-5 drop-shadow-[0_0_10px_rgba(16,185,129,0.5)]">
+                <span className="text-[0.8125rem] font-black uppercase tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] text-emerald-500 mb-6 block flex justify-center items-center gap-5 drop-shadow-[0_0_10px_rgba(16,185,129,0.5)]">
                    <div className="w-2.5 h-2.5 bg-emerald-500 rounded-full animate-pulse shadow-[0_0_15px_currentColor]" /> Field Manual
                 </span>
-                <h2 className="font-sans font-black text-7xl md:text-9xl xl:text-[140px] uppercase tracking-tighter leading-none text-editorial-text drop-shadow-[0_10px_30px_rgba(0,0,0,0.1)]">MODALITY WORK</h2>
+                <h2 className="font-sans font-black uppercase tracking-tighter leading-none text-editorial-text drop-shadow-[0_10px_30px_rgba(0,0,0,0.1)] text-display-lg">MODALITY WORK</h2>
              </div>
           </div>
           
@@ -187,7 +187,7 @@ export default function Recovery() {
                           className="h-full w-1/3 bg-emerald-500 shadow-[0_0_15px_#10b981]"
                         />
                      </div>
-                     <span className="text-[11px] font-black uppercase tracking-[0.5em] text-emerald-500 block mb-4 drop-shadow-[0_0_10px_rgba(16,185,129,0.5)] opacity-0 group-hover:opacity-100 transition-opacity duration-1000 delay-100">Technique 0{i+1}</span>
+                     <span className="text-[0.6875rem] font-black uppercase tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] text-emerald-500 block mb-4 drop-shadow-[0_0_10px_rgba(16,185,129,0.5)] opacity-0 group-hover:opacity-100 transition-opacity duration-1000 delay-100">Technique 0{i+1}</span>
                      <h3 className="font-sans font-black text-4xl xl:text-5xl uppercase tracking-tighter text-editorial-text drop-shadow-[0_10px_30px_rgba(0,0,0,1)] leading-[0.9]">RECOVERY <br/> PROTOCOL</h3>
                   </div>
                </div>
@@ -204,15 +204,15 @@ export default function Recovery() {
         </div>
         <div className="max-w-[var(--content-max-width)] mx-auto grid lg:grid-cols-[1fr_1.2fr] gap-24 xl:gap-32 items-center relative z-10">
            <div className="space-y-12 xl:space-y-16">
-              <span className="text-[13px] font-black uppercase tracking-[0.5em] text-emerald-500 mb-8 block flex items-center gap-5 drop-shadow-[0_0_10px_rgba(16,185,129,0.5)]">
+              <span className="text-[0.8125rem] font-black uppercase tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] text-emerald-500 mb-8 block flex items-center gap-5 drop-shadow-[0_0_10px_rgba(16,185,129,0.5)]">
                  <div className="w-2.5 h-2.5 bg-emerald-500 rounded-full animate-pulse shadow-[0_0_15px_currentColor]" /> The Method // 01
               </span>
-              <h2 className="font-sans font-black text-7xl md:text-9xl xl:text-[110px] uppercase tracking-tighter leading-[0.8] text-editorial-text drop-shadow-[0_10px_30px_rgba(0,0,0,0.1)]">THE SCIENCE OF <br /> <span className="text-emerald-500 drop-shadow-[0_0_30px_rgba(16,185,129,0.4)] block mt-4 pb-4">THE RESET.</span></h2>
+              <h2 className="font-sans font-black uppercase tracking-tighter leading-[0.8] text-editorial-text drop-shadow-[0_10px_30px_rgba(0,0,0,0.1)] text-display-lg">THE SCIENCE OF <br /> <span className="text-emerald-500 drop-shadow-[0_0_30px_rgba(16,185,129,0.4)] block mt-4 pb-4">THE RESET.</span></h2>
               <p className="text-2xl xl:text-3xl text-editorial-text-muted font-light leading-relaxed max-w-2xl drop-shadow-[0_2px_4px_rgba(0,0,0,0.1)]">
                 Cold exposure isn't about staying in as long as possible. It's about staying in long enough to be present. We focus on the intersection of physiological stress and mental clarity.
               </p>
               <div className="space-y-6 pt-12 border-t border-editorial-border">
-                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-8 text-[11px] xl:text-[12px] font-black uppercase tracking-[0.4em] text-editorial-text bg-editorial-bg/60 p-8 rounded-2xl border border-editorial-border backdrop-blur-md shadow-[0_20px_50px_rgba(0,0,0,0.1)]">
+                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-8 text-[0.6875rem] xl:text-[0.75rem] font-black uppercase tracking-[0.4em] text-editorial-text bg-editorial-bg/60 p-8 rounded-2xl border border-editorial-border backdrop-blur-md shadow-[0_20px_50px_rgba(0,0,0,0.1)]">
                     <span className="flex items-center gap-4"><div className="w-2 h-2 bg-emerald-500 rounded-full shadow-[0_0_10px_currentColor]" /> Focus: CNS Regulation</span>
                     <span className="flex items-center gap-4"><div className="w-2 h-2 bg-emerald-500 rounded-full shadow-[0_0_10px_currentColor]" /> Modality: Cold</span>
                  </div>
@@ -234,7 +234,7 @@ export default function Recovery() {
                 <source src="https://videos.files.wordpress.com/lUvR2d1e/this-isnt-comfort.its-commitment.cold-exposure-doesnt-care-who-you-are-it-only-reveals-how-.mp4" type="video/mp4" />
               </video>
               <div className="absolute bottom-10 left-10 z-20 opacity-0 group-hover:opacity-100 transition-all duration-1000 delay-100 translate-y-8 group-hover:translate-y-0">
-                 <div className="bg-emerald-600 text-editorial-text px-6 py-3 rounded-xl text-[10px] font-black uppercase tracking-[0.4em] shadow-[0_15px_30px_rgba(16,185,129,0.4)] border border-emerald-500/50 backdrop-blur-md">Play Feed // Active</div>
+                 <div className="bg-emerald-600 text-editorial-text px-6 py-3 rounded-xl text-[0.6875rem] font-black uppercase tracking-[0.4em] shadow-[0_15px_30px_rgba(16,185,129,0.4)] border border-emerald-500/50 backdrop-blur-md">Play Feed // Active</div>
               </div>
            </div>
         </div>
@@ -244,10 +244,10 @@ export default function Recovery() {
       <section className="py-40 xl:py-64 px-[var(--shell-padding-mobile)] md:px-[var(--shell-padding)] lg:px-[var(--shell-padding-lg)] max-w-[var(--content-max-width)] mx-auto bg-editorial-bg text-editorial-text border-t border-editorial-border">
         <div className="flex flex-col lg:flex-row justify-between items-end mb-40 gap-16">
            <div className="space-y-8 text-center lg:text-left w-full lg:w-auto">
-              <span className="text-[13px] font-black uppercase tracking-[0.5em] text-emerald-500 block flex items-center justify-center lg:justify-start gap-5 drop-shadow-[0_0_10px_rgba(16,185,129,0.5)]">
+              <span className="text-[0.8125rem] font-black uppercase tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] text-emerald-500 block flex items-center justify-center lg:justify-start gap-5 drop-shadow-[0_0_10px_rgba(16,185,129,0.5)]">
                  <div className="w-2.5 h-2.5 bg-emerald-500 rounded-full animate-pulse shadow-[0_0_15px_currentColor]" /> Restorative Hardware
               </span>
-              <h2 className="font-sans font-black text-7xl md:text-9xl xl:text-[140px] uppercase tracking-tighter leading-none text-editorial-text drop-shadow-[0_10px_30px_rgba(0,0,0,0.1)]">THE TOOLS</h2>
+              <h2 className="font-sans font-black uppercase tracking-tighter leading-none text-editorial-text drop-shadow-[0_10px_30px_rgba(0,0,0,0.1)] text-display-lg">THE TOOLS</h2>
            </div>
            <p className="max-w-xl text-lg xl:text-xl uppercase tracking-[0.2em] text-editorial-text-muted font-bold leading-relaxed text-center lg:text-right w-full lg:w-auto mx-auto lg:mx-0 drop-shadow-[0_2px_4px_rgba(0,0,0,0.1)]">
               Our hardware is engineered for durability in high-traffic training environments. From Muai Thai facilities to private performance labs.

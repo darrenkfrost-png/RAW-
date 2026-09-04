@@ -23,7 +23,7 @@ export default function FidelityControl() {
         title={`Switch to ${isHighFidelity ? 'Low' : 'High'} Fidelity`}
       >
         {isHighFidelity ? <Zap size={18} /> : <Gauge size={18} />}
-        <span className="text-[10px] font-black uppercase tracking-widest hidden md:inline">
+        <span className="text-[0.6875rem] font-black uppercase tracking-widest hidden md:inline">
           {isHighFidelity ? 'HIGH_FIDELITY' : 'LOW_FIDELITY'}
         </span>
       </button>

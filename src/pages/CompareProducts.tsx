@@ -28,14 +28,14 @@ export default function CompareProducts() {
               <div className="flex gap-2">
                 {[1,2,3].map(i => <div key={i} className="w-1.5 h-6 bg-red-600 animate-pulse" style={{ animationDelay: `${i * 0.2}s` }} />)}
               </div>
-              <span className="font-mono text-[11px] text-editorial-text-muted uppercase tracking-[0.6em] font-black drop-shadow-sm">RAW_NEURAL_DECISION_LAB // V4.0</span>
+              <span className="font-mono text-[0.6875rem] text-editorial-text-muted uppercase tracking-[0.3em] sm:tracking-[0.6em] [overflow-wrap:anywhere] font-black drop-shadow-sm">RAW_NEURAL_DECISION_LAB // V4.0</span>
            </motion.div>
            
            <motion.h1 
              initial={{ scale: 1.1, opacity: 0, filter: "blur(10px)" }}
              animate={{ scale: 1, opacity: 1, filter: "blur(0px)" }}
              transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-             className="text-7xl md:text-9xl xl:text-[140px] font-sans font-black text-editorial-text uppercase tracking-[-0.05em] mb-12 leading-[0.8] drop-shadow-strong"
+             className="font-sans font-black text-editorial-text uppercase tracking-[-0.05em] mb-12 leading-[0.8] drop-shadow-strong text-display-lg"
            >
              Hardware <br/><span className="text-transparent bg-clip-text bg-gradient-to-r from-red-600 to-red-950 drop-shadow-[0_0_40px_rgba(220,38,38,0.3)]">Decision Matrix</span>
            </motion.h1>
@@ -44,7 +44,7 @@ export default function CompareProducts() {
              initial={{ opacity: 0 }}
              animate={{ opacity: 1 }}
              transition={{ delay: 0.6 }}
-             className="text-editorial-text-muted font-mono text-[11px] md:text-[13px] tracking-[0.3em] uppercase max-w-4xl mx-auto leading-relaxed border-y border-editorial-border py-10"
+             className="text-editorial-text-muted font-mono text-[0.6875rem] md:text-[0.8125rem] tracking-[0.3em] uppercase max-w-4xl mx-auto leading-relaxed border-y border-editorial-border py-10"
            >
              Perform a structural comparative analysis on your prospective stack. Select up to 3 units for diagnostic evaluation and synergistic modeling.
            </motion.p>
@@ -60,7 +60,7 @@ export default function CompareProducts() {
           >
             <div className="absolute inset-0 bg-gradient-to-r from-red-600/[0.05] via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
             
-            <span className="font-mono text-[11px] text-editorial-text uppercase tracking-[0.4em] font-black flex items-center gap-6 relative z-10">
+            <span className="font-mono text-[0.6875rem] text-editorial-text uppercase tracking-[0.4em] font-black flex items-center gap-6 relative z-10">
               <Layers className="w-6 h-6 text-red-600 group-hover:scale-110 group-hover:rotate-12 transition-all duration-500" />
               Initialize Matrix Registry ({selectedItems.length}/3)
             </span>
@@ -96,7 +96,7 @@ export default function CompareProducts() {
                         </div>
                         <div className="flex-1 min-w-0 space-y-1">
                            <span className={`block font-sans font-black text-sm uppercase tracking-tight truncate transition-colors duration-500 ${isSelected ? 'text-editorial-text' : 'text-editorial-text-muted group-hover/item:text-editorial-text'}`}>{product.name}</span>
-                           <span className="block font-mono text-[9px] text-zinc-600 uppercase tracking-widest">{product.category}</span>
+                           <span className="block font-mono text-[0.6875rem] text-zinc-600 uppercase tracking-widest">{product.category}</span>
                         </div>
                         {isSelected && (
                            <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} className="shrink-0 bg-red-600 rounded-full p-1.5 shadow-[0_0_15px_#dc2626]">
@@ -147,7 +147,7 @@ export default function CompareProducts() {
                   <div className="mb-12 relative z-10 border-b border-editorial-border pb-10 space-y-6">
                      <div className="flex items-center gap-4">
                         <div className="w-2 h-6 bg-red-600 shadow-[0_0_10px_#dc2626]" />
-                        <span className="font-mono text-[10px] text-editorial-text-muted uppercase tracking-[0.5em] font-black block group-hover:text-red-500 transition-colors uppercase">{item.category}</span>
+                        <span className="font-mono text-[0.6875rem] text-editorial-text-muted uppercase tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] font-black block group-hover:text-red-500 transition-colors uppercase">{item.category}</span>
                      </div>
                      <h3 className="text-4xl lg:text-5xl font-black text-editorial-text uppercase tracking-tighter leading-[0.8] transition-all duration-700 group-hover:text-red-500">{item.name}</h3>
                      <span className="text-3xl font-black text-editorial-text drop-shadow-strong tracking-tight opacity-40 group-hover:opacity-100 transition-opacity duration-700 font-sans">{item.price}</span>
@@ -189,7 +189,7 @@ export default function CompareProducts() {
                     <Layers className="absolute inset-0 m-auto w-12 h-12 text-red-600/30 group-hover:text-red-500 transition-colors duration-1000" />
                  </div>
                  <div className="space-y-4">
-                    <span className="font-mono text-[13px] text-red-600 uppercase tracking-[0.8em] font-black block animate-pulse">AWAITING_INPUT_PARAMETERS</span>
+                    <span className="font-mono text-[0.8125rem] text-red-600 uppercase tracking-[0.3em] sm:tracking-[0.8em] [overflow-wrap:anywhere] font-black block animate-pulse">AWAITING_INPUT_PARAMETERS</span>
                     <p className="text-zinc-600 font-mono max-w-md mx-auto text-xs leading-[2.5] tracking-widest uppercase px-12">Select units from the matrix registry to initiate structural comparative analysis and AI synergy modeling.</p>
                  </div>
                </div>
@@ -218,7 +218,7 @@ function CompareRow({ icon: Icon, label, value }: { icon: any, label: string, va
         <Icon size={16} className="text-editorial-text-muted group-hover/row:text-editorial-accent transition-colors duration-500" />
       </div>
       <div className="min-w-0 pt-0.5">
-        <span className="block font-mono text-[9px] uppercase tracking-[0.25em] text-editorial-text-meta font-black mb-1.5">{label}</span>
+        <span className="block font-mono text-[0.6875rem] uppercase tracking-[0.25em] text-editorial-text-meta font-black mb-1.5">{label}</span>
         <p className="text-sm text-editorial-text-muted font-medium leading-relaxed group-hover/row:text-editorial-text transition-colors duration-300">{value}</p>
       </div>
     </div>

@@ -81,7 +81,7 @@ export default function ModalShell({
               {icon}
             </div>
             <div>
-              <span className="block font-mono text-[8px] text-zinc-500 uppercase tracking-[0.3em] font-black leading-none">
+              <span className="block font-mono text-[0.6875rem] text-zinc-500 uppercase tracking-[0.3em] font-black leading-none">
                 SYS_APP // DE_FROST_OS_V4.0
               </span>
               <h3 className="font-sans font-bold text-sm text-white uppercase tracking-wider mt-1 select-none">

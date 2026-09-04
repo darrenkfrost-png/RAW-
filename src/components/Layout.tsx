@@ -92,10 +92,10 @@ export default function Layout() {
                   viewer: anything that must stay current cannot live inside an
                   exiting subtree. */}
               <div className="section-container py-12">
-                <nav className="text-[10px] uppercase tracking-[0.4em] text-editorial-text-meta/40 mb-20 font-mono flex items-center gap-6 group/breadcrumb" aria-label="Breadcrumb">
+                <nav className="text-[0.6875rem] uppercase tracking-[0.4em] text-editorial-text-meta/40 mb-20 font-mono flex items-center gap-6 group/breadcrumb" aria-label="Breadcrumb">
                    <span className="text-red-500 font-bold group-hover/breadcrumb:scale-110 transition-transform duration-500" aria-hidden="true">RAW://</span>
                    <span className="sr-only">You are here:</span>
-                   <div className="flex items-center gap-4">
+                   <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
                       {['SYSTEM', ...location.pathname.split('/').filter(x => x)].map((part, i, arr) => (
                         <React.Fragment key={i}>
                           <span className={i === arr.length - 1 ? 'text-editorial-text' : ''}>

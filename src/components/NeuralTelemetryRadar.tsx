@@ -101,7 +101,7 @@ export default function NeuralTelemetryRadar({
                 x={d.labelX}
                 y={d.labelY}
                 fill={activeAxis === d.axis ? "white" : "zinc"}
-                className={`text-[8px] uppercase font-mono font-black tracking-[0.2em] transition-all duration-500 ${activeAxis === d.axis ? "fill-white scale-110 drop-shadow-[0_0_8px_white]" : "fill-zinc-600 opacity-40 hover:opacity-100"}`}
+                className={`text-[0.6875rem] uppercase font-mono font-black tracking-[0.2em] transition-all duration-500 ${activeAxis === d.axis ? "fill-white scale-110 drop-shadow-[0_0_8px_white]" : "fill-zinc-600 opacity-40 hover:opacity-100"}`}
                 textAnchor="middle"
                 dominantBaseline="middle"
               >

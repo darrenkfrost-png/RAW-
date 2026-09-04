@@ -60,20 +60,20 @@ export default function Footer() {
         <div className="col-span-1 lg:col-start-3 relative z-10 pt-4 px-2">
            <h4 className="text-meta-premium mb-8 pb-4 border-b border-white/[0.05] opacity-60">Company</h4>
            <nav aria-label="Company links" className="flex flex-col gap-6">
-              <Link to="/manifesto" className="link-premium w-fit font-mono text-[10px] uppercase tracking-[0.25em] px-1 font-bold text-editorial-text-muted hover:text-editorial-text transition-all duration-300">Manifesto</Link>
-              <Link to="/raw-cares" className="link-premium w-fit font-mono text-[10px] uppercase tracking-[0.25em] px-1 font-bold text-editorial-text-muted hover:text-editorial-text transition-all duration-300">Raw Cares</Link>
-              <Link to="/terms-of-use" className="link-premium w-fit font-mono text-[10px] uppercase tracking-[0.25em] px-1 font-bold text-editorial-text-muted hover:text-editorial-text transition-all duration-300">Terms Of Use</Link>
-              <Link to="/privacy-policy" className="link-premium w-fit font-mono text-[10px] uppercase tracking-[0.25em] px-1 font-bold text-editorial-text-muted hover:text-editorial-text transition-all duration-300">Privacy Policy</Link>
-              <Link to="/contact" className="link-premium w-fit font-mono text-[10px] uppercase tracking-[0.25em] px-1 font-bold text-editorial-text-muted hover:text-editorial-text transition-all duration-300">Contact</Link>
+              <Link to="/manifesto" className="link-premium w-fit font-mono text-[0.6875rem] uppercase tracking-[0.25em] px-1 font-bold text-editorial-text-muted hover:text-editorial-text transition-all duration-300">Manifesto</Link>
+              <Link to="/raw-cares" className="link-premium w-fit font-mono text-[0.6875rem] uppercase tracking-[0.25em] px-1 font-bold text-editorial-text-muted hover:text-editorial-text transition-all duration-300">Raw Cares</Link>
+              <Link to="/terms-of-use" className="link-premium w-fit font-mono text-[0.6875rem] uppercase tracking-[0.25em] px-1 font-bold text-editorial-text-muted hover:text-editorial-text transition-all duration-300">Terms Of Use</Link>
+              <Link to="/privacy-policy" className="link-premium w-fit font-mono text-[0.6875rem] uppercase tracking-[0.25em] px-1 font-bold text-editorial-text-muted hover:text-editorial-text transition-all duration-300">Privacy Policy</Link>
+              <Link to="/contact" className="link-premium w-fit font-mono text-[0.6875rem] uppercase tracking-[0.25em] px-1 font-bold text-editorial-text-muted hover:text-editorial-text transition-all duration-300">Contact</Link>
            </nav>
         </div>
 
         <div className="col-span-1 relative z-10 pt-4 px-2">
            <h4 className="text-meta-premium mb-8 pb-4 border-b border-white/[0.05] opacity-60">Protocol</h4>
            <nav aria-label="Protocol category links" className="flex flex-col gap-6">
-              <Link to="/nutrients" className="link-premium w-fit font-mono text-[10px] uppercase tracking-[0.25em] px-1 font-bold text-editorial-text-muted hover:text-editorial-text transition-all duration-300">Nutrients</Link>
-              <Link to="/recovery" className="link-premium w-fit font-mono text-[10px] uppercase tracking-[0.25em] px-1 font-bold text-editorial-text-muted hover:text-editorial-text transition-all duration-300">Recovery</Link>
-              <Link to="/combat" className="link-premium w-fit font-mono text-[10px] uppercase tracking-[0.25em] px-1 font-bold text-editorial-text-muted hover:text-editorial-text transition-all duration-300">Combat</Link>
+              <Link to="/nutrients" className="link-premium w-fit font-mono text-[0.6875rem] uppercase tracking-[0.25em] px-1 font-bold text-editorial-text-muted hover:text-editorial-text transition-all duration-300">Nutrients</Link>
+              <Link to="/recovery" className="link-premium w-fit font-mono text-[0.6875rem] uppercase tracking-[0.25em] px-1 font-bold text-editorial-text-muted hover:text-editorial-text transition-all duration-300">Recovery</Link>
+              <Link to="/combat" className="link-premium w-fit font-mono text-[0.6875rem] uppercase tracking-[0.25em] px-1 font-bold text-editorial-text-muted hover:text-editorial-text transition-all duration-300">Combat</Link>
            </nav>
         </div>
       </div>

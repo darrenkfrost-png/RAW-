@@ -116,7 +116,7 @@ export default function CustomCursor() {
         }}
         className="absolute pointer-events-none"
       >
-        <div className={`bg-editorial-bg/90 backdrop-blur-md border border-editorial-border-light px-4 py-3 font-mono text-[8px] text-editorial-text space-y-1 shadow-2xl rounded-lg`}>
+        <div className={`bg-editorial-bg/90 backdrop-blur-md border border-editorial-border-light px-4 py-3 font-mono text-[0.6875rem] text-editorial-text space-y-1 shadow-2xl rounded-lg`}>
            <div className={`flex justify-between gap-8 uppercase font-black`}>
               <span className="opacity-40">{'Target_Lock'}</span>
               <span className={`text-editorial-text font-bold animate-pulse`}>{'ACTIVE'}</span>

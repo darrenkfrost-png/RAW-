@@ -73,7 +73,7 @@ const GlobalSettingsPanel = () => {
                     <Mic className="w-4 h-4 text-red-500" />
                     <h3 className="font-mono text-xs uppercase tracking-widest">AI_Voice_Tone</h3>
                   </div>
-                  <span className="text-[10px] font-mono text-editorial-text-muted uppercase">{settings.aiVoiceTone}</span>
+                  <span className="text-[0.6875rem] font-mono text-editorial-text-muted uppercase">{settings.aiVoiceTone}</span>
                 </div>
                 
                 <div className="grid grid-cols-2 gap-3">
@@ -81,7 +81,7 @@ const GlobalSettingsPanel = () => {
                     <button
                       key={tone}
                       onClick={() => updateSettings({ aiVoiceTone: tone })}
-                      className={`py-3 px-4 rounded-lg font-mono text-[10px] uppercase transition-all duration-300 border hover:scale-[1.02] active:scale-[0.98] ${settings.aiVoiceTone === tone ? 'bg-red-600/10 border-red-600 text-red-500' : 'bg-editorial-surface border-editorial-border text-white-muted hover:border-editorial-border-light hover:text-editorial-text'}`}
+                      className={`py-3 px-4 rounded-lg font-mono text-[0.6875rem] uppercase transition-all duration-300 border hover:scale-[1.02] active:scale-[0.98] ${settings.aiVoiceTone === tone ? 'bg-red-600/10 border-red-600 text-red-500' : 'bg-editorial-surface border-editorial-border text-white-muted hover:border-editorial-border-light hover:text-editorial-text'}`}
                     >
                       {tone.replace('_', ' ')}
                     </button>
@@ -96,7 +96,7 @@ const GlobalSettingsPanel = () => {
                     <Eye className="w-4 h-4 text-red-500" />
                     <h3 className="font-mono text-xs uppercase tracking-widest">Visual_Fidelity</h3>
                   </div>
-                  <span className="text-[10px] font-mono text-editorial-text-muted uppercase">{settings.visualFidelity}</span>
+                  <span className="text-[0.6875rem] font-mono text-editorial-text-muted uppercase">{settings.visualFidelity}</span>
                 </div>
                 
                 <div className="grid grid-cols-2 gap-3">
@@ -123,7 +123,7 @@ const GlobalSettingsPanel = () => {
                         <AlertTriangle className="w-5 h-5 text-orange-500 shrink-0 mt-0.5" />
                         <div>
                           <p className="text-orange-500 font-black text-xs uppercase tracking-wider mb-1">Overdrive_Mode_Active</p>
-                          <p className="text-orange-400/80 text-[10px] leading-relaxed">
+                          <p className="text-orange-400/80 text-[0.6875rem] leading-relaxed">
                             High visual fidelity may increase GPU load on lower-powered devices.
                           </p>
                         </div>
@@ -150,7 +150,7 @@ const GlobalSettingsPanel = () => {
                     />
                   </button>
                 </div>
-                <p className="text-editorial-text-muted text-[11px] leading-relaxed">
+                <p className="text-editorial-text-muted text-[0.6875rem] leading-relaxed">
                   Show optional HUD overlays and system health modules over main content.
                 </p>
               </div>
@@ -162,7 +162,7 @@ const GlobalSettingsPanel = () => {
                     <Monitor className="w-4 h-4 text-red-500" />
                     <h3 className="font-mono text-xs uppercase tracking-widest">Motion_Intensity</h3>
                   </div>
-                  <span className="text-[10px] font-mono text-editorial-text-muted uppercase">{settings.motionIntensity}</span>
+                  <span className="text-[0.6875rem] font-mono text-editorial-text-muted uppercase">{settings.motionIntensity}</span>
                 </div>
                 
                 <div className="grid grid-cols-3 gap-3">
@@ -170,13 +170,13 @@ const GlobalSettingsPanel = () => {
                     <button
                       key={level}
                       onClick={() => updateSettings({ motionIntensity: level })}
-                      className={`py-3 px-2 rounded-lg font-mono text-[10px] uppercase transition-all duration-300 border hover:scale-[1.02] active:scale-[0.98] ${settings.motionIntensity === level ? 'bg-red-600/10 border-red-600 text-red-500' : 'bg-editorial-surface border-editorial-border text-white-muted hover:border-editorial-border-light hover:text-editorial-text'}`}
+                      className={`py-3 px-2 rounded-lg font-mono text-[0.6875rem] uppercase transition-all duration-300 border hover:scale-[1.02] active:scale-[0.98] ${settings.motionIntensity === level ? 'bg-red-600/10 border-red-600 text-red-500' : 'bg-editorial-surface border-editorial-border text-white-muted hover:border-editorial-border-light hover:text-editorial-text'}`}
                     >
                       {level}
                     </button>
                   ))}
                 </div>
-                <p className="text-editorial-text-muted text-[11px] leading-relaxed">
+                <p className="text-editorial-text-muted text-[0.6875rem] leading-relaxed">
                   Control the intensity of parallax, transitions, and interface animation energy.
                 </p>
               </div>
@@ -198,7 +198,7 @@ const GlobalSettingsPanel = () => {
                     />
                   </button>
                 </div>
-                <p className="text-editorial-text-muted text-[11px] leading-relaxed">
+                <p className="text-editorial-text-muted text-[0.6875rem] leading-relaxed">
                   Show small system health indicators such as FPS_OPTIMAL, SYNC_STAT, and SYSTEM_HEALTHY across the interface.
                 </p>
 
@@ -211,8 +211,8 @@ const GlobalSettingsPanel = () => {
                       exit={{ opacity: 0, height: 0 }}
                       className="pt-2 flex flex-wrap gap-2"
                     >
-                      <span className="px-2 py-1 bg-green-500/10 text-green-500 border border-green-500/20 text-[9px] font-mono tracking-widest rounded uppercase">FPS_OPTIMAL</span>
-                      <span className="px-2 py-1 bg-blue-500/10 text-blue-500 border border-blue-500/20 text-[9px] font-mono tracking-widest rounded uppercase">SYNC_STAT</span>
+                      <span className="px-2 py-1 bg-green-500/10 text-green-500 border border-green-500/20 text-[0.6875rem] font-mono tracking-widest rounded uppercase">FPS_OPTIMAL</span>
+                      <span className="px-2 py-1 bg-blue-500/10 text-blue-500 border border-blue-500/20 text-[0.6875rem] font-mono tracking-widest rounded uppercase">SYNC_STAT</span>
                     </motion.div>
                   )}
                 </AnimatePresence>

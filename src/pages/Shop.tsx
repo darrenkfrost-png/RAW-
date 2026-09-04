@@ -181,7 +181,7 @@ export default function Shop() {
              <div className="flex gap-2">
                 {[1, 2, 3].map(i => <div key={i} className={`w-2 h-5 bg-gradient-to-b from-editorial-accent to-red-950 shadow-sm ${i===3 ? 'animate-pulse' : ''}`} />)}
              </div>
-             <span className="font-mono text-[10px] xl:text-[11px] tracking-[0.4em] text-editorial-accent font-black uppercase">
+             <span className="font-mono text-[0.6875rem] xl:text-[0.6875rem] tracking-[0.4em] text-editorial-accent font-black uppercase">
                SYSTEM_INVENTORY // REGISTRY_04
              </span>
           </motion.div>
@@ -189,7 +189,7 @@ export default function Shop() {
             initial={{ scale: 1.05, opacity: 0, filter: "blur(10px)", y: 20 }}
             animate={{ scale: 1, opacity: 1, filter: "blur(0px)", y: 0 }}
             transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-            className="font-sans font-black text-7xl md:text-9xl xl:text-[160px] uppercase tracking-[-0.05em] leading-[0.8] mb-10 drop-shadow-[0_40px_100px_rgba(0,0,0,0.15)] text-premium relative"
+            className="font-sans font-black uppercase tracking-[-0.05em] leading-[0.8] mb-10 drop-shadow-[0_40px_100px_rgba(0,0,0,0.15)] text-premium relative text-display-xl"
           >
             {slug ? slug.replace("-", " ") : "The Archive"}
             <span className="absolute -inset-2 blur-3xl opacity-20 bg-gradient-to-r from-red-600/30 to-transparent pointer-events-none" />
@@ -213,7 +213,7 @@ export default function Shop() {
                     onChange={(e) => setFilters(prev => ({...prev, searchQuery: e.target.value}))}
                     aria-label="Search parameters"
                     placeholder="INITIATE_PARAMETER_SCAN..."
-                    className="w-full bg-editorial-bg backdrop-blur-3xl text-editorial-text placeholder-zinc-700 border border-editorial-border rounded-[1.5rem] py-6 pl-16 pr-8 text-[13px] font-black uppercase tracking-[0.4em] outline-none focus:border-red-500/50 transition-all duration-[600ms] shadow-[inset_0_2px_10px_rgba(0,0,0,0.1)] focus:shadow-[0_0_40px_rgba(220,38,38,0.15)] font-mono"
+                    className="w-full bg-editorial-bg backdrop-blur-3xl text-editorial-text placeholder-zinc-700 border border-editorial-border rounded-[1.5rem] py-6 pl-16 pr-8 text-[0.8125rem] font-black uppercase tracking-[0.4em] outline-none focus:border-red-500/50 transition-all duration-[600ms] shadow-[inset_0_2px_10px_rgba(0,0,0,0.1)] focus:shadow-[0_0_40px_rgba(220,38,38,0.15)] font-mono"
                 />
                 <div className="absolute right-6 top-1/2 -translate-y-1/2 opacity-0 group-focus-within/search:opacity-100 transition-opacity duration-500">
                    <div className="w-2 h-2 bg-red-500 rounded-full animate-ping" />
@@ -229,7 +229,7 @@ export default function Shop() {
                  className={`flex-1 lg:flex-none flex items-center justify-center gap-6 p-6 px-10 border rounded-[1.5rem] transition-all duration-[600ms] group/filter relative overflow-hidden ${activeFilterCount > 0 ? 'border-red-500 text-editorial-text shadow-[0_0_30px_rgba(220,38,38,0.3)] bg-red-950/20' : 'border-editorial-border text-zinc-600 hover:text-editorial-text hover:border-editorial-border-light bg-editorial-bg'}`}
                >
                  <Filter className="w-5 h-5 drop-shadow-[0_2px_4px_currentColor]" />
-                 <span className="text-[12px] font-mono uppercase tracking-[0.4em] font-black">
+                 <span className="text-[0.75rem] font-mono uppercase tracking-[0.4em] font-black">
                    CRITERIA {activeFilterCount > 0 && `// ${activeFilterCount}`}
                  </span>
                </button>
@@ -237,14 +237,14 @@ export default function Shop() {
                <div className="flex-1 lg:flex-none flex justify-between items-center bg-editorial-bg/90 backdrop-blur-3xl p-5 px-6 border border-editorial-border rounded-full shadow-inner transition-all duration-[600ms] hover:border-editorial-border-light group/sort relative">
                    <div className="flex items-center gap-4 absolute left-6 pointer-events-none">
                       <div className="w-2 h-2 rounded-full bg-red-500 animate-[pulse_2s_ease-in-out_infinite] shadow-[0_0_10px_#dc2626]"></div>
-                      <span className="text-[11px] font-mono text-editorial-text-muted uppercase tracking-[0.3em] font-black group-hover/sort:text-editorial-text transition-colors duration-500">SORT:</span>
+                      <span className="text-[0.6875rem] font-mono text-editorial-text-muted uppercase tracking-[0.3em] font-black group-hover/sort:text-editorial-text transition-colors duration-500">SORT:</span>
                    </div>
                    <div className="flex-1 w-full relative">
                      <select 
                        value={filters.sortBy} 
                        onChange={(e) => setFilters(prev => ({...prev, sortBy: e.target.value}))} 
                        aria-label="Sort product registry"
-                       className="bg-transparent text-[11px] font-mono font-black text-editorial-text py-1 pl-28 pr-6 w-full outline-none cursor-pointer hover:text-red-500 transition-colors duration-500 tracking-[0.2em] uppercase appearance-none focus:ring-0 drop-shadow-sm z-10 relative"
+                       className="bg-transparent text-[0.6875rem] font-mono font-black text-editorial-text py-1 pl-28 pr-6 w-full outline-none cursor-pointer hover:text-red-500 transition-colors duration-500 tracking-[0.2em] uppercase appearance-none focus:ring-0 drop-shadow-sm z-10 relative"
                      >
                            <option value="featured" className="bg-editorial-bg text-editorial-text py-2">FEATURED</option>
                            <option value="price-low" className="bg-editorial-bg text-editorial-text py-2">PRICE: LOW TO HIGH</option>
@@ -298,12 +298,12 @@ export default function Shop() {
                 <LayoutGrid className="w-8 h-8 text-editorial-accent group-hover:scale-110 transition-transform" />
             </div>
             
-            <h3 className="font-sans text-5xl xl:text-7xl font-black uppercase tracking-tight text-editorial-text mb-6">
+            <h3 className="font-sans font-black uppercase tracking-tight text-editorial-text mb-6 text-display-sm">
                 <span className="block text-editorial-accent mb-2 drop-shadow-[0_0_15px_rgba(220,38,38,0.5)]">SYSTEM_NULL</span>
                 <span className="block text-xl md:text-3xl font-light text-zinc-600">NO_MATCHING_UNITS</span>
             </h3>
             
-            <p className="text-editorial-text-muted font-mono text-[11px] xl:text-[12px] uppercase tracking-[0.4em] font-medium max-w-lg mx-auto leading-relaxed mb-16">
+            <p className="text-editorial-text-muted font-mono text-[0.6875rem] xl:text-[0.75rem] uppercase tracking-[0.4em] font-medium max-w-lg mx-auto leading-relaxed mb-16">
               Our registry failed to find any assets matching your current filtering parameters. Adjust your scan criteria, clear the protocol, or consult the Intelligence Advisor for assistance.
             </p>
 

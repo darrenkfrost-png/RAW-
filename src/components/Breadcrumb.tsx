@@ -13,7 +13,7 @@ interface BreadcrumbProps {
 
 export default function Breadcrumb({ items }: BreadcrumbProps) {
   return (
-    <nav className="flex items-center gap-4 mb-12 relative z-50">
+    <nav className="flex flex-wrap items-center gap-x-4 gap-y-2 mb-12 relative z-50">
       <Link 
         to="/" 
         className="flex items-center gap-2 text-meta-premium opacity-40 hover:opacity-100 transition-opacity group"
@@ -28,14 +28,14 @@ export default function Breadcrumb({ items }: BreadcrumbProps) {
           {item.path && !item.active ? (
             <Link 
               to={item.path}
-              className="font-mono text-[10px] text-meta-premium opacity-40 hover:opacity-100 transition-opacity uppercase tracking-[0.2em]"
+              className="font-mono text-[0.6875rem] text-meta-premium opacity-40 hover:opacity-100 transition-opacity uppercase tracking-[0.2em]"
             >
               {item.label}
             </Link>
           ) : (
             <span 
               aria-current="page"
-              className="font-mono text-[10px] text-red-500 font-black uppercase tracking-[0.2em] drop-shadow-[0_0_8px_#dc2626]"
+              className="font-mono text-[0.6875rem] text-red-500 font-black uppercase tracking-[0.2em] drop-shadow-[0_0_8px_#dc2626]"
             >
               {item.label}
             </span>

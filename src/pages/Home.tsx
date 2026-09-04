@@ -74,14 +74,19 @@ export default function Home() {
           <div className="absolute top-8 left-8 right-8 flex justify-between items-start opacity-40">
             <div className="flex gap-2">
               <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse shadow-[0_0_10px_rgba(220,38,38,1)]" />
-              <span className="font-mono text-[8px] uppercase tracking-[0.4em] font-bold text-red-500">LIVE</span>
+              <span className="font-mono text-[0.6875rem] uppercase tracking-[0.4em] font-bold text-red-500">LIVE</span>
             </div>
-            <span className="font-mono text-[8px] uppercase tracking-[0.4em] font-bold">V.4.0.0</span>
+            <span className="font-mono text-[0.6875rem] uppercase tracking-[0.4em] font-bold">V.4.0.0</span>
           </div>
-          <div className="absolute bottom-10 left-10 font-mono text-[9px] text-red-500/80 font-bold tracking-[0.4em] uppercase bg-editorial-bg/40 px-5 py-3.5 rounded-2xl border border-editorial-border backdrop-blur-xl shadow-lg drop-shadow-[0_0_15px_rgba(244,44,75,0.3)] hover:bg-editorial-bg/60 hover:text-red-400 transition-all cursor-crosshair">TACTICAL_OVERLAY // ACTIVE</div>
+          <div className="absolute bottom-10 left-10 font-mono text-[0.6875rem] text-red-500/80 font-bold tracking-[0.4em] uppercase bg-editorial-bg/40 px-5 py-3.5 rounded-2xl border border-editorial-border backdrop-blur-xl shadow-lg drop-shadow-[0_0_15px_rgba(244,44,75,0.3)] hover:bg-editorial-bg/60 hover:text-red-400 transition-all cursor-crosshair">TACTICAL_OVERLAY // ACTIVE</div>
         </motion.div>
         
-        <div className="section-container relative z-10">
+          {/* ⚠️ min-w-0 IS LOAD-BEARING. This container is a flex ITEM (the section is
+              flex, for vertical centring), and a flex item may not shrink below its
+              content's minimum width by default — here 383px, from the tagline's
+              unwrapped length. Measured on a 375px phone: 431px wide, centred, and
+              the headline clipped. Tested live: min-width:0 alone brings it to 327. */}
+        <div className="section-container relative z-10 min-w-0 w-full">
           <motion.div
             initial={{ opacity: 0, y: 100 }}
             animate={{ opacity: 1, y: 0 }}
@@ -124,14 +129,19 @@ export default function Home() {
             </div>
 
             <motion.h1 
-              initial={{ clipPath: "polygon(0 0, 0 0, 0 100%, 0% 100%)", filter: "blur(40px)", opacity: 0, x: -100 }}
-              animate={{ clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%)", filter: "blur(0px)", opacity: 1, x: 0 }}
+              initial={{ clipPath: "polygon(0 0, 0 0, 0 100%, 0% 100%)", filter: "blur(40px)", opacity: 0 }}
+              animate={{ clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%)", filter: "blur(0px)", opacity: 1 }}
               transition={{ duration: 2.5, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
+              /* ⚠️ x IS OWNED BY THE PARALLAX VALUE, SO THE ENTRANCE MUST NOT ANIMATE IT.
+                 With style.x bound to a MotionValue, an initial x of -100 was applied and
+                 the animate to 0 was ignored — so on any device without a mouse the heading
+                 sat 100px off the left edge forever, its first two letters cut off. Measured
+                 on a phone: glyphs from -52px. The entrance keeps its clip, blur and fade. */
               style={{ x: headingX, y: headingY }}
-              className="text-[12vw] xl:text-[220px] leading-[0.7] font-black uppercase tracking-[-0.08em] mb-12 drop-shadow-2xl relative mix-blend-plus-lighter text-premium"
+              className="text-[clamp(1.625rem,7vw,8rem)] leading-[0.7] font-black uppercase tracking-[-0.08em] mb-12 drop-shadow-2xl relative mix-blend-plus-lighter text-premium"
             >
               <span className="relative inline-block">
-                <span className="text-zinc-600/30 transition-colors duration-1000 block font-light tracking-[-0.05em] mt-8">NEURAL_PATHWAYS</span>
+                <span className="text-zinc-600/30 transition-colors duration-1000 block font-light tracking-[-0.05em] mt-8">RECOVER_INTENT</span>
                 <motion.span 
                   animate={{ 
                     opacity: [0.85, 1, 0.85],
@@ -159,7 +169,7 @@ export default function Home() {
               animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
               transition={{ delay: 0.8, duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
               style={{ x: secondaryX, y: secondaryY }}
-              className="font-mono text-sm xl:text-[16px] text-meta-premium tracking-[0.2em] font-black max-w-2xl leading-[2] mb-16 p-10 rounded-[2.5rem] border border-editorial-border bg-editorial-text/[0.01] backdrop-blur-3xl shadow-premium relative overflow-hidden group"
+              className="font-mono text-sm xl:text-[1rem] text-meta-premium tracking-[0.2em] font-black max-w-2xl leading-[2] mb-16 p-10 rounded-[2.5rem] border border-editorial-border bg-editorial-text/[0.01] backdrop-blur-3xl shadow-premium relative overflow-hidden group"
             >
               <div className="absolute inset-0 bg-gradient-to-br from-red-600/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
               <p><span className="text-red-600 mr-4">//</span> RAW_PROTOCOL_OS exists for operatives who refuse to live halfway. Every system is built around performance, resilience, and real-world kinetic output.</p>
@@ -177,51 +187,12 @@ export default function Home() {
                 <Link to="/recovery" className="button-secondary" aria-label="View Recovery category">View_Recovery</Link>
             </motion.div>
 
-            {/* Bio-Metrics Ticker (State of the Art Interaction) */}
-            <motion.div 
-               initial={{ opacity: 0, scale: 0.95, filter: "blur(20px)" }}
-               animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
-               transition={{ delay: 1.2, duration: 2, ease: [0.16, 1, 0.3, 1] }}
-               className="flex flex-wrap gap-12 xl:gap-24 mb-20 border-l-[6px] border-red-600 pl-12 xl:pl-20 bg-gradient-to-r from-red-600/5 via-red-900/5 to-transparent py-14 rounded-r-[6rem] shadow-[inset_40px_0_80px_rgba(220,38,38,0.1)] relative overflow-hidden backdrop-blur-md"
-            >
-               <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_left,_var(--tw-gradient-stops))] from-red-600/10 via-transparent to-transparent pointer-events-none mix-blend-screen" />
-               {[
-                 { label: "BLOOD_FLOW", value: "98.4%", drift: "+0.2", tooltip: "Indicators for circulatory efficiency and oxygen delivery rate.", suffix: "%" },
-                 { label: "NEURAL_STABILITY", value: "100.0", drift: "NOMINAL", tooltip: "System simulation of nervous system readiness and focus state.", suffix: "%" },
-                 { label: "OX_SATURATION", value: "99.2", drift: "-0.1", tooltip: "Simulation of oxygen saturation levels during peak output.", suffix: "%" },
-                 { label: "SYSTEM_CORE", value: "ACTIVE", drift: "READY", tooltip: "Central management system status for all metabolic protocols.", suffix: "" }
-               ].map((metric, i) => (
-                 <div key={i} className="flex flex-col gap-5 group cursor-help relative z-10 transition-transform duration-[1000ms] hover:scale-110 transform-gpu min-w-[220px]" 
-                     role="img" 
-                     aria-label={`Metric: ${metric.label}, Value: ${metric.value}${metric.suffix}, Status: ${metric.drift}`}>
-                    <span className="font-mono text-[11px] font-black items-center flex gap-4 text-editorial-text-muted/60 tracking-[0.5em] uppercase group-hover:text-red-500 transition-colors duration-[800ms]">
-                      <div className="w-2.5 h-2.5 rounded-full bg-red-600/30 group-hover:bg-red-600 group-hover:animate-ping shadow-[0_0_15px_currentColor] transition-colors duration-[1000ms]" />
-                      {metric.label}
-                    </span>
-                    <div className="flex items-baseline gap-5">
-                       <span className="font-sans font-black text-4xl xl:text-5xl tracking-[-0.05em] text-white drop-shadow-[0_10px_20px_rgba(0,0,0,0.4)] transition-all duration-[1000ms] group-hover:text-red-500">{metric.value}{metric.suffix}</span>
-                       <span className="font-mono text-[10px] text-red-500 font-black bg-red-600/10 px-4 py-1.5 rounded-xl border border-red-600/30 shadow-[0_0_15px_rgba(220,38,38,0.1)]">{metric.drift}</span>
-                    </div>
-                    <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden mt-2 border border-white/5">
-                        <motion.div 
-                          initial={{ width: 0 }}
-                          whileInView={{ width: metric.value === 'ACTIVE' ? "100%" : metric.value }}
-                          transition={{ duration: 2, delay: 1.5 + (i * 0.2), ease: [0.16, 1, 0.3, 1] }}
-                          className="h-full bg-gradient-to-r from-red-600 to-red-400"
-                        />
-                    </div>
-                    <span className="text-[10px] text-zinc-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300 absolute -bottom-10 w-56 leading-tight font-medium font-mono">
-                        [TELEMETRY_LOG] // {metric.tooltip}
-                    </span>
-                 </div>
-               ))}
-            </motion.div>
             
             <div className="flex flex-col sm:flex-row items-center gap-10 xl:gap-16">
                <MagneticWrapper>
                  <Link 
                    to="/shop" 
-                   className="group/btn relative px-14 py-7 bg-red-600 text-white rounded-[2rem] font-black text-[12px] tracking-[0.4em] overflow-hidden hover:shadow-[0_20px_50px_rgba(220,38,38,0.6)] transition-all duration-500 block w-full sm:w-auto text-center border-b-[4px] border-red-800 active:border-b-0 active:translate-y-[4px]"
+                   className="group/btn relative px-8 sm:px-14 py-7 bg-red-600 text-white rounded-[2rem] font-black text-[0.75rem] tracking-[0.25em] sm:tracking-[0.4em] overflow-hidden hover:shadow-[0_20px_50px_rgba(220,38,38,0.6)] transition-all duration-500 block w-full sm:w-auto text-center border-b-[4px] border-red-800 active:border-b-0 active:translate-y-[4px]"
                  >
                     <span className="relative z-10 flex items-center justify-center gap-4 drop-shadow-[0_2px_4px_rgba(0,0,0,0.08)]">
                       INITIALIZE_LOGISTICS <ChevronRight className="w-6 h-6 group-hover/btn:translate-x-3 transition-transform duration-300 drop-shadow-[0_0_5px_currentColor]" />
@@ -233,7 +204,7 @@ export default function Home() {
                </MagneticWrapper>
                <div className="flex items-center gap-5 bg-editorial-bg/80 px-10 py-5 rounded-full border border-editorial-border backdrop-blur-xl shadow-[0_20px_50px_rgba(0,0,0,0.1)]">
                   <div className="w-2.5 h-2.5 bg-green-500 rounded-full animate-ping shadow-[0_0_10px_#22c55e]" />
-                  <span className="text-[11px] font-bold text-editorial-text-muted tracking-[0.5em] uppercase">OPERATIONAL_STATUS: <span className="text-green-500 drop-shadow-[0_0_8px_currentColor]">OPTIMAL</span></span>
+                  <span className="text-[0.6875rem] font-bold text-editorial-text-muted tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] uppercase">OPERATIONAL_STATUS: <span className="text-green-500 drop-shadow-[0_0_8px_currentColor]">OPTIMAL</span></span>
                </div>
             </div>
           </motion.div>
@@ -254,7 +225,7 @@ export default function Home() {
           <div className="absolute inset-0 bg-gradient-to-r from-black via-black/70 to-transparent pointer-events-none" />
           <div className="section-container relative py-14 md:py-20 flex flex-col md:flex-row md:items-center gap-8 md:gap-12">
             <div className="flex-1 min-w-0">
-              <span className="font-mono text-[10px] font-bold uppercase tracking-[0.5em] text-red-500 block mb-4">
+              <span className="font-mono text-[0.6875rem] font-bold uppercase tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] text-red-500 block mb-4">
                 LIVE_CAMPAIGN // #STAYSAFEWITHRAW
               </span>
               <h2 className="font-sans font-black text-4xl md:text-6xl uppercase leading-[0.9] tracking-tight mb-4">
@@ -266,7 +237,7 @@ export default function Home() {
               </p>
             </div>
             <div className="flex-shrink-0">
-              <span className="inline-flex items-center gap-3 px-8 py-4 border border-red-500/40 group-hover:border-red-500 group-hover:bg-red-500/10 rounded-full font-mono text-[11px] font-bold uppercase tracking-[0.3em] text-red-400 group-hover:text-red-300 transition-all duration-500">
+              <span className="inline-flex items-center gap-3 px-8 py-4 border border-red-500/40 group-hover:border-red-500 group-hover:bg-red-500/10 rounded-full font-mono text-[0.6875rem] font-bold uppercase tracking-[0.3em] text-red-400 group-hover:text-red-300 transition-all duration-500">
                 Claim your pack
                 <span className="transition-transform duration-500 group-hover:translate-x-1">→</span>
               </span>
@@ -279,11 +250,11 @@ export default function Home() {
       <section className="py-32 xl:py-64 border-y border-editorial-border bg-editorial-bg relative overflow-hidden">
         <Atmosphere glowOpacity={0.02} glowColor="rgba(244, 44, 75, 1)" gridMode="lines" />
         <div className="absolute top-0 right-0 py-20 px-10 opacity-[0.02] pointer-events-none mix-blend-screen">
-           <span className="font-sans font-black text-[18vw] leading-[0.8] uppercase select-none">PROTOCOLS</span>
+           <span className="font-sans font-black text-[clamp(3rem,18vw,30rem)] leading-[0.8] uppercase select-none">PROTOCOLS</span>
         </div>
         <div className="section-container relative z-10">
           <div className="mb-32 xl:mb-48 font-sans text-center lg:text-left pt-10">
-            <h2 className="text-6xl md:text-8xl xl:text-[130px] leading-[0.85] font-black tracking-[-0.03em] mb-12 drop-shadow-[0_10px_30px_rgba(0,0,0,0.1)] text-premium">PERFORMANCE DOESN'T <br className="hidden xl:block" /> EXIST IN ISOLATION.</h2>
+            <h2 className="leading-[0.85] font-black tracking-[-0.03em] mb-12 drop-shadow-[0_10px_30px_rgba(0,0,0,0.1)] text-premium text-display-lg">PERFORMANCE DOESN'T <br className="hidden xl:block" /> EXIST IN ISOLATION.</h2>
             <div className="grid md:grid-cols-3 gap-12 pt-10">
                 {[
                   {
@@ -326,8 +297,8 @@ export default function Home() {
                 <div className="mb-6 w-24 h-[1px] bg-editorial-text/20 overflow-hidden relative">
                    <motion.div initial={{ x: "-100%" }} whileInView={{ x: "100%" }} transition={{ duration: 2, repeat: Infinity, ease: "linear" }} className="absolute inset-y-0 w-1/2 bg-red-500 shadow-[0_0_15px_#dc2626]" />
                 </div>
-                <h3 className="font-sans font-black text-6xl xl:text-7xl uppercase mb-6 leading-none text-editorial-text transition-transform duration-700 group-hover/card:-translate-y-2">Fuel <br /> <span className="text-red-500">Intent</span></h3>
-                <p className="text-editorial-text-muted font-mono text-[10px] tracking-widest uppercase mb-10 opacity-0 group-hover/card:opacity-100 transition-all duration-700 delay-100 translate-y-4 group-hover/card:translate-y-0 leading-relaxed">
+                <h3 className="font-sans font-black uppercase mb-6 leading-none text-editorial-text transition-transform duration-700 group-hover/card:-translate-y-2 text-display-sm">Fuel <br /> <span className="text-red-500">Intent</span></h3>
+                <p className="text-editorial-text-muted font-mono text-[0.6875rem] tracking-widest uppercase mb-10 opacity-0 group-hover/card:opacity-100 transition-all duration-700 delay-100 translate-y-4 group-hover/card:translate-y-0 leading-relaxed">
                   // Precision nutrition and supplementation systems engineered for maximum bio-availability.
                 </p>
                 <div className="button-secondary w-fit pointer-events-auto opacity-0 group-hover/card:opacity-100 transition-all duration-700 delay-200">Deploy Nutrients</div>
@@ -349,8 +320,8 @@ export default function Home() {
                 <div className="mb-6 w-24 h-[1px] bg-editorial-text/20 overflow-hidden relative">
                    <motion.div initial={{ x: "-100%" }} whileInView={{ x: "100%" }} transition={{ duration: 2, repeat: Infinity, ease: "linear" }} className="absolute inset-y-0 w-1/2 bg-red-500 shadow-[0_0_15px_#dc2626]" />
                 </div>
-                <h3 className="font-sans font-black text-6xl xl:text-7xl uppercase mb-6 leading-none text-editorial-text transition-transform duration-700 group-hover/card:-translate-y-2">The <br /> <span className="text-red-500">Arena</span></h3>
-                <p className="text-editorial-text-muted font-mono text-[10px] tracking-widest uppercase mb-10 opacity-0 group-hover/card:opacity-100 transition-all duration-700 delay-100 translate-y-4 group-hover/card:translate-y-0 leading-relaxed">
+                <h3 className="font-sans font-black uppercase mb-6 leading-none text-editorial-text transition-transform duration-700 group-hover/card:-translate-y-2 text-display-sm">The <br /> <span className="text-red-500">Arena</span></h3>
+                <p className="text-editorial-text-muted font-mono text-[0.6875rem] tracking-widest uppercase mb-10 opacity-0 group-hover/card:opacity-100 transition-all duration-700 delay-100 translate-y-4 group-hover/card:translate-y-0 leading-relaxed">
                   // Combat architecture and tactical fightwear designed for high-intensity environments.
                 </p>
                 <div className="button-secondary w-fit pointer-events-auto opacity-0 group-hover/card:opacity-100 transition-all duration-700 delay-200">Enter Arena</div>
@@ -372,8 +343,8 @@ export default function Home() {
                 <div className="mb-6 w-24 h-[1px] bg-editorial-text/20 overflow-hidden relative">
                    <motion.div initial={{ x: "-100%" }} whileInView={{ x: "100%" }} transition={{ duration: 2, repeat: Infinity, ease: "linear" }} className="absolute inset-y-0 w-1/2 bg-red-500 shadow-[0_0_15px_#dc2626]" />
                 </div>
-                <h3 className="font-sans font-black text-6xl xl:text-7xl uppercase mb-6 leading-none text-editorial-text transition-transform duration-700 group-hover/card:-translate-y-2">Total <br /> <span className="text-red-500">Reset</span></h3>
-                <p className="text-editorial-text-muted font-mono text-[10px] tracking-widest uppercase mb-10 opacity-0 group-hover/card:opacity-100 transition-all duration-700 delay-100 translate-y-4 group-hover/card:translate-y-0 leading-relaxed">
+                <h3 className="font-sans font-black uppercase mb-6 leading-none text-editorial-text transition-transform duration-700 group-hover/card:-translate-y-2 text-display-sm">Total <br /> <span className="text-red-500">Reset</span></h3>
+                <p className="text-editorial-text-muted font-mono text-[0.6875rem] tracking-widest uppercase mb-10 opacity-0 group-hover/card:opacity-100 transition-all duration-700 delay-100 translate-y-4 group-hover/card:translate-y-0 leading-relaxed">
                   // Rest optimisation and regulation tools built to help the body return stronger.
                 </p>
                 <div className="button-secondary w-fit pointer-events-auto opacity-0 group-hover/card:opacity-100 transition-all duration-700 delay-200">Deploy Recovery</div>
@@ -388,7 +359,7 @@ export default function Home() {
         {/* Left Side: Editorial Context */}
         <div className="relative p-12 lg:p-24 flex flex-col justify-center border-b lg:border-b-0 lg:border-r border-editorial-border z-10 bg-black/40 backdrop-blur-3xl shadow-inner shadow-red-500/5">
           <div className="absolute top-0 left-0 w-full overflow-hidden whitespace-nowrap p-4 border-b border-white/5 pointer-events-none opacity-20">
-             <div className="flex gap-20 animate-[marquee_40s_linear_infinite] font-mono text-[9px] font-black uppercase tracking-[0.6em] text-red-500">
+             <div className="flex gap-20 animate-[marquee_40s_linear_infinite] font-mono text-[0.6875rem] font-black uppercase tracking-[0.3em] sm:tracking-[0.6em] [overflow-wrap:anywhere] text-red-500">
                <span>Neural_Interface_Connected</span>
                <span>Signal_Pulse: Stable</span>
                <span>Operational_Capacity: 110%</span>
@@ -404,7 +375,7 @@ export default function Home() {
           </div>
           
           <div className="space-y-12 pt-12">
-            <h2 className="font-display font-black text-6xl md:text-[120px] xl:text-[160px] uppercase leading-[0.8] tracking-[-0.03em] text-premium drop-shadow-[0_10px_30px_rgba(0,0,0,0.1)]">
+            <h2 className="font-display font-black uppercase leading-[0.8] tracking-[-0.03em] text-premium drop-shadow-[0_10px_30px_rgba(0,0,0,0.1)] text-display-xl">
               RAW <br /> IN <br /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-red-800 drop-shadow-[0_0_30px_rgba(220,38,38,0.4)]">MOTION</span>
             </h2>
             
@@ -415,12 +386,12 @@ export default function Home() {
             {/* Live Feed Overlay UI */}
              <div className="flex gap-8 items-center bg-editorial-bg/60 backdrop-blur-xl border border-editorial-border p-6 rounded-3xl w-fit shadow-md group/feed hover:border-red-500 transition-colors">
                    <div className="flex flex-col">
-                      <span className="text-[10px] font-bold text-editorial-text-muted tracking-[0.3em] uppercase mb-2">FPS_SIGNAL</span>
+                      <span className="text-[0.6875rem] font-bold text-editorial-text-muted tracking-[0.3em] uppercase mb-2">FPS_SIGNAL</span>
                       <span className="font-mono text-lg text-editorial-text font-black group-hover:text-red-500">60.00</span>
                    </div>
                    <div className="w-[1px] h-10 bg-editorial-text/10" />
                    <div className="flex flex-col">
-                      <span className="text-[10px] font-bold text-editorial-text-muted tracking-[0.3em] uppercase mb-2">BITRATE</span>
+                      <span className="text-[0.6875rem] font-bold text-editorial-text-muted tracking-[0.3em] uppercase mb-2">BITRATE</span>
                       <span className="font-mono text-lg text-emerald-500 font-black">10.5MB/s</span>
                    </div>
                 </div>
@@ -438,7 +409,7 @@ export default function Home() {
           <EngagementVideo />
           
           {/* Signal/Live Indicators */}
-           <div className="absolute top-10 left-10 z-20 bg-red-600 text-white text-[10px] font-black tracking-widest px-4 py-2 rounded-full shadow-lg flex items-center gap-3">
+           <div className="absolute top-10 left-10 z-20 bg-red-600 text-white text-[0.6875rem] font-black tracking-widest px-4 py-2 rounded-full shadow-lg flex items-center gap-3">
              <div className="w-2 h-2 rounded-full bg-editorial-text animate-pulse" /> LIVE_FEED
            </div>
         </div>
@@ -452,11 +423,11 @@ export default function Home() {
             <span className="text-meta-premium mb-8 block flex items-center gap-4">
               <div className="w-2.5 h-2.5 bg-red-500 rounded-full animate-ping shadow-[0_0_10px_currentColor]" /> Archive Collection
             </span>
-            <h2 className="font-sans font-black text-7xl md:text-8xl xl:text-[150px] uppercase tracking-[-0.03em] leading-[0.8] drop-shadow-[0_10px_30px_rgba(0,0,0,0.1)] text-premium">Featured <br className="hidden xl:block" /><span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-red-800 drop-shadow-[0_0_30px_rgba(220,38,38,0.4)]">Gear</span></h2>
+            <h2 className="font-sans font-black uppercase tracking-[-0.03em] leading-[0.8] drop-shadow-[0_10px_30px_rgba(0,0,0,0.1)] text-premium text-display-lg">Featured <br className="hidden xl:block" /><span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-red-800 drop-shadow-[0_0_30px_rgba(220,38,38,0.4)]">Gear</span></h2>
           </div>
           <MagneticWrapper>
             <Link to="/shop" className="group flex items-center gap-5 px-10 py-6 bg-editorial-bg/80 backdrop-blur-2xl border border-editorial-border-light rounded-[2rem] hover:border-red-500/50 hover:bg-editorial-bg transition-all duration-500 shadow-[0_10px_30px_rgba(0,0,0,0.08)]" aria-label="View All Logistics Selection">
-              <span className="font-bold uppercase tracking-[0.4em] text-[12px] text-editorial-text">View All Logistics</span>
+              <span className="font-bold uppercase tracking-[0.4em] text-[0.75rem] text-editorial-text">View All Logistics</span>
               <ChevronRight className="w-5 h-5 text-red-500 group-hover:translate-x-2 transition-transform duration-300 drop-shadow-[0_0_5px_currentColor]" />
             </Link>
           </MagneticWrapper>
@@ -476,17 +447,17 @@ export default function Home() {
       <section className="py-48 bg-editorial-bg border-y border-editorial-border relative overflow-hidden">
         <Atmosphere glowOpacity={0.03} gridMode="dots" intensity="medium" />
         <div className="absolute inset-0 opacity-[0.02] pointer-events-none select-none mix-blend-screen">
-           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-sans font-black text-[35vw] leading-none uppercase">CORE_X</div>
+           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-sans font-black text-[clamp(3rem,35vw,30rem)] leading-none uppercase">CORE_X</div>
         </div>
         
         <div className="section-container relative z-10 text-center">
           <div className="mb-40 space-y-12">
              <div className="flex items-center justify-center gap-8">
                 <div className="w-24 h-[1px] bg-red-600 shadow-[0_0_20px_#dc2626]" />
-                <span className="text-meta-premium tracking-[0.8em]">BIO_KINETIC_INTELLIGENCE // PROTOCOL_V4</span>
+                <span className="text-meta-premium tracking-[0.3em] sm:tracking-[0.8em] [overflow-wrap:anywhere]">BIO_KINETIC_INTELLIGENCE // PROTOCOL_V4</span>
                 <div className="w-24 h-[1px] bg-red-600 shadow-[0_0_20px_#dc2626]" />
              </div>
-             <h2 className="font-sans font-black text-8xl md:text-9xl xl:text-[180px] uppercase tracking-[-0.05em] leading-[0.75] drop-shadow-[0_15px_40px_rgba(0,0,0,0.15)] text-premium">THE ARCHITECTURE <br /> OF <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-red-800 drop-shadow-[0_0_40px_rgba(220,38,38,0.4)]">OUTPUT</span></h2>
+             <h2 className="font-sans font-black uppercase tracking-[-0.05em] leading-[0.75] drop-shadow-[0_15px_40px_rgba(0,0,0,0.15)] text-premium text-display-xl">THE ARCHITECTURE <br /> OF <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-red-800 drop-shadow-[0_0_40px_rgba(220,38,38,0.4)]">OUTPUT</span></h2>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-24 xl:gap-40">
@@ -537,14 +508,14 @@ export default function Home() {
                        />
                     </svg>
                     <div className="absolute inset-0 flex flex-col items-center justify-center bg-editorial-bg/60 backdrop-blur-3xl rounded-full m-12 border border-white/5 shadow-[inset_0_0_60px_rgba(0,0,0,0.2)] group-hover:bg-editorial-bg/40 transition-all duration-[1000ms] group-hover:scale-110">
-                       <span className="font-sans font-black text-8xl tracking-[-0.05em] text-premium drop-shadow-[0_10px_20px_rgba(0,0,0,0.2)]">{gauge.value}</span>
-                       <span className="text-meta-premium mt-4 tracking-[0.5em] font-black">{gauge.label}</span>
+                       <span className="font-sans font-black tracking-[-0.05em] text-premium drop-shadow-[0_10px_20px_rgba(0,0,0,0.2)] text-display-md">{gauge.value}</span>
+                       <span className="text-meta-premium mt-4 tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] font-black">{gauge.label}</span>
                        <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 w-32 h-[1px] bg-red-600/40 rounded-full blur-[1px]" />
                     </div>
                  </div>
                  
                  <div className="text-center space-y-8 w-full max-w-xs">
-                    <div className="font-mono text-[11px] font-black tracking-[0.5em] uppercase flex items-center justify-center gap-4 text-editorial-text drop-shadow-[0_4px_8px_rgba(0,0,0,0.1)]">
+                    <div className="font-mono text-[0.6875rem] font-black tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] uppercase flex items-center justify-center gap-4 text-editorial-text drop-shadow-[0_4px_8px_rgba(0,0,0,0.1)]">
                       <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse shadow-[0_0_15px_#22c55e]" /> PROTOCOL_STATUS: <span className="text-green-500 italic">VERIFIED</span>
                     </div>
                     
@@ -552,14 +523,14 @@ export default function Home() {
                         {gauge.subMetrics.map((sm, j) => (
                           <div key={j} className="flex justify-between items-center gap-6">
                              <div className="h-[1px] flex-1 bg-white/5" />
-                             <span className="font-mono text-[9px] text-zinc-500 font-bold tracking-widest uppercase truncate">{sm}</span>
+                             <span className="font-mono text-[0.6875rem] text-zinc-500 font-bold tracking-widest uppercase truncate">{sm}</span>
                              <div className="h-[1px] flex-1 bg-white/5" />
                           </div>
                         ))}
                     </div>
 
                     <div className="h-[4px] w-24 bg-zinc-800 mx-auto group-hover:w-full group-hover:bg-red-600 transition-all duration-[1500ms] ease-[0.16,1,0.3,1] shadow-[0_0_20px_rgba(220,38,38,0)] group-hover:shadow-[0_0_20px_#dc2626] rounded-full" />
-                    <p className="font-mono text-[11px] font-black text-zinc-500 tracking-[0.4em] uppercase opacity-40 group-hover:opacity-100 transition-opacity duration-1000">{gauge.detail}</p>
+                    <p className="font-mono text-[0.6875rem] font-black text-zinc-500 tracking-[0.4em] uppercase opacity-40 group-hover:opacity-100 transition-opacity duration-1000">{gauge.detail}</p>
                  </div>
                </motion.div>
              ))}
@@ -575,14 +546,14 @@ export default function Home() {
             <div className="space-y-6">
                 <div className="flex items-center gap-4">
                     <span className="w-12 h-[2px] bg-red-600 shadow-[0_0_15px_#dc2626]" />
-                    <span className="font-mono text-[11px] text-zinc-500 uppercase tracking-[0.4em] font-black">Global_Network_Status</span>
+                    <span className="font-mono text-[0.6875rem] text-zinc-500 uppercase tracking-[0.4em] font-black">Global_Network_Status</span>
                 </div>
-                <h2 className="text-6xl md:text-8xl font-black uppercase tracking-tighter text-white leading-[0.8]">
+                <h2 className="font-black uppercase tracking-tighter text-white leading-[0.8] text-display-md">
                   Operational <br /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-600 to-red-900 italic">Omnipresence</span>
                 </h2>
             </div>
             <div className="flex flex-col items-end gap-4 p-8 bg-editorial-surface/40 border border-editorial-border rounded-[2rem] backdrop-blur-3xl shadow-depth-2">
-                <span className="font-mono text-[10px] text-zinc-600 uppercase tracking-widest font-black">ACTIVE_NODES</span>
+                <span className="font-mono text-[0.6875rem] text-zinc-600 uppercase tracking-widest font-black">ACTIVE_NODES</span>
                 <span className="text-4xl font-black text-white italic">14,204</span>
                 <div className="h-1 w-48 bg-white/5 rounded-full overflow-hidden">
                     <motion.div 
@@ -627,12 +598,12 @@ export default function Home() {
              ].map((node, i) => (
                <div key={i} className="p-8 border border-editorial-border bg-editorial-surface/20 rounded-3xl group/info hover:border-red-500/30 transition-all">
                   <div className="flex justify-between items-center mb-6">
-                      <span className="font-mono text-[9px] text-zinc-500 uppercase tracking-widest font-black">{node.region}</span>
+                      <span className="font-mono text-[0.6875rem] text-zinc-500 uppercase tracking-widest font-black">{node.region}</span>
                       <div className={`w-2 h-2 rounded-full ${node.load === '94%' ? 'bg-red-600 animate-pulse shadow-[0_0_10px_#dc2626]' : 'bg-emerald-500 opacity-60'}`} />
                   </div>
                   <div className="flex items-baseline gap-4 mb-4">
                       <span className="text-2xl font-black text-white italic">{node.ping}</span>
-                      <span className="text-[10px] font-mono text-zinc-600 uppercase tracking-widest">SIGNAL_DELAY</span>
+                      <span className="text-[0.6875rem] font-mono text-zinc-600 uppercase tracking-widest">SIGNAL_DELAY</span>
                   </div>
                   <div className="h-[2px] w-full bg-white/5 overflow-hidden">
                       <motion.div 
@@ -656,7 +627,7 @@ export default function Home() {
                  <span className="text-meta-premium mb-8 block flex items-center gap-4">
                     <div className="w-2.5 h-2.5 bg-red-500 rounded-full animate-ping" /> FIELD_INTEL_STREAM
                  </span>
-                 <h2 className="font-sans font-black text-7xl md:text-8xl xl:text-[140px] uppercase tracking-[-0.05em] leading-[0.8] text-premium">Mission <br /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-red-900 italic">Updates</span></h2>
+                 <h2 className="font-sans font-black uppercase tracking-[-0.05em] leading-[0.8] text-premium text-display-lg">Mission <br /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-red-900 italic">Updates</span></h2>
               </div>
               <Link to="/academy" className="button-secondary group">
                  View_Archives <ChevronRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
@@ -701,8 +672,8 @@ export default function Home() {
                    
                    <div className="absolute inset-x-0 bottom-0 p-12 z-30 space-y-6">
                       <div className="flex items-center gap-4">
-                         <span className="font-mono text-[9px] text-red-500 font-black uppercase tracking-[0.4em] bg-red-600/10 px-4 py-2 rounded-full border border-red-500/30 backdrop-blur-md">{intel.tag}</span>
-                         <span className="font-mono text-[9px] text-zinc-500 uppercase tracking-widest font-black">{intel.date}</span>
+                         <span className="font-mono text-[0.6875rem] text-red-500 font-black uppercase tracking-[0.4em] bg-red-600/10 px-4 py-2 rounded-full border border-red-500/30 backdrop-blur-md">{intel.tag}</span>
+                         <span className="font-mono text-[0.6875rem] text-zinc-500 uppercase tracking-widest font-black">{intel.date}</span>
                       </div>
                       <h3 className="font-sans font-black text-3xl uppercase tracking-tight text-white group-hover/intel:text-red-500 transition-colors duration-500 leading-tight">
                         {intel.title}
@@ -711,7 +682,7 @@ export default function Home() {
                         {intel.summary}
                       </p>
                       <div className="pt-4 opacity-0 group-hover/intel:opacity-100 transition-all duration-700 delay-100">
-                         <button className="text-[10px] font-mono font-black uppercase tracking-[0.4em] text-white flex items-center gap-3">
+                         <button className="text-[0.6875rem] font-mono font-black uppercase tracking-[0.4em] text-white flex items-center gap-3">
                            AUTHENTICATE_INTEL <ArrowRight className="w-4 h-4 text-red-500" />
                          </button>
                       </div>
@@ -740,12 +711,12 @@ export default function Home() {
           <span className="text-meta-premium mb-12 block flex items-center justify-center gap-5">
             <div className="w-3 h-3 bg-red-500 rounded-full animate-ping shadow-[0_0_15px_#dc2626]" /> Community_Initiative_001
           </span>
-          <h2 className="font-sans font-black text-8xl md:text-9xl xl:text-[180px] uppercase tracking-[-0.03em] mb-16 leading-[0.8] text-premium drop-shadow-[0_15px_40px_rgba(0,0,0,0.15)] group-hover/cares:drop-shadow-[0_0_60px_rgba(220,38,38,0.3)] transition-all duration-[1500ms]">RAW <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-red-600 to-red-900 drop-shadow-[0_0_40px_rgba(220,38,38,0.5)] z-10 relative">CARES</span></h2>
+          <h2 className="font-sans font-black uppercase tracking-[-0.03em] mb-16 leading-[0.8] text-premium drop-shadow-[0_15px_40px_rgba(0,0,0,0.15)] group-hover/cares:drop-shadow-[0_0_60px_rgba(220,38,38,0.3)] transition-all duration-[1500ms] text-display-xl">RAW <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-red-600 to-red-900 drop-shadow-[0_0_40px_rgba(220,38,38,0.5)] z-10 relative">CARES</span></h2>
           <p className="text-2xl md:text-3xl xl:text-5xl font-light tracking-wide mb-24 max-w-6xl mx-auto text-premium leading-relaxed drop-shadow-[0_2px_4px_rgba(0,0,0,0.1)] border-b border-red-900/40 pb-16">
             We do our best to give back. Whether its helping out in disaster relief efforts, or running training academies across Thailand, we endeavour to uplift our community.
           </p>
           <MagneticWrapper>
-            <Link to="/raw-cares" className="group inline-flex items-center gap-6 bg-red-600 text-white px-16 py-8 rounded-[2.5rem] font-black uppercase tracking-[0.4em] text-[14px] hover:bg-editorial-text hover:text-editorial-bg transition-all duration-[800ms] shadow-[0_30px_80px_rgba(220,38,38,0.6)] hover:shadow-[0_40px_100px_rgba(0,0,0,0.1)] border-b-[4px] border-red-800 hover:border-white active:border-b-0 active:translate-y-[4px] transform-gpu hover:-translate-y-2" aria-label="View Complete Protocol Cares Details">
+            <Link to="/raw-cares" className="group inline-flex items-center gap-6 bg-red-600 text-white px-16 py-8 rounded-[2.5rem] font-black uppercase tracking-[0.4em] text-[0.875rem] hover:bg-editorial-text hover:text-editorial-bg transition-all duration-[800ms] shadow-[0_30px_80px_rgba(220,38,38,0.6)] hover:shadow-[0_40px_100px_rgba(0,0,0,0.1)] border-b-[4px] border-red-800 hover:border-white active:border-b-0 active:translate-y-[4px] transform-gpu hover:-translate-y-2" aria-label="View Complete Protocol Cares Details">
               <span className="drop-shadow-[0_2px_4px_rgba(0,0,0,0.4)] group-hover:drop-shadow-[0_2px_4px_rgba(0,0,0,0.08)] flex items-center gap-5 relative z-10">
                  View Complete Protocol <ChevronRight className="w-6 h-6 group-hover:translate-x-3 transition-transform duration-[800ms] drop-shadow-[0_0_8px_currentColor]" />
               </span>

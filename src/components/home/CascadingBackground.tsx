@@ -11,7 +11,7 @@ export const CascadingBackground: React.FC<CascadingBackgroundProps> = ({ text }
       <motion.div
         animate={{ y: ['-50%', '0%'] }}
         transition={{ duration: 40, repeat: Infinity, ease: 'linear' }}
-        className="text-[12px] sm:text-[14px] leading-relaxed font-mono text-white/5 whitespace-pre-wrap break-all px-10 xl:px-24 tracking-[0.2em]"
+        className="text-[0.75rem] sm:text-[0.875rem] leading-relaxed font-mono text-white/5 whitespace-pre-wrap break-all px-10 xl:px-24 tracking-[0.2em]"
       >
         {Array(40).fill(text).join('  //  ')}
       </motion.div>
