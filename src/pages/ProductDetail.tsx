@@ -1350,19 +1350,30 @@ export default function ProductDetail() {
                   <p className="text-editorial-text-muted font-light leading-relaxed mb-8">
                      Engineered with the highest grade precursors, each RAW compound undergoes rigorous batch testing to ensure purity and bioavailability.
                   </p>
-                  <div className="grid grid-cols-2 gap-6">
-                     {[
-                        { label: "Origin", value: "Verified Lab-Alpha" },
-                        { label: "Grade", value: "Laboratory Pure" },
-                        { label: "Purity", value: "99.98% Certified" },
-                        { label: "Bio-Availability", value: "High-Flux" }
-                     ].map((item, i) => (
-                        <div key={i} className="bg-editorial-text/5 p-6 rounded-xl">
-                           <div className="font-mono text-[10px] uppercase text-editorial-text-muted mb-2">{item.label}</div>
-                           <div className="text-editorial-text font-black tracking-tight">{item.value}</div>
-                        </div>
-                     ))}
-                  </div>
+                  {/* ⚠️ THIS GRID WAS FOUR INVENTED CERTIFICATIONS, IDENTICAL ON
+                      ALL 47 PRODUCTS: "Purity: 99.98% Certified", "Origin:
+                      Verified Lab-Alpha", "Grade: Laboratory Pure",
+                      "Bio-Availability: High-Flux" — printed on the t-shirt,
+                      the power bank and the sliders as readily as on a
+                      supplement.
+
+                      A precise purity figure asserts a lab result that nobody
+                      produced, and on something people swallow that is a
+                      trading-standards problem, not a wording preference.
+
+                      It now shows the product's OWN qualityNotes from the
+                      product data — claims the founder controls and can stand
+                      behind — and shows nothing at all when a product has
+                      none. */}
+                  {Array.isArray(product.qualityNotes) && product.qualityNotes.length > 0 && (
+                    <div className="grid grid-cols-2 gap-6">
+                       {product.qualityNotes.map((note, i) => (
+                          <div key={i} className="bg-editorial-text/5 p-6 rounded-xl">
+                             <div className="text-editorial-text font-black tracking-tight">{note}</div>
+                          </div>
+                       ))}
+                    </div>
+                  )}
                </div>
             </div>
          </div>
