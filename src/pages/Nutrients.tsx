@@ -247,6 +247,21 @@ export default function Nutrients() {
           ))}
         </div>
       </div>
+
+      {/* ⚠️ THE SUPPLEMENT DISCLAIMER WAS MISSING FROM THIS PAGE.
+          Every product page and the protocol builder carry it, but the three
+          category pages — the ones that talk about what supplements DO, and
+          which a campaign link can land on directly — carried none. The same
+          wording as elsewhere, so it reads as one policy rather than three. */}
+      <div className="section-container pb-24">
+        <p className="mx-auto max-w-3xl border-t border-editorial-border pt-10 text-center text-[12px] leading-relaxed text-editorial-text-muted">
+          RAW Official products are designed to support active lifestyles and
+          performance routines. Supplements should be used as directed on the
+          label and are not intended to diagnose, treat, cure, or prevent
+          disease. Always consult a qualified professional if you are pregnant,
+          taking medication, under 18, or managing a health condition.
+        </p>
+      </div>
     </div>
   );
 }
