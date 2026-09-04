@@ -5,71 +5,11 @@ import { Cpu, Maximize, Settings2, Sliders, Wifi, Activity, MessageSquare, Termi
 import { useState, useEffect, memo, useMemo } from "react";
 import { Tooltip } from "./common/Tooltip";
 
-const StatusIndicator = memo(({ label, color, icon: Icon, value }: { label: string, color: string, icon?: any, value?: string }) => (
-  <Tooltip content={`${label.toUpperCase()}_LINK: ${value || 'ACTIVE'}`}>
-    <div className="flex items-center gap-3 text-meta-premium opacity-50 hover:opacity-100 transition-opacity duration-500 cursor-help group pr-6 border-r border-editorial-border/30 last:border-0 h-4 relative">
-      {/* Indicator Glow */}
-      <div className="absolute inset-x-0 -bottom-1 h-0.5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-[2px]" style={{ backgroundColor: color }} />
-      {Icon && <Icon className={`w-3.5 h-3.5 group-hover:scale-110 transition-transform duration-500 relative z-10`} style={{ color }} />}
-      <span className="hidden lg:inline relative z-10">{label}:</span>
-      <span className="font-bold uppercase relative z-10" style={{ color: color, textShadow: `0 0 10px ${color}` }}>{value || "NOMINAL"}</span>
-    </div>
-  </Tooltip>
-));
-
-const VisualWave = memo(() => (
-  <div className="hidden xl:flex flex-col justify-center gap-1.5 border-l border-editorial-border pl-8 h-full min-w-[180px] group/wave">
-    <div className="flex items-center gap-2.5">
-      <div className="w-1.5 h-1.5 bg-red-500 rounded-full animate-pulse shadow-[0_0_8px_#dc2626]" />
-      <span className="text-meta-premium opacity-30 !text-[8px] group-hover/wave:opacity-60 transition-opacity">OS_WAVEFORM_GEN</span>
-    </div>
-    <div className="w-28 h-4 relative overflow-hidden">
-      <svg viewBox="0 0 128 24" className="w-full h-full" preserveAspectRatio="none">
-        <motion.path
-          /* ⚠️ THE `d` MUST BE IN `initial` TOO, not just as an attribute.
-             Motion keeps its own map of animated values and writes them to the
-             DOM each frame; with `d` animated only in `animate`, that map holds
-             undefined on the first frame and motion writes d="undefined",
-             which is the console error this app logged on EVERY page (the
-             status bar is in the Layout). Traced with a probe installed before
-             the app mounts: the writer was motion's own renderSVG. A static
-             attribute does not help — motion overwrites it. */
-          d="M0 12 Q 16 0, 32 12 T 64 12 T 96 12 T 128 12"
-          initial={{ pathLength: 0, opacity: 0, d: "M0 12 Q 16 0, 32 12 T 64 12 T 96 12 T 128 12" }}
-          animate={{ 
-            pathLength: 1, 
-            opacity: 1,
-            d: [
-              "M0 12 Q 16 0, 32 12 T 64 12 T 96 12 T 128 12",
-              "M0 12 Q 16 24, 32 12 T 64 12 T 96 12 T 128 12",
-              "M0 12 Q 16 12, 32 12 T 64 12 T 96 12 T 128 12",
-              "M0 12 Q 16 0, 32 12 T 64 12 T 96 12 T 128 12",
-            ]
-          }}
-          transition={{
-            d: { duration: 4, repeat: Infinity, ease: "linear" },
-            pathLength: { duration: 2, ease: [0.16, 1, 0.3, 1] },
-            opacity: { duration: 2, ease: "linear" }
-          }}
-          fill="none"
-          stroke="#dc2626"
-          strokeWidth="2"
-          strokeLinecap="round"
-          className="opacity-40 drop-shadow-[0_0_8px_#dc2626]"
-          style={{ willChange: "d, pathLength, opacity" }}
-        />
-      </svg>
-    </div>
-  </div>
-));
-
 export default function TechnicalStatusBar() {
   const { 
     uiScale, 
     setUIScale, 
     setIsWallpaperMode, 
-    isTerminalOpen,
-    setIsTerminalOpen,
     visualFidelity,
     setVisualFidelity,
     chromeHidden,
@@ -104,60 +44,13 @@ export default function TechnicalStatusBar() {
       {/* Cinematic Edge Highlight */}
       <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-red-600/20 to-transparent opacity-0 group-hover/statusbar:opacity-100 transition-opacity duration-1000 mix-blend-screen" />
       <div className="flex items-center h-full relative z-10">
-        <StatusIndicator label="Status" color="#ef4444" icon={Cpu} value="Optimal" />
-        <StatusIndicator label="Load" color="#a1a1aa" icon={Activity} value="0.12%" />
-        <StatusIndicator label="Security" color="#10b981" icon={ShieldCheck} value="Verified" />
         
-        {settings.uiStabilityFeedback && (
-          <div className="hidden xl:flex items-center gap-4 pl-6 opacity-30 hover:opacity-100 transition-opacity">
-            <span className="px-2 py-0.5 bg-green-500/10 text-green-500 border border-green-500/20 rounded font-mono text-[9px] uppercase tracking-wider">FPS_90</span>
-            <span className="px-2 py-0.5 bg-blue-500/10 text-blue-500 border border-blue-500/20 rounded font-mono text-[9px] uppercase tracking-wider">SYNC_LOCK</span>
-          </div>
-        )}
-
-        <div className="hidden xl:flex items-center gap-5 pl-8 ml-6 border-l border-white/5 h-6">
-           <span className="text-meta-premium opacity-30 text-[8px]">CORE_MEM</span>
-           <div className="flex gap-[3px]">
-              {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map(i => (
-                <motion.div 
-                  key={i}
-                  animate={{ 
-                    opacity: [0.1, 0.6, 0.1],
-                    backgroundColor: i < 8 ? "#dc2626" : "#27272a" 
-                  }}
-                  transition={{ duration: 3, repeat: Infinity, delay: i * 0.15, ease: "easeInOut" }}
-                  style={{ willChange: "opacity, background-color" }}
-                  className={`w-1 h-3.5 rounded-full ${i < 8 ? 'shadow-[0_0_6px_rgba(220,38,38,0.4)]' : ''}`}
-                />
-              ))}
-           </div>
-        </div>
-        <div className="hidden md:flex items-center gap-4 text-meta-premium opacity-30 group cursor-help ml-10 hover:opacity-80 transition-opacity">
-          <div className="w-1.5 h-1.5 rounded-full bg-red-600 animate-ping shadow-[0_0_8px_#dc2626]"></div>
-          <span className="font-mono text-[10px]">VER: 0.9.1-BETA // RAW_KERNEL</span>
-        </div>
       </div>
 
       <div className="flex items-center gap-6 h-full">
-        <VisualWave />
 
-        <div className="hidden sm:flex items-center gap-8 text-meta-premium opacity-40 border-l border-white/5 pl-8 h-8">
-           <div className="flex items-center gap-4 hover:opacity-100 transition-opacity duration-500 group cursor-help">
-              <Wifi className="w-3.5 h-3.5 text-emerald-500 group-hover:animate-pulse" />
-              <span className="text-[10px]">Ping: 2ms</span>
-           </div>
-        </div>
 
         <div className="flex items-center h-full border-l border-white/5 pl-6 gap-2">
-          <Tooltip content="SYSTEM_TERMINAL [⌘T]">
-            <button 
-              onClick={() => setIsTerminalOpen(!isTerminalOpen)}
-              className={`flex min-h-11 items-center justify-center gap-3 p-2 rounded-lg transition-all duration-300 group ${isTerminalOpen ? 'bg-red-600/20 text-red-500 shadow-[0_0_15px_rgba(220,38,38,0.2)]' : 'text-meta-premium opacity-40 hover:opacity-100 hover:bg-white/5'}`}
-            >
-              <Terminal className="w-4 h-4 group-hover:scale-110 transition-transform" />
-              <span className="hidden md:inline text-[10px] uppercase font-black">Terminal</span>
-            </button>
-          </Tooltip>
 
           <Tooltip content="ENV_MODE_TOGGLE">
             <button 

@@ -7,7 +7,6 @@ import { useUI } from "../context/UIContext";
 import SystemVisualizer from "../components/SystemVisualizer";
 import MagneticWrapper from "../components/MagneticWrapper";
 import { CascadingBackground } from "../components/home/CascadingBackground";
-import { SystemCustomization } from "../components/home/SystemCustomization";
 import ProductCard from "../components/common/ProductCard";
 import { TiltCard } from "../components/common/TiltCard";
 import { LazyHeroVideo } from "../components/home/LazyHeroVideo";
@@ -727,7 +726,6 @@ export default function Home() {
       </section>
 
       {/* System Customization Section */}
-      <SystemCustomization />
 
       {/* RAW CARES */}
       <section className="py-32 xl:py-64 relative overflow-hidden text-center bg-editorial-bg border-y border-red-900/40 z-10 group/cares">

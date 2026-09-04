@@ -29,7 +29,7 @@ export function AppContextProvider({ children }: { children: ReactNode }) {
     recentErrors: [],
   });
 
-  const { isTerminalOpen, isSearchOpen, isCommandPaletteOpen, isGlobalSettingsOpen } = useUI();
+  const { isSearchOpen, isCommandPaletteOpen, isGlobalSettingsOpen } = useUI();
 
   const { settings } = useSettings();
   useEffect(() => {
@@ -57,7 +57,7 @@ export function AppContextProvider({ children }: { children: ReactNode }) {
     return JSON.stringify({
       route: state.currentRoute,
       focusedItem: state.focusedItem,
-      uiState: { isTerminalOpen, isSearchOpen, isCommandPaletteOpen, isGlobalSettingsOpen },
+      uiState: { isSearchOpen, isCommandPaletteOpen, isGlobalSettingsOpen },
       settings,
       recentActions: state.recentActions,
       recentErrors: state.recentErrors

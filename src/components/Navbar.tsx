@@ -37,14 +37,11 @@ const fuse = new Fuse(allProducts, {
 export default function Navbar() {
   const { setIsCartOpen, items } = useCart();
   const { 
-    diagnosticsActive, 
     setIsShopIframeOpen, 
     isWallpaperSettingsOpen, 
     setIsWallpaperSettingsOpen, 
     isGlobalSettingsOpen,
     setIsGlobalSettingsOpen,
-    setIsSystemHealthOpen,
-    isSystemHealthOpen,
     setIsWallpaperMode, 
     isSearchOpen,
     setIsSearchOpen,
@@ -167,7 +164,7 @@ export default function Navbar() {
     <>
       {/* Viewport Integrity Readout (Scroll Progress) */}
       <AnimatePresence>
-        {diagnosticsActive && (
+        {(
           <motion.div 
             key="diagnostics"
             initial={{ opacity: 0 }}
@@ -296,20 +293,6 @@ export default function Navbar() {
                 <img src="/brand/raw-logo-red.png" alt="" className="h-7 md:h-8 object-contain absolute inset-0 opacity-0 group-hover:opacity-40 group-hover:animate-pulse blur-[2px] transition-all duration-500" aria-hidden="true" referrerPolicy="no-referrer" />
               </motion.div>
             </motion.div>
-            <AnimatePresence>
-              {diagnosticsActive && (
-                <motion.div 
-                   initial={{ opacity: 0 }}
-                   animate={{ opacity: 0.8, x: ["-100%", "200%"] }}
-                   exit={{ opacity: 0 }}
-                   transition={{ 
-                     x: { duration: 1.5, repeat: Infinity, ease: "linear" },
-                     opacity: { duration: 0.3 }
-                   }}
-                   className="absolute top-0 bottom-0 w-[2px] bg-red-500 pointer-events-none shadow-[0_0_10px_#ef4444]"
-                />
-              )}
-            </AnimatePresence>
           </Link>
           <div className="flex gap-4 items-center">
             <motion.div 
@@ -373,19 +356,6 @@ export default function Navbar() {
 
               
               
-
-              <Tooltip content="SYSTEM_DIAGNOSTICS">
-                <MagneticWrapper className="hidden lg:block">
-                   <button 
-                     aria-label="System health"
-                     aria-expanded={isSystemHealthOpen}
-                     onClick={() => setIsSystemHealthOpen(!isSystemHealthOpen)}
-                     className={`p-3.5 transition-colors duration-500 rounded-full focus:outline-none focus:ring-2 focus:ring-white ${isSystemHealthOpen ? 'bg-emerald-500/20 text-emerald-500' : 'text-white-muted hover:text-emerald-500 hover:bg-emerald-500/10'} hover:shadow-[0_0_15px_rgba(16,185,129,0.3)]`}
-                   >
-                     <Activity className="w-5 h-5 transition-all duration-500 ease-fluid" />
-                   </button>
-                </MagneticWrapper>
-              </Tooltip>
 
               <Tooltip content="WALLPAPER_ENV">
                 <MagneticWrapper className="hidden lg:block">
@@ -696,7 +666,6 @@ export default function Navbar() {
                     { label: 'COMMS LINK', to: '/contact' },
                     { label: 'RENDER SETTINGS', action: () => { setIsMobileMenuOpen(false); setIsGlobalSettingsOpen(true); } },
                     { label: 'WALLPAPER CONFIG', action: () => { setIsMobileMenuOpen(false); setIsWallpaperSettingsOpen(true); } },
-                    { label: 'SYSTEM DIAGNOSTICS', action: () => { setIsMobileMenuOpen(false); setIsSystemHealthOpen(true); } },
                     /* ⚠️ THE HIDE CONTROLS IN THE HEADER ARE `hidden lg:block`,
                        so below 1024px a visitor could not hide anything at all
                        — the whole full-screen feature was desktop-only. This

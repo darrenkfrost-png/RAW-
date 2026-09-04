@@ -22,19 +22,16 @@ export default function DiscoveryHub({ isOpen, onClose }: DiscoveryHubProps) {
       icon: Layout,
       items: [
         { keys: ["⌘", "B"], label: "Toggle Navigation Sidebar" },
-        { keys: ["⌘", "T"], label: "Toggle Main Terminal / System Logs" },
         { keys: ["⌘", "P"], label: "Toggle Neural Command Terminal" },
         { keys: ["/"], label: "Toggle Inventory Search Mode" },
         { keys: ["⌘", "J"], label: "Toggle System Discovery Hub" },
-        { keys: ["Ctrl", "Shift", "H"], label: "Toggle System Health Diagnostics" },
         { keys: ["⌘", ","], label: "Toggle Real-time Settings" },
       ]
     },
     {
-      title: "Active Core Telemetry",
+      title: "Display",
       icon: Activity,
       items: [
-        { keys: ["Hover"], label: "Access Diagnostics Panel details" },
         { keys: ["Range"], label: "Adjust Interface scale dynamic resolution" },
         { keys: ["Buttons"], label: "Select Render Fidelity preset profiles" },
       ]

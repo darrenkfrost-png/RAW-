@@ -4,7 +4,6 @@ import { useUI } from '../context/UIContext';
 export function useKeyboardShortcuts() {
   const { 
     setIsSidebarCollapsed, isSidebarCollapsed,
-    setIsTerminalOpen, isTerminalOpen,
     setIsSearchOpen, isSearchOpen,
     setIsCommandPaletteOpen, isCommandPaletteOpen,
     setIsDiscoveryOpen, isDiscoveryOpen,
@@ -34,12 +33,6 @@ export function useKeyboardShortcuts() {
         setIsSearchOpen(!isSearchOpen);
       }
 
-      // Toggle Terminal: Meta+T
-      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 't') {
-        e.preventDefault();
-        setIsTerminalOpen(!isTerminalOpen);
-      }
-
       // Toggle Command Palette: Meta+P
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'p') {
         e.preventDefault();
@@ -56,7 +49,6 @@ export function useKeyboardShortcuts() {
     return () => window.removeEventListener('keydown', handleKeydown);
   }, [
     isSidebarCollapsed, setIsSidebarCollapsed, 
-    isTerminalOpen, setIsTerminalOpen, 
     isSearchOpen, setIsSearchOpen, 
     isCommandPaletteOpen, setIsCommandPaletteOpen, 
     isDiscoveryOpen, setIsDiscoveryOpen,

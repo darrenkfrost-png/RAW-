@@ -36,12 +36,9 @@ const DeFrost = lazy(() => import("./pages/DeFrost"));
    all closed until asked for. They are lazy now and mounted behind one
    Suspense with a null fallback: nothing appears any differently, but the
    first page no longer pays for panels nobody has opened. */
-const GlobalTerminal = lazy(() => import("./components/GlobalTerminal"));
 const NeuralCommandTerminal = lazy(() => import("./components/NeuralCommandTerminal"));
 const ProtocolDrawer = lazy(() => import("./components/ProtocolDrawer"));
 const GlobalSettingsPanel = lazy(() => import("./components/GlobalSettingsPanel"));
-const SystemHealthDashboard = lazy(() => import("./components/SystemHealthDashboard"));
-const SystemDiagnosticsPanel = lazy(() => import("./components/SystemDiagnosticsPanel"));
 const ImmersiveReaderHUD = lazy(() => import("./components/ImmersiveReaderHUD"));
 const DiscoveryHub = lazy(() => import("./components/common/DiscoveryHub"));
 
@@ -149,14 +146,11 @@ function AppContent() {
       {/* Persistent Overlay Layer */}
       <Suspense fallback={null}>
       <ProtocolDrawer />
-      <GlobalTerminal />
       <NeuralCommandTerminal 
         isOpen={isCommandPaletteOpen} 
         onClose={() => setIsCommandPaletteOpen(false)} 
       />
       <GlobalSettingsPanel />
-      <SystemHealthDashboard />
-      <SystemDiagnosticsPanel />
       <ImmersiveReaderHUD />
       <DiscoveryHub isOpen={isDiscoveryOpen} onClose={() => setIsDiscoveryOpen(false)} />
       </Suspense>

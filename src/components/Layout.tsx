@@ -17,13 +17,11 @@ import Screensaver from "./Screensaver";
 import ChromeRestore from "./ChromeRestore";
 import InstallPrompt from "./InstallPrompt";
 import { usePageMeta } from "../hooks/usePageMeta";
-import { useUI } from "../context/UIContext";
 import { useSettings } from "../context/SettingsContext";
 import { motion, AnimatePresence, useScroll } from "motion/react";
 import { ChevronLeft, ChevronRight, Menu, Bot, Zap } from "lucide-react";
 
 export default function Layout() {
-  const { diagnosticsActive, chromeHidden } = useUI();
   const location = useLocation();
 
   // One call here gives every route its own title and share preview.
@@ -65,30 +63,6 @@ export default function Layout() {
 
       {/* Main Content wrapper - High Fidelity Interaction Layer */}
       <Navbar />
-
-      <AnimatePresence>
-        {diagnosticsActive && !chromeHidden.includes('hudFrame') && (
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 pointer-events-none z-[1000] border-[1px] border-red-500/10 m-4 lg:m-8 rounded-[4rem] overflow-hidden"
-          >
-            <div className="absolute top-0 left-0 w-20 h-20 border-t-2 border-l-2 border-red-500/30 rounded-tl-[4rem] m-[-1px]" />
-            <div className="absolute top-0 right-0 w-20 h-20 border-t-2 border-r-2 border-red-500/30 rounded-tr-[4rem] m-[-1px]" />
-            <div className="absolute bottom-0 left-0 w-20 h-20 border-b-2 border-l-2 border-red-500/30 rounded-bl-[4rem] m-[-1px]" />
-            <div className="absolute bottom-0 right-0 w-20 h-20 border-b-2 border-r-2 border-red-500/30 rounded-br-[4rem] m-[-1px]" />
-            
-            <div className="absolute inset-0 bg-[linear-gradient(rgba(220,38,38,0.02)_1px,transparent_1px)] bg-[size:100%_40px] animate-scan-slow opacity-20" />
-            {/* Decoration only, and on a phone it is 287px of it lying
-                across the header at y=57. There is no room for a caption on
-                the HUD frame at this width, so it waits for one. */}
-            <div className="hidden sm:block absolute top-10 right-14 font-mono text-[9px] text-red-500/40 uppercase tracking-[0.5em] font-black drop-shadow-[0_0_5px_rgba(220,38,38,0.5)]">
-               HUD_ACTIVE // SYSTEM_VERIFIED
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
 
       <div 
         id="content-wrapper"

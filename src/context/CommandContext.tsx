@@ -27,7 +27,6 @@ export function CommandProvider({ children }: { children: ReactNode }) {
   const navigate = useNavigate();
   const { settings, updateSettings } = useSettings();
   const { 
-    setIsTerminalOpen, 
     setIsSearchOpen,
     isWallpaperMode,
     setIsWallpaperMode,
@@ -35,8 +34,6 @@ export function CommandProvider({ children }: { children: ReactNode }) {
     setIsWallpaperSettingsOpen,
     isGlobalSettingsOpen,
     setIsGlobalSettingsOpen,
-    isSystemHealthOpen,
-    setIsSystemHealthOpen,
     isSidebarCollapsed,
     setIsSidebarCollapsed,
     isCommandPaletteOpen,
@@ -80,27 +77,6 @@ export function CommandProvider({ children }: { children: ReactNode }) {
       label: "Go to Shop",
       category: "Navigation",
       handler: () => navigate("/shop")
-    },
-    {
-      id: "run_system_check",
-      label: "System Health Check",
-      category: "System",
-      handler: () => {
-        setIsSystemHealthOpen(true);
-        addToast("Retrieving real-time telemetry diagnostics...", "info");
-      }
-    },
-    {
-      id: "open_diagnostics",
-      label: "Open Diagnostics",
-      category: "System",
-      handler: () => setIsSystemHealthOpen(true)
-    },
-    {
-      id: "close_diagnostics",
-      label: "Close Diagnostics",
-      category: "System",
-      handler: () => setIsSystemHealthOpen(false)
     },
     {
       id: "open_settings",

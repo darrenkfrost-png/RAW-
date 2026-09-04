@@ -1,10 +1,10 @@
 import React, { createContext, useContext, useState, useEffect, useMemo, useCallback } from "react";
 
-export type ChromePart = 'header' | 'sidebar' | 'statusBar' | 'diagnostics' | 'protocolChip' | 'hudFrame';
+export type ChromePart = 'header' | 'sidebar' | 'statusBar' | 'protocolChip';
 
-// voiceHub and aiHub were removed with the AI features; a saved list that still
-// names them is filtered against this array on load, so old choices stay valid.
-export const CHROME_PARTS: ChromePart[] = ['header', 'sidebar', 'statusBar', 'diagnostics', 'protocolChip', 'hudFrame'];
+// voiceHub, aiHub, diagnostics and hudFrame were removed with the AI and diagnostics
+// features; a saved list that still names them is filtered against this array on load.
+export const CHROME_PARTS: ChromePart[] = ['header', 'sidebar', 'statusBar', 'protocolChip'];
 
 /**
  * What a first-time visitor sees: the header and the sidebar, and nothing
@@ -32,8 +32,6 @@ interface UIContextType {
   setIntroCompleted: (completed: boolean) => void;
   visualFidelity: number;
   setVisualFidelity: (fidelity: number) => void;
-  diagnosticsActive: boolean;
-  setDiagnosticsActive: (active: boolean) => void;
   isWallpaperMode: boolean;
   setIsWallpaperMode: (active: boolean) => void;
   isShopIframeOpen: boolean;
@@ -44,8 +42,6 @@ interface UIContextType {
   setIsWallpaperSettingsOpen: (open: boolean) => void;
   isGlobalSettingsOpen: boolean;
   setIsGlobalSettingsOpen: (open: boolean) => void;
-  isSystemHealthOpen: boolean;
-  setIsSystemHealthOpen: (open: boolean) => void;
   isSidebarCollapsed: boolean;
   /** Which pieces of the app's furniture are put away. See ChromeRestore. */
   chromeHidden: ChromePart[];
@@ -54,8 +50,6 @@ interface UIContextType {
   enterFocusMode: () => void;
   restoreChrome: () => void;
   setIsSidebarCollapsed: (collapsed: boolean) => void;
-  isTerminalOpen: boolean;
-  setIsTerminalOpen: (open: boolean) => void;
   isSearchOpen: boolean;
   setIsSearchOpen: (open: boolean) => void;
   isCommandPaletteOpen: boolean;
@@ -104,14 +98,6 @@ export function UIProvider({ children }: { children: React.ReactNode }) {
        return 100;
      }
   });
-  const [diagnosticsActive, setDiagnosticsActive] = useState<boolean>(() => {
-    try {
-       const saved = localStorage.getItem("raw_diagnostics_active");
-       return saved !== null ? saved === "true" : true;
-    } catch (e) {
-      return true;
-    }
-  });
   /* Full-screen mode. Stored, because someone who cleared the furniture away
      to read meant it — being handed the whole interface back on reload would
      undo the choice every time. */
@@ -159,8 +145,6 @@ export function UIProvider({ children }: { children: React.ReactNode }) {
   const [is110Percent, setIs110Percent] = useState(false);
   const [isWallpaperSettingsOpen, setIsWallpaperSettingsOpen] = useState(false);
   const [isGlobalSettingsOpen, setIsGlobalSettingsOpen] = useState(false);
-  const [isSystemHealthOpen, setIsSystemHealthOpen] = useState(false);
-  const [isTerminalOpen, setIsTerminalOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
   const [isDiscoveryOpen, setIsDiscoveryOpen] = useState(false);
@@ -184,15 +168,6 @@ export function UIProvider({ children }: { children: React.ReactNode }) {
     setVisualFidelity(fidelity);
     try {
       localStorage.setItem("raw_visual_fidelity", fidelity.toString());
-    } catch (e) {
-      console.warn("Storage access denied:", e);
-    }
-  }, []);
-
-  const updateDiagnosticsActive = useCallback((active: boolean) => {
-    setDiagnosticsActive(active);
-    try {
-      localStorage.setItem("raw_diagnostics_active", active.toString());
     } catch (e) {
       console.warn("Storage access denied:", e);
     }
@@ -234,8 +209,6 @@ export function UIProvider({ children }: { children: React.ReactNode }) {
     setIntroCompleted: setIntroCompletedWrapper,
     visualFidelity,
     setVisualFidelity: updateVisualFidelity,
-    diagnosticsActive,
-    setDiagnosticsActive: updateDiagnosticsActive,
     isWallpaperMode,
     setIsWallpaperMode,
     isShopIframeOpen,
@@ -246,8 +219,6 @@ export function UIProvider({ children }: { children: React.ReactNode }) {
     setIsWallpaperSettingsOpen,
     isGlobalSettingsOpen,
     setIsGlobalSettingsOpen,
-    isSystemHealthOpen,
-    setIsSystemHealthOpen,
     isSidebarCollapsed,
     chromeHidden,
     toggleChrome,
@@ -255,8 +226,6 @@ export function UIProvider({ children }: { children: React.ReactNode }) {
     enterFocusMode,
     restoreChrome,
     setIsSidebarCollapsed: updateSidebarCollapsed,
-    isTerminalOpen,
-    setIsTerminalOpen,
     isSearchOpen,
     setIsSearchOpen,
     isCommandPaletteOpen,
@@ -269,7 +238,7 @@ export function UIProvider({ children }: { children: React.ReactNode }) {
     setInitialAction,
     activeReaderItem,
     setActiveReaderItem,
-  }), [chromeHidden, toggleChrome, persistChrome, enterFocusMode, restoreChrome, uiScale, isStatusBarVisible, hasCompletedIntro, visualFidelity, diagnosticsActive, isWallpaperMode, isShopIframeOpen, is110Percent, isWallpaperSettingsOpen, isGlobalSettingsOpen, isSystemHealthOpen, isSidebarCollapsed, isTerminalOpen, isSearchOpen, isCommandPaletteOpen, focusedProduct, initialAction, activeReaderItem, isDiscoveryOpen, updateScale, updateStatusBarVisible, setIntroCompletedWrapper, updateVisualFidelity, updateDiagnosticsActive, updateSidebarCollapsed]);
+  }), [chromeHidden, toggleChrome, persistChrome, enterFocusMode, restoreChrome, uiScale, isStatusBarVisible, hasCompletedIntro, visualFidelity, isWallpaperMode, isShopIframeOpen, is110Percent, isWallpaperSettingsOpen, isGlobalSettingsOpen, isSidebarCollapsed, isSearchOpen, isCommandPaletteOpen, focusedProduct, initialAction, activeReaderItem, isDiscoveryOpen, updateScale, updateStatusBarVisible, setIntroCompletedWrapper, updateVisualFidelity, updateSidebarCollapsed]);
 
   return (
     <UIContext.Provider value={value}>
