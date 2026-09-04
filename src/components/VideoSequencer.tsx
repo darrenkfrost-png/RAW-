@@ -36,7 +36,7 @@ const VideoSequencer = React.memo(function VideoSequencer() {
   // Character Bible
   const [characters, setCharacters] = useState<Character[]>([
     { id: "char-1", name: "OPERATIVE JAX", role: "Tactical Lead", description: "Hardened physical conditioning coordinator. Wears thick carbon protective jacket." },
-    { id: "char-2", name: "ADVISOR ECHO", role: "AI Strategist", description: "Digital neural core assistant. Manifests on field glass displays." }
+    { id: "char-2", name: "COACH MARA", role: "Head Coach", description: "Corner-side coach. Calls the rounds, reads the fight, never raises her voice." }
   ]);
   const [newCharName, setNewCharName] = useState("");
   const [newCharRole, setNewCharRole] = useState("");

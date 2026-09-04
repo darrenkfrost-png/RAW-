@@ -28,7 +28,7 @@ export default function CompareProducts() {
               <div className="flex gap-2">
                 {[1,2,3].map(i => <div key={i} className="w-1.5 h-6 bg-red-600 animate-pulse" style={{ animationDelay: `${i * 0.2}s` }} />)}
               </div>
-              <span className="font-mono text-[0.6875rem] text-editorial-text-muted uppercase tracking-[0.3em] sm:tracking-[0.6em] [overflow-wrap:anywhere] font-black drop-shadow-sm">RAW_NEURAL_DECISION_LAB // V4.0</span>
+              <span className="font-mono text-[0.6875rem] text-editorial-text-muted uppercase tracking-[0.3em] sm:tracking-[0.6em] [overflow-wrap:anywhere] font-black drop-shadow-sm">COMPARE // SIDE_BY_SIDE</span>
            </motion.div>
            
            <motion.h1 

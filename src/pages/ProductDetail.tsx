@@ -3,7 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import { ImageViewerPortal } from "../components/ImageViewer";
 import { VideoViewerPortal } from "../components/VideoViewer";
 import { motion, AnimatePresence, useMotionValue, useSpring, useTransform, useScroll, useMotionTemplate } from "motion/react";
-import { Maximize, ChevronLeft, ChevronRight, Plus, Minus, ArrowRight, Shield, Truck, RefreshCw, ZoomIn, Bot, X, Star, Facebook, Twitter, Zap, Activity, Target, Copy, ChevronUp, Database, ChevronDown, Layers, Sparkles, Cpu, LineChart, Play } from "lucide-react";
+import { Maximize, ChevronLeft, ChevronRight, Plus, Minus, ArrowRight, Shield, Truck, RefreshCw, ZoomIn, X, Star, Facebook, Twitter, Zap, Activity, Target, Copy, ChevronUp, Database, ChevronDown, Layers, Sparkles, Cpu, LineChart, Play } from "lucide-react";
 import React, { useState, useEffect, useRef, lazy, Suspense} from "react";
 import { useToast } from "../components/common/Toast";
 import { useCart } from "../context/CartContext";
@@ -827,7 +827,7 @@ export default function ProductDetail() {
       <section className="mt-24 border-y border-editorial-border pt-24 pb-24 max-w-[1000px] mx-auto relative bg-editorial-bg px-6">
         <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-red-900/40 to-transparent" />
         <div className="mb-12 text-center">
-             <h3 className="font-sans font-black text-4xl uppercase tracking-tighter text-editorial-text">Product Intelligence</h3>
+             <h3 className="font-sans font-black text-4xl uppercase tracking-tighter text-editorial-text">Product Details</h3>
              <p className="text-editorial-text-muted font-mono text-xs uppercase mt-4 tracking-widest">Select metric for detailed breakdown</p>
         </div>
         
@@ -893,7 +893,7 @@ export default function ProductDetail() {
                 <div className="absolute inset-0 bg-gradient-to-b from-red-600/5 to-transparent opacity-0 group-hover/radar:opacity-100 transition-opacity duration-1000" />
                 <div className="flex items-center gap-4 mb-10 text-[0.6875rem] font-mono tracking-[0.4em] uppercase text-editorial-text-muted">
                     <Target className="w-4 h-4 text-red-500 animate-pulse" />
-                    Neural_Telemetry_Radar
+                    Performance_Profile
                 </div>
                 <NeuralTelemetryRadar 
                   size={320}
@@ -1130,13 +1130,6 @@ export default function ProductDetail() {
                   </form>
                </div>
                
-               <div className="flex items-center gap-6 p-8 bg-red-600/5 border border-red-500/20 rounded-3xl">
-                  <Bot className="w-10 h-10 text-red-500" />
-                  <p className="text-[0.6875rem] font-mono leading-relaxed text-zinc-400">
-                     <span className="text-red-500 font-black tracking-widest block mb-2">AUTO_MODERATION: ACTIVE</span>
-                     All debrief logs are subject to neural screening for integrity and system compliance before public distribution.
-                  </p>
-               </div>
             </div>
 
             <div className="lg:col-span-8 space-y-10">

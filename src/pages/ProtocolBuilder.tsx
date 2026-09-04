@@ -100,7 +100,6 @@ const steps = [
 export default function ProtocolBuilder() {
   const [currentStep, setCurrentStep] = useState(0);
   const [answers, setAnswers] = useState<Record<string, string>>({});
-  const [isGenerating, setIsGenerating] = useState(false);
   const [resultStack, setResultStack] = useState<any[] | null>(null);
   
   const { addToProtocol } = useProtocol();
@@ -118,10 +117,7 @@ export default function ProtocolBuilder() {
   };
 
   const generateProtocol = (userAnswers: Record<string, string>) => {
-    setIsGenerating(true);
-    addToast("Initiating quantum bio-synergy calculations...", "loading");
-    // Simulate AI generation based on goals
-    setTimeout(() => {
+    // A plain rule table over the catalogue: goal → the products that serve it. No wait, no "analysis".
       try {
         let filtered: any[] = [];
         const goal = userAnswers.goal;
@@ -162,20 +158,17 @@ export default function ProtocolBuilder() {
         while(uniqueProducts.length < 4) {
            const remaining = allProducts.filter(p => !uniqueProducts.find(up => up.id === p.id));
            if (remaining.length > 0) {
-              uniqueProducts.push({ ...remaining[0], reason: "Synergistic addition prioritizing your selected variables." });
+              uniqueProducts.push({ ...remaining[0], reason: "Rounds out the stack for the goals you picked." });
            } else {
                break;
            }
         }
 
         setResultStack(uniqueProducts);
-        setIsGenerating(false);
-        addToast("Target protocol successfully established and verified.", "success");
+        addToast("Your protocol is ready.", "success");
       } catch (err: any) {
-        setIsGenerating(false);
-        addToast(`Bio-synergy generation failed: ${err.message || err}`, "error");
+        addToast(`Couldn't build a protocol: ${err.message || err}`, "error");
       }
-    }, 2500);
   };
 
   const handleEditSelections = () => {
@@ -208,7 +201,7 @@ export default function ProtocolBuilder() {
             <div className="flex gap-2">
               {[1,2,3].map(i => <div key={i} className="w-1.5 h-6 bg-red-600 animate-pulse" style={{ animationDelay: `${i * 0.2}s` }} />)}
             </div>
-            <span className="text-meta-premium">NEURAL_CONFIG_PROTOCOL // X-09</span>
+            <span className="text-meta-premium">PROTOCOL_BUILDER</span>
           </motion.div>
           <motion.h1 
             initial={{ opacity: 0, scale: 1.1 }}
@@ -229,7 +222,7 @@ export default function ProtocolBuilder() {
         </div>
 
         <AnimatePresence mode="wait">
-          {!resultStack && !isGenerating ? (
+          {!resultStack ? (
             <motion.div 
               key={`step-${currentStep}`}
               initial={{ opacity: 0, scale: 0.95 }}
@@ -290,35 +283,6 @@ export default function ProtocolBuilder() {
                   </button>
                 ))}
               </div>
-            </motion.div>
-          ) : isGenerating ? (
-            <motion.div 
-              key="generating"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="flex flex-col items-center justify-center py-40 text-center relative"
-            >
-              <div className="relative w-40 h-40 mb-16">
-                 <div className="absolute inset-0 border-4 border-red-600/10 rounded-full" />
-                 <motion.div 
-                   animate={{ rotate: 360 }}
-                   transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
-                   className="absolute inset-0 border-4 border-t-red-600 rounded-full shadow-[0_0_30px_#dc2626]" 
-                 />
-                 <div className="absolute inset-4 border-2 border-dashed border-red-600/20 rounded-full animate-[spin_10s_linear_infinite]" />
-                 <Activity className="absolute inset-0 m-auto w-10 h-10 text-red-500 animate-pulse" />
-              </div>
-              
-              <h3 className="text-4xl font-black uppercase tracking-tighter mb-6 drop-shadow-strong text-premium">Neural Intelligence Analysis</h3>
-              <p className="text-meta-premium text-red-500 animate-pulse">OPTIMIZING_BIO_SYNERGY...</p>
-              
-              {/* Scanner Line Effect */}
-              <motion.div 
-                animate={{ top: ['0%', '100%', '0%'] }}
-                transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-                className="absolute left-0 right-0 h-[2px] bg-red-600 shadow-[0_0_20px_#dc2626] opacity-30 pointer-events-none"
-              />
             </motion.div>
           ) : (
             <motion.div 

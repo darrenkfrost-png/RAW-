@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { X, Command, Key, Mic, Activity, Eye, Layout, Cpu, ShieldCheck } from 'lucide-react';
+import { X, Command, Key, Activity, Eye, Layout, Cpu, ShieldCheck } from 'lucide-react';
 
 interface DiscoveryHubProps {
   isOpen: boolean;
@@ -22,7 +22,7 @@ export default function DiscoveryHub({ isOpen, onClose }: DiscoveryHubProps) {
       icon: Layout,
       items: [
         { keys: ["⌘", "B"], label: "Toggle Navigation Sidebar" },
-        { keys: ["⌘", "P"], label: "Toggle Neural Command Terminal" },
+        { keys: ["⌘", "P"], label: "Open the command palette" },
         { keys: ["/"], label: "Toggle Inventory Search Mode" },
         { keys: ["⌘", "J"], label: "Toggle System Discovery Hub" },
         { keys: ["⌘", ","], label: "Toggle Real-time Settings" },
@@ -34,15 +34,6 @@ export default function DiscoveryHub({ isOpen, onClose }: DiscoveryHubProps) {
       items: [
         { keys: ["Range"], label: "Adjust Interface scale dynamic resolution" },
         { keys: ["Buttons"], label: "Select Render Fidelity preset profiles" },
-      ]
-    },
-    {
-      title: "Voice Commands",
-      icon: Mic,
-      items: [
-        { keys: ["Say", "Navigate Home"], label: "Return immediately to raw-landing" },
-        { keys: ["Say", "Open Chat"], label: "Open the active advisor dialog drawer" },
-        { keys: ["Say", "Toggle theme"], label: "Cycle system UI presentation visual themes" },
       ]
     }
   ];
@@ -157,8 +148,8 @@ export default function DiscoveryHub({ isOpen, onClose }: DiscoveryHubProps) {
 
             {/* Footer */}
             <div className="mt-8 pt-6 border-t border-editorial-border shrink-0 text-center relative z-10 flex flex-col md:flex-row items-center justify-between gap-4 font-mono text-[0.6875rem] text-zinc-600 tracking-widest uppercase">
-              <span>RAW_CORE_COMPILER // RUNNING_STATE_STABLE</span>
-              <span>UTC TIME_SYNC // SECURE_UPLINK</span>
+              <span>RAW_OFFICIAL // KEYBOARD_SHORTCUTS</span>
+              <span>ESC_CLOSES_THIS_PANEL</span>
             </div>
           </motion.div>
         </>

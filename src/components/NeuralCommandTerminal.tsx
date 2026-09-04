@@ -44,28 +44,14 @@ export default function NeuralCommandTerminal({ isOpen, onClose }: { isOpen: boo
   ).slice(0, 5);
 
   const handleSelect = (path: string, label: string) => {
-    addToast(`Handshaking neural path connection...`, "loading");
-    setTimeout(() => {
-      navigate(path);
-      addToast(`Connection established: ${label.toUpperCase()}`, "success");
-    }, 400);
+    navigate(path);
     onClose();
   };
 
   const executeSystemCommand = (id: string, label: string) => {
-    addToast(`SYSNAV_CALIBRATING // Initializing "${label.toUpperCase()}"...`, "loading");
-    setTimeout(async () => {
-      try {
-        const result = await executeCommand(id);
-        if (result) {
-          addToast(`Routine compiled: ${label}`, "success");
-        } else {
-          addToast(`Routine aborted: execution failure`, "error");
-        }
-      } catch (err: any) {
-        addToast(`System routing error: ${err?.message || err}`, "error");
-      }
-    }, 400);
+    executeCommand(id).then((ok) => {
+      if (!ok) addToast(`Couldn't run "${label}"`, "error");
+    }).catch((err: any) => addToast(`Couldn't run "${label}": ${err?.message || err}`, "error"));
     onClose();
   };
 

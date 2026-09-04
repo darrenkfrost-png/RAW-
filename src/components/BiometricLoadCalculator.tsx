@@ -124,7 +124,7 @@ export default function BiometricLoadCalculator() {
             <div className="grid md:grid-cols-2 gap-8">
               {/* Focus Selector */}
               <div className="space-y-4">
-                <span className="text-[0.6875rem] font-bold tracking-widest text-zinc-500 uppercase block">NEURAL_FOCUS_PROFILE</span>
+                <span className="text-[0.6875rem] font-bold tracking-widest text-zinc-500 uppercase block">TRAINING_FOCUS</span>
                 <div className="grid grid-cols-2 gap-3">
                   {(['strength', 'aerobic', 'focus', 'combat'] as const).map((mode) => (
                     <button

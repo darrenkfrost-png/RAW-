@@ -85,7 +85,7 @@ export default function DeFrost() {
         <div className="flex items-center gap-4">
           <div>
             <span className="block font-mono text-[0.6875rem] text-red-500 uppercase tracking-[0.4em] font-black">
-              NEURAL_OPERATIVE_SYSTEM // VER4.0.0
+              RAW_OFFICIAL // DESKTOP
             </span>
             <h1 className="text-xl font-black uppercase tracking-wider text-white">
               DeFrost OS Desktop

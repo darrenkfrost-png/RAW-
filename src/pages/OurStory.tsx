@@ -66,7 +66,7 @@ export default function OurStory() {
             playsInline
             className="w-full h-full object-cover grayscale brightness-50 mix-blend-luminosity scale-105"
           >
-            <source src="https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4" type="video/mp4" />
+            <source src="https://videos.files.wordpress.com/lUvR2d1e/this-isnt-comfort.its-commitment.cold-exposure-doesnt-care-who-you-are-it-only-reveals-how-.mp4" type="video/mp4" />
           </video>
         </motion.div>
         
@@ -75,27 +75,6 @@ export default function OurStory() {
         <div className="absolute inset-x-0 top-0 h-64 bg-gradient-to-b from-[#050505] to-transparent pointer-events-none" />
         <div className="absolute inset-0 bg-red-900/10 pointer-events-none mix-blend-screen" />
         
-        {/* Technical Data HUD Overlay during scroll */}
-        <div className="absolute inset-0 pointer-events-none p-10 lg:p-20 flex flex-col justify-between">
-           <div className="h-full w-full border border-editorial-border relative bg-editorial-bg/10 backdrop-blur-[2px] rounded-[3rem] shadow-[inset_0_0_100px_rgba(0,0,0,0.1)] overflow-hidden">
-              <Atmosphere glowOpacity={0.02} gridMode="lines" intensity="low" />
-              <div className="absolute top-10 left-10 flex flex-col gap-3">
-                 <span className="font-mono text-[0.6875rem] text-red-600 font-black uppercase tracking-widest drop-shadow-[0_0_5px_currentColor]">LEGACY_SCAN_ACTIVE</span>
-                 <div className="w-32 h-[3px] bg-zinc-800 overflow-hidden shadow-[0_0_15px_rgba(220,38,38,0.5)]">
-                    <motion.div 
-                      animate={{ x: ["-100%", "100%"] }}
-                      transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-                      className="h-full w-full bg-red-600 shadow-[0_0_10px_#dc2626]"
-                    />
-                 </div>
-              </div>
-              <div className="absolute bottom-10 right-10 text-right font-mono text-[0.6875rem] text-editorial-text-muted space-y-3 uppercase tracking-widest font-bold bg-editorial-bg/50 p-4 rounded-xl backdrop-blur-md border border-editorial-border shadow-[0_10px_30px_rgba(0,0,0,0.08)]">
-                 <div className="drop-shadow-[0_2px_4px_rgba(0,0,0,0.1)]">COORDS: 51.5074° N, 0.1278° W</div>
-                 <div className="drop-shadow-[0_2px_4px_rgba(0,0,0,0.1)]">EST_DATE: 04_20_2026</div>
-                 <div className="text-red-600 drop-shadow-[0_0_10px_rgba(220,38,38,0.8)] animate-pulse">STABILITY: NOMINAL</div>
-              </div>
-           </div>
-        </div>
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none mix-blend-overlay z-10">
            <h2 className="font-sans font-black text-[clamp(2.5rem,17vw,30rem)] uppercase tracking-tighter text-editorial-text opacity-30 blur-[1px] scale-105 group-hover:scale-100 transition-transform duration-[4000ms] drop-shadow-[0_10px_30px_rgba(0,0,0,1)] mix-blend-screen">NO COMPROMISE</h2>
         </div>

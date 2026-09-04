@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 import { allProducts } from "../data/products";
 import { ChevronRight, Zap, Target, Database } from "lucide-react";
 import LazyImage from "../components/LazyImage";
-import TechnicalNutrientScanner from "../components/TechnicalNutrientScanner";
 import ProductCard from "../components/common/ProductCard";
 import BiometricLoadCalculator from "../components/BiometricLoadCalculator";
 

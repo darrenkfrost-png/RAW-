@@ -99,10 +99,10 @@ export default function Account() {
                 navigate("/");
                 return;
               }
-              addToast("Disconnecting neural node...", "info");
+              addToast("Signing out…", "info");
               setTimeout(() => {
                  navigate("/");
-                 addToast("Node disconnected successfully. Operator session ended.", "success");
+                 addToast("Signed out.", "success");
               }, 1500);
             }}
             className="w-full text-left p-6 font-black uppercase text-[0.75rem] tracking-[0.2em] flex items-center gap-5 transition-all duration-500 rounded-2xl group bg-transparent text-zinc-600 hover:text-red-500 mt-16 hover:bg-red-950/30 border border-transparent hover:border-red-900/50"

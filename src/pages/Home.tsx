@@ -4,7 +4,6 @@ import { Product } from "../types";
 import { allProducts } from "../data/products";
 import LazyImage from "../components/LazyImage";
 import { useUI } from "../context/UIContext";
-import SystemVisualizer from "../components/SystemVisualizer";
 import MagneticWrapper from "../components/MagneticWrapper";
 import { CascadingBackground } from "../components/home/CascadingBackground";
 import ProductCard from "../components/common/ProductCard";
@@ -360,13 +359,14 @@ export default function Home() {
         <div className="relative p-12 lg:p-24 flex flex-col justify-center border-b lg:border-b-0 lg:border-r border-editorial-border z-10 bg-black/40 backdrop-blur-3xl shadow-inner shadow-red-500/5">
           <div className="absolute top-0 left-0 w-full overflow-hidden whitespace-nowrap p-4 border-b border-white/5 pointer-events-none opacity-20">
              <div className="flex gap-20 animate-[marquee_40s_linear_infinite] font-mono text-[0.6875rem] font-black uppercase tracking-[0.3em] sm:tracking-[0.6em] [overflow-wrap:anywhere] text-red-500">
-               <span>Neural_Interface_Connected</span>
-               <span>Signal_Pulse: Stable</span>
-               <span>Operational_Capacity: 110%</span>
-               <span>Sector_Alpha_Active</span>
-               <span>Supply_Chain_Awaiting_Order</span>
-               <span>Neural_Interface_Connected</span>
-               <span>Signal_Pulse: Stable</span>
+               <span>RECOVER_INTENT</span>
+               <span>INTEGRATE_PURPOSE</span>
+               <span>RAW_OFFICIAL</span>
+               <span>COMBAT</span>
+               <span>NUTRIENTS</span>
+               <span>RECOVERY</span>
+               <span>RECOVER_INTENT</span>
+               <span>INTEGRATE_PURPOSE</span>
              </div>
           </div>
           <div className="absolute top-12 left-12 flex items-center gap-4 pt-12">
@@ -538,87 +538,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Global Synchronization Matrix - High Tech Vision */}
-      <section className="py-48 bg-editorial-bg relative overflow-hidden border-b border-editorial-border group/matrix">
-        <Atmosphere glowOpacity={0.03} gridMode="lines" intensity="medium" />
-        <div className="section-container relative z-10">
-          <div className="flex flex-col lg:flex-row justify-between items-end mb-24 gap-12">
-            <div className="space-y-6">
-                <div className="flex items-center gap-4">
-                    <span className="w-12 h-[2px] bg-red-600 shadow-[0_0_15px_#dc2626]" />
-                    <span className="font-mono text-[0.6875rem] text-zinc-500 uppercase tracking-[0.4em] font-black">Global_Network_Status</span>
-                </div>
-                <h2 className="font-black uppercase tracking-tighter text-white leading-[0.8] text-display-md">
-                  Operational <br /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-600 to-red-900 italic">Omnipresence</span>
-                </h2>
-            </div>
-            <div className="flex flex-col items-end gap-4 p-8 bg-editorial-surface/40 border border-editorial-border rounded-[2rem] backdrop-blur-3xl shadow-depth-2">
-                <span className="font-mono text-[0.6875rem] text-zinc-600 uppercase tracking-widest font-black">ACTIVE_NODES</span>
-                <span className="text-4xl font-black text-white italic">14,204</span>
-                <div className="h-1 w-48 bg-white/5 rounded-full overflow-hidden">
-                    <motion.div 
-                      animate={{ x: ["-100%", "200%"] }}
-                      transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
-                      className="h-full w-24 bg-red-500 shadow-[0_0_15px_#dc2626]"
-                    />
-                </div>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-6 md:grid-cols-12 lg:grid-cols-24 gap-3">
-             {Array.from({ length: 96 }).map((_, i) => {
-               const isActive = Math.random() > 0.4;
-               const isCritical = Math.random() > 0.95;
-               return (
-                 <motion.div
-                   key={i}
-                   initial={{ opacity: 0, scale: 0.5 }}
-                   whileInView={{ opacity: 1, scale: 1 }}
-                   transition={{ delay: i * 0.005, duration: 0.8 }}
-                   className={`aspect-square rounded-sm border ${
-                     isActive 
-                        ? isCritical 
-                           ? 'bg-red-600 border-red-500 shadow-[0_0_15px_rgba(220,38,38,0.5)] animate-pulse' 
-                           : 'bg-editorial-text/20 border-white/10 hover:bg-red-600/40 hover:border-red-500/50 transition-all duration-500'
-                        : 'bg-white/[0.02] border-white/5'
-                   } relative group/node overflow-hidden cursor-crosshair`}
-                 >
-                    <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent opacity-0 group-hover/node:opacity-100 transition-opacity" />
-                 </motion.div>
-               );
-             })}
-          </div>
-
-          <div className="mt-20 grid md:grid-cols-4 gap-8">
-             {[
-               { region: "Sector_Omega", status: "Optimal", ping: "14ms", load: "24%" },
-               { region: "Sector_Alpha", status: "Active", ping: "82ms", load: "68%" },
-               { region: "Sector_Delta", status: "Nominal", ping: "45ms", load: "12%" },
-               { region: "Sector_Sigma", status: "Peak", ping: "124ms", load: "94%" },
-             ].map((node, i) => (
-               <div key={i} className="p-8 border border-editorial-border bg-editorial-surface/20 rounded-3xl group/info hover:border-red-500/30 transition-all">
-                  <div className="flex justify-between items-center mb-6">
-                      <span className="font-mono text-[0.6875rem] text-zinc-500 uppercase tracking-widest font-black">{node.region}</span>
-                      <div className={`w-2 h-2 rounded-full ${node.load === '94%' ? 'bg-red-600 animate-pulse shadow-[0_0_10px_#dc2626]' : 'bg-emerald-500 opacity-60'}`} />
-                  </div>
-                  <div className="flex items-baseline gap-4 mb-4">
-                      <span className="text-2xl font-black text-white italic">{node.ping}</span>
-                      <span className="text-[0.6875rem] font-mono text-zinc-600 uppercase tracking-widest">SIGNAL_DELAY</span>
-                  </div>
-                  <div className="h-[2px] w-full bg-white/5 overflow-hidden">
-                      <motion.div 
-                        initial={{ width: 0 }}
-                        whileInView={{ width: node.load }}
-                        transition={{ duration: 1.5, delay: 0.5 + (i * 0.1) }}
-                        className={`h-full ${node.load === '94%' ? 'bg-red-600' : 'bg-editorial-text-muted/40'}`}
-                      />
-                  </div>
-               </div>
-             ))}
-          </div>
-        </div>
-      </section>
-
       {/* Recent Field Intelligence - Premium Feed Expansion */}
       <section className="py-48 bg-editorial-bg relative overflow-hidden">
         <div className="section-container">
@@ -638,7 +557,7 @@ export default function Home() {
               {[
                 { 
                   tag: "PROTOCOL_V4.2", 
-                  title: "Neural Synergy Enhancement Deployed", 
+                  title: "Recovery Protocol V4.2 Released", 
                   date: "24.05.2026",
                   summary: "Technical architectural shift in bio-kinetic feedback loops now active for all active operatives.",
                   image: "/promo/assets/covered-wide.jpg"
@@ -654,7 +573,7 @@ export default function Home() {
                   tag: "BIO_LOGISTICS", 
                   title: "Omega_Protocol Supply Chain Resilience", 
                   date: "12.05.2026",
-                  summary: "Neural routing algorithms optimized for cross-sector fulfillment. Transit efficiency elevated by 14.2%.",
+                  summary: "Supply chain re-routed for cross-region fulfilment. Faster transit on every order.",
                   image: "https://rawofficial.co/wp-content/uploads/2026/02/combat-1024x201.png"
                 }
               ].map((intel, i) => (

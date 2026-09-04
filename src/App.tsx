@@ -50,7 +50,6 @@ import { ErrorBoundary } from "./components/common/ErrorBoundary";
 import ScrollToTop from "./components/ScrollToTop";
 import IntroScreen from "./components/IntroScreen";
 import SmoothScroll from "./components/SmoothScroll";
-import MaximumOverdrive from "./components/MaximumOverdrive";
 import { AppProviders } from "./components/AppProviders";
 import { useUI } from "./context/UIContext";
 import { useKeyboardShortcuts } from "./hooks/useKeyboardShortcuts";
@@ -75,7 +74,6 @@ function AppContent() {
       {/* Global Layer Orchestration */}
       <IntroScreen />
       <ScrollToTop />
-      <MaximumOverdrive />
       
       <Sidebar />
 

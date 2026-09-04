@@ -11,10 +11,10 @@ interface TargetInfo {
 }
 
 const targets: TargetInfo[] = [
-  { id: "head", label: "NEURAL_IMPACT", x: 50, y: 15, stat: "98.2%_EFFICIENCY" },
-  { id: "chest", label: "CORE_STABILITY", x: 50, y: 40, stat: "STABLE" },
-  { id: "limbs", label: "PHASE_OUTPUT", x: 25, y: 60, stat: "OPTIMIZED" },
-  { id: "reflex", label: "SYNAPTIC_LATENCY", x: 75, y: 55, stat: "1.2MS" }
+  { id: "head", label: "HEAD", x: 50, y: 15, stat: "GUARD_&_STRIKE" },
+  { id: "chest", label: "CORE", x: 50, y: 40, stat: "BRACE_&_ROTATE" },
+  { id: "limbs", label: "LIMBS", x: 25, y: 60, stat: "DRIVE_&_EXTEND" },
+  { id: "reflex", label: "REFLEX", x: 75, y: 55, stat: "SEE_&_REACT" }
 ];
 
 export default function CombatTargetZone() {

@@ -66,7 +66,7 @@ export default function PerformanceSystem() {
                  <div className="w-3 h-3 rounded-full bg-red-600 animate-ping absolute inset-0" />
                  <div className="w-3 h-3 rounded-full bg-red-600 relative" />
               </div>
-              <span className="font-mono text-[0.6875rem] text-editorial-text-muted uppercase tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] font-black">NEURAL_ORDNANCE // V4.0</span>
+              <span className="font-mono text-[0.6875rem] text-editorial-text-muted uppercase tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] font-black">THE_PERFORMANCE_SYSTEM</span>
            </motion.div>
            
            <h1 className="font-black text-editorial-text uppercase tracking-tighter mb-12 leading-[0.8] relative text-display-lg">

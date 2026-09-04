@@ -105,7 +105,7 @@ export default function CartDrawer() {
                       <div className="w-2 h-6 bg-red-600" />
                       <h2 className="font-sans font-black text-4xl xl:text-5xl tracking-tighter uppercase leading-none text-premium">Registry</h2>
                    </div>
-                  <span className="text-meta-premium">NEURAL_ORDNANCE_ARCHIVE // V2.6</span>
+                  <span className="text-meta-premium">YOUR_ORDER</span>
                 </div>
               </div>
               <MagneticWrapper>
@@ -210,7 +210,7 @@ export default function CartDrawer() {
                 <div className="pt-20 border-t border-editorial-border space-y-10 relative">
                    <div className="absolute top-0 left-1/2 -ml-[30%] w-[60%] h-[1px] bg-gradient-to-r from-transparent via-red-600/50 to-transparent shadow-[0_0_20px_#dc2626]" />
                    <div className="flex items-center justify-between text-editorial-text-muted font-mono text-[0.6875rem] uppercase tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] font-black">
-                      <span>Neural_Synergy_Suggestions</span>
+                      <span>Pairs_Well_With</span>
                       <div className="flex gap-1.5">
                          {[1,2,3].map(i => <div key={i} className={`w-1 h-3 bg-red-600/30 ${i === 2 ? 'animate-pulse' : ''}`} />)}
                       </div>

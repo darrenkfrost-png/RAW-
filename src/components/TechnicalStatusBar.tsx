@@ -144,7 +144,7 @@ export default function TechnicalStatusBar() {
         
         <div className="flex items-center gap-6 border-l border-white/5 pl-8 h-8 ml-4">
            <div className="flex flex-col items-end">
-              <span className="text-[0.6875rem] font-mono font-bold text-zinc-700 tracking-[0.4em] uppercase mb-0.5">TIME_SYNC</span>
+              <span className="text-[0.6875rem] font-mono font-bold text-zinc-700 tracking-[0.4em] uppercase mb-0.5">CLOCK</span>
               <span className="font-mono font-black text-[0.75rem] text-white tracking-widest uppercase">UTC: {timeString}</span>
            </div>
         </div>

@@ -24,11 +24,6 @@ export class ErrorBoundary extends React.Component<Props, State> {
   public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     this.setState({ errorInfo });
     console.error("Uncaught error:", error, errorInfo);
-    fetch("/api/debug-crash", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ message: error.message, stack: error.stack, componentStack: errorInfo.componentStack })
-    }).catch(console.error);
   }
 
   public render() {
@@ -79,9 +74,6 @@ export class ErrorBoundary extends React.Component<Props, State> {
               </div>
             </motion.button>
             
-            <p className="mt-8 font-mono text-[0.6875rem] text-zinc-600 uppercase tracking-widest font-black opacity-30">
-               Auto-recovery sequence engaged...
-            </p>
           </motion.div>
         </div>
       );
