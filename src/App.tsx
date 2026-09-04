@@ -87,7 +87,7 @@ function AppContent() {
       {/* Application Layout Shell Orchestrated via padding injection */}
       <div 
          id="app-shell"
-         className="min-h-screen transition-all duration-[var(--layout-transition-duration)] ease-[var(--layout-transition-ease)] flex flex-col relative md:pl-[var(--sidebar-current-width)] w-full will-change-[padding-left]"
+         className="min-h-svh transition-all duration-[var(--layout-transition-duration)] ease-[var(--layout-transition-ease)] flex flex-col relative md:pl-[var(--sidebar-current-width)] w-full will-change-[padding-left]"
          style={{
            // A hidden sidebar reserves nothing; a collapsed one still reserves its rail.
            "--sidebar-current-width": chromeHidden.includes('sidebar')

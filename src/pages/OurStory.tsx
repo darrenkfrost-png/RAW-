@@ -48,7 +48,12 @@ export default function OurStory() {
 
       <section 
         ref={videoContainerRef}
-        className="w-full h-screen min-h-[900px] relative overflow-hidden mb-40 border-y border-editorial-border-light group bg-editorial-bg"
+        /* ⚠️ THIS WAS `h-screen min-h-[900px]`. On a 812px phone the 900px
+           floor won, so the hero was taller than the screen and a visitor had
+           to swipe past a full screen of film before reaching a word of the
+           story. The floor now only applies from tablet up, where there is
+           room for it; on a phone the hero is exactly one visible screen. */
+        className="relative mb-40 min-h-svh w-full overflow-hidden border-y border-editorial-border-light bg-editorial-bg group sm:min-h-[900px]"
       >
         <motion.div 
           style={{ y: videoY }}

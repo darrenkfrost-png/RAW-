@@ -73,7 +73,7 @@ const stacks = [
 
 export default function ProtocolStacks() {
   return (
-    <div className="min-h-screen bg-editorial-bg pt-32 pb-24 px-[var(--shell-padding-mobile)] md:px-[var(--shell-padding)] lg:px-[var(--shell-padding-lg)] font-sans relative overflow-hidden">
+    <div className="min-h-svh bg-editorial-bg pt-32 pb-24 px-[var(--shell-padding-mobile)] md:px-[var(--shell-padding)] lg:px-[var(--shell-padding-lg)] font-sans relative overflow-hidden">
       <Atmosphere glowOpacity={0.05} gridMode="lines" intensity="medium" />
       
       <div className="max-w-[var(--content-max-width)] mx-auto relative z-10">

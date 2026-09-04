@@ -158,7 +158,7 @@ export default function Shop() {
                             filters.stackRoles.length;
 
   return (
-    <div className="section-container pt-32 xl:pt-48 pb-32 min-h-screen relative overflow-hidden">
+    <div className="section-container pt-32 xl:pt-48 pb-32 min-h-svh relative overflow-hidden">
       {/* Cinematic Glitch and Atmospheric Elements */}
       <Atmosphere glowOpacity={0.05} gridMode="dots" intensity="high" />
       <div className="absolute top-0 right-0 w-[1000px] h-[1000px] bg-red-900/10 blur-[250px] pointer-events-none rounded-full mix-blend-screen" />

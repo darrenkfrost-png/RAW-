@@ -393,7 +393,7 @@ export default function Home() {
       </section>
 
         {/* Brand Essence Video Section */}
-      <section className="min-h-screen bg-editorial-bg flex flex-col lg:grid lg:grid-cols-2 relative z-10 w-full overflow-hidden border-y border-editorial-border group/motion">
+      <section className="min-h-svh bg-editorial-bg flex flex-col lg:grid lg:grid-cols-2 relative z-10 w-full overflow-hidden border-y border-editorial-border group/motion">
         {/* Left Side: Editorial Context */}
         <div className="relative p-12 lg:p-24 flex flex-col justify-center border-b lg:border-b-0 lg:border-r border-editorial-border z-10 bg-black/40 backdrop-blur-3xl shadow-inner shadow-red-500/5">
           <div className="absolute top-0 left-0 w-full overflow-hidden whitespace-nowrap p-4 border-b border-white/5 pointer-events-none opacity-20">

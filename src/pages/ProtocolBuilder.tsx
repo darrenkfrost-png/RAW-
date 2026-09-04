@@ -208,7 +208,7 @@ export default function ProtocolBuilder() {
   };
 
   return (
-    <div className="min-h-screen bg-editorial-bg pt-32 pb-24 px-[var(--shell-padding-mobile)] md:px-[var(--shell-padding)] lg:px-[var(--shell-padding-lg)] font-sans relative overflow-hidden">
+    <div className="min-h-svh bg-editorial-bg pt-32 pb-24 px-[var(--shell-padding-mobile)] md:px-[var(--shell-padding)] lg:px-[var(--shell-padding-lg)] font-sans relative overflow-hidden">
       <div className="absolute top-0 right-0 w-[1200px] h-[1200px] bg-editorial-accent/5 blur-[250px] pointer-events-none rounded-full mix-blend-screen z-0" />
       <div className="absolute bottom-0 left-0 w-[1000px] h-[1000px] bg-editorial-accent/5 blur-[200px] pointer-events-none rounded-full mix-blend-screen z-0" />
 

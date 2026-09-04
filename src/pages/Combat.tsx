@@ -20,7 +20,7 @@ export default function Combat() {
   }, []);
 
   return (
-    <div className="bg-editorial-bg min-h-screen text-editorial-text">
+    <div className="bg-editorial-bg min-h-svh text-editorial-text">
       {/* Cinematic Hero */}
       <section className="relative h-[80vh] flex items-center justify-center text-center overflow-hidden">
         <video 

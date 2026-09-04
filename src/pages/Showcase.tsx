@@ -178,7 +178,7 @@ export default function Showcase() {
   const open = openAt === null ? null : items[openAt];
 
   return (
-    <div className="relative min-h-screen">
+    <div className="relative min-h-svh">
       <Atmosphere glowOpacity={0.05} gridMode="dots" intensity="low" />
 
       <section className="section-container relative z-10 pb-32">

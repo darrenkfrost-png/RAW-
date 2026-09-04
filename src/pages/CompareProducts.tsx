@@ -54,7 +54,7 @@ export default function CompareProducts() {
   };
 
   return (
-    <div className="min-h-screen bg-editorial-bg pt-32 pb-24 font-sans px-[var(--shell-padding-mobile)] md:px-[var(--shell-padding)] lg:px-[var(--shell-padding-lg)] relative overflow-hidden selection:bg-red-600/30 selection:text-white">
+    <div className="min-h-svh bg-editorial-bg pt-32 pb-24 font-sans px-[var(--shell-padding-mobile)] md:px-[var(--shell-padding)] lg:px-[var(--shell-padding-lg)] relative overflow-hidden selection:bg-red-600/30 selection:text-white">
       <div className="absolute top-1/4 -right-1/4 w-[1200px] h-[1200px] bg-red-600/[0.03] blur-[250px] pointer-events-none rounded-full z-0" />
       <div className="absolute bottom-[-10%] -left-1/4 w-[1000px] h-[1000px] bg-red-600/[0.03] blur-[200px] pointer-events-none rounded-full z-0" />
       

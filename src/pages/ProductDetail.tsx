@@ -382,7 +382,7 @@ export default function ProductDetail() {
   const currentStatus = getStockStatus(product.stockStatus);
 
   return (
-    <div className="pt-40 pb-32 px-[var(--shell-padding-mobile)] md:px-[var(--shell-padding)] lg:px-[var(--shell-padding-lg)] max-w-[var(--content-max-width)] mx-auto min-h-screen relative selection:bg-red-600 selection:text-white" aria-label="Product Detail Page">
+    <div className="pt-40 pb-32 px-[var(--shell-padding-mobile)] md:px-[var(--shell-padding)] lg:px-[var(--shell-padding-lg)] max-w-[var(--content-max-width)] mx-auto min-h-svh relative selection:bg-red-600 selection:text-white" aria-label="Product Detail Page">
       {/* Background HUD Matrix */}
       <div className="fixed inset-0 pointer-events-none z-0">
         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-[0.03]" />

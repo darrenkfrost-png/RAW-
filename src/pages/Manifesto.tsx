@@ -23,7 +23,7 @@ export default function Manifesto() {
   };
 
   return (
-    <div className="pt-32 xl:pt-48 pb-32 px-[var(--shell-padding-mobile)] md:px-[var(--shell-padding)] lg:px-[var(--shell-padding-lg)] max-w-[var(--content-max-width)] mx-auto min-h-screen relative overflow-hidden bg-editorial-bg">
+    <div className="pt-32 xl:pt-48 pb-32 px-[var(--shell-padding-mobile)] md:px-[var(--shell-padding)] lg:px-[var(--shell-padding-lg)] max-w-[var(--content-max-width)] mx-auto min-h-svh relative overflow-hidden bg-editorial-bg">
       <div className="absolute top-0 left-1/2 -ml-[500px] w-[1200px] h-[1200px] bg-red-900/10 blur-[300px] pointer-events-none rounded-full z-0 mix-blend-screen" />
       <div className="absolute top-[30%] -right-[200px] w-[1000px] h-[1000px] bg-red-950/20 blur-[250px] pointer-events-none rounded-full z-0 mix-blend-screen" />
       <Atmosphere glowOpacity={0.02} gridMode="lines" intensity="low" />

@@ -109,15 +109,13 @@ export default function VideoWallpaper() {
         loop
         playsInline
         preload="auto"
-        className="h-full w-full object-cover"
-        style={{
-          opacity: settings.videoWallpaperOpacity,
-          // The film is scenery, so it is pushed back: desaturated a touch and
-          // softened, which stops a moving edge in the footage from reading as
-          // a moving edge in the interface.
-          filter: "saturate(0.85) blur(1px)",
-          transition: "opacity .6s ease",
-        }}
+        className="wallpaper-film h-full w-full object-cover"
+        /* Only opacity is inline, because the visitor chooses it. The blur
+           lives in .wallpaper-film (src/index.css) so it can scale with the
+           viewport — an inline filter would silently outrank those media
+           queries, which is how a desktop-tuned 1px blur ended up on
+           phones. */
+        style={{ opacity: settings.videoWallpaperOpacity }}
       />
       {/* A floor of darkness under the type. Without it, a bright frame in the
           footage briefly makes body copy unreadable — the one thing a

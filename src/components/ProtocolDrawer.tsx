@@ -69,7 +69,11 @@ export default function ProtocolDrawer() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 50, scale: 0.9 }}
             onClick={() => setIsOpen(true)}
-            className="fixed bottom-6 right-6 z-50 bg-editorial-bg/90 backdrop-blur-xl border-l-[3px] border-red-600 border-y border-r border-editorial-border-light px-6 py-4 rounded-[2rem] flex items-center gap-4 shadow-[0_20px_50px_rgba(0,0,0,0.15)] group hover:bg-editorial-bg transition-all duration-[600ms]"
+            /* Slot 2 of the corner dock (.raw-dock-stack, src/index.css).
+               On a phone the label is dropped and the chip becomes a 44px
+               square: at ~200px wide it used to lie across the advisor
+               button and under the diagnostics pill. */
+            className="raw-dock-stack fixed z-50 bg-editorial-bg/90 backdrop-blur-xl border-l-[3px] border-red-600 border-y border-r border-editorial-border-light p-3 sm:px-6 sm:py-4 min-h-11 min-w-11 rounded-[1.25rem] sm:rounded-[2rem] flex items-center justify-center gap-0 sm:gap-4 shadow-[0_20px_50px_rgba(0,0,0,0.15)] group hover:bg-editorial-bg transition-all duration-[600ms]"
           >
             <div className="absolute inset-0 bg-gradient-to-r from-red-600/10 to-transparent pointer-events-none mix-blend-screen opacity-0 group-hover:opacity-100 transition-opacity" />
             <div className="relative">
@@ -78,7 +82,7 @@ export default function ProtocolDrawer() {
                 {protocolItems.length}
               </div>
             </div>
-            <div className="flex flex-col text-left">
+            <div className="hidden sm:flex flex-col text-left">
               <span className="font-mono text-[10px] text-editorial-text-muted uppercase tracking-widest font-bold">Active Stack</span>
               <span className="font-sans font-black text-sm text-editorial-text uppercase tracking-tight">MY_PROTOCOL</span>
             </div>

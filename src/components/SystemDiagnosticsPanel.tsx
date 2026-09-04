@@ -214,12 +214,12 @@ export default function SystemDiagnosticsPanel() {
   if (chromeHidden.includes('diagnostics')) return null;
 
   return (
-    <div 
-      className="fixed z-[10000] font-mono text-xs select-none"
-      style={{
-        bottom: isStatusBarVisible ? "3.2rem" : "1.2rem",
-        right: "1.24rem"
-      }}
+    /* Slot 3 of the corner dock. The offsets moved out of this style
+       attribute and into .raw-dock-diag (src/index.css) so a phone can
+       reposition them: an inline style outranks every media query, which is
+       why this chip stayed welded to the corner while the others moved. */
+    <div
+      className={`raw-dock-diag ${isStatusBarVisible ? "raw-dock-diag--raised" : ""} fixed z-[10000] font-mono text-xs select-none`}
     >
       <AnimatePresence mode="wait">
         {minimized ? (
@@ -230,10 +230,10 @@ export default function SystemDiagnosticsPanel() {
             onClick={() => setMinimized(false)}
             whileHover={{ scale: 1.05 }}
             transition={{ type: "spring", stiffness: 450, damping: 25 }}
-            className="flex items-center gap-2 bg-black/90 hover:bg-black border border-zinc-800 hover:border-red-650 text-zinc-400 hover:text-white px-3.5 py-2.5 rounded-full shadow-[0_10px_35px_rgba(0,0,0,0.8)] border-red-500/10 cursor-pointer backdrop-blur-xl group transition-all duration-300"
+            className="flex min-h-11 min-w-11 items-center justify-center gap-2 bg-black/90 hover:bg-black border border-zinc-800 hover:border-red-650 text-zinc-400 hover:text-white px-3.5 py-2.5 rounded-full shadow-[0_10px_35px_rgba(0,0,0,0.8)] border-red-500/10 cursor-pointer backdrop-blur-xl group transition-all duration-300"
           >
             <Activity className="w-3.5 h-3.5 text-red-500 animate-[pulse_1.5s_infinite]" />
-            <span className="text-[10px] uppercase font-black tracking-widest">DIAG_UPTIME</span>
+            <span className="hidden sm:inline text-[10px] uppercase font-black tracking-widest">DIAG_UPTIME</span>
             <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 group-hover:scale-125 transition-transform" />
           </motion.button>
         ) : (

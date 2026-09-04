@@ -44,7 +44,7 @@ const systems = [
 
 export default function PerformanceSystem() {
   return (
-    <div className="min-h-screen bg-editorial-bg pt-40 pb-32 font-sans overflow-hidden selection:bg-red-600 selection:text-white">
+    <div className="min-h-svh bg-editorial-bg pt-40 pb-32 font-sans overflow-hidden selection:bg-red-600 selection:text-white">
       {/* Dynamic Background */}
       <div className="fixed inset-0 pointer-events-none z-0">
         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-[0.03]" />

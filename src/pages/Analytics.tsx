@@ -81,7 +81,7 @@ export default function Analytics() {
   const textSubClass = is110Percent ? "text-emerald-400 font-bold" : "text-editorial-text-muted font-bold";
 
   return (
-    <div className={`min-h-screen pt-36 xl:pt-48 pb-32 px-[var(--shell-padding-mobile)] md:px-[var(--shell-padding)] lg:px-[var(--shell-padding-lg)] transition-colors duration-500 relative ${is110Percent ? 'bg-editorial-bg noise-overlay' : 'bg-editorial-bg'}`}>
+    <div className={`min-h-svh pt-36 xl:pt-48 pb-32 px-[var(--shell-padding-mobile)] md:px-[var(--shell-padding)] lg:px-[var(--shell-padding-lg)] transition-colors duration-500 relative ${is110Percent ? 'bg-editorial-bg noise-overlay' : 'bg-editorial-bg'}`}>
       {!is110Percent && <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-editorial-bg/40 via-transparent to-transparent pointer-events-none opacity-60 mix-blend-screen" />}
       {is110Percent && <div className="absolute inset-0 pointer-events-none mix-blend-overlay opacity-20 bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />}
       

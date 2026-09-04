@@ -33,7 +33,7 @@ export default function Layout() {
   usePageMeta();
 
   return (
-    <div className="bg-editorial-bg text-editorial-text font-sans min-h-screen relative selection:bg-editorial-accent/30 overflow-x-hidden">
+    <div className="bg-editorial-bg text-editorial-text font-sans min-h-svh relative selection:bg-editorial-accent/30 overflow-x-hidden">
       {/* Background Layer - Deep & Immersive */}
       <div className="fixed inset-0 z-[var(--z-background)] bg-editorial-bg" aria-hidden="true" />
       
@@ -92,7 +92,7 @@ export default function Layout() {
 
       <div 
         id="content-wrapper"
-        className="relative z-[var(--z-content)] flex flex-col min-h-screen pb-[env(safe-area-inset-bottom)] pt-[env(safe-area-inset-top)] px-[env(safe-area-inset-left)] pr-[env(safe-area-inset-right)]"
+        className="relative z-[var(--z-content)] flex flex-col min-h-svh pb-[env(safe-area-inset-bottom)] pt-[env(safe-area-inset-top)] px-[env(safe-area-inset-left)] pr-[env(safe-area-inset-right)]"
         style={{ 
           paddingTop: 'calc(var(--header-current-height) + env(safe-area-inset-top))',
           paddingBottom: 'calc(2.75rem + env(safe-area-inset-bottom))' // Offset for TechnicalStatusBar height (h-11 = 44px) + safe area

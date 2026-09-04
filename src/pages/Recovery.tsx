@@ -33,7 +33,7 @@ export default function Recovery() {
   ];
 
   return (
-    <div className="bg-editorial-bg min-h-screen">
+    <div className="bg-editorial-bg min-h-svh">
       {/* Video Hero */}
       <section className="relative h-[80vh] flex items-center justify-center overflow-hidden">
         <video 

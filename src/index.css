@@ -430,3 +430,102 @@ body.motion-enhanced .group:hover {
   transition-duration: 0.6s !important;
 }
 
+
+/* ─────────────────────────────────────────────────────────────────────────
+   THE WALLPAPER FILM — blurred hard enough that its words stop being words.
+
+   ⚠️ THE FILMS HAVE TYPOGRAPHY BURNED INTO THEM. The campaign clips carry
+   "STAY SAFE WITH RAW" and "100,000 FREE CONDOMS. NO CATCH." in large type.
+   As full-bleed scenery they are 1920x1080 shown object-fit:cover, so the
+   narrower the screen the more the frame is enlarged and cropped:
+
+       375 x 812  ->  cover scale 0.752  ->  only ~26% of the frame's WIDTH
+                      is on screen, at nearly 4x the type size a desktop sees
+
+   Measured on an iPhone-width viewport, that arrived as giant sliced
+   fragments — "AFE WIT", "HAS YOU COV", "E CONDOMS" — lying across the
+   page's own headings on every route. The old blur was 1px, tuned on a
+   desktop where the crop is mild, and it never stood a chance on a phone.
+
+   Blur therefore scales AGAINST viewport width: the more the film is
+   magnified, the harder it is softened, so the wallpaper reads as moving
+   colour and light at every size instead of broken words. This keeps the
+   film wallpaper the visitor asked for — it only stops it competing with
+   the type in front of it.
+
+   ⚠️ THIS MUST NOT GO BACK INTO A STYLE ATTRIBUTE. An inline filter beats
+   every class and every media query here, which is exactly how the 1px
+   value survived. Opacity stays inline because the visitor sets it.        */
+.wallpaper-film {
+  filter: saturate(0.85) blur(16px);
+  transition: opacity 0.6s ease;
+  /* Blur samples transparent black beyond the element's edges, which leaves
+     a pale halo at the frame. Growing the film past the viewport puts that
+     halo off-screen. */
+  transform: scale(1.06);
+}
+
+@media (min-width: 768px) {
+  .wallpaper-film { filter: saturate(0.85) blur(10px); }
+}
+
+@media (min-width: 1280px) {
+  .wallpaper-film { filter: saturate(0.85) blur(7px); }
+}
+
+/* Someone who has asked for less motion should not be handed a heavy
+   real-time filter either — it is expensive on exactly the phones that
+   request it. */
+@media (prefers-reduced-motion: reduce) {
+  .wallpaper-film { transition: none; }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   THE CORNER DOCK — one shelf, three slots, nothing on top of anything.
+
+   ⚠️ MEASURED ON AN iPHONE-WIDTH VIEWPORT: five overlapping pairs among the
+   floating controls. Three independent components had each been told to sit
+   in the bottom-right corner and none of them knew about the others:
+
+       SystemDiagnosticsPanel   bottom 3.2rem  right 1.24rem   (DIAG_UPTIME)
+       ProtocolDrawer chip      bottom 1.5rem  right 1.5rem    (MY_PROTOCOL)
+       AICommandHalo            bottom 2rem    right 2rem      (advisor + mic)
+
+   On a desktop the corner is big enough to absorb that. On a 375px screen
+   the MY_PROTOCOL pill alone is ~200px wide, so it sat across the advisor
+   button and under the diagnostics pill — MY_PROTOCOL was overlapped by
+   139x36px of DIAG_UPTIME, and the cart took another 56x63px out of it.
+
+   The slots below are a single ladder up the right edge. Heights are fixed
+   and deliberate: the advisor column is ~100px tall, so slot 2 starts above
+   that, and slot 3 above slot 2. On phones the two pills also drop their
+   text (see the markup) and become 44px squares, which keeps the ladder
+   narrow enough that the centred voice panel no longer reaches it.
+
+   ⚠️ IF YOU ADD A FOURTH FLOATING CONTROL, GIVE IT A SLOT HERE. Do not
+   anchor it to the corner independently — that is precisely how this
+   happened.                                                                */
+
+.raw-dock-ai    { bottom: 2rem;    right: 2rem; }
+.raw-dock-stack { bottom: 1.5rem;  right: 1.5rem; }
+.raw-dock-diag  { bottom: 1.2rem;  right: 1.24rem; }
+.raw-dock-diag--raised { bottom: 3.2rem; }
+
+@media (max-width: 767px) {
+  /* Slot 1 — the advisor column sits on the floor, clear of the home indicator. */
+  .raw-dock-ai {
+    bottom: calc(1rem + env(safe-area-inset-bottom));
+    right: max(1rem, env(safe-area-inset-right));
+  }
+  /* Slot 2 — above the advisor column (56px button + 12px gap + 32px mic). */
+  .raw-dock-stack {
+    bottom: calc(8.5rem + env(safe-area-inset-bottom));
+    right: max(1rem, env(safe-area-inset-right));
+  }
+  /* Slot 3 — above the stack chip. */
+  .raw-dock-diag,
+  .raw-dock-diag--raised {
+    bottom: calc(12.5rem + env(safe-area-inset-bottom));
+    right: max(1rem, env(safe-area-inset-right));
+  }
+}

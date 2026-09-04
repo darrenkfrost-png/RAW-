@@ -29,7 +29,10 @@ export default function AICommandHalo() {
   if (chromeHidden.includes('aiHub')) return null;
 
   return (
-    <div className="fixed bottom-8 right-8 z-[150] flex flex-col items-center gap-3">
+    /* Slot 1 of the corner dock (.raw-dock-ai, src/index.css). The corner
+       offsets live there so all three floating controls share one ladder
+       instead of each claiming the same corner. */
+    <div className="raw-dock-ai fixed z-[150] flex flex-col items-center gap-3">
       <motion.button
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
@@ -45,7 +48,7 @@ export default function AICommandHalo() {
          whileHover={{ scale: 1.1 }}
          whileTap={{ scale: 0.9 }}
          onClick={() => isListening ? stopListening() : startListening('command')}
-         className={`w-8 h-8 rounded-full flex items-center justify-center border backdrop-blur-xl transition-colors ${isListening ? 'border-emerald-500/50 bg-emerald-500/10' : 'border-zinc-800 bg-zinc-900/50 hover:border-zinc-600'}`}
+         className={`h-11 w-11 sm:h-8 sm:w-8 rounded-full flex items-center justify-center border backdrop-blur-xl transition-colors ${isListening ? 'border-emerald-500/50 bg-emerald-500/10' : 'border-zinc-800 bg-zinc-900/50 hover:border-zinc-600'}`}
          aria-label={isListening ? "Stop Listening" : "Start Voice Command"}
       >
          <Mic className={`w-3.5 h-3.5 ${isListening ? 'text-emerald-500' : 'text-zinc-500'}`} />

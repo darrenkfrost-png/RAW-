@@ -273,7 +273,9 @@ export default function TechnicalStatusBar() {
         onClick={() => toggleChrome('statusBar')}
         aria-label="Minimise the status bar"
         title="Minimise status bar"
-        className="ml-4 flex-shrink-0 p-1.5 rounded-lg text-editorial-text-muted hover:text-red-500 hover:bg-white/5 transition-colors focus:outline-none focus:ring-2 focus:ring-red-500/50"
+        /* 28px was too small to hit on a phone, and this is the control that
+           puts the status bar away — the one a phone user reaches for most. */
+        className="ml-4 inline-flex min-h-11 min-w-11 flex-shrink-0 items-center justify-center rounded-lg p-1.5 text-editorial-text-muted transition-colors hover:bg-white/5 hover:text-red-500 focus:outline-none focus:ring-2 focus:ring-red-500/50"
       >
         <ChevronDown className="w-4 h-4" />
       </button>

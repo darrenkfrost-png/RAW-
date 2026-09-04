@@ -7,7 +7,7 @@ import MagneticWrapper from "../components/MagneticWrapper";
 
 export default function RawCares() {
   return (
-    <div className="pt-32 xl:pt-48 pb-32 px-[var(--shell-padding-mobile)] md:px-[var(--shell-padding)] lg:px-[var(--shell-padding-lg)] relative min-h-screen bg-editorial-bg">
+    <div className="pt-32 xl:pt-48 pb-32 px-[var(--shell-padding-mobile)] md:px-[var(--shell-padding)] lg:px-[var(--shell-padding-lg)] relative min-h-svh bg-editorial-bg">
       <div className="absolute top-0 left-1/2 -ml-[500px] w-[1200px] h-[1200px] bg-red-900/10 blur-[300px] pointer-events-none rounded-full mix-blend-screen" />
       <Atmosphere glowOpacity={0.02} gridMode="lines" intensity="low" />
       

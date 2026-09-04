@@ -20,7 +20,7 @@
  */
 export default function TermsOfUse() {
   return (
-    <div className="pt-32 pb-24 px-[var(--shell-padding-mobile)] md:px-[var(--shell-padding)] lg:px-[var(--shell-padding-lg)] max-w-[1000px] mx-auto text-editorial-text relative min-h-screen">
+    <div className="pt-32 pb-24 px-[var(--shell-padding-mobile)] md:px-[var(--shell-padding)] lg:px-[var(--shell-padding-lg)] max-w-[1000px] mx-auto text-editorial-text relative min-h-svh">
       <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-red-900/10 blur-[150px] pointer-events-none rounded-full" />
       <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-red-500 mb-6 block flex items-center gap-3 drop-shadow-[0_0_8px_rgba(220,38,38,0.5)] relative z-10">
         <div className="w-1.5 h-1.5 bg-red-500 rounded-full" /> Legal_Protocol // SEC_003

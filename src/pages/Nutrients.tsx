@@ -32,7 +32,7 @@ export default function Nutrients() {
   });
 
   return (
-    <div className="bg-editorial-bg min-h-screen text-editorial-text">
+    <div className="bg-editorial-bg min-h-svh text-editorial-text">
       {/* Hero Section */}
       <section className="relative h-[80vh] flex items-center justify-center overflow-hidden border-b border-editorial-border">
         <video 

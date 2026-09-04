@@ -23,7 +23,7 @@ export default function ProductGallery() {
   const product = allProducts[index];
 
   return (
-    <div className="pt-32 pb-24 px-[var(--shell-padding-mobile)] md:px-[var(--shell-padding)] lg:px-[var(--shell-padding-lg)] max-w-[var(--content-max-width)] mx-auto min-h-screen flex flex-col justify-center">
+    <div className="pt-32 pb-24 px-[var(--shell-padding-mobile)] md:px-[var(--shell-padding)] lg:px-[var(--shell-padding-lg)] max-w-[var(--content-max-width)] mx-auto min-h-svh flex flex-col justify-center">
       <h1 className="text-4xl md:text-6xl font-black uppercase tracking-tighter text-editorial-text mb-16 text-center">Visual Protocol Gallery</h1>
       
       <div className="relative aspect-[16/9] w-full bg-editorial-bg border border-editorial-border-light rounded-2xl overflow-hidden shadow-2xl">

@@ -30,7 +30,7 @@ export default function RawAcademy() {
     : intelNodes.filter(a => a.type === filter);
 
   return (
-    <div className="min-h-screen bg-editorial-bg pt-32 pb-24 font-sans relative overflow-hidden">
+    <div className="min-h-svh bg-editorial-bg pt-32 pb-24 font-sans relative overflow-hidden">
       <Atmosphere glowOpacity={0.04} gridMode="dots" intensity="medium" />
       
       <div className="max-w-[var(--content-max-width)] mx-auto px-[var(--shell-padding-mobile)] md:px-[var(--shell-padding)] lg:px-[var(--shell-padding-lg)] relative z-10">

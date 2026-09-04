@@ -38,7 +38,7 @@ export default function CustomerType() {
   const products = allProducts.filter(customer.filter).slice(0, 8);
 
   return (
-    <div className="min-h-screen bg-editorial-bg pt-32 pb-24 font-sans px-[var(--shell-padding-mobile)] md:px-[var(--shell-padding)] lg:px-[var(--shell-padding-lg)]">
+    <div className="min-h-svh bg-editorial-bg pt-32 pb-24 font-sans px-[var(--shell-padding-mobile)] md:px-[var(--shell-padding)] lg:px-[var(--shell-padding-lg)]">
       <div className="max-w-[var(--content-max-width)] mx-auto">
         
         {/* Header */}

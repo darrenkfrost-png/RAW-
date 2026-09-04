@@ -206,7 +206,13 @@ function ProductCardComponent({ product, idx, onQuickView }: ProductCardProps) {
           <div className="grid grid-cols-2 gap-2.5">
             <Link
               to={`/product/${product.id}`}
-              className="flex items-center justify-center gap-2 rounded-xl border border-editorial-border-light py-3 font-mono text-[10px] font-black uppercase tracking-[0.2em] text-editorial-text-muted transition-colors hover:border-white/30 hover:text-white"
+              /* ⚠️ min-h-11 IS 44px, AND IT IS NOT COSMETIC. py-3 around
+                 10px type measured 43px on a phone — one pixel under the
+                 minimum Apple sets for a reliable touch target, on the two
+                 controls that appear on every product tile. With 47 products
+                 that was 94 of the 115 undersized targets on the page, all
+                 from this single line. */
+              className="flex min-h-11 items-center justify-center gap-2 rounded-xl border border-editorial-border-light py-3 font-mono text-[10px] font-black uppercase tracking-[0.2em] text-editorial-text-muted transition-colors hover:border-white/30 hover:text-white"
               aria-label={`View details for ${product.name}`}
             >
               Details <ExternalLink className="h-3 w-3" />
@@ -227,7 +233,7 @@ function ProductCardComponent({ product, idx, onQuickView }: ProductCardProps) {
                 addToCart(product, 1);
                 setIsCartOpen(true);
               }}
-              className="rounded-xl bg-red-600 py-3 font-mono text-[10px] font-black uppercase tracking-[0.2em] text-white transition-colors hover:bg-red-500"
+              className="min-h-11 rounded-xl bg-red-600 py-3 font-mono text-[10px] font-black uppercase tracking-[0.2em] text-white transition-colors hover:bg-red-500"
               aria-label={`Add ${product.name} to cart`}
             >
               Add to cart

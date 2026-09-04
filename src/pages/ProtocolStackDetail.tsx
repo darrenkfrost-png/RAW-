@@ -93,7 +93,7 @@ export default function ProtocolStackDetail() {
     return () => clearAIContext();
   }, [stack]);
 
-  if (!stack) return <div className="text-editorial-text text-center pt-40 min-h-screen">PROTOCOL_NOT_FOUND</div>;
+  if (!stack) return <div className="text-editorial-text text-center pt-40 min-h-svh">PROTOCOL_NOT_FOUND</div>;
 
   const totalEstimate = stack.products.reduce((acc, p) => acc + Number(p.price.replace('£', '')), 0);
 
@@ -106,7 +106,7 @@ export default function ProtocolStackDetail() {
   };
 
   return (
-    <div className="min-h-screen bg-editorial-bg pt-32 pb-24 font-sans px-[var(--shell-padding-mobile)] md:px-[var(--shell-padding)] lg:px-[var(--shell-padding-lg)] relative">
+    <div className="min-h-svh bg-editorial-bg pt-32 pb-24 font-sans px-[var(--shell-padding-mobile)] md:px-[var(--shell-padding)] lg:px-[var(--shell-padding-lg)] relative">
        {/* Background */}
        <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-red-900/10 blur-[200px] rounded-full pointer-events-none" />
 
