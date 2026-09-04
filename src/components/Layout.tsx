@@ -102,6 +102,38 @@ export default function Layout() {
             className="flex-1 w-full relative"
             role="main"
           >
+              {/* ⚠️ THE BREADCRUMB LIVED INSIDE THE ANIMATED WRAPPER BELOW, AND
+                  FROZE THERE. AnimatePresence keeps the outgoing child mounted
+                  while it animates away, and that copy was the one left on
+                  screen — so the trail read "SYSTEM / NUTRIENTS" on the shop,
+                  the combat page, the privacy policy and everywhere else,
+                  while the page content beside it was correct. (The <Outlet />
+                  kept updating because it reads the router directly, which is
+                  what made the fault look impossible.)
+
+                  The breadcrumb is chrome, not page content, so it does not
+                  belong in the page transition at all. Out here it re-renders
+                  with every navigation. Same family as the stranded image
+                  viewer: anything that must stay current cannot live inside an
+                  exiting subtree. */}
+              <div className="section-container py-12">
+                <nav className="text-[10px] uppercase tracking-[0.4em] text-editorial-text-meta/40 mb-20 font-mono flex items-center gap-6 group/breadcrumb" aria-label="Breadcrumb">
+                   <span className="text-red-500 font-bold group-hover/breadcrumb:scale-110 transition-transform duration-500" aria-hidden="true">RAW://</span>
+                   <span className="sr-only">You are here:</span>
+                   <div className="flex items-center gap-4">
+                      {['SYSTEM', ...location.pathname.split('/').filter(x => x)].map((part, i, arr) => (
+                        <React.Fragment key={i}>
+                          <span className={i === arr.length - 1 ? 'text-editorial-text' : ''}>
+                            {part.toUpperCase().replace(/-/g, '_')}
+                          </span>
+                          {i < arr.length - 1 && <span className="opacity-20">/</span>}
+                        </React.Fragment>
+                      ))}
+                   </div>
+                   <div className="flex-1 h-[1px] bg-white/[0.03]" aria-hidden="true" />
+                </nav>
+              </div>
+
               <AnimatePresence mode="wait">
                 <motion.div 
                   key={location.pathname}
@@ -110,23 +142,6 @@ export default function Layout() {
                   exit={{ opacity: 0, y: -15, filter: "blur(10px)" }}
                   transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                 >
-                  <div className="section-container py-12">
-                    <nav className="text-[10px] uppercase tracking-[0.4em] text-editorial-text-meta/40 mb-20 font-mono flex items-center gap-6 group/breadcrumb" aria-label="Breadcrumb">
-                       <span className="text-red-500 font-bold group-hover/breadcrumb:scale-110 transition-transform duration-500" aria-hidden="true">RAW://</span>
-                       <span className="sr-only">You are here:</span>
-                       <div className="flex items-center gap-4">
-                          {['SYSTEM', ...location.pathname.split('/').filter(x => x)].map((part, i, arr) => (
-                            <React.Fragment key={i}>
-                              <span className={i === arr.length - 1 ? 'text-editorial-text' : ''}>
-                                {part.toUpperCase().replace(/-/g, '_')}
-                              </span>
-                              {i < arr.length - 1 && <span className="opacity-20">/</span>}
-                            </React.Fragment>
-                          ))}
-                       </div>
-                       <div className="flex-1 h-[1px] bg-white/[0.03]" aria-hidden="true" />
-                    </nav>
-                  </div>
                   <Outlet />
                 </motion.div>
               </AnimatePresence>
