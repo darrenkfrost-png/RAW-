@@ -7,17 +7,10 @@ import { allProducts } from "../data/products";
 import { ChevronRight, Wind, Snowflake, RefreshCcw } from "lucide-react";
 import LazyImage from "../components/LazyImage";
 import ProductCard from "../components/common/ProductCard";
-import { useAIContext } from "../context/AIContext";
 import BreathingSimulator from "../components/BreathingSimulator";
 
 export default function Recovery() {
-  const { updateAIContext, clearAIContext } = useAIContext();
   const products = allProducts.filter(p => p.category === "Recovery");
-
-  useEffect(() => {
-    updateAIContext({ sourcePage: 'Recovery' });
-    return () => clearAIContext();
-  }, []);
   
   const gallery = [
     "https://rawofficial.co/wp-content/uploads/2026/02/Ice-baths-arent-about-staying-in-as-long-as-possible.Theyre-about-staying-in-long-enough-to-be-1.jpg",

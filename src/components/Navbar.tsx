@@ -23,13 +23,11 @@ import { useState, useEffect, useMemo, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import { useUI } from "../context/UIContext";
-import { useVoiceControl } from "../hooks/useVoiceControl";
 import { Tooltip } from "./common/Tooltip";
 import { motion, AnimatePresence, useScroll, useSpring, useMotionValue, useTransform, useMotionValueEvent } from "motion/react";
 import MagneticWrapper from "./MagneticWrapper";
 import LazyImage from "./LazyImage";
 import { allProducts } from "../data/products";
-import VoiceSettingsDropdown from "./VoiceSettingsDropdown";
 
 const fuse = new Fuse(allProducts, {
   keys: ['name', 'category'],
@@ -41,8 +39,6 @@ export default function Navbar() {
   const { 
     diagnosticsActive, 
     setIsShopIframeOpen, 
-    isAIChatOpen, 
-    setIsAIChatOpen, 
     isWallpaperSettingsOpen, 
     setIsWallpaperSettingsOpen, 
     isGlobalSettingsOpen,
@@ -50,9 +46,6 @@ export default function Navbar() {
     setIsSystemHealthOpen,
     isSystemHealthOpen,
     setIsWallpaperMode, 
-    isListening, 
-    isVoiceCommandActive, 
-    setIsVoiceCommandActive,
     isSearchOpen,
     setIsSearchOpen,
     chromeHidden,
@@ -60,7 +53,6 @@ export default function Navbar() {
     enterFocusMode,
     restoreChrome
   } = useUI();
-  const { startListening, stopListening, isSupported, voiceState, audioLevel, error, resetError } = useVoiceControl();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeMobileSubmenu, setActiveMobileSubmenu] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
@@ -379,111 +371,8 @@ export default function Navbar() {
                 </MagneticWrapper>
               </Tooltip>
 
-              <Tooltip content="NEURAL_CORE [⌘⇧K]">
-                <MagneticWrapper className="hidden sm:block">
-                   <button 
-                     onClick={() => setIsAIChatOpen(!isAIChatOpen)}
-                     className={`p-3 transition-all duration-500 rounded-full focus:outline-none backdrop-blur-sm border ${isAIChatOpen ? 'bg-red-600/20 border-red-500/50 text-red-500 shadow-[0_0_15px_rgba(220,38,38,0.3)]' : 'bg-white/5 border-white/10 text-zinc-300 hover:text-white hover:bg-white/10'}`}
-                     aria-label="Open AI Neural Core"
-                   >
-                     <Bot className="w-5 h-5" />
-                   </button>
-                </MagneticWrapper>
-              </Tooltip>
               
-              <AnimatePresence>
-                {error && (
-                  <motion.div 
-                      initial={{ opacity: 0, x: 20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      exit={{ opacity: 0, x: 20 }}
-                      className="hidden lg:flex items-center gap-2 text-[10px] text-amber-500 bg-amber-950/30 px-4 py-2 rounded-xl border border-amber-500/30 mr-4 shadow-lg backdrop-blur-md"
-                  >
-                      <AlertCircle className="w-3 h-3 animate-pulse" />
-                      <span className="font-mono uppercase tracking-wider">ERROR: {typeof error === 'string' ? error.substring(0, 30) : 'Voice Init Failed'}</span>
-                      <button onClick={() => startListening('command')} className="font-bold underline uppercase hover:text-amber-200 ml-2">Retry</button>
-                      <button onClick={resetError} className="font-bold underline uppercase hover:text-amber-200 ml-2">Dismiss</button>
-                  </motion.div>
-                )}
-              </AnimatePresence>
               
-              {isSupported && (
-                <Tooltip content={
-                    isVoiceCommandActive ? "SYSTEM LISTENING (ON)" :
-                    voiceState === 'listening' ? "TRANSIENT LISTENING" :
-                    voiceState === 'processing' ? "PROCESSING..." :
-                    voiceState === 'speaking' ? "SPEAKING..." :
-                    voiceState === 'error' ? "ERROR" :
-                    "VOICE CONTROL"
-                }>
-                  <MagneticWrapper>
-                       <motion.button 
-                      onClick={() => {
-                          setIsVoiceCommandActive(!isVoiceCommandActive);
-                      }}
-                      animate={{ 
-                          rotate: voiceState === 'processing' ? 360 : 0,
-                          scale: 1 + (voiceState === 'listening' ? Math.min(audioLevel || 0, 0.5) * 0.3 : voiceState === 'speaking' ? 0.05 : 0),
-                          boxShadow: voiceState === 'listening' ? ["0 0 15px 1px rgba(220,38,38,0.4)", "0 0 30px 3px rgba(220,38,38,0.6)", "0 0 15px 1px rgba(220,38,38,0.4)"] : 
-                                     voiceState === 'processing' ? ["0 0 15px 1px rgba(37,99,235,0.4)", "0 0 25px 3px rgba(37,99,235,0.7)", "0 0 15px 1px rgba(37,99,235,0.4)"] : 
-                                     voiceState === 'speaking' ? ['0 0 20px 2px rgba(16,185,129,0.5)', '0 0 35px 5px rgba(16,185,129,0.7)', '0 0 20px 2px rgba(16,185,129,0.5)'] :
-                                     voiceState === 'error' ? ["0 0 15px 1px rgba(217,119,6,0.4)", "0 0 25px 3px rgba(217,119,6,0.7)", "0 0 15px 1px rgba(217,119,6,0.4)"] :
-                                     '0 0 0px 0px rgba(0,0,0,0)',
-                          borderColor: voiceState === 'listening' ? 'rgba(220,38,38,0.8)' : 
-                                       voiceState === 'processing' ? 'rgba(37,99,235,0.8)' : 
-                                       voiceState === 'speaking' ? 'rgba(16,185,129,0.8)' :
-                                       voiceState === 'error' ? 'rgba(217,119,6,0.8)' :
-                                       'rgba(255,255,255,0.1)',
-                      }}
-                      transition={{ 
-                          type: "spring", stiffness: 300, damping: 20,
-                          boxShadow: { duration: 1.2, repeat: Infinity, ease: "easeInOut" }
-                      }}
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      className={`p-2.5 sm:p-3.5 transition-colors duration-300 rounded-full focus:outline-none focus:ring-2 focus:ring-white border ${
-                          voiceState === 'listening' ? 'bg-red-950/40 text-red-100 border-red-500/50' : 
-                          voiceState === 'processing' ? 'bg-blue-950/40 text-blue-100 border-blue-500/50' :
-                          voiceState === 'speaking' ? 'bg-emerald-950/40 text-emerald-100 border-emerald-500/50' :
-                          voiceState === 'error' ? 'bg-amber-950/40 text-amber-100 border-amber-500/50' :
-                          'text-editorial-text-muted hover:text-editorial-text hover:bg-editorial-text/5'}`}
-                      aria-label="Voice Control"
-                    >
-                      {voiceState === 'listening' ? (
-                           <div className="relative flex items-center justify-center">
-                               <Mic className="w-5 h-5 scale-90 sm:scale-100" />
-                               <motion.div
-                                   className="absolute -inset-2 rounded-full border border-red-500/30"
-                                   animate={{
-                                       scale: 1 + (audioLevel || 0) * 1.5,
-                                       opacity: 0.8 - (audioLevel || 0) * 0.8,
-                                   }}
-                                   transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                               />
-                           </div>
-                      ) : voiceState === 'processing' ? (
-                           <motion.div animate={{ rotate: 360 }} transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}>
-                               <RefreshCw className="w-4 h-4 sm:w-5 sm:h-5" />
-                           </motion.div>
-                      ) : voiceState === 'speaking' ? (
-                           <motion.div animate={{ scale: [1, 1.2, 1] }} transition={{ duration: 1, repeat: Infinity, ease: "easeInOut" }}>
-                               <Bot className="w-4 h-4 sm:w-5 sm:h-5" />
-                           </motion.div>
-                      ) : voiceState === 'error' ? (
-                           <motion.div animate={{ rotate: [0, -10, 10, -10, 0] }} transition={{ duration: 0.5 }}>
-                             <AlertCircle className="w-4 h-4 sm:w-5 sm:h-5 text-amber-500" />
-                           </motion.div>
-                      ) : (
-                          <Mic className="w-4 h-4 sm:w-5 sm:h-5" />
-                      )}
-                    </motion.button>
-                  </MagneticWrapper>
-                </Tooltip>
-              )}
-              
-              <MagneticWrapper className="hidden xl:block">
-                <VoiceSettingsDropdown />
-              </MagneticWrapper>
 
               <Tooltip content="SYSTEM_DIAGNOSTICS">
                 <MagneticWrapper className="hidden lg:block">
@@ -781,7 +670,6 @@ export default function Navbar() {
                 { 
                   label: 'INTELLIGENCE_SYSTEM', 
                   subItems: [
-                    { label: 'AI ADVISOR', action: () => { setIsMobileMenuOpen(false); setIsAIChatOpen(true); } },
                     { label: 'KNOWLEDGE CORE', to: '/knowledge-core' },
                     { label: 'COMPARE LAB', to: '/compare' },
                     { label: 'SYSTEM ANALYTICS', to: '/analytics' },

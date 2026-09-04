@@ -50,12 +50,10 @@ export const ToastProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     setToasts([]);
   };
 
-  const { isAIChatOpen } = useUI();
-
   return (
     <ToastContext.Provider value={{ addToast, removeToast, clearAll }}>
       {children}
-      <div className={`fixed top-32 transition-all duration-700 z-[var(--z-toast)] flex flex-col gap-5 items-end pointer-events-none w-full max-w-sm ${isAIChatOpen ? 'right-[680px]' : 'right-10'}`}>
+      <div className={`fixed top-32 transition-all duration-700 z-[var(--z-toast)] flex flex-col gap-5 items-end pointer-events-none w-full max-w-sm right-10`}>
         <AnimatePresence mode="popLayout" initial={false}>
           {toasts.length >= 1 && (
             <motion.div

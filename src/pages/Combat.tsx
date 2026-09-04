@@ -8,16 +8,8 @@ import { ChevronRight, Calendar, MapPin, Award, Crosshair, ArrowRight } from "lu
 import LazyImage from "../components/LazyImage";
 import CombatTargetZone from "../components/CombatTargetZone";
 import ProductCard from "../components/common/ProductCard";
-import { useAIContext } from "../context/AIContext";
 
-export default function Combat() {
-  const { updateAIContext, clearAIContext } = useAIContext();
-  const products = allProducts.filter(p => p.category === "Combat" || p.category === "Apparel");
-
-  useEffect(() => {
-    updateAIContext({ sourcePage: 'Combat' });
-    return () => clearAIContext();
-  }, []);
+export default function Combat() {  const products = allProducts.filter(p => p.category === "Combat" || p.category === "Apparel");
 
   return (
     <div className="bg-editorial-bg min-h-svh text-editorial-text">

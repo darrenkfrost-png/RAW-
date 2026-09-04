@@ -34,16 +34,8 @@ interface UIContextType {
   setDiagnosticsActive: (active: boolean) => void;
   isWallpaperMode: boolean;
   setIsWallpaperMode: (active: boolean) => void;
-  isAIChatOpen: boolean;
-  setIsAIChatOpen: (open: boolean) => void;
-  isOracleChatOpen: boolean;
-  setIsOracleChatOpen: (open: boolean) => void;
   isShopIframeOpen: boolean;
   setIsShopIframeOpen: (open: boolean) => void;
-  isListening: boolean;
-  setIsListening: (listening: boolean) => void;
-  isVoiceCommandActive: boolean;
-  setIsVoiceCommandActive: (active: boolean) => void;
   is110Percent: boolean;
   setIs110Percent: (overdrive: boolean) => void;
   isWallpaperSettingsOpen: boolean;
@@ -161,11 +153,7 @@ export function UIProvider({ children }: { children: React.ReactNode }) {
   });
   
   const [isWallpaperMode, setIsWallpaperMode] = useState(false);
-  const [isAIChatOpen, setIsAIChatOpen] = useState(false);
-  const [isOracleChatOpen, setIsOracleChatOpen] = useState(false);
   const [isShopIframeOpen, setIsShopIframeOpen] = useState(false);
-  const [isListening, setIsListening] = useState(false);
-  const [isVoiceCommandActive, setIsVoiceCommandActive] = useState(false);
   const [is110Percent, setIs110Percent] = useState(false);
   const [isWallpaperSettingsOpen, setIsWallpaperSettingsOpen] = useState(false);
   const [isGlobalSettingsOpen, setIsGlobalSettingsOpen] = useState(false);
@@ -248,16 +236,8 @@ export function UIProvider({ children }: { children: React.ReactNode }) {
     setDiagnosticsActive: updateDiagnosticsActive,
     isWallpaperMode,
     setIsWallpaperMode,
-    isAIChatOpen,
-    setIsAIChatOpen,
-    isOracleChatOpen,
-    setIsOracleChatOpen,
     isShopIframeOpen,
     setIsShopIframeOpen,
-    isListening,
-    setIsListening,
-    isVoiceCommandActive,
-    setIsVoiceCommandActive,
     is110Percent,
     setIs110Percent,
     isWallpaperSettingsOpen,
@@ -287,7 +267,7 @@ export function UIProvider({ children }: { children: React.ReactNode }) {
     setInitialAction,
     activeReaderItem,
     setActiveReaderItem,
-  }), [chromeHidden, toggleChrome, persistChrome, enterFocusMode, restoreChrome, uiScale, isStatusBarVisible, hasCompletedIntro, visualFidelity, diagnosticsActive, isWallpaperMode, isAIChatOpen, isOracleChatOpen, isShopIframeOpen, isListening, isVoiceCommandActive, is110Percent, isWallpaperSettingsOpen, isGlobalSettingsOpen, isSystemHealthOpen, isSidebarCollapsed, isTerminalOpen, isSearchOpen, isCommandPaletteOpen, focusedProduct, initialAction, activeReaderItem, isDiscoveryOpen, updateScale, updateStatusBarVisible, setIntroCompletedWrapper, updateVisualFidelity, updateDiagnosticsActive, updateSidebarCollapsed]);
+  }), [chromeHidden, toggleChrome, persistChrome, enterFocusMode, restoreChrome, uiScale, isStatusBarVisible, hasCompletedIntro, visualFidelity, diagnosticsActive, isWallpaperMode, isShopIframeOpen, is110Percent, isWallpaperSettingsOpen, isGlobalSettingsOpen, isSystemHealthOpen, isSidebarCollapsed, isTerminalOpen, isSearchOpen, isCommandPaletteOpen, focusedProduct, initialAction, activeReaderItem, isDiscoveryOpen, updateScale, updateStatusBarVisible, setIntroCompletedWrapper, updateVisualFidelity, updateDiagnosticsActive, updateSidebarCollapsed]);
 
   return (
     <UIContext.Provider value={value}>

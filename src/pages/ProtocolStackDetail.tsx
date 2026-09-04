@@ -7,7 +7,6 @@ import { useProtocol } from '../context/ProtocolContext';
 import { useCart } from '../context/CartContext';
 import { useToast } from '../components/common/Toast';
 import { useUI } from '../context/UIContext';
-import { useAIContext } from '../context/AIContext';
 import Breadcrumb from '../components/Breadcrumb';
 
 const stacks = [
@@ -75,23 +74,10 @@ export default function ProtocolStackDetail() {
   const { addToProtocol } = useProtocol();
   const { addToCart } = useCart();
   const { addToast } = useToast();
-  const navigate = useNavigate();
-  const { updateAIContext, clearAIContext } = useAIContext();
-
+  const navigate = useNavigate();
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [id]);
-
-  useEffect(() => {
-    if (stack) {
-      updateAIContext({
-        sourcePage: 'ProtocolStackDetail',
-        currentStackId: stack.id,
-        currentStackName: stack.title,
-      });
-    }
-    return () => clearAIContext();
-  }, [stack]);
 
   if (!stack) return <div className="text-editorial-text text-center pt-40 min-h-svh">PROTOCOL_NOT_FOUND</div>;
 

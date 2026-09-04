@@ -9,7 +9,7 @@ import { Bot, ArrowRight } from 'lucide-react';
 
 export default function ProductQuickView({ product, isOpen, onClose }: { product: any; isOpen: boolean; onClose: () => void }) {
   const { addToCart } = useCart();
-  const { setFocusedProduct, setIsAIChatOpen } = useUI();
+  useUI();
 
   if (!product) return null;
 
@@ -93,20 +93,6 @@ export default function ProductQuickView({ product, isOpen, onClose }: { product
                    {product.overview || product.description || "ADVANCED FORMULATION / OPTIMIZED FOR ELITE PERFORMANCE. INITIATE DEPLOYMENT TO YOUR SECTOR."}
                 </div>
                 
-                <button 
-                  onClick={() => {
-                    setFocusedProduct(product);
-                    setIsAIChatOpen(true);
-                    onClose();
-                  }}
-                  className="w-full flex items-center justify-between p-6 bg-editorial-surface/80 backdrop-blur-xl border border-red-600/20 rounded-[1.5rem] hover:border-red-600 hover:bg-editorial-bg transition-all duration-500 group relative mb-12 shadow-depth-2 hover:shadow-[0_15px_40px_rgba(220,38,38,0.2)]"
-                >
-                  <div className="flex items-center gap-4 relative z-10">
-                    <Bot className="w-6 h-6 text-red-500 group-hover:animate-pulse drop-shadow-[0_0_8px_currentColor]" />
-                    <span className="text-meta-premium opacity-100 !text-editorial-text">NEURAL_PRODUCT_SCAN</span>
-                  </div>
-                  <ArrowRight className="w-5 h-5 text-red-600 group-hover:translate-x-2 transition-transform duration-500" />
-                </button>
               </div>
 
               <div className="mt-auto space-y-4 relative z-10 w-full mb-8">

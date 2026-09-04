@@ -3,12 +3,10 @@ import { X, ExternalLink, RefreshCw, ChevronLeft, Shield, Globe, Terminal, Messa
 import { useUI } from "../context/UIContext";
 import { useState, useRef, useEffect } from "react";
 import MagneticWrapper from "./MagneticWrapper";
-import NeuralInterface from "./NeuralInterface";
 
 export default function ShopIframePanel() {
   const { isShopIframeOpen, setIsShopIframeOpen } = useUI();
   const [isLoading, setIsLoading] = useState(true);
-  const [showChat, setShowChat] = useState(true);
   const iframeRef = useRef<HTMLIFrameElement>(null);
 
   const handleRefresh = () => {
@@ -56,15 +54,6 @@ export default function ShopIframePanel() {
               </div>
 
               <div className="flex items-center gap-4">
-                <MagneticWrapper>
-                  <button 
-                    onClick={() => setShowChat(!showChat)}
-                    className={`p-3 rounded-xl transition-all border ${showChat ? 'bg-red-600 text-white border-red-500 shadow-[0_0_15px_rgba(220,38,38,0.5)]' : 'bg-editorial-surface/50 text-editorial-text-muted border-editorial-border hover:text-editorial-text'}`}
-                    title="Toggle Neural Overlay"
-                  >
-                    <MessageSquare size={18} />
-                  </button>
-                </MagneticWrapper>
                 <MagneticWrapper>
                   <button 
                     onClick={handleRefresh}
@@ -140,31 +129,6 @@ export default function ShopIframePanel() {
                 />
               </div>
 
-              {/* Integrated AI Chat Panel */}
-              <AnimatePresence>
-                {showChat && (
-                  <motion.div 
-                    initial={{ width: 0, opacity: 0 }}
-                    animate={{ width: "400px", opacity: 1 }}
-                    exit={{ width: 0, opacity: 0 }}
-                    className="bg-editorial-bg flex flex-col overflow-hidden relative shadow-[-20px_0_50px_rgba(0,0,0,0.08)]"
-                  >
-                    <div className="absolute inset-0 bg-[#dc2626]/5 pointer-events-none" />
-                    <div className="p-6 border-b border-editorial-border flex items-center justify-between bg-editorial-bg/40 backdrop-blur-xl">
-                      <div className="flex items-center gap-3">
-                        <div className="w-2 h-2 bg-red-600 rounded-full animate-ping" />
-                        <span className="font-mono text-[10px] text-editorial-text-muted uppercase tracking-widest font-black">NEURAL_OVERLAY_V2</span>
-                      </div>
-                      <button onClick={() => setShowChat(false)} className="text-zinc-600 hover:text-editorial-text transition-colors">
-                        <ChevronLeft size={16} />
-                      </button>
-                    </div>
-                    <div className="flex-1 overflow-hidden">
-                      <NeuralInterface inline={true} />
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
             </div>
 
             {/* Footer / Status */}

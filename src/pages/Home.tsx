@@ -4,7 +4,6 @@ import { Product } from "../types";
 import { allProducts } from "../data/products";
 import LazyImage from "../components/LazyImage";
 import { useUI } from "../context/UIContext";
-import { useAIContext } from "../context/AIContext";
 import SystemVisualizer from "../components/SystemVisualizer";
 import MagneticWrapper from "../components/MagneticWrapper";
 import { CascadingBackground } from "../components/home/CascadingBackground";
@@ -27,13 +26,7 @@ import {
 
 
 export default function Home() {
-  const { updateAIContext, clearAIContext } = useAIContext();
   const featuredProducts: Product[] = allProducts.slice(0, 6) as Product[];
-
-  useEffect(() => {
-    updateAIContext({ sourcePage: 'Home' });
-    return () => clearAIContext();
-  }, []);
 
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);

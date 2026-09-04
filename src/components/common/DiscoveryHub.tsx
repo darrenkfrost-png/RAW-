@@ -24,7 +24,6 @@ export default function DiscoveryHub({ isOpen, onClose }: DiscoveryHubProps) {
         { keys: ["⌘", "B"], label: "Toggle Navigation Sidebar" },
         { keys: ["⌘", "T"], label: "Toggle Main Terminal / System Logs" },
         { keys: ["⌘", "P"], label: "Toggle Neural Command Terminal" },
-        { keys: ["⌘", "Shift", "K"], label: "Trigger Gemini AI Neural Core" },
         { keys: ["/"], label: "Toggle Inventory Search Mode" },
         { keys: ["⌘", "J"], label: "Toggle System Discovery Hub" },
         { keys: ["Ctrl", "Shift", "H"], label: "Toggle System Health Diagnostics" },

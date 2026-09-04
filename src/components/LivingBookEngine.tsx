@@ -26,16 +26,11 @@ export default function LivingBookEngine() {
   const lastTouchTime = useRef<number>(0);
 
   const [isOcrEnabled, setIsOcrEnabled] = useState<boolean>(false);
-  const [isAiCompanionOpen, setIsAiCompanionOpen] = useState<boolean>(false);
   const [isKnowledgeGraphOpen, setIsKnowledgeGraphOpen] = useState<boolean>(false);
   const [isSearchOpen, setIsSearchOpen] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
   
-  // AI Companion States
-  const [aiChatLogs, setAiChatLogs] = useState<{ sender: 'user' | 'system'; text: string }[]>([]);
-  const [aiInputText, setAiInputText] = useState<string>("");
-  const [isAiLoading, setIsAiLoading] = useState<boolean>(false);
 
   // Annotations Store: saved by bookId and pageNumber
   const [annotations, setAnnotations] = useState<{ [key: string]: { id: string; text: string; date: string }[] }>({});
@@ -63,11 +58,7 @@ export default function LivingBookEngine() {
     setZoomScale(1);
     setPanOffset({ x: 0, y: 0 });
     setIsOcrEnabled(false);
-    setIsAiCompanionOpen(false);
     setIsKnowledgeGraphOpen(false);
-    setAiChatLogs([
-      { sender: 'system', text: `Welcome to the RAW Tactical AI Intelligence Companion. Select highlights or ask questions about: "${book.title}".` }
-    ]);
   };
 
   // Close reader
@@ -211,39 +202,6 @@ export default function LivingBookEngine() {
       navigator.clipboard.writeText(currentPageData.content);
       addToast("OCR Text successfully copied to clipboard system.", "success");
     }
-  };
-
-  // AI Assistant Chat Handler
-  const handleAskCompanion = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!aiInputText.trim() || !selectedBook) return;
-
-    if (isPageLocked) {
-      addToast("Access Restricted: This page belongs to the premium tier. Please subscribe to consult the AI Page Companion.", "error");
-      return;
-    }
-
-    const userPrompt = aiInputText;
-    setAiChatLogs(prev => [...prev, { sender: 'user', text: userPrompt }]);
-    setAiInputText("");
-    setIsAiLoading(true);
-
-    // Call server API or fallback to context-aware mock answer
-    setTimeout(() => {
-      let response = "";
-      const textToSearch = userPrompt.toLowerCase();
-
-      if (textToSearch.includes("summary") || textToSearch.includes("summarise") || textToSearch.includes("what is")) {
-        response = `REG_SUMMARY // PAGE_${currentPageIdx + 1}:\n This section discusses "${currentPageData?.title || 'active protocols'}". Key insights include: ${currentPageData?.content.substring(0, 150)}... Ensure this protocol is applied under precise telemetry monitor parameters.`;
-      } else if (textToSearch.includes("110%") || textToSearch.includes("overdrive")) {
-        response = `TECHNICAL ADVISOR: The 110% Overdrive requires systematic anaerobic training at high lactic volume. Hydrate with a 3:1 sodium to potassium ratio to prolong nervous endurance.`;
-      } else {
-        response = `COGNITIVE CO-INTELLIGENCE: Active analysis on chapter "${selectedBook.title}" confirms page parameters are nominal. To optimize results, ensure this protocol sits within a balanced chronobiological solar cycle and is reinforced with heavy rucking loads.`;
-      }
-
-      setAiChatLogs(prev => [...prev, { sender: 'system', text: response }]);
-      setIsAiLoading(false);
-    }, 700);
   };
 
   // Annotations Handlers
@@ -456,19 +414,6 @@ export default function LivingBookEngine() {
                 title="Select OCR Selectable Text Mode"
               >
                 <FileText className="w-4 h-4" /> OCR_MODE
-              </button>
-
-              {/* AI Companion Toggle */}
-              <button
-                onClick={() => setIsAiCompanionOpen(!isAiCompanionOpen)}
-                className={`p-2.5 rounded-xl border transition-all ${
-                  isAiCompanionOpen 
-                    ? "bg-red-650/20 text-red-500 border-red-500/50" 
-                    : "bg-zinc-900 text-zinc-400 border-editorial-border hover:text-white"
-                }`}
-                title="Toggle AI Companion Panel"
-              >
-                <Sparkles className="w-4 h-4" />
               </button>
 
               {/* Knowledge Graph Toggle */}
@@ -701,7 +646,6 @@ export default function LivingBookEngine() {
                             "Unlock Complete 30+ Performance Guidelines",
                             "Access Complete Character Mapping and Shot Forge integrations",
                             "Download clear offline structural PDF assets securely",
-                            "Query AI models directly about unrestricted premium pages"
                           ].map((benefit, i) => (
                             <div key={i} className="flex items-center gap-3 text-xs text-zinc-300">
                               <CheckCircle2 className="w-4 h-4 text-emerald-500 flex-shrink-0" /> {benefit}
@@ -824,9 +768,9 @@ export default function LivingBookEngine() {
               </footer>
             </div>
 
-            {/* Right Side Sliding Panel overlaying AI Companion, Knowledge Graph, or Sticky Notes */}
+            {/* Right Side Sliding Panel overlaying Knowledge Graph, or Sticky Notes */}
             <AnimatePresence>
-              {(isAiCompanionOpen || isKnowledgeGraphOpen || activeKnowledgeNodes.length > 0) && (
+              {(isKnowledgeGraphOpen || activeKnowledgeNodes.length > 0) && (
                 <motion.div
                   initial={{ width: 0, opacity: 0 }}
                   animate={{ width: 340, opacity: 1 }}
@@ -838,12 +782,11 @@ export default function LivingBookEngine() {
                     <div className="flex items-center gap-2">
                       <Sparkles className="w-4 h-4 text-red-500 animate-pulse" />
                       <span className="font-sans font-bold text-xs uppercase text-white tracking-widest">
-                        {isAiCompanionOpen ? "AI Companion" : "Page Connections"}
+                        Page Connections
                       </span>
                     </div>
                     <button
                       onClick={() => {
-                        setIsAiCompanionOpen(false);
                         setIsKnowledgeGraphOpen(false);
                       }}
                       className="p-1 hover:bg-white/5 rounded-lg text-zinc-400 hover:text-white"
@@ -855,47 +798,6 @@ export default function LivingBookEngine() {
                   {/* Content area */}
                   <div className="flex-1 overflow-y-auto custom-scrollbar p-6 space-y-6">
                     
-                    {isAiCompanionOpen && (
-                      /* AI Chat module */
-                      <div className="flex flex-col h-full justify-between gap-4 select-text">
-                        <div className="space-y-4 max-h-[350px] overflow-y-auto custom-scrollbar pr-1 select-text">
-                          {aiChatLogs.map((log, i) => (
-                            <div 
-                              key={i} 
-                              className={`p-3.5 rounded-xl border text-[11px] leading-relaxed transition-all relative ${
-                                log.sender === 'user' 
-                                  ? "bg-red-650/10 border-red-500/20 text-white ml-6" 
-                                  : "bg-[#0b0b10] border-editorial-border/60 text-zinc-300 mr-6"
-                              }`}
-                            >
-                              <span className="block font-mono text-[7px] text-zinc-550 uppercase tracking-widest mb-1">
-                                {log.sender === 'user' ? "OPERATIVE_QUERY" : "GEMINI_NEURAL_SYS"}
-                              </span>
-                              {log.text}
-                            </div>
-                          ))}
-                        </div>
-
-                        {/* Input Box */}
-                        <form onSubmit={handleAskCompanion} className="border-t border-editorial-border/40 pt-4 relative select-text">
-                          <input
-                            type="text"
-                            placeholder={isPageLocked ? "LOCKED CORE..." : "ASK COMPANION..."}
-                            disabled={isPageLocked}
-                            value={aiInputText}
-                            onChange={(e) => setAiInputText(e.target.value)}
-                            className="w-full bg-black border border-editorial-border rounded-xl px-4 py-2.5 font-mono text-[10px] text-white focus:border-red-500 focus:outline-none placeholder:text-zinc-700 uppercase"
-                          />
-                          <button
-                            type="submit"
-                            disabled={isPageLocked || isAiLoading}
-                            className="absolute right-2 top-[22px] p-1.5 text-red-500 hover:text-white disabled:opacity-20 select-none"
-                          >
-                            {isAiLoading ? <RefreshCw className="w-3.5 h-3.5 animate-spin" /> : <ChevronRight className="w-4 h-4" />}
-                          </button>
-                        </form>
-                      </div>
-                    )}
 
                     {isKnowledgeGraphOpen && !isPageLocked && (
                       /* Semantic knowledge graph connections panel */

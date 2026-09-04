@@ -23,7 +23,6 @@ import {
 import { useToast } from "./common/Toast";
 import { useUI } from "../context/UIContext";
 import ShortcutCheatsheet from "./ShortcutCheatsheet";
-import AICodebaseAudit from "./AICodebaseAudit";
 
 interface MemoryInfo {
   jsHeapSizeLimit?: number;
@@ -39,10 +38,6 @@ export default function SystemDiagnosticsPanel() {
   // States
   const [isOpen, setIsOpen] = useState(false);
   const [minimized, setMinimized] = useState(true);
-  const [apiStatus, setApiStatus] = useState<"connecting" | "healthy" | "unreachable">("connecting");
-  const [pingTime, setPingTime] = useState<number | null>(null);
-  const [apiVersion, setApiVersion] = useState<string>("");
-  const [apiPlatform, setApiPlatform] = useState<string>("");
   
   // Memory & Performance diagnostics state
   const [memoryStats, setMemoryStats] = useState<{
@@ -144,31 +139,6 @@ export default function SystemDiagnosticsPanel() {
     return () => clearInterval(timer);
   }, []);
 
-  // Check Gemini AI API / health endpoint latency
-  const checkApiUplink = async () => {
-    const start = performance.now();
-    try {
-      const res = await fetch("/api/health");
-      if (res.ok) {
-        const body = await res.json();
-        setPingTime(Math.round(performance.now() - start));
-        setApiStatus("healthy");
-        setApiVersion(body.version || "4.0.0");
-        setApiPlatform(body.platform || "RAW_INTEGRATED_SYSTEM");
-      } else {
-        setApiStatus("unreachable");
-      }
-    } catch (err) {
-      setApiStatus("unreachable");
-    }
-  };
-
-  useEffect(() => {
-    checkApiUplink();
-    const interval = setInterval(checkApiUplink, 7000);
-    return () => clearInterval(interval);
-  }, []);
-
   // Wipes standard storage & items and alerts user via state notification
   const handleWipeStorage = () => {
     if (confirm("Confirm system cache flush? This resets your workspace layout, diagnostic logs, and persistent settings.")) {
@@ -262,7 +232,7 @@ export default function SystemDiagnosticsPanel() {
               </div>
               <div className="flex items-center gap-1.5">
                 <button
-                  onClick={checkApiUplink}
+                  onClick={runLocalDiagnostics}
                   title="Force telemetry refresh"
                   className="p-1 hover:bg-zinc-900 rounded text-zinc-500 hover:text-white transition-colors"
                 >
@@ -292,44 +262,6 @@ export default function SystemDiagnosticsPanel() {
                   <span className="text-[9px] bg-red-500/10 text-red-500 px-2 py-0.5 rounded font-black border border-red-500/20 shrink-0">
                     SPA
                   </span>
-                </div>
-              </div>
-
-              {/* Gemini AI Core Uplink status */}
-              <div className="space-y-1.5">
-                <span className="text-[9px] text-zinc-600 uppercase font-black tracking-widest flex items-center gap-1.5">
-                  <Sparkles className="w-3 h-3 text-red-500" /> GEMINI_AI_API_UPLINK
-                </span>
-                <div className="bg-zinc-900/40 border border-zinc-900 p-3 rounded-xl space-y-2">
-                  <div className="flex items-center justify-between">
-                    <span className="text-zinc-500 uppercase font-bold text-[9px] tracking-wider">Gateway status</span>
-                    <div className="flex items-center gap-1.5">
-                      <div className={`w-1.5 h-1.5 rounded-full ${
-                        apiStatus === "healthy" ? "bg-emerald-500" :
-                        apiStatus === "connecting" ? "bg-yellow-500 animate-ping" : "bg-red-500"
-                      }`} />
-                      <span className={`font-black text-[9px] uppercase ${
-                        apiStatus === "healthy" ? "text-emerald-500" :
-                        apiStatus === "connecting" ? "text-yellow-500" : "text-red-500"
-                      }`}>
-                        {apiStatus.toUpperCase()}
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center justify-between text-[10px]">
-                    <span className="text-zinc-500 uppercase font-bold text-[9px] tracking-wider">Ping latency</span>
-                    <span className="text-white font-black">
-                      {pingTime !== null ? `${pingTime}ms` : "REFUSAL"}
-                    </span>
-                  </div>
-
-                  {apiPlatform && (
-                    <div className="flex items-center justify-between text-[10px] border-t border-zinc-900 pt-1.5">
-                      <span className="text-zinc-650 uppercase font-bold text-[8px] tracking-wider">Kernel Platform</span>
-                      <span className="text-zinc-400 font-bold max-w-[130px] truncate">{apiPlatform}</span>
-                    </div>
-                  )}
                 </div>
               </div>
 
@@ -386,8 +318,6 @@ export default function SystemDiagnosticsPanel() {
                 </div>
               </div>
 
-              {/* AI Codebase Review Panel */}
-              <AICodebaseAudit />
             </div>
 
             {/* Quick Developer Action Commands */}

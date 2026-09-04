@@ -2,7 +2,6 @@ import { createContext, useContext, useEffect, useState, ReactNode } from "react
 import { useLocation } from "react-router-dom";
 import { useUI } from "./UIContext";
 import { useSettings } from "./SettingsContext";
-import { useVoiceControl } from "./VoiceContext";
 
 export interface AppState {
   currentRoute: string;
@@ -30,11 +29,9 @@ export function AppContextProvider({ children }: { children: ReactNode }) {
     recentErrors: [],
   });
 
-  const { isAIChatOpen, isTerminalOpen, isSearchOpen, isCommandPaletteOpen, isGlobalSettingsOpen } = useUI();
+  const { isTerminalOpen, isSearchOpen, isCommandPaletteOpen, isGlobalSettingsOpen } = useUI();
 
-  const { settings } = useSettings();
-  const voice = useVoiceControl();
-
+  const { settings } = useSettings();
   useEffect(() => {
     setState(prev => ({ ...prev, currentRoute: location.pathname }));
   }, [location.pathname]);
@@ -60,9 +57,8 @@ export function AppContextProvider({ children }: { children: ReactNode }) {
     return JSON.stringify({
       route: state.currentRoute,
       focusedItem: state.focusedItem,
-      uiState: { isAIChatOpen, isTerminalOpen, isSearchOpen, isCommandPaletteOpen, isGlobalSettingsOpen },
+      uiState: { isTerminalOpen, isSearchOpen, isCommandPaletteOpen, isGlobalSettingsOpen },
       settings,
-      voiceState: voice.voiceState,
       recentActions: state.recentActions,
       recentErrors: state.recentErrors
     }, null, 2);

@@ -4,7 +4,6 @@ import { ChevronRight, ArrowRight, ShieldCheck, Target, Zap, Waves, Activity, Re
 import { Link, useNavigate } from 'react-router-dom';
 import { allProducts } from '../data/products';
 import { useProtocol } from '../context/ProtocolContext';
-import { useAIContext } from '../context/AIContext';
 import { useToast } from '../components/common/Toast';
 
 const steps = [
@@ -105,20 +104,7 @@ export default function ProtocolBuilder() {
   const [resultStack, setResultStack] = useState<any[] | null>(null);
   
   const { addToProtocol } = useProtocol();
-  const navigate = useNavigate();
-  const { updateAIContext, clearAIContext } = useAIContext();
-  const { addToast } = useToast();
-
-  useEffect(() => {
-    updateAIContext({
-      sourcePage: 'ProtocolBuilder',
-      activeFilters: answers
-    });
-  }, [answers]);
-
-  useEffect(() => {
-    return () => clearAIContext();
-  }, []);
+  const navigate = useNavigate();  const { addToast } = useToast();
 
   const handleSelect = (stepId: string, optionId: string) => {
     const newAnswers = { ...answers, [stepId]: optionId };

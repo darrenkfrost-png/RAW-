@@ -56,8 +56,7 @@ export interface ProductCardProps {
 }
 
 function ProductCardComponent({ product, idx, onQuickView }: ProductCardProps) {
-  const { setFocusedProduct, setIsAIChatOpen, setInitialAction } = useUI();
-  const { addToProtocol } = useProtocol();
+    const { addToProtocol } = useProtocol();
   const { addToCart, setIsCartOpen } = useCart();
   const { toggleProduct, selectedItems } = useCompare();
   const cardRef = useRef<HTMLDivElement>(null);
@@ -87,14 +86,6 @@ function ProductCardComponent({ product, idx, onQuickView }: ProductCardProps) {
   };
 
   const handleMouseLeave = () => { x.set(0); y.set(0); };
-
-  const handleNeuralScan = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setFocusedProduct(product);
-    setInitialAction("SCAN");
-    setIsAIChatOpen(true);
-  };
 
   return (
     <motion.div
@@ -170,15 +161,6 @@ function ProductCardComponent({ product, idx, onQuickView }: ProductCardProps) {
             </button>
           </Tooltip>
 
-          <Tooltip content="Ask the advisor">
-            <button
-              onClick={handleNeuralScan}
-              className="flex h-11 w-11 items-center justify-center rounded-full border border-white/15 bg-black/70 text-white backdrop-blur-md transition-colors hover:border-red-500/60"
-              aria-label={`Ask the advisor about ${product.name}`}
-            >
-              <Search className="h-4 w-4" />
-            </button>
-          </Tooltip>
         </div>
       </Link>
 

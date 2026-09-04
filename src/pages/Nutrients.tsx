@@ -7,17 +7,10 @@ import { ChevronRight, Zap, Target, BarChart3, Database } from "lucide-react";
 import LazyImage from "../components/LazyImage";
 import TechnicalNutrientScanner from "../components/TechnicalNutrientScanner";
 import ProductCard from "../components/common/ProductCard";
-import { useAIContext } from "../context/AIContext";
 import BiometricLoadCalculator from "../components/BiometricLoadCalculator";
 
 export default function Nutrients() {
-  const { updateAIContext, clearAIContext } = useAIContext();
   const allNutrients = allProducts.filter(p => p.category === "Nutrients");
-
-  useEffect(() => {
-    updateAIContext({ sourcePage: 'Nutrients' });
-    return () => clearAIContext();
-  }, []);
   
   // Extract subcategories based on name keywords
   const subcategories = ["All", "Gummies", "Powders", "Capsules/Tablets"];

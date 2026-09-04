@@ -68,8 +68,6 @@ export default function TechnicalStatusBar() {
     uiScale, 
     setUIScale, 
     setIsWallpaperMode, 
-    isAIChatOpen,
-    setIsAIChatOpen,
     isTerminalOpen,
     setIsTerminalOpen,
     visualFidelity,
@@ -151,16 +149,6 @@ export default function TechnicalStatusBar() {
         </div>
 
         <div className="flex items-center h-full border-l border-white/5 pl-6 gap-2">
-          <Tooltip content="NEURAL_UPLINK [⌘⇧K]">
-            <button 
-              onClick={() => setIsAIChatOpen(!isAIChatOpen)}
-              className={`flex min-h-11 items-center justify-center gap-3 p-2 rounded-lg transition-all duration-300 group ${isAIChatOpen ? 'bg-red-600/20 text-red-500 shadow-[0_0_15px_rgba(220,38,38,0.2)]' : 'text-meta-premium opacity-40 hover:opacity-100 hover:bg-white/5'}`}
-            >
-              <MessageSquare className="w-4 h-4 group-hover:scale-110 transition-transform" />
-              <span className="hidden md:inline text-[10px] uppercase font-black">AI_CORE</span>
-            </button>
-          </Tooltip>
-
           <Tooltip content="SYSTEM_TERMINAL [⌘T]">
             <button 
               onClick={() => setIsTerminalOpen(!isTerminalOpen)}

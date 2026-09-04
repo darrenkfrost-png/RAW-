@@ -7,7 +7,6 @@ export function useKeyboardShortcuts() {
     setIsTerminalOpen, isTerminalOpen,
     setIsSearchOpen, isSearchOpen,
     setIsCommandPaletteOpen, isCommandPaletteOpen,
-    setIsAIChatOpen, isAIChatOpen,
     setIsDiscoveryOpen, isDiscoveryOpen,
     isGlobalSettingsOpen, setIsGlobalSettingsOpen
   } = useUI();
@@ -41,12 +40,6 @@ export function useKeyboardShortcuts() {
         setIsTerminalOpen(!isTerminalOpen);
       }
 
-      // Toggle AI Advisor (Neural Core): Meta+Shift+K
-      if ((e.metaKey || e.ctrlKey) && e.shiftKey && e.key.toLowerCase() === 'k') {
-        e.preventDefault();
-        setIsAIChatOpen(!isAIChatOpen);
-      }
-
       // Toggle Command Palette: Meta+P
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'p') {
         e.preventDefault();
@@ -66,7 +59,6 @@ export function useKeyboardShortcuts() {
     isTerminalOpen, setIsTerminalOpen, 
     isSearchOpen, setIsSearchOpen, 
     isCommandPaletteOpen, setIsCommandPaletteOpen, 
-    isAIChatOpen, setIsAIChatOpen,
     isDiscoveryOpen, setIsDiscoveryOpen,
     isGlobalSettingsOpen, setIsGlobalSettingsOpen
   ]);

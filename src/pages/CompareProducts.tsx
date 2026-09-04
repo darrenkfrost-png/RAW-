@@ -2,56 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { X, CheckCircle2, ChevronDown, Repeat, Layers, Bot, Activity, AlertTriangle, Users, Clock, Zap, Target, Loader2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { useAIContext } from '../context/AIContext';
 import { useCompare } from '../context/CompareContext';
 import { allProducts } from '../data/products';
-import { geminiService } from '../services/geminiService';
 import SynergyMatrix from '../components/SynergyMatrix';
 
 export default function CompareProducts() {
   const { selectedItems, toggleProduct, removeProduct } = useCompare();
   const [isSelectorOpen, setIsSelectorOpen] = useState(false);
-  const [isVerdictGenerating, setIsVerdictGenerating] = useState(false);
-  const [aiVerdict, setAiVerdict] = useState('');
-  
-  const { updateAIContext, clearAIContext } = useAIContext();
 
-  useEffect(() => {
-    updateAIContext({ sourcePage: 'CompareProducts', comparedProducts: selectedItems });
-  }, [selectedItems, updateAIContext]);
-
-  useEffect(() => {
-    return () => clearAIContext();
-  }, [clearAIContext]);
-
-  const generateVerdict = async () => {
-    if (selectedItems.length < 2) return;
-    setIsVerdictGenerating(true);
-    setAiVerdict('');
-    
-    try {
-      const prompt = `Compare these RAW products: ${selectedItems.map(p => `
-        Product: ${p.name} 
-        Category: ${p.category}
-        Use Case: ${p.whatItDoes}
-        Stack Role: ${p.stackRole}
-        Caution: ${p.cautionLevel}
-        Tone: Analyst report`).join('\n')}.
-        Provide an AI Verdict on which product is best for specific goals, how to combine them for maximum synergy, and what a responsible performance user needs to watch out for.`;
-
-      const response = await geminiService.analyze(
-        prompt,
-        "You are the RAW_NEURAL_CORE, an elite product optimization analyst. Provide a serious, data-driven, industrial-style comparative verdict on these RAW Official products. For each product, evaluate its utility in a performance stack, potential synergies, and critical tactical warnings. Act as an expert consultant."
-      );
-
-      setAiVerdict(response.text || "VERDICT_GENERATION_FAILED. UPLINK_OFFLINE.");
-    } catch (e) {
-      console.error(e);
-      setAiVerdict("VERDICT_GENERATION_FAILED. UPLINK_OFFLINE.");
-    } finally {
-      setIsVerdictGenerating(false);
-    }
-  };
 
   return (
     <div className="min-h-svh bg-editorial-bg pt-32 pb-24 font-sans px-[var(--shell-padding-mobile)] md:px-[var(--shell-padding)] lg:px-[var(--shell-padding-lg)] relative overflow-hidden selection:bg-red-600/30 selection:text-white">
@@ -246,63 +204,6 @@ export default function CompareProducts() {
           </div>
         )}
 
-        {/* AI Verdict Section - Tactical High-Contrast Report */}
-        <AnimatePresence>
-           {selectedItems.length > 1 && (
-              <motion.div 
-                 initial={{ opacity: 0, y: 50 }}
-                 animate={{ opacity: 1, y: 0 }}
-                 className="mt-40 bg-editorial-bg/60 backdrop-blur-3xl border border-editorial-border-light rounded-[3.5rem] p-12 md:p-24 overflow-hidden relative shadow-premium max-w-[1200px] mx-auto group/verdict"
-              >
-                 <div className="absolute inset-0 bg-gradient-to-br from-red-600/[0.03] to-transparent pointer-events-none" />
-                 <div className="absolute top-0 left-0 w-full h-[2px] bg-red-600 shadow-[0_0_30px_#dc2626]" />
-                 
-                 <div className="relative z-10 flex flex-col items-center gap-16">
-                    <div className="flex flex-col items-center gap-8">
-                        <div className="w-24 h-24 bg-editorial-bg border border-red-600/20 rounded-[2.5rem] flex items-center justify-center shadow-depth-3 group-hover/verdict:border-red-600/50 transition-all duration-1000 group-hover/verdict:shadow-[0_0_30px_rgba(220,38,38,0.2)]">
-                           <Bot className="w-12 h-12 text-red-600 animate-pulse" />
-                        </div>
-                        <h3 className="text-5xl md:text-7xl font-black text-editorial-text uppercase tracking-tighter text-center drop-shadow-strong">Neural Synergy Verdict</h3>
-                    </div>
-                    
-                    {!aiVerdict && !isVerdictGenerating ? (
-                       <button 
-                         onClick={generateVerdict}
-                         aria-label="Initialize Deep Analysis"
-                         className="button-premium px-16 py-8 text-[11px] group/launch overflow-hidden"
-                       >
-                          <span className="relative z-10">Initialize_Deep_Analysis</span>
-                          <Zap className="w-5 h-5 relative z-10 group-hover/launch:animate-bounce" />
-                          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover/launch:animate-[shimmer_1.5s_infinite]" />
-                       </button>
-                    ) : (
-                       <div className="w-full text-left bg-editorial-bg/40 backdrop-blur-3xl border border-editorial-border rounded-[2.5rem] p-12 md:p-20 font-mono text-editorial-text-muted text-base leading-[2] uppercase whitespace-pre-wrap shadow-inner relative border-l-8 border-l-red-600 transition-all duration-1000 group-hover/verdict:border-l-red-500 scale-[1.02] shadow-premium">
-                          <div className="absolute top-8 right-10 flex gap-2">
-                             {[1,2,3].map(i => <div key={i} className={`w-1 h-4 bg-red-600/30 ${i === 2 ? 'animate-pulse bg-red-600' : ''}`} />)}
-                          </div>
-                          
-                          {isVerdictGenerating && !aiVerdict ? (
-                             <div className="flex flex-col items-center justify-center py-20 gap-8">
-                                <Loader2 className="w-12 h-12 text-red-600 animate-spin" />
-                                <span className="text-red-500 font-black tracking-[0.5em] animate-pulse">PROCESSING_SYNERGY_MODELS...</span>
-                             </div>
-                          ) : (
-                             <div className="prose prose-invert max-w-none text-editorial-text font-light tracking-wide text-lg">
-                                {aiVerdict}
-                                {isVerdictGenerating && <span className="inline-block w-3 h-6 bg-red-600 ml-3 animate-pulse align-middle shadow-[0_0_15px_#dc2626]" />}
-                             </div>
-                          )}
-                          
-                          <div className="mt-12 pt-8 border-t border-editorial-border-light flex justify-between items-center opacity-40">
-                             <div className="font-mono text-[10px] tracking-widest uppercase">Encryption_State: SECURE</div>
-                             <div className="font-mono text-[10px] tracking-widest uppercase">Nodes_Sampled: {selectedItems.length}</div>
-                          </div>
-                       </div>
-                    )}
-                 </div>
-              </motion.div>
-           )}
-        </AnimatePresence>
 
       </div>
     </div>

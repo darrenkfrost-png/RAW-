@@ -4,7 +4,6 @@ import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, BarChart, 
 import { Users, Activity, ShieldCheck, Zap, Server, Terminal, Radio, Bot, Sparkles, AlertTriangle, Cpu, Network } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import { useUI } from "../context/UIContext";
-import { geminiService } from "../services/geminiService";
 import MagneticWrapper from "../components/MagneticWrapper";
 import SystemVisualizer from "../components/SystemVisualizer";
 import NeuralTimeline from "../components/NeuralTimeline";
@@ -18,38 +17,8 @@ export default function Analytics() {
     { name: 'Database', value: 95 },
     { name: 'Network', value: 89 },
   ]);
-  const [aiInsight, setAiInsight] = useState<string | null>(null);
-  const [isGeneratingInsight, setIsGeneratingInsight] = useState(false);
   const timeRef = useRef(0);
 
-  const generateDeepDive = async () => {
-    if (isGeneratingInsight) return;
-    setIsGeneratingInsight(true);
-    setAiInsight(null);
-
-    try {
-      const metricsContext = `
-        METRICS_DUMP:
-        - LATENCY_AVG: 45ms
-        - LATENCY_PEAK: ${is110Percent ? '98ms' : '62ms'}
-        - NODE_LOAD: ${JSON.stringify(healthData)}
-        - SYSTEM_INTEGRITY: ${is110Percent ? '110%' : '98.7%'}
-        - CORE_TEMP: ${is110Percent ? '984°C' : '42°C'}
-      `;
-
-      const response = await geminiService.analyze(
-        metricsContext,
-        "You are the RAW_NEURAL_CORE. Analyze the provided metrics and generate a high-level, technical, industrial-tone deep dive. Identify potential bottlenecks, optimization opportunities, and protocol compliance. Speak in short, punchy directives. Use bullet points."
-      );
-      
-      setAiInsight(response.text || "SYSTEM_ERROR: NO_RESPONSE");
-    } catch (e) {
-      console.error(e);
-      setAiInsight("SYSTEM_ERROR: UNABLE_TO_RETRIEVE_NEURAL_INSIGHTS. CHECK_CONNECTION.");
-    } finally {
-      setIsGeneratingInsight(false);
-    }
-  };
 
   useAnimationFrame((t) => {
     // Speed up updates in 110% mode
@@ -231,75 +200,6 @@ export default function Analytics() {
 
           {/* AI Insights & Health Panel */}
           <div className="space-y-12">
-             <motion.div 
-               initial={{ opacity: 0, scale: 0.95 }}
-               animate={{ opacity: 1, scale: 1 }}
-               className={`${bgCardClass} bg-gradient-to-br ${is110Percent ? 'from-emerald-950/20 to-editorial-bg' : 'from-red-950/20 to-editorial-bg'}`}
-             >
-                <div className="flex justify-between items-start mb-8">
-                  <div>
-                    <h4 className={`font-mono text-[10px] uppercase tracking-[0.4em] mb-2 ${is110Percent ? 'text-emerald-500' : 'text-red-500'}`}>Neural Analytics Engine</h4>
-                    <h3 className="font-sans font-black text-4xl uppercase tracking-tighter text-editorial-text">DEEP_DIVE_PROTOCOLS</h3>
-                  </div>
-                  <Bot className={`w-8 h-8 ${is110Percent ? 'text-emerald-500 animate-pulse' : 'text-red-600'}`} />
-                </div>
-
-                <div className="min-h-[200px] border border-editorial-border bg-editorial-bg/40 rounded-2xl p-6 font-mono text-[12px] leading-relaxed relative overflow-hidden mb-8">
-                   <AnimatePresence mode="wait">
-                     {isGeneratingInsight ? (
-                       <motion.div 
-                         key="loading"
-                         initial={{ opacity: 0 }}
-                         animate={{ opacity: 1 }}
-                         exit={{ opacity: 0 }}
-                         className="flex flex-col items-center justify-center h-48 space-y-4"
-                       >
-                         <div className="flex space-x-2">
-                           <div className={`w-2 h-2 rounded-full animate-bounce ${is110Percent ? 'bg-emerald-500' : 'bg-red-600'}`} style={{ animationDelay: '0s' }} />
-                           <div className={`w-2 h-2 rounded-full animate-bounce ${is110Percent ? 'bg-emerald-500' : 'bg-red-600'}`} style={{ animationDelay: '0.2s' }} />
-                           <div className={`w-2 h-2 rounded-full animate-bounce ${is110Percent ? 'bg-emerald-500' : 'bg-red-600'}`} style={{ animationDelay: '0.4s' }} />
-                         </div>
-                         <span className="text-[10px] tracking-widest text-editorial-text-muted animate-pulse">ANALYZING_SYSTEM_DATA_PACKETS...</span>
-                       </motion.div>
-                     ) : aiInsight ? (
-                       <motion.div 
-                         key="content"
-                         initial={{ opacity: 0 }}
-                         animate={{ opacity: 1 }}
-                         className="text-editorial-text whitespace-pre-wrap"
-                       >
-                         {aiInsight}
-                       </motion.div>
-                     ) : (
-                       <motion.div 
-                         key="placeholder"
-                         initial={{ opacity: 0 }}
-                         animate={{ opacity: 1 }}
-                         className="flex flex-col items-center justify-center h-48 text-center text-zinc-600 italic"
-                       >
-                         <Sparkles className="w-8 h-8 mb-4 opacity-20" />
-                         <p>Standing by for neural analysis trigger.<br />Click below to initialize Deep Dive Protocol.</p>
-                       </motion.div>
-                     )}
-                   </AnimatePresence>
-                </div>
-
-                <MagneticWrapper>
-                  <button 
-                    onClick={generateDeepDive}
-                    disabled={isGeneratingInsight}
-                    className={`w-full py-5 rounded-xl font-black uppercase tracking-[0.4em] text-[11px] transition-all duration-500 flex items-center justify-center gap-4 ${
-                      is110Percent 
-                        ? 'bg-emerald-600 text-editorial-text hover:bg-editorial-text hover:text-emerald-600 shadow-[0_10px_30px_rgba(16,185,129,0.4)]' 
-                        : 'bg-red-600 text-white hover:bg-editorial-text hover:text-red-600 shadow-[0_10px_30px_rgba(220,38,38,0.4)]'
-                    } disabled:opacity-50`}
-                  >
-                    {isGeneratingInsight ? 'SYNCHRONIZING...' : 'INITIALIZE_DEEP_DIVE_PROTOCOL'}
-                    <Zap className="w-4 h-4" />
-                  </button>
-                </MagneticWrapper>
-             </motion.div>
-
              {/* Node Load Chart (Simplified as Bars for the bottom right side of layout if needed, or keeping original) */}
              <motion.div className={bgCardClass}>
                 {/* ... (Existing health data chart logic could be here or keep it below) */}

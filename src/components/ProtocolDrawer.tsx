@@ -6,20 +6,15 @@ import { getHighResImageUrl } from '../lib/utils';
 import { useNavigate } from 'react-router-dom';
 import { useUI } from '../context/UIContext';
 import { useToast } from './common/Toast';
-import { useAIContext } from '../context/AIContext';
 
 export default function ProtocolDrawer() {
   const { protocolItems, removeFromProtocol, clearProtocol } = useProtocol();
   const [isOpen, setIsOpen] = useState(false);
   const [showAnalysis, setShowAnalysis] = useState(false);
   const navigate = useNavigate();
-  const { setIsAIChatOpen, setInitialAction , chromeHidden} = useUI();
+  const { chromeHidden } = useUI();
   const { addToast } = useToast();
-  const { updateAIContext } = useAIContext();
 
-  React.useEffect(() => {
-    updateAIContext({ selectedProtocolItems: protocolItems });
-  }, [protocolItems]);
 
   const totalEstimate = protocolItems.reduce((acc, p) => acc + Number(p.price.replace('£', '')), 0);
 
@@ -120,13 +115,6 @@ export default function ProtocolDrawer() {
                <div className="flex gap-2 relative z-10 overflow-x-auto custom-scrollbar pb-2">
                  <button aria-expanded={showAnalysis} onClick={() => setShowAnalysis(!showAnalysis)} className={`shrink-0 px-4 py-2 flex items-center gap-2 font-mono text-[9px] uppercase font-bold tracking-widest rounded-lg border transition-all ${showAnalysis ? 'bg-red-600 text-white border-red-500' : 'bg-editorial-text/5 text-editorial-text-muted border-editorial-border-light hover:border-editorial-text/20 hover:text-editorial-text'}`}>
                     <Zap className="w-3 h-3" /> Analyse
-                 </button>
-                 <button 
-                  onClick={() => setIsAIChatOpen(true)}
-                  aria-label="Ask AI Advisor about the current protocol"
-                  className="shrink-0 px-4 py-2 bg-editorial-text/5 text-editorial-text-muted border border-editorial-border-light hover:border-editorial-text/20 hover:text-editorial-text flex items-center gap-2 font-mono text-[9px] uppercase font-bold tracking-widest rounded-lg transition-all"
-                 >
-                    <Cpu className="w-3 h-3" /> Ask Advisor
                  </button>
                  <button 
                   onClick={handleCopy}

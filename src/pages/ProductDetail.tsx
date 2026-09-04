@@ -15,7 +15,6 @@ import { getHighResImageUrl } from "../lib/utils";
 import { useUI } from "../context/UIContext";
 import { useProtocol } from "../context/ProtocolContext";
 import { useCompare } from "../context/CompareContext";
-import { useAIContext } from "../context/AIContext";
 import MagneticWrapper from "../components/MagneticWrapper";
 import ProductGallery, { GalleryItem } from "../components/ProductGallery";
 /* ⚠️ three.js + @react-three/fiber + drei is roughly a megabyte, and it was a
@@ -32,7 +31,6 @@ const REVIEWS_ENABLED = false;
 
 const Product3DViewer = lazy(() => import("../components/Product3DViewer"));
 import NeuralTelemetryRadar from "../components/NeuralTelemetryRadar";
-import { geminiService } from "../services/geminiService";
 
 function RotationDisplay({ x, y, active }: { x: any, y: any, active: boolean }) {
   const rotationX = useTransform(x, (v: number) => Math.round(v));
@@ -55,72 +53,12 @@ export default function ProductDetail() {
   const { addToProtocol, protocolItems } = useProtocol();
   const { toggleProduct, selectedItems } = useCompare();
   const isCompared = selectedItems.some(p => p.id === product.id);
-  const { setIsAIChatOpen, setIsOracleChatOpen, setFocusedProduct, setInitialAction } = useUI();
-  const { updateAIContext, clearAIContext } = useAIContext();
   const [quantity, setQuantity] = useState(1);
   const [activeImage, setActiveImage] = useState(0);
   const [isZoomed, setIsZoomed] = useState(false);
   const [videoOpen, setVideoOpen] = useState<string | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const [isFullAnalysisAnalyzing, setIsFullAnalysisAnalyzing] = useState(false);
-  const [fullAnalysisText, setFullAnalysisText] = useState<any>(null);
-  const [aiDescription, setAiDescription] = useState("");
-  const [isAiDescriptionLoading, setIsAiDescriptionLoading] = useState(false);
-  const [activeAnalysisTab, setActiveAnalysisTab] = useState<'visual' | 'technical' | 'synergy'>('visual');
 
-  const runFullProtocolAudit = async () => {
-    if (isFullAnalysisAnalyzing || fullAnalysisText) return;
-    setIsFullAnalysisAnalyzing(true);
-    setFullAnalysisText(null);
-    
-    try {
-      const responseImg = await fetch(product.image);
-      const data = await responseImg.arrayBuffer();
-      const base64 = btoa(new Uint8Array(data).reduce((data, byte) => data + String.fromCharCode(byte), ''));
-
-      const prompt = `Perform a comprehensive ELITE PROTOCOL SYNERGY AUDIT for ${product.name}, considering its role in a high-performance stack.
-      
-      Respond with a JSON object: {
-         "visualDiagnostic": {
-            "aestheticQuality": "Visual aesthetic assessment",
-            "materialComposition": "Material makeup based on image"
-         },
-         "technicalDetails": {
-            "molecularSynergy": "Internal chemical/nutrient profile",
-            "operationalAdvantage": "Tactical edge provided",
-            "biologicalRecoveryTrajectory": "Post-engagement restoration"
-         },
-         "synergyOpportunities": [
-            { "name": "Related product 1", "reason": "Synergy reason" }
-         ],
-         "criticalNextAction": "One definitive elite action directive"
-      }.
-      
-      Tone: Technical, elite, industrial. Do NOT output markdown. Do NOT output code blocks. Output ONLY the raw JSON string.`;
-      
-      const result = await geminiService.vision(
-        prompt, 
-        base64,
-        "You are the RAW_INTEGRATED_SYSTEM. Synthesize visual and technical diagnostic data into a unified, high-stakes report. Speak in directives. English only. High fidelity only. Output ONLY raw JSON."
-      );
-      
-      try {
-        let text = result.text.trim();
-        if (text.startsWith('```json')) text = text.replace(/```json\n/g, '').replace(/```/g, '');
-        else if (text.startsWith('```')) text = text.replace(/```\n/g, '').replace(/```/g, '');
-        const parsed = JSON.parse(text);
-        setFullAnalysisText(parsed);
-      } catch (parseError) {
-        setFullAnalysisText({ error: "AUDIT_FAILURE::INVALID_DATA_FORMAT" });
-      }
-    } catch (err) {
-      console.error(err);
-      setFullAnalysisText({ error: "ERROR: AUDIT_UPLINK_FAILED." });
-      addToast("AI Protocol Audit failed on uplink", "error");
-    } finally {
-      setIsFullAnalysisAnalyzing(false);
-    }
-  };
   const [activeAccordion, setActiveAccordion] = useState<number | null>(0);
   const [activeRadarAxis, setActiveRadarAxis] = useState<string | null>(null);
   
@@ -288,26 +226,6 @@ export default function ProductDetail() {
     setReviews(reviews.map(r => r.id === id ? { ...r, status: newStatus, reported: newStatus === 'approved' ? false : r.reported } : r));
   };
   
-  useEffect(() => {
-    const fetchDescription = async () => {
-      setIsAiDescriptionLoading(true);
-      try {
-        const response = await geminiService.generateDescription(
-          product.name,
-          product.category,
-          product.keyBenefits || []
-        );
-        setAiDescription(response.text || "");
-      } catch (err) {
-        console.error("Gemini description fetch failed, using fallback:", err);
-        const fallbackText = `${product.name} is a high-performance ${product.category} formulated for maximum integration and recovery trajectories within the elite stack. Key advantages include targeted cellular fuel, high-fidelity biological recovery, and optimal metabolic synergy. Designed for dedicated optimization of ${product.keyBenefits?.join(", ") || "essential physiological markers"}.`;
-        setAiDescription(fallbackText);
-      } finally {
-        setIsAiDescriptionLoading(false);
-      }
-    };
-    fetchDescription();
-  }, [product.id, product.name, product.category, product.keyBenefits]);
   const related = allProducts.filter(p => p.category === product.category && p.id !== product.id).slice(0, 4);
   /* ⚠️ THE PLACEHOLDERS ARE GONE, AND THAT MATTERS MORE NOW THAN IT DID.
      This gallery shipped with two Unsplash stock photos and Google's demo
@@ -346,17 +264,6 @@ export default function ProductDetail() {
   if (product.responsibleUse) {
     productDetails.push({ title: "Responsible Use", content: product.responsibleUse });
   }
-
-  useEffect(() => {
-    updateAIContext({
-      sourcePage: 'ProductDetail',
-      currentProductId: product.id,
-      currentProductName: product.name,
-      currentProductCategory: product.category,
-      currentProductSummary: product.shortBenefit || product.overview,
-    });
-    return () => clearAIContext();
-  }, [product.id]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -409,103 +316,6 @@ export default function ProductDetail() {
         </div>
       </div>
 
-      <div className="mb-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 relative z-10">
-        <motion.div
-           initial={{ opacity: 0, y: 30 }}
-           animate={{ opacity: 1, y: 0 }}
-           transition={{ duration: 0.8, ease: [0.16,1,0.3,1] }}
-        >
-          <MagneticWrapper>
-            <button 
-               onClick={() => {
-                 setFocusedProduct(product);
-                 setInitialAction('SCAN');
-                 setIsAIChatOpen(true);
-               }}
-               className="w-full group relative overflow-hidden h-full"
-            >
-               <div className="p-10 bg-editorial-bg/80 backdrop-blur-3xl border border-red-600/20 rounded-[2.5rem] hover:border-red-600/50 transition-all duration-700 flex items-center justify-between shadow-premium hover:shadow-[0_40px_80px_-20px_rgba(220,38,38,0.2)] h-full">
-                  <div className="flex items-center gap-8">
-                     <div className="w-16 h-16 bg-red-600 rounded-2xl flex items-center justify-center shadow-[0_0_30px_#dc2626] group-hover:scale-110 transition-transform duration-700">
-                        <Bot className="w-8 h-8 text-editorial-text" />
-                     </div>
-                     <div className="text-left">
-                        <span className="font-mono text-[10px] text-zinc-600 uppercase tracking-[0.5em] font-black mb-1 block">NEURAL_INTERFACE</span>
-                        <h3 className="text-3xl font-black text-editorial-text tracking-tighter uppercase leading-none">INITIALIZE_SCAN</h3>
-                     </div>
-                  </div>
-                  <div className="flex items-center gap-4 text-red-500 font-mono text-[11px] font-black uppercase tracking-widest opacity-0 group-hover:opacity-100 translate-x-4 group-hover:translate-x-0 transition-all duration-700">
-                     [ EXEC ] <ArrowRight className="w-5 h-5" />
-                  </div>
-               </div>
-            </button>
-          </MagneticWrapper>
-        </motion.div>
-
-        <motion.div
-           initial={{ opacity: 0, y: 30 }}
-           animate={{ opacity: 1, y: 0 }}
-           transition={{ duration: 0.8, delay: 0.1, ease: [0.16,1,0.3,1] }}
-        >
-          <MagneticWrapper>
-            <button 
-               onClick={() => {
-                 setFocusedProduct(product);
-                 setInitialAction('VISUAL_ANALYSIS');
-                 setIsAIChatOpen(true);
-               }}
-               className="w-full group relative overflow-hidden h-full"
-            >
-               <div className="p-10 bg-editorial-bg/80 backdrop-blur-3xl border border-red-600/20 rounded-[2.5rem] hover:border-red-600/50 transition-all duration-700 flex items-center justify-between shadow-premium h-full">
-                  <div className="flex items-center gap-8">
-                     <div className="w-16 h-16 bg-red-600/10 border border-red-500/30 rounded-2xl flex items-center justify-center shadow-[0_0_30px_rgba(220,38,38,0.1)] group-hover:scale-110 transition-transform duration-700">
-                        <LineChart className="w-8 h-8 text-red-500" />
-                     </div>
-                     <div className="text-left">
-                        <span className="font-mono text-[10px] text-zinc-600 uppercase tracking-[0.5em] font-black mb-1 block">VISUAL_TELEMETRY</span>
-                        <h3 className="text-3xl font-black text-editorial-text tracking-tighter uppercase leading-none">ANALYTIC_OVERLAY</h3>
-                     </div>
-                  </div>
-                  <div className="flex items-center gap-4 text-red-500 font-mono text-[11px] font-black uppercase tracking-widest opacity-0 group-hover:opacity-100 translate-x-4 group-hover:translate-x-0 transition-all duration-700">
-                     [ RENDER ] <ArrowRight className="w-5 h-5" />
-                  </div>
-               </div>
-            </button>
-          </MagneticWrapper>
-        </motion.div>
-
-        <motion.div
-           initial={{ opacity: 0, y: 30 }}
-           animate={{ opacity: 1, y: 0 }}
-           transition={{ duration: 0.8, delay: 0.2, ease: [0.16,1,0.3,1] }}
-        >
-          <MagneticWrapper>
-            <button 
-               onClick={() => {
-                 setFocusedProduct(product);
-                 setInitialAction('DEEP_DIVE');
-                 setIsAIChatOpen(true);
-               }}
-               className="w-full group relative overflow-hidden h-full"
-            >
-               <div className="p-10 bg-editorial-bg/80 backdrop-blur-3xl border border-editorial-border-light rounded-[2.5rem] hover:border-editorial-text/20 transition-all duration-700 flex items-center justify-between shadow-premium h-full">
-                  <div className="flex items-center gap-8">
-                     <div className="w-16 h-16 bg-editorial-text rounded-2xl flex items-center justify-center shadow-[0_0_30px_rgba(0,0,0,0.05)] group-hover:scale-110 transition-transform duration-700">
-                        <Zap className="w-8 h-8 text-editorial-bg" />
-                     </div>
-                     <div className="text-left">
-                        <span className="font-mono text-[10px] text-zinc-600 uppercase tracking-[0.5em] font-black mb-1 block">DEEP_TELEMETRY</span>
-                        <h3 className="text-3xl font-black text-editorial-text tracking-tighter uppercase leading-none">CORE_DIAGNOSIS</h3>
-                     </div>
-                  </div>
-                  <div className="flex items-center gap-4 text-editorial-text font-mono text-[11px] font-black uppercase tracking-widest opacity-0 group-hover:opacity-100 translate-x-4 group-hover:translate-x-0 transition-all duration-700">
-                     [ COMMAND ] <Activity className="w-5 h-5" />
-                  </div>
-               </div>
-            </button>
-          </MagneticWrapper>
-        </motion.div>
-      </div>
 
       <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 xl:gap-32 items-start mt-12">
         {/* Product Images */}
@@ -790,11 +600,7 @@ export default function ProductDetail() {
                   <span className="font-mono text-[10px] text-zinc-700 uppercase tracking-widest font-black opacity-40">INTEL_CORE_V3</span>
                </div>
                <div className="text-white font-medium text-2xl md:text-4xl leading-[1.3] space-y-12">
-                   {isAiDescriptionLoading ? (
-                     <div className="font-mono text-sm text-zinc-500 animate-pulse">GENERATING_ELITE_DESCRIPTION...</div>
-                   ) : (
-                     <p className="tracking-tight drop-shadow-sm font-sans font-bold">{aiDescription || product.overview || `The ${product.name} is a high-flux ${product.category} deployment, engineered for tactical efficiency.`}</p>
-                   )}
+                   <p className="tracking-tight drop-shadow-sm font-sans font-bold">{product.overview || `The ${product.name} is a high-flux ${product.category} deployment, engineered for tactical efficiency.`}</p>
                    {product.whatItDoes && (
                        <div className="bg-red-600/15 border-l-8 border-red-600 p-12 lg:p-16 rounded-r-[3rem] italic text-white font-serif text-4xl md:text-6xl tracking-tighter leading-[0.95] relative group/quote">
                            <div className="absolute -top-6 -left-4 w-12 h-12 bg-red-600 flex items-center justify-center rounded-xl shadow-[0_0_20px_#dc2626]">
@@ -821,37 +627,6 @@ export default function ProductDetail() {
             Engineered for those who demand more from their bodies. Our elite-grade formula provides industry-leading bioavailability and purity. Tested in the arena. Proven in the grind.
           </motion.div>
 
-          <motion.div 
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.85, duration: 1 }}
-            className="mb-14 card-elevation card-glow interaction-transition relative overflow-hidden group border border-editorial-border hover:border-red-600/30 rounded-[2.5rem]"
-          >
-            <div className="absolute inset-0 bg-gradient-to-r from-red-600/10 via-transparent to-transparent opacity-50 group-hover:opacity-100 transition-opacity duration-[1000ms] pointer-events-none mix-blend-screen" />
-            <div className="absolute top-0 right-0 w-full h-[1px] bg-gradient-to-r from-transparent via-red-600/50 to-transparent" />
-            
-            <button 
-              onClick={() => {
-                setFocusedProduct(product);
-                setInitialAction('SCAN');
-                setIsAIChatOpen(true);
-              }}
-              className="w-full flex items-center justify-between p-10 hover:bg-editorial-bg transition-colors duration-[800ms] relative z-10 text-left"
-            >
-               <div className="flex items-center gap-8">
-                 <div className="p-4 bg-red-600/10 rounded-2xl border border-red-500/30 group-hover:bg-red-600/20 transition-all duration-700">
-                    <Zap className="w-8 h-8 text-red-500 animate-pulse" />
-                 </div>
-                 <div>
-                    <span className="font-mono text-[10px] tracking-[0.5em] uppercase font-black text-zinc-600 mb-2 block">AI_SYSTEM_READY</span>
-                    <h4 className="font-sans font-black text-3xl uppercase tracking-tighter text-editorial-text group-hover:text-red-500 transition-colors duration-700">Structural Neural Analysis</h4>
-                 </div>
-               </div>
-               <div className="flex items-center gap-4 text-editorial-text font-mono text-[11px] font-black uppercase tracking-widest opacity-0 group-hover:opacity-100 translate-x-4 group-hover:translate-x-0 transition-all duration-700">
-                  [ EXECUTE ] <ArrowRight className="w-5 h-5" />
-               </div>
-            </button>
-          </motion.div>
 
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
@@ -892,21 +667,8 @@ export default function ProductDetail() {
               </MagneticWrapper>
             </div>
 
-            <div className="flex flex-wrap gap-6">
-              <MagneticWrapper>
-                <button 
-                  onClick={() => {
-                    setFocusedProduct(product);
-                    setInitialAction('SCAN');
-                    setIsAIChatOpen(true);
-                  }}
-                  className="px-10 h-[80px] border border-red-600/20 bg-red-600/[0.03] backdrop-blur-3xl hover:border-red-600/50 hover:bg-red-600/5 text-red-500 font-black uppercase tracking-[0.4em] text-[10px] flex items-center justify-center gap-6 rounded-[2rem] transition-all duration-700 shadow-premium group"
-                >
-                  <Sparkles className="w-5 h-5 group-hover:animate-pulse" />
-                  INIT_ADVISOR_SCAN
-                </button>
-              </MagneticWrapper>
               
+            <div className="flex flex-wrap gap-6">
               <MagneticWrapper>
                 <button 
                   onClick={() => toggleProduct(product)}
@@ -994,156 +756,6 @@ export default function ProductDetail() {
         <CascadingOptionsViewer options={cascadingOptions} selectedId={selectedOptionId} onSelect={(option) => setSelectedOptionId(option.id)} />
       </section>
 
-      <section className="max-w-[1200px] mx-auto mt-24 p-10 lg:p-16 bg-editorial-bg/80 backdrop-blur-3xl rounded-[3rem] border border-editorial-border-light shadow-premium group relative overflow-hidden transition-all duration-1000">
-        <div className="absolute inset-0 bg-gradient-to-br from-red-600/5 to-emerald-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none" />
-        
-        <div className="flex flex-col md:flex-row items-center justify-between gap-8 mb-12 relative z-10">
-          <div>
-            <h3 className="font-sans font-black text-3xl uppercase tracking-tight text-white mb-2">Neural Insight Hub</h3>
-            <div className="font-mono text-[10px] text-zinc-600 uppercase tracking-[0.3em] font-black flex items-center gap-2">
-               <div className="w-1.5 h-1.5 bg-red-500 rounded-full animate-pulse" />
-               INTEGRATED_PROTOCOL_DIAGNOSTIC
-            </div>
-          </div>
-          <button
-            onClick={runFullProtocolAudit}
-            disabled={isFullAnalysisAnalyzing}
-            className="flex items-center gap-4 px-10 py-5 bg-white hover:bg-black text-black hover:text-white rounded-[1.5rem] font-black text-[12px] uppercase tracking-widest transition-all duration-[600ms] shadow-lg hover:shadow-[0_0_30px_rgba(255,255,255,0.4)] disabled:opacity-50 disabled:cursor-not-allowed group/btn border border-transparent hover:border-white/20"
-          >
-            {isFullAnalysisAnalyzing ? (
-               <span className="flex items-center gap-3">
-                 <div className="w-4 h-4 border-2 border-black group-hover/btn:border-white border-t-transparent rounded-full animate-spin" />
-                 SYNTHESIZING...
-               </span>
-            ) : (
-                <span className="flex items-center gap-3">
-                    EXECUTE_FULL_SCAN
-                    <Target className="w-4 h-4 group-hover/btn:animate-ping text-red-500" />
-                </span>
-            )}
-          </button>
-        </div>
-
-        {fullAnalysisText && !fullAnalysisText.error ? (
-          <div className="relative z-10 border-t border-editorial-border pt-12 mt-12">
-             <div className="flex flex-wrap gap-4 mb-10 border-b border-editorial-border pb-6">
-                <button 
-                  onClick={() => setActiveAnalysisTab('visual')}
-                  className={`px-6 py-3 rounded-xl font-mono text-[11px] font-black uppercase tracking-widest transition-all ${activeAnalysisTab === 'visual' ? 'bg-emerald-500/20 text-emerald-500 border border-emerald-500/30 shadow-[0_0_15px_rgba(16,185,129,0.2)]' : 'bg-white/5 text-zinc-500 hover:text-white hover:bg-white/10'}`}
-                >
-                   Visual Diagnostic
-                </button>
-                <button 
-                  onClick={() => setActiveAnalysisTab('technical')}
-                  className={`px-6 py-3 rounded-xl font-mono text-[11px] font-black uppercase tracking-widest transition-all ${activeAnalysisTab === 'technical' ? 'bg-red-500/20 text-red-500 border border-red-500/30 shadow-[0_0_15px_rgba(239,68,68,0.2)]' : 'bg-white/5 text-zinc-500 hover:text-white hover:bg-white/10'}`}
-                >
-                   Technical Details
-                </button>
-                <button 
-                  onClick={() => setActiveAnalysisTab('synergy')}
-                  className={`px-6 py-3 rounded-xl font-mono text-[11px] font-black uppercase tracking-widest transition-all ${activeAnalysisTab === 'synergy' ? 'bg-blue-500/20 text-blue-500 border border-blue-500/30 shadow-[0_0_15px_rgba(59,130,246,0.2)]' : 'bg-white/5 text-zinc-500 hover:text-white hover:bg-white/10'}`}
-                >
-                   Synergy Matrix
-                </button>
-             </div>
-
-             <AnimatePresence mode="wait">
-                {activeAnalysisTab === 'visual' && (
-                   <motion.div 
-                     key="visual"
-                     initial={{ opacity: 0, y: 10 }}
-                     animate={{ opacity: 1, y: 0 }}
-                     exit={{ opacity: 0, y: -10 }}
-                     className="grid md:grid-cols-2 gap-8"
-                   >
-                      <div className="bg-black/20 p-8 rounded-3xl border border-emerald-500/10 hover:border-emerald-500/30 transition-colors">
-                         <h4 className="text-emerald-500 font-black text-[10px] uppercase tracking-[0.3em] mb-4 flex items-center gap-3">
-                           <ZoomIn className="w-4 h-4" /> Aesthetic Quality
-                         </h4>
-                         <p className="text-white/80 font-light leading-relaxed">{fullAnalysisText.visualDiagnostic?.aestheticQuality}</p>
-                      </div>
-                      <div className="bg-black/20 p-8 rounded-3xl border border-emerald-500/10 hover:border-emerald-500/30 transition-colors">
-                         <h4 className="text-emerald-500 font-black text-[10px] uppercase tracking-[0.3em] mb-4 flex items-center gap-3">
-                           <Layers className="w-4 h-4" /> Material Composition
-                         </h4>
-                         <p className="text-white/80 font-light leading-relaxed">{fullAnalysisText.visualDiagnostic?.materialComposition}</p>
-                      </div>
-                   </motion.div>
-                )}
-
-                {activeAnalysisTab === 'technical' && (
-                   <motion.div 
-                     key="technical"
-                     initial={{ opacity: 0, y: 10 }}
-                     animate={{ opacity: 1, y: 0 }}
-                     exit={{ opacity: 0, y: -10 }}
-                   >
-                      <div className="flex items-center gap-4 mb-8 bg-black/40 border border-red-500/20 p-6 rounded-2xl relative overflow-hidden group/action">
-                         <div className="absolute inset-x-0 h-1 bg-red-600/20 -top-1 group-hover/action:top-0 transition-all duration-700" />
-                         <Target className="w-6 h-6 text-red-500 drop-shadow-[0_0_10px_#ef4444]" />
-                         <div>
-                            <span className="block text-[10px] font-mono text-zinc-500 uppercase tracking-widest font-black">Critical_Next_Action</span>
-                            <span className="block text-white font-black text-lg tracking-tight uppercase group-hover:text-red-500 transition-colors">{fullAnalysisText.criticalNextAction}</span>
-                         </div>
-                      </div>
-                      <div className="grid md:grid-cols-3 gap-6">
-                         <div className="bg-black/20 p-8 rounded-3xl border border-red-500/10 hover:border-red-500/30 transition-all">
-                            <h4 className="text-red-500 font-black text-[10px] uppercase tracking-[0.3em] mb-4">Molecular Synergy</h4>
-                            <p className="text-white/80 font-light leading-relaxed text-sm">{fullAnalysisText.technicalDetails?.molecularSynergy}</p>
-                         </div>
-                         <div className="bg-black/20 p-8 rounded-3xl border border-red-500/10 hover:border-red-500/30 transition-all">
-                            <h4 className="text-red-500 font-black text-[10px] uppercase tracking-[0.3em] mb-4">Operational Advantage</h4>
-                            <p className="text-white/80 font-light leading-relaxed text-sm">{fullAnalysisText.technicalDetails?.operationalAdvantage}</p>
-                         </div>
-                         <div className="bg-black/20 p-8 rounded-3xl border border-red-500/10 hover:border-red-500/30 transition-all">
-                            <h4 className="text-red-500 font-black text-[10px] uppercase tracking-[0.3em] mb-4">Biological Recovery</h4>
-                            <p className="text-white/80 font-light leading-relaxed text-sm">{fullAnalysisText.technicalDetails?.biologicalRecoveryTrajectory}</p>
-                         </div>
-                      </div>
-                   </motion.div>
-                )}
-
-                {activeAnalysisTab === 'synergy' && (
-                   <motion.div 
-                     key="synergy"
-                     initial={{ opacity: 0, y: 10 }}
-                     animate={{ opacity: 1, y: 0 }}
-                     exit={{ opacity: 0, y: -10 }}
-                     className="grid md:grid-cols-2 gap-6"
-                   >
-                      {fullAnalysisText.synergyOpportunities?.map((syn: any, i: number) => (
-                         <div key={i} className="bg-blue-950/10 p-8 rounded-3xl border border-blue-500/10 flex flex-col gap-4 group/syn hover:border-blue-500/30 transition-all group/synitem relative overflow-hidden">
-                            <div className="absolute top-0 right-0 p-4 opacity-10 group-hover/synitem:opacity-30 transition-opacity">
-                                <Cpu className="w-12 h-12" />
-                            </div>
-                            <h4 className="text-blue-400 font-sans font-black text-xl tracking-tight flex-1 relative z-10">{syn.name}</h4>
-                            <div className="bg-black/40 p-5 rounded-2xl border border-blue-500/10 relative z-10 transition-transform duration-700 group-hover/syn:translate-y-[-2px]">
-                               <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest font-black block mb-2">Synergistic Reason</span>
-                               <p className="text-white/80 font-light text-sm italic leading-relaxed">{syn.reason}</p>
-                            </div>
-                         </div>
-                      ))}
-                   </motion.div>
-                )}
-             </AnimatePresence>
-          </div>
-        ) : (
-            <div className="flex flex-col items-center justify-center py-20 text-center space-y-6 opacity-40 group-hover:opacity-100 transition-opacity duration-1000">
-                <Cpu className="w-16 h-16 text-zinc-800 animate-pulse" />
-                <div>
-                    <h4 className="text-zinc-600 font-black uppercase tracking-widest text-[12px]">Diagnostic_Standby</h4>
-                    <p className="text-zinc-700 text-sm italic font-light">Execute scan for deep neural insights</p>
-                </div>
-            </div>
-        )}
-        
-        {fullAnalysisText?.error && (
-           <div className="mt-8 p-6 bg-red-950/40 border border-red-500/30 rounded-2xl text-red-500 font-mono text-sm shadow-[0_0_20px_rgba(239,68,68,0.2)]">
-              <span className="font-black mr-4 uppercase tracking-widest">[SYST_ERROR]</span>
-              {fullAnalysisText.error}
-           </div>
-        )}
-      </section>
 
       {/* Cinematic Performance Visualization */}
       <section className="mt-32 xl:mt-48 max-w-[var(--content-max-width)] mx-auto relative group/cinematic">

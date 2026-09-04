@@ -20,13 +20,11 @@ import {
 import { useAppCtx } from "../context/AppContext";
 import { useUI } from "../context/UIContext";
 import { useSettings } from "../context/SettingsContext";
-import { useVoiceControl } from "../hooks/useVoiceControl";
 
 export default function SystemHealthDashboard() {
   const { state, trackAction } = useAppCtx();
   const { isSystemHealthOpen: isOpen, setIsSystemHealthOpen, activeReaderItem, is110Percent } = useUI();
   const { settings } = useSettings();
-  const voice = useVoiceControl();
 
   // Diagnostics sweep automation states
   const [isSwiping, setIsSwiping] = useState(false);
@@ -179,7 +177,6 @@ export default function SystemHealthDashboard() {
       { msg: "Pinging neural server nodes & latency optimization check...", delay: 1200, progress: 35 },
       { msg: "Validating client-side settings persistence context...", delay: 1800, progress: 55 },
       { msg: "Benchmarking GPU animation framerates & motion ratios...", delay: 2400, progress: 75 },
-      { msg: "Synthesizing voice capture buffers & AI parameters...", delay: 3000, progress: 90 },
       { msg: "System Deep Sweep Complete // ALL SYSTEMS NOMINAL", delay: 3600, progress: 100 }
     ];
 
@@ -306,21 +303,6 @@ export default function SystemHealthDashboard() {
                     <span className="text-zinc-500 uppercase tracking-wider font-bold">Route_Matrix</span>
                     <div className="flex items-center gap-1.5 text-emerald-500">
                       <CheckCircle className="w-3.5 h-3.5" /> <span className="text-[10px] uppercase font-black">VERIFIED</span>
-                    </div>
-                  </div>
-
-                  <div className="flex justify-between items-center bg-zinc-900/30 px-3 py-2.5 border border-zinc-900 rounded">
-                    <span className="text-zinc-500 uppercase tracking-wider font-bold">Gemini AI Model</span>
-                    <div className="flex items-center gap-1.5 text-emerald-500">
-                      <Sparkles className="w-3.5 h-3.5" /> <span className="text-[10px] uppercase font-black">ONLINE (2.5-flash)</span>
-                    </div>
-                  </div>
-
-                  <div className="flex justify-between items-center bg-zinc-900/30 px-3 py-2.5 border border-zinc-900 rounded">
-                    <span className="text-zinc-500 uppercase tracking-wider font-bold">Voice Interface (Speech)</span>
-                    <div className="flex items-center gap-1.5 text-red-500">
-                      <Radio className="w-3.5 h-3.5 animate-pulse" /> 
-                      <span className="text-[10px] uppercase font-black">{voice.voiceState === 'idle' ? 'STANDBY' : voice.voiceState.toUpperCase()}</span>
                     </div>
                   </div>
 

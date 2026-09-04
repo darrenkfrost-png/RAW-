@@ -11,12 +11,9 @@ import Breadcrumb from "../components/Breadcrumb";
 import { Search, Filter, Zap, LayoutGrid, Bot } from "lucide-react";
 import ShopFilters, { FilterState } from "../components/ShopFilters";
 import { useUI } from "../context/UIContext";
-import { useAIContext } from "../context/AIContext";
 
 export default function Shop() {
   const { slug } = useParams();
-  const { setIsAIChatOpen } = useUI();
-  const { updateAIContext, clearAIContext } = useAIContext();
   
   const [filters, setFilters] = useState<FilterState>({
     searchQuery: "",
@@ -129,18 +126,6 @@ export default function Shop() {
         default: return products;
     }
   }, [filters]);
-
-  useEffect(() => {
-    updateAIContext({
-      sourcePage: 'Shop',
-      activeFilters: filters,
-      userQuery: filters.searchQuery
-    });
-  }, [filters]);
-
-  useEffect(() => {
-    return () => clearAIContext();
-  }, []);
 
   const breadcrumbItems: { label: string; href?: string }[] = [
     { label: "Home", href: "/" },
@@ -331,37 +316,10 @@ export default function Shop() {
               >
                 Reset_Protocol
               </button>
-              <button
-                 onClick={() => {
-                   updateAIContext({
-                     sourcePage: 'Shop',
-                     activeFilters: filters,
-                     userQuery: filters.searchQuery
-                   });
-                   setIsAIChatOpen(true);
-                 }}
-                 className="button-secondary"
-              >
-                <Bot className="w-5 h-5 flex-shrink-0" />
-                Query_Advisor
-              </button>
             </div>
           </div>
         </motion.div>
       )}
-
-          <motion.button
-             initial={{ opacity: 0, scale: 0.8 }}
-             animate={{ opacity: 1, scale: 1 }}
-             whileHover={{ scale: 1.1, y: -5 }}
-             whileTap={{ scale: 0.9 }}
-             onClick={() => setIsAIChatOpen(true)}
-             aria-label="Initialize Neural Advisor"
-             className="fixed bottom-12 right-12 z-50 p-6 bg-red-600/90 backdrop-blur-2xl text-white rounded-full shadow-[0_20px_50px_rgba(220,38,38,0.5)] hover:shadow-[0_25px_60px_rgba(220,38,38,0.7)] transition-all duration-500 flex items-center gap-4 group border border-editorial-border-light"
-          >
-            <Bot className="w-8 h-8 drop-shadow-[0_0_10px_rgba(0,0,0,0.08)]" />
-            <span className="font-mono text-[11px] font-black uppercase tracking-[0.3em] hidden lg:group-hover:block transition-all duration-500 overflow-hidden pr-2">Initialize_Advisor</span>
-          </motion.button>
 
       <ProductQuickView product={quickViewProduct} isOpen={!!quickViewProduct} onClose={() => setQuickViewProduct(null)} />
     </div>

@@ -9,7 +9,6 @@ import { rawProductContentBank3 } from '../data/rawProductContent3';
 import { rawProductContentBank4 } from '../data/rawProductContent4';
 import { rawProductContentBank5 } from '../data/rawProductContent5';
 import { useUI } from '../context/UIContext';
-import { useAIContext } from '../context/AIContext';
 import { useToast } from '../components/common/Toast';
 
 const rawProductContentBank = [
@@ -35,16 +34,9 @@ export default function KnowledgeCore() {
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [expandedId, setExpandedId] = useState<string | null>(null);
   
-  const { setIsAIChatOpen, setActiveReaderItem } = useUI();
-  const { updateAIContext, clearAIContext } = useAIContext();
+  const { setActiveReaderItem } = useUI();
   const { addToast } = useToast();
-  const navigate = useNavigate();
-
-  React.useEffect(() => {
-    updateAIContext({ sourcePage: 'KnowledgeCore' });
-    return () => clearAIContext();
-  }, []);
-
+  const navigate = useNavigate();
   const categories = ['All', 'Nutrients', 'Recovery', 'Accessories', 'Apparel', 'Combat'];
 
   const filteredContent = useMemo(() => {
@@ -60,15 +52,6 @@ export default function KnowledgeCore() {
     const text = `PROTOCOL: ${item.name}\nBENEFIT: ${item.shortBenefit}\nOVERVIEW: ${item.overview}`;
     navigator.clipboard.writeText(text);
     addToast(`${item.name} intelligence copied securely.`, 'success');
-  };
-
-  const openAIAdvisor = (item: any) => {
-    updateAIContext({
-      knowledgeEntryId: item.id || item.name,
-      currentProductName: item.name,
-      currentProductSummary: item.shortBenefit
-    });
-    setIsAIChatOpen(true);
   };
 
   return (
@@ -183,9 +166,6 @@ export default function KnowledgeCore() {
                            </button>
                            <button onClick={() => navigate('/compare')} className="button-secondary" aria-label="Compare products">
                               <Database className="w-4 h-4" /> Compare_Intel
-                           </button>
-                           <button onClick={() => openAIAdvisor(item)} className="button-secondary text-red-500 border-red-500/20" aria-label={`Ask AI Advisor about ${item.name}`}>
-                              <Cpu className="w-4 h-4" /> Ask_AI_Advisor
                            </button>
                            <button onClick={() => setActiveReaderItem(item)} className="button-secondary text-amber-500 border-amber-500/20 hover:border-amber-500/50 flex items-center gap-2" aria-label={`Open ${item.name} in Immersive Reader`}>
                               <BookOpen className="w-4 h-4" /> Open_Doc_Reader

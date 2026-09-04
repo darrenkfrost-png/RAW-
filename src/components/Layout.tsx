@@ -9,10 +9,7 @@ import CustomCursor from "./CustomCursor";
 import PageLoader from "./PageLoader";
 import WallpaperMode from "./WallpaperMode";
 import ShopIframePanel from "./ShopIframePanel";
-import VoiceFeedbackOverlay from "./VoiceFeedbackOverlay";
 import WallpaperSettingsPanel from "./WallpaperSettingsPanel";
-import VoiceInteractionHub from "./VoiceInteractionHub";
-import VoiceSettingsDropdown from "./VoiceSettingsDropdown";
 import Particles from "./Particles";
 import AmbientField from "./AmbientField";
 import VideoWallpaper from "./VideoWallpaper";
@@ -160,7 +157,6 @@ export default function Layout() {
       <CompareTray />
       <ShopIframePanel />
       <WallpaperSettingsPanel />
-      <VoiceInteractionHub />
 
       {/* Nothing may hide without leaving a door: the RAW mark is it. */}
       <ChromeRestore />

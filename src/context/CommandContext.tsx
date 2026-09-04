@@ -27,7 +27,6 @@ export function CommandProvider({ children }: { children: ReactNode }) {
   const navigate = useNavigate();
   const { settings, updateSettings } = useSettings();
   const { 
-    setIsAIChatOpen, 
     setIsTerminalOpen, 
     setIsSearchOpen,
     isWallpaperMode,
@@ -49,18 +48,6 @@ export function CommandProvider({ children }: { children: ReactNode }) {
 
   // Core static commands
   const coreCommands: AppCommand[] = [
-    {
-      id: "open_ai_chat",
-      label: "Open AI Advisor",
-      category: "System",
-      handler: () => setIsAIChatOpen(true)
-    },
-    {
-      id: "close_ai_chat",
-      label: "Close AI Advisor",
-      category: "System",
-      handler: () => setIsAIChatOpen(false)
-    },
     {
       id: "open_search",
       label: "Open Search",
