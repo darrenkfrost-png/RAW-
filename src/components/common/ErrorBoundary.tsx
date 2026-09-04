@@ -52,15 +52,15 @@ export class ErrorBoundary extends React.Component<Props, State> {
             </div>
             
             <h2 className="text-3xl md:text-4xl font-black mb-6 font-display tracking-tight uppercase text-premium bg-clip-text text-transparent bg-gradient-to-r from-white to-zinc-400">
-              CRITICAL_CORE_FAILURE
+              Something went wrong
             </h2>
             
             <div className="font-mono text-[11px] md:text-[12px] uppercase tracking-[0.4em] text-meta-premium mb-12 space-y-3 opacity-60">
                 <div className="flex items-center justify-center gap-3">
                    <Terminal className="w-4 h-4" />
-                   <span>Neural link severed in sector 7</span>
+                   <span>This page hit an error it couldn't recover from.</span>
                 </div>
-                <p>Telemetry stream interrupted by unhandled exception.</p>
+                <p>Reloading usually fixes it. If it keeps happening, the details below will help us put it right.</p>
                 <div className="h-px w-20 bg-red-600/20 mx-auto my-4" />
                 <p className="text-[10px] text-zinc-600 font-bold overflow-auto max-h-32 text-red-400">ERROR: {this.state.error?.message}</p>
                 <p className="text-[10px] text-zinc-600 font-bold overflow-auto max-h-32 text-red-500">{this.state.errorInfo?.componentStack}</p>
@@ -75,7 +75,7 @@ export class ErrorBoundary extends React.Component<Props, State> {
               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:animate-shimmer" />
               <div className="flex items-center justify-center gap-6 relative z-10">
                  <RefreshCw className="w-5 h-5 group-hover:rotate-180 transition-transform duration-700" />
-                 RESTART_NEURAL_LINK
+                 Reload the page
               </div>
             </motion.button>
             
