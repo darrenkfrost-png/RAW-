@@ -1,8 +1,8 @@
 import React, { createContext, useContext, useState, useEffect, useMemo, useCallback } from "react";
 
-export type ChromePart = 'header' | 'sidebar' | 'statusBar' | 'voiceHub';
+export type ChromePart = 'header' | 'sidebar' | 'statusBar' | 'voiceHub' | 'aiHub' | 'diagnostics' | 'protocolChip' | 'hudFrame';
 
-export const CHROME_PARTS: ChromePart[] = ['header', 'sidebar', 'statusBar', 'voiceHub'];
+export const CHROME_PARTS: ChromePart[] = ['header', 'sidebar', 'statusBar', 'voiceHub', 'aiHub', 'diagnostics', 'protocolChip', 'hudFrame'];
 
 interface UIContextType {
   uiScale: number;

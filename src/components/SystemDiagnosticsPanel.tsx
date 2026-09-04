@@ -34,7 +34,7 @@ interface MemoryInfo {
 export default function SystemDiagnosticsPanel() {
   const location = useLocation();
   const { addToast } = useToast();
-  const { isStatusBarVisible, hasCompletedIntro } = useUI();
+  const { isStatusBarVisible, hasCompletedIntro, chromeHidden } = useUI();
   
   // States
   const [isOpen, setIsOpen] = useState(false);
@@ -210,6 +210,8 @@ export default function SystemDiagnosticsPanel() {
   // The intro is a gate: at z-10000 this chip drew straight through it,
   // sitting over the door in the corner of an otherwise clean first frame.
   if (!hasCompletedIntro) return null;
+  // The red readout chip is furniture too — it hides and returns with the rest.
+  if (chromeHidden.includes('diagnostics')) return null;
 
   return (
     <div 

@@ -4,7 +4,7 @@ import { useUI } from "../context/UIContext";
 import { useVoiceControl } from "../context/VoiceContext";
 
 export default function AICommandHalo() {
-  const { isAIChatOpen, setIsAIChatOpen } = useUI();
+  const { isAIChatOpen, setIsAIChatOpen, chromeHidden } = useUI();
   const { voiceState, isListening, startListening, stopListening } = useVoiceControl();
 
   const getHaloStyles = () => {
@@ -23,6 +23,10 @@ export default function AICommandHalo() {
      if (voiceState === 'speaking') return <Bot className="w-5 h-5 text-purple-500" />;
      return <Bot className="w-5 h-5 text-zinc-400 group-hover:text-zinc-200 transition-colors" />;
   };
+
+  // Put away with the rest of the furniture; the RAW mark brings it back.
+  // Early return AFTER every hook above, so hook order never changes.
+  if (chromeHidden.includes('aiHub')) return null;
 
   return (
     <div className="fixed bottom-8 right-8 z-[150] flex flex-col items-center gap-3">

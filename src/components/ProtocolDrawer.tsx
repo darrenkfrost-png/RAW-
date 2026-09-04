@@ -13,7 +13,7 @@ export default function ProtocolDrawer() {
   const [isOpen, setIsOpen] = useState(false);
   const [showAnalysis, setShowAnalysis] = useState(false);
   const navigate = useNavigate();
-  const { setIsAIChatOpen, setInitialAction } = useUI();
+  const { setIsAIChatOpen, setInitialAction , chromeHidden} = useUI();
   const { addToast } = useToast();
   const { updateAIContext } = useAIContext();
 
@@ -58,9 +58,12 @@ export default function ProtocolDrawer() {
 
   return (
     <>
-      {/* Floating Toggle Button */}
+      {/* Floating Toggle Button — the red MY_PROTOCOL chip, bottom right.
+          It is furniture like the rest and hides with it. The DRAWER itself is
+          untouched: hiding the chip must not strip a visitor of a stack they
+          have already built, only of the badge advertising it. */}
       <AnimatePresence>
-        {!isOpen && (
+        {!isOpen && !chromeHidden.includes('protocolChip') && (
           <motion.button
             initial={{ opacity: 0, y: 50, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}

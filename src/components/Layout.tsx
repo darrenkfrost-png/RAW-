@@ -25,7 +25,7 @@ import { motion, AnimatePresence, useScroll } from "motion/react";
 import { ChevronLeft, ChevronRight, Menu, Bot, Zap } from "lucide-react";
 
 export default function Layout() {
-  const { diagnosticsActive } = useUI();
+  const { diagnosticsActive, chromeHidden } = useUI();
   const location = useLocation();
 
   // One call here gives every route its own title and share preview.
@@ -69,7 +69,7 @@ export default function Layout() {
       <Navbar />
 
       <AnimatePresence>
-        {diagnosticsActive && (
+        {diagnosticsActive && !chromeHidden.includes('hudFrame') && (
           <motion.div 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}

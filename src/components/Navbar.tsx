@@ -56,7 +56,9 @@ export default function Navbar() {
     isSearchOpen,
     setIsSearchOpen,
     chromeHidden,
-    toggleChrome
+    toggleChrome,
+    enterFocusMode,
+    restoreChrome
   } = useUI();
   const { startListening, stopListening, isSupported, voiceState, audioLevel, error, resetError } = useVoiceControl();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -806,7 +808,15 @@ export default function Navbar() {
                     { label: 'COMMS LINK', to: '/contact' },
                     { label: 'RENDER SETTINGS', action: () => { setIsMobileMenuOpen(false); setIsGlobalSettingsOpen(true); } },
                     { label: 'WALLPAPER CONFIG', action: () => { setIsMobileMenuOpen(false); setIsWallpaperSettingsOpen(true); } },
-                    { label: 'SYSTEM DIAGNOSTICS', action: () => { setIsMobileMenuOpen(false); setIsSystemHealthOpen(true); } }
+                    { label: 'SYSTEM DIAGNOSTICS', action: () => { setIsMobileMenuOpen(false); setIsSystemHealthOpen(true); } },
+                    /* ⚠️ THE HIDE CONTROLS IN THE HEADER ARE `hidden lg:block`,
+                       so below 1024px a visitor could not hide anything at all
+                       — the whole full-screen feature was desktop-only. This
+                       puts the same power in the mobile menu: one tap clears
+                       every panel, and the RAW mark bottom-left brings any of
+                       them back. */
+                    { label: 'HIDE ALL PANELS', action: () => { setIsMobileMenuOpen(false); enterFocusMode(); } },
+                    { label: 'SHOW ALL PANELS', action: () => { setIsMobileMenuOpen(false); restoreChrome(); } }
                   ] 
                 },
               ].map((item, idx) => (
