@@ -6,3 +6,6 @@ coverage/
 *.log
 .env*
 !.env.example
+
+# esbuild output for the Node-app hosting mode (never published)
+server-dist

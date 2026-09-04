@@ -443,9 +443,9 @@ Directives: Safe for continuous high-load operations. Calibrated for maximum phy
     });
     app.use(vite.middlewares);
   } else {
-    app.use(express.static(path.join(resolvedDirname, 'dist')));
+    app.use(express.static(path.join(resolvedDirname, '..', 'dist')));
     app.get('*', (req, res) => {
-      res.sendFile(path.join(resolvedDirname, 'dist', 'index.html'));
+      res.sendFile(path.join(resolvedDirname, '..', 'dist', 'index.html'));
     });
   }
 

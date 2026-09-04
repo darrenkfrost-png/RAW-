@@ -25,7 +25,7 @@
  * is deleted on activate.
  */
 
-const VERSION = 'raw-v1';
+const VERSION = 'raw-v2';
 const SHELL = `${VERSION}-shell`;
 const ASSETS = `${VERSION}-assets`;
 const MEDIA = `${VERSION}-media`;
@@ -77,8 +77,16 @@ self.addEventListener('fetch', (event) => {
     event.respondWith(
       fetch(req)
         .then((res) => {
-          const copy = res.clone();
-          caches.open(SHELL).then((c) => c.put('/', copy)).catch(() => {});
+          // ⚠️ ONLY A GOOD RESPONSE MAY BECOME THE SHELL.
+          // This used to cache whatever came back. On the live site, before the
+          // .htaccess rewrite existed, every page except '/' returned the host's
+          // own 404 — so this line saved that 404 page AS the offline app. Any
+          // visitor who then lost signal was served "This Page Does Not Exist"
+          // by their own browser, from a cache no refresh could clear.
+          if (res.ok) {
+            const copy = res.clone();
+            caches.open(SHELL).then((c) => c.put('/', copy)).catch(() => {});
+          }
           return res;
         })
         .catch(() => caches.match('/').then((hit) => hit || Response.error())),

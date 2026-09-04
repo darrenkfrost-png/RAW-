@@ -20,6 +20,12 @@ import vm from 'node:vm';
 
 const source = fs.readFileSync('public/sw.js', 'utf8');
 
+// Read the version out of the worker itself. Hard-coding it here meant that
+// bumping VERSION in sw.js broke these tests for a reason unrelated to the
+// change being made.
+const VERSION = source.match(/const VERSION = '([^']+)'/)[1];
+const PREV = 'raw-v0';
+
 // ── Minimal platform stubs ────────────────────────────────────────────────
 class FakeResponse {
   constructor(body, init = {}) {
@@ -96,13 +102,13 @@ const run = async () => {
     !!listeners.install && !!listeners.activate && !!listeners.fetch);
 
   // ── activate must delete caches from older versions ─────────────────────
-  caches.set('raw-v0-shell', makeCache());
-  caches.set('raw-v1-shell', makeCache());
+  caches.set(`${PREV}-shell`, makeCache());
+  caches.set(`${VERSION}-shell`, makeCache());
   let activateWork;
   await listeners.activate({ waitUntil: (p) => { activateWork = p; } });
   await activateWork;
   check('activate deletes stale-version caches, keeps current',
-    !caches.has('raw-v0-shell') && caches.has('raw-v1-shell'),
+    !caches.has(`${PREV}-shell`) && caches.has(`${VERSION}-shell`),
     [...caches.keys()].join(','));
 
   // ── helper to drive a fetch event ───────────────────────────────────────
@@ -127,7 +133,7 @@ const run = async () => {
 
   // 2. ...and falls back to the cached shell only when the network is gone.
   networkShouldFail = true;
-  const shell = await sandbox.caches.open('raw-v1-shell');
+  const shell = await sandbox.caches.open(`${VERSION}-shell`);
   await shell.put('/', new FakeResponse('cached-shell'));
   const offlineNav = await request('https://raw.test/combat', { mode: 'navigate' });
   check('offline navigation falls back to the cached shell',
@@ -135,7 +141,7 @@ const run = async () => {
   networkShouldFail = false;
 
   // 3. Fingerprinted assets are cache-first — safe because names are immutable.
-  const assets = await sandbox.caches.open('raw-v1-assets');
+  const assets = await sandbox.caches.open(`${VERSION}-assets`);
   await assets.put('https://raw.test/assets/index-ABC123.js', new FakeResponse('cached-asset'));
   networkCalls = [];
   const asset = await request('https://raw.test/assets/index-ABC123.js');
@@ -156,13 +162,25 @@ const run = async () => {
   check('POST requests pass through', post === 'PASSED_THROUGH');
 
   // 7. A partial (206) video response must not poison the cache.
-  const media = await sandbox.caches.open('raw-v1-media');
+  const media = await sandbox.caches.open(`${VERSION}-media`);
   const before = media.store.size;
   sandbox.fetch = async (req) => new FakeResponse('partial', { status: 206 });
   await request('https://raw.test/promo/assets/campaign-giveaway.mp4');
   await new Promise((r) => setTimeout(r, 10));
   check('206 partial responses are not cached', media.store.size === before,
     `media entries: ${media.store.size}`);
+
+  // 8. A 404 must never be saved as the offline shell. On the live site every
+  //    page except '/' returned the host's 404 before the .htaccess rewrite
+  //    existed, and this worker cached that page as the app.
+  const shell2 = await sandbox.caches.open();
+  await shell2.put('/', new FakeResponse('good-shell'));
+  sandbox.fetch = async () => new FakeResponse('host-404-page', { status: 404 });
+  await request('https://raw.test/shop', { mode: 'navigate' });
+  await new Promise((r) => setTimeout(r, 10));
+  const kept = await shell2.match('/');
+  check('a 404 navigation is never cached as the app shell',
+    kept && kept.body === 'good-shell', );
 
   const failed = results.filter((r) => !r.pass);
   console.log(`\n${results.length - failed.length}/${results.length} checks passed`);

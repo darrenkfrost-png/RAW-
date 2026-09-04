@@ -1,0 +1,78 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# RAW Official — Apache/LiteSpeed rules for static hosting (Hostinger).
+#
+# ⚠️ WHY THIS FILE EXISTS. Measured on the live site before it was added:
+#    25 of 26 pages returned 404. Only "/" worked.
+#
+# This is a single-page app. The browser is told the address is /shop, but
+# there is no FILE called "shop" on the server — there is one index.html that
+# draws every page. Without the rewrite below, the server looks for a file
+# named "shop", does not find one, and serves its own 404. That breaks:
+# refreshing any page, every shared link, and every search-engine visit.
+#
+# ⚠️ THE `!-d` TRAP — DO NOT "FIX" THIS BY ADDING IT BACK.
+# The recipe everyone copies is:
+#     RewriteCond %{REQUEST_FILENAME} !-f
+#     RewriteCond %{REQUEST_FILENAME} !-d      <-- this line
+# That second line means "and not a real directory". It breaks THIS app,
+# because public/showcase/ is a real folder AND /showcase is a real page.
+# With !-d present, Apache decides /showcase is the folder, refuses to list
+# it, and returns 403 — which is exactly what the live site did before this
+# file existed. Matching on files ALONE is deliberate: a request for a real
+# file inside the folder (/showcase/tiktok/x.jpg) still hits `-f` and is
+# served normally, while /showcase itself correctly reaches the app.
+# ─────────────────────────────────────────────────────────────────────────────
+
+Options -Indexes
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # A real file always wins — assets, images, sw.js, robots.txt, the manifest.
+  RewriteCond %{REQUEST_FILENAME} -f
+  RewriteRule ^ - [L]
+
+  # Everything else is a page: hand it to the app. (See the !-d note above.)
+  RewriteRule . /index.html [L]
+</IfModule>
+
+# ── The server bundle is not a page, and must never be downloadable ──────────
+# dist/server.cjs and its source map were served with status 200 on the live
+# site, publishing the backend's compiled code and — via the .map — its full
+# original TypeScript. The build no longer writes them here, but a stale copy
+# left on the host would still be reachable, so the door is bolted too.
+<FilesMatch "\.(cjs|mjs|map|ts|env)$">
+  Require all denied
+</FilesMatch>
+
+<IfModule mod_mime.c>
+  AddType application/manifest+json .webmanifest
+  AddType text/javascript .js
+</IfModule>
+
+<IfModule mod_headers.c>
+  # index.html must never be cached: it names the current build's asset files.
+  # A stale copy asks for JS files the new deploy has deleted — a white screen
+  # that refreshing cannot fix.
+  <FilesMatch "index\.html$">
+    Header set Cache-Control "no-cache, must-revalidate"
+  </FilesMatch>
+
+  # The service worker decides what every future visit is allowed to see. A
+  # cached one keeps its old rules for as long as it lives, so it is always
+  # fetched fresh.
+  <FilesMatch "sw\.js$">
+    Header set Cache-Control "no-cache, must-revalidate"
+  </FilesMatch>
+</IfModule>
+
+# Fingerprinted build output can be cached forever — the filename changes on
+# every build, so a cached copy can never be the wrong version.
+<IfModule mod_expires.c>
+  ExpiresActive On
+  <FilesMatch "-[A-Za-z0-9_-]{8,}\.(js|css|woff2?)$">
+    ExpiresDefault "access plus 1 year"
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+</IfModule>
