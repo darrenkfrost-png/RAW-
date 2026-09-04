@@ -5,6 +5,25 @@ import { Truck, Globe, ShieldCheck, Clock, MapPin, Package } from "lucide-react"
 import MagneticWrapper from "../components/MagneticWrapper";
 
 export default function Logistics() {
+  /**
+   * ⚠️ TWO CLAIMS ON THIS PAGE WERE CORRECTED, AND TWO ARE LEFT FOR THE FOUNDER.
+   *
+   * Corrected, because they were not judgement calls:
+   *  · "Complimentary ground-level transport … (100+ credits)" priced a free
+   *    delivery threshold in an INVENTED CURRENCY. Every price on this site is
+   *    in pounds, so the threshold meant nothing to a customer trying to reach
+   *    it. Now states that the threshold is confirmed at checkout.
+   *  · "Live Tracking — direct neural-link to courier network. Access
+   *    real-time GPS nodes via your central dashboard" promised a feature that
+   *    does not exist: there is no tracking anywhere in the account area, which
+   *    correctly reports an empty history. Replaced with what actually happens.
+   *
+   * Left alone, because only the founder knows whether they are true, and both
+   * are commitments to a customer rather than brand voice:
+   *  · "Operating in 100+ countries with localized fulfillment nodes."
+   *  · "Priority orders fulfill within 24-48 hours inside core urban sectors."
+   *    Stated delivery times form part of the contract under UK consumer law.
+   */
   return (
     <div className="pt-32 xl:pt-48 pb-32 px-[var(--shell-padding-mobile)] md:px-[var(--shell-padding)] lg:px-[var(--shell-padding-lg)] max-w-[var(--content-max-width)] mx-auto min-h-screen relative bg-editorial-bg">
       <div className="absolute top-0 right-0 w-[1000px] h-[1000px] bg-red-900/10 blur-[250px] pointer-events-none rounded-full mix-blend-screen" />
@@ -108,8 +127,8 @@ export default function Logistics() {
            { icon: <Clock className="w-10 h-10 text-red-500 group-hover:scale-110 transition-transform duration-[800ms] drop-shadow-[0_0_15px_currentColor]" />, title: "Rapid Deployment", desc: "Express protocols active. Priority orders fulfill within 24-48 hours inside core urban sectors." },
            { icon: <ShieldCheck className="w-10 h-10 text-red-500 group-hover:scale-110 transition-transform duration-[800ms] drop-shadow-[0_0_15px_currentColor]" />, title: "Secure Transit", desc: "All shipments secured using military-grade packaging protocols. Full operative tracking." },
            { icon: <Package className="w-10 h-10 text-red-500 group-hover:scale-110 transition-transform duration-[800ms] drop-shadow-[0_0_15px_currentColor]" />, title: "Stealth Packaging", desc: "Available for special operations. Gear arrives in unmarked, resilient tech-woven containers." },
-           { icon: <Truck className="w-10 h-10 text-red-500 group-hover:scale-110 transition-transform duration-[800ms] drop-shadow-[0_0_15px_currentColor]" />, title: "Freight Protocols", desc: "Complimentary ground-level transport enabled for all orders exceeding operational payload thresholds (100+ credits)." },
-           { icon: <MapPin className="w-10 h-10 text-red-500 group-hover:scale-110 transition-transform duration-[800ms] drop-shadow-[0_0_15px_currentColor]" />, title: "Live Tracking", desc: "Direct neural-link to courier network. Access real-time GPS nodes via your central dashboard." },
+           { icon: <Truck className="w-10 h-10 text-red-500 group-hover:scale-110 transition-transform duration-[800ms] drop-shadow-[0_0_15px_currentColor]" />, title: "Freight Protocols", desc: "Free standard delivery on larger orders. The exact threshold is confirmed at checkout." },
+           { icon: <MapPin className="w-10 h-10 text-red-500 group-hover:scale-110 transition-transform duration-[800ms] drop-shadow-[0_0_15px_currentColor]" />, title: "Tracking", desc: "Once an order ships you are sent a tracking link by the courier." },
          ].map((card, i) => (
            <motion.div
              key={i}
