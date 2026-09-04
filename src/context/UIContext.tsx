@@ -4,6 +4,23 @@ export type ChromePart = 'header' | 'sidebar' | 'statusBar' | 'voiceHub' | 'aiHu
 
 export const CHROME_PARTS: ChromePart[] = ['header', 'sidebar', 'statusBar', 'voiceHub', 'aiHub', 'diagnostics', 'protocolChip', 'hudFrame'];
 
+/**
+ * What a first-time visitor sees: the header and the sidebar, and nothing
+ * else.
+ *
+ * Everything in CHROME_PARTS that is NOT listed here is on at load. The list
+ * is written as "everything except" rather than spelled out, so a panel added
+ * to CHROME_PARTS later starts hidden by default and has to be argued INTO
+ * the opening screen — the opposite of how this got crowded in the first
+ * place, where each new overlay simply appeared.
+ *
+ * The visitor's own choice always wins: this only applies when nothing has
+ * been saved.
+ */
+export const DEFAULT_HIDDEN: ChromePart[] = CHROME_PARTS.filter(
+  (p) => p !== 'header' && p !== 'sidebar',
+);
+
 interface UIContextType {
   uiScale: number;
   setUIScale: (scale: number) => void;
@@ -107,9 +124,15 @@ export function UIProvider({ children }: { children: React.ReactNode }) {
   const [chromeHidden, setChromeHiddenState] = useState<ChromePart[]>(() => {
     try {
       const saved = localStorage.getItem("raw_chrome_hidden");
-      const parsed = saved ? JSON.parse(saved) : [];
-      return Array.isArray(parsed) ? parsed.filter((p: string) => CHROME_PARTS.includes(p as ChromePart)) : [];
-    } catch { return []; }
+      /* ⚠️ THE ABSENCE OF A SAVED CHOICE IS NOT AN EMPTY CHOICE.
+         `saved ? … : []` treated a first-time visitor as someone who had
+         asked for every panel, so the site opened wearing all eight at once.
+         A first visit now gets DEFAULT_HIDDEN — the header and the sidebar,
+         and nothing else — and only a real saved value overrides it. */
+      if (saved === null) return [...DEFAULT_HIDDEN];
+      const parsed = JSON.parse(saved);
+      return Array.isArray(parsed) ? parsed.filter((p: string) => CHROME_PARTS.includes(p as ChromePart)) : [...DEFAULT_HIDDEN];
+    } catch { return [...DEFAULT_HIDDEN]; }
   });
 
   const persistChrome = useCallback((parts: ChromePart[]) => {
