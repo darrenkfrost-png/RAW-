@@ -562,7 +562,7 @@ export default function Navbar() {
                   <button 
                     aria-label="Open cart"
                     onClick={() => setIsCartOpen(true)}
-                    className="relative cursor-pointer group outline-none text-editorial-text-muted hover:text-editorial-text transition-colors duration-500 p-2 sm:p-3.5 bg-transparent hover:bg-editorial-text/5 rounded-full focus:ring-2 focus:ring-white"
+                    className="relative inline-flex min-h-11 min-w-11 cursor-pointer items-center justify-center group outline-none text-editorial-text-muted hover:text-editorial-text transition-colors duration-500 p-2 sm:p-3.5 bg-transparent hover:bg-editorial-text/5 rounded-full focus:ring-2 focus:ring-white"
                   >
                     <ShoppingCart className="w-5 h-5 transition-all duration-500 group-hover:scale-110 ease-fluid" />
                     <AnimatePresence>

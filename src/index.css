@@ -364,8 +364,20 @@
     100% { transform: scale(1.05); opacity: 1; }
   }
 
+  /* ⚠️ 17px TALL IS NOT A TOUCH TARGET. These are the footer's navigation
+     links — eight of them, and on a phone every one measured 17px high, which
+     was more than half of all the undersized controls left on the page. The
+     underline animation below needs the text's own width, so height is added
+     rather than padding the box out sideways. Phones only: on a desktop the
+     tighter rhythm is the design, and a mouse does not need 44px. */
   .link-premium {
     @apply relative text-zinc-400 hover:text-editorial-text transition-colors duration-500;
+  }
+
+  @media (max-width: 767px) {
+    .link-premium {
+      @apply inline-flex items-center min-h-11;
+    }
   }
 
   .link-premium::after {

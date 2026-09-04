@@ -83,7 +83,10 @@ export default function Layout() {
             <div className="absolute bottom-0 right-0 w-20 h-20 border-b-2 border-r-2 border-red-500/30 rounded-br-[4rem] m-[-1px]" />
             
             <div className="absolute inset-0 bg-[linear-gradient(rgba(220,38,38,0.02)_1px,transparent_1px)] bg-[size:100%_40px] animate-scan-slow opacity-20" />
-            <div className="absolute top-10 right-14 font-mono text-[9px] text-red-500/40 uppercase tracking-[0.5em] font-black drop-shadow-[0_0_5px_rgba(220,38,38,0.5)]">
+            {/* Decoration only, and on a phone it is 287px of it lying
+                across the header at y=57. There is no room for a caption on
+                the HUD frame at this width, so it waits for one. */}
+            <div className="hidden sm:block absolute top-10 right-14 font-mono text-[9px] text-red-500/40 uppercase tracking-[0.5em] font-black drop-shadow-[0_0_5px_rgba(220,38,38,0.5)]">
                HUD_ACTIVE // SYSTEM_VERIFIED
             </div>
           </motion.div>

@@ -154,7 +154,7 @@ export default function TechnicalStatusBar() {
           <Tooltip content="NEURAL_UPLINK [⌘⇧K]">
             <button 
               onClick={() => setIsAIChatOpen(!isAIChatOpen)}
-              className={`flex items-center gap-3 p-2 rounded-lg transition-all duration-300 group ${isAIChatOpen ? 'bg-red-600/20 text-red-500 shadow-[0_0_15px_rgba(220,38,38,0.2)]' : 'text-meta-premium opacity-40 hover:opacity-100 hover:bg-white/5'}`}
+              className={`flex min-h-11 items-center justify-center gap-3 p-2 rounded-lg transition-all duration-300 group ${isAIChatOpen ? 'bg-red-600/20 text-red-500 shadow-[0_0_15px_rgba(220,38,38,0.2)]' : 'text-meta-premium opacity-40 hover:opacity-100 hover:bg-white/5'}`}
             >
               <MessageSquare className="w-4 h-4 group-hover:scale-110 transition-transform" />
               <span className="hidden md:inline text-[10px] uppercase font-black">AI_CORE</span>
@@ -164,7 +164,7 @@ export default function TechnicalStatusBar() {
           <Tooltip content="SYSTEM_TERMINAL [⌘T]">
             <button 
               onClick={() => setIsTerminalOpen(!isTerminalOpen)}
-              className={`flex items-center gap-3 p-2 rounded-lg transition-all duration-300 group ${isTerminalOpen ? 'bg-red-600/20 text-red-500 shadow-[0_0_15px_rgba(220,38,38,0.2)]' : 'text-meta-premium opacity-40 hover:opacity-100 hover:bg-white/5'}`}
+              className={`flex min-h-11 items-center justify-center gap-3 p-2 rounded-lg transition-all duration-300 group ${isTerminalOpen ? 'bg-red-600/20 text-red-500 shadow-[0_0_15px_rgba(220,38,38,0.2)]' : 'text-meta-premium opacity-40 hover:opacity-100 hover:bg-white/5'}`}
             >
               <Terminal className="w-4 h-4 group-hover:scale-110 transition-transform" />
               <span className="hidden md:inline text-[10px] uppercase font-black">Terminal</span>
@@ -174,7 +174,7 @@ export default function TechnicalStatusBar() {
           <Tooltip content="ENV_MODE_TOGGLE">
             <button 
               onClick={() => setIsWallpaperMode(true)}
-              className="flex items-center gap-3 p-2 rounded-lg text-meta-premium opacity-40 hover:opacity-100 hover:bg-white/5 transition-all duration-300 group"
+              className="flex min-h-11 items-center justify-center gap-3 p-2 rounded-lg text-meta-premium opacity-40 hover:opacity-100 hover:bg-white/5 transition-all duration-300 group"
             >
               <Maximize className="w-4 h-4 group-hover:scale-110 transition-transform" />
               <span className="hidden md:inline text-[10px] uppercase font-black">Canvas</span>
@@ -184,7 +184,7 @@ export default function TechnicalStatusBar() {
           <div className="relative flex items-center">
             <button 
               onClick={() => setShowScaleSlider(!showScaleSlider)}
-              className={`flex items-center gap-3 p-2 rounded-lg transition-all duration-300 group ${showScaleSlider ? 'bg-red-600/20 text-red-500' : 'text-meta-premium opacity-40 hover:opacity-100 hover:bg-white/5'}`}
+              className={`flex min-h-11 items-center justify-center gap-3 p-2 rounded-lg transition-all duration-300 group ${showScaleSlider ? 'bg-red-600/20 text-red-500' : 'text-meta-premium opacity-40 hover:opacity-100 hover:bg-white/5'}`}
             >
               <Settings2 className="w-4 h-4 group-hover:rotate-90 transition-transform duration-500" />
               <span className="hidden md:inline text-[10px] uppercase font-black">Res:</span> <span className="font-bold text-editorial-text text-[10px]">{Math.round(uiScale * 100)}%</span>
