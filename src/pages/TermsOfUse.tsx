@@ -1,4 +1,23 @@
 
+/**
+ * ⚠️ THIS DOCUMENT CLAIMED A PAYMENT SYSTEM THAT DOES NOT EXIST.
+ *
+ * It stated: "We utilize decentralized payment processing through restricted
+ * zero-knowledge gateways." No payments are taken through this site at all —
+ * the same invention that was removed from the privacy policy, repeated in the
+ * terms. Terms are a contract: they are the last place fiction belongs.
+ *
+ * Three related corrections came with it. The page priced everything in
+ * "credits" — an invented currency, while every price on the site is in
+ * pounds — said prices were "subject to algorithmic shifts without preemptive
+ * alerts", and promised "real-time transmission logs" from a tracking system
+ * that does not exist. Each now states what is actually true, including the
+ * ordinary consumer protection that the price shown at order time is the price
+ * that applies.
+ *
+ * Like the privacy policy, the rest is still brand-voice placeholder rather
+ * than reviewed terms of sale, and should be replaced before the shop trades.
+ */
 export default function TermsOfUse() {
   return (
     <div className="pt-32 pb-24 px-[var(--shell-padding-mobile)] md:px-[var(--shell-padding)] lg:px-[var(--shell-padding-lg)] max-w-[1000px] mx-auto text-editorial-text relative min-h-screen">
@@ -22,16 +41,16 @@ export default function TermsOfUse() {
               <section className="bg-editorial-bg/80 p-10 xl:p-14 rounded-[2rem] border border-editorial-border shadow-[0_20px_50px_rgba(0,0,0,0.1)] backdrop-blur-3xl hover:border-red-500/30 transition-colors duration-[800ms] group">
                 <h2 className="font-mono font-black text-[13px] uppercase tracking-[0.4em] mb-8 text-red-500 flex items-center gap-4"><span className="text-zinc-600 font-bold">03</span> Value Exchange</h2>
                 <ul className="space-y-6 font-light leading-relaxed text-lg xl:text-xl text-editorial-text-muted list-none max-w-3xl group-hover:text-editorial-text transition-colors duration-[800ms]">
-                  <li className="flex gap-5 items-start"><div className="w-2 h-2 bg-red-600 rounded-full mt-2.5 shrink-0 shadow-[0_0_8px_#dc2626]" />All credit requirements are listed dynamically and include applicable network fees unless stated otherwise.</li>
-                  <li className="flex gap-5 items-start"><div className="w-2 h-2 bg-red-600 rounded-full mt-2.5 shrink-0 shadow-[0_0_8px_#dc2626]" />We utilize decentralized payment processing through restricted zero-knowledge gateways.</li>
-                  <li className="flex gap-5 items-start"><div className="w-2 h-2 bg-red-600 rounded-full mt-2.5 shrink-0 shadow-[0_0_8px_#dc2626]" />Credit values are subject to algorithmic shifts without preemptive alerts.</li>
+                  <li className="flex gap-5 items-start"><div className="w-2 h-2 bg-red-600 rounded-full mt-2.5 shrink-0 shadow-[0_0_8px_#dc2626]" />Prices are shown in pounds sterling. Any delivery charge is shown before an order is confirmed.</li>
+                  <li className="flex gap-5 items-start"><div className="w-2 h-2 bg-red-600 rounded-full mt-2.5 shrink-0 shadow-[0_0_8px_#dc2626]" />No payments are taken through this site at present, so no payment details are collected or processed.</li>
+                  <li className="flex gap-5 items-start"><div className="w-2 h-2 bg-red-600 rounded-full mt-2.5 shrink-0 shadow-[0_0_8px_#dc2626]" />Prices may change, but the price shown when an order is placed is the price that applies to it.</li>
                 </ul>
               </section>
       
               <section className="bg-editorial-bg/80 p-10 xl:p-14 rounded-[2rem] border border-editorial-border shadow-[0_20px_50px_rgba(0,0,0,0.1)] backdrop-blur-3xl hover:border-red-500/30 transition-colors duration-[800ms] group">
                 <h2 className="font-mono font-black text-[13px] uppercase tracking-[0.4em] mb-8 text-red-500 flex items-center gap-4"><span className="text-zinc-600 font-bold">04</span> Fulfillment & Deployment</h2>
                 <ul className="space-y-6 font-light leading-relaxed text-lg xl:text-xl text-editorial-text-muted list-none max-w-3xl group-hover:text-editorial-text transition-colors duration-[800ms]">
-                  <li className="flex gap-5 items-start"><div className="w-2 h-2 bg-red-600 rounded-full mt-2.5 shrink-0 shadow-[0_0_8px_#dc2626]" />Once a logistics manifest is verified, you will receive real-time transmission logs.</li>
+                  <li className="flex gap-5 items-start"><div className="w-2 h-2 bg-red-600 rounded-full mt-2.5 shrink-0 shadow-[0_0_8px_#dc2626]" />Once an order has shipped you will be sent tracking details by the courier.</li>
                   <li className="flex gap-5 items-start"><div className="w-2 h-2 bg-red-600 rounded-full mt-2.5 shrink-0 shadow-[0_0_8px_#dc2626]" />Deployment speeds are dependent on sector proximity to core hubs.</li>
                   <li className="flex gap-5 items-start"><div className="w-2 h-2 bg-red-600 rounded-full mt-2.5 shrink-0 shadow-[0_0_8px_#dc2626]" />RAW is not liable for structural delays encountered by third-party transport operators.</li>
                   <li className="flex gap-5 items-start"><div className="w-2 h-2 bg-red-600 rounded-full mt-2.5 shrink-0 shadow-[0_0_8px_#dc2626]" />Live GPS node tracking will be accessible post-authorization.</li>

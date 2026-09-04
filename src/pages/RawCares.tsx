@@ -84,7 +84,7 @@ export default function RawCares() {
               <Globe className="w-8 h-8 xl:w-10 xl:h-10 text-editorial-text-muted group-hover:text-red-500 transition-colors duration-500" />
             </div>
             <h4 className="font-sans font-black text-3xl xl:text-4xl uppercase mb-6 text-editorial-text drop-shadow-[0_2px_4px_rgba(0,0,0,0.08)] relative z-10 leading-none">Environmental <br/> Intent</h4>
-            <p className="text-editorial-text-muted leading-relaxed font-light text-xl relative z-10 flex-grow">We highly strictly utilize synthetic packaging protocols and optimize supply-chain matrices to minimize environmental impact trails.</p>
+            <p className="text-editorial-text-muted leading-relaxed font-light text-xl relative z-10 flex-grow">We work to reduce the environmental impact of our packaging and supply chain.</p>
              <div className="mt-12 w-full h-[2px] bg-editorial-text/5 group-hover:bg-red-500/30 transition-colors duration-700 relative overflow-hidden">
                 <div className="absolute left-0 top-0 h-full bg-red-500 w-0 group-hover:w-full transition-all duration-[1000ms] ease-[0.16,1,0.3,1]" />
              </div>
