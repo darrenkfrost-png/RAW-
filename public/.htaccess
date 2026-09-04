@@ -39,6 +39,18 @@ Options -Indexes
   RewriteCond %{REQUEST_URI} ^/api/
   RewriteRule ^ - [R=404,L]
 
+  # ⚠️ A MISSING CHUNK MUST 404 — IT MUST NEVER BECOME index.html.
+  # Every deploy renames the fingerprinted files under /assets/. A visitor who
+  # still has the previous build open then asks for a chunk that no longer
+  # exists; without this rule the catch-all below answered that request with
+  # index.html, status 200, and the browser refused it ("Expected a JavaScript
+  # module but the server responded with text/html") — a crash card on a site
+  # that had just been deployed successfully. A real 404 lets the app notice
+  # the stale build and reload itself (see main.tsx).
+  RewriteCond %{REQUEST_URI} ^/assets/
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteRule ^ - [R=404,L]
+
   # A real file always wins — assets, images, sw.js, robots.txt, the manifest.
   RewriteCond %{REQUEST_FILENAME} -f
   RewriteRule ^ - [L]

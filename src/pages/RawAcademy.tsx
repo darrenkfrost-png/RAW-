@@ -207,26 +207,6 @@ export default function RawAcademy() {
             </div>
         </section>
 
-        {/* Global Intelligence Stats */}
-        <section className="mt-40 grid md:grid-cols-4 gap-12 border-t border-editorial-border pt-32">
-            {[
-                { icon: Shield, label: "Integrity", value: "Verified" },
-                { icon: Activity, label: "Live_Uplink", value: "Stable" },
-                { icon: Cpu, label: "Neural_Load", value: "Nominal" },
-                { icon: Zap, label: "Latency", value: "0.2ms" },
-            ].map((stat, i) => (
-                <div key={i} className="flex items-center gap-6 group/stat">
-                    <div className="w-14 h-14 bg-editorial-surface border border-editorial-border rounded-[1.25rem] flex items-center justify-center text-zinc-600 group-hover/stat:text-white group-hover/stat:border-red-600/30 transition-all duration-700">
-                        <stat.icon className="w-6 h-6" />
-                    </div>
-                    <div>
-                        <span className="block font-mono text-[9px] text-zinc-600 uppercase tracking-[0.4em] font-black group-hover/stat:text-red-500 transition-colors">{stat.label}</span>
-                        <span className="block font-sans font-black text-2xl uppercase tracking-tight text-white">{stat.value}</span>
-                    </div>
-                </div>
-            ))}
-        </section>
-
       </div>
     </div>
   );

@@ -19,6 +19,32 @@ window.addEventListener('unhandledrejection', (e) => {
 });
 
 /**
+ * ⚠️ A DEPLOY RENAMES EVERY CHUNK. Anyone with the previous build still open
+ * asks for a file that no longer exists the moment they navigate. Before this
+ * guard, that arrived as a crash card — "Failed to fetch dynamically imported
+ * module" — on a site that had just deployed successfully. Seen live on
+ * 2026-09-04 within minutes of a push.
+ *
+ * Vite reports the failure as a `vite:preloadError` event. One reload fetches the new
+ * index.html and its new chunk names, and the visitor never sees a thing.
+ *
+ * THE BUDGET IS TIME-BASED, DELIBERATELY. A flag cleared on `load` would re-arm
+ * on the reloaded page and loop forever against a genuinely broken deploy. A
+ * 30-second window allows exactly one healing reload per incident, and every
+ * future deploy gets its own — while a chunk that is truly gone surfaces as an
+ * error after a single attempt instead of a reload storm.
+ */
+window.addEventListener('vite:preloadError', (event) => {
+  const KEY = 'raw_chunk_reload_at';
+  let last = 0;
+  try { last = Number(sessionStorage.getItem(KEY) || 0); } catch { /* private mode */ }
+  if (Date.now() - last < 30_000) return; // already tried: let the error show
+  try { sessionStorage.setItem(KEY, String(Date.now())); } catch { /* ignore */ }
+  event.preventDefault();
+  window.location.reload();
+});
+
+/**
  * ⚠️ THE SERVICE WORKER IS REGISTERED IN PRODUCTION ONLY.
  *
  * In dev it would sit between Vite and the browser and serve yesterday's

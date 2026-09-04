@@ -12,7 +12,6 @@ import { TiltCard } from "../components/common/TiltCard";
 import { LazyHeroVideo } from "../components/home/LazyHeroVideo";
 import { Atmosphere } from "../components/common/Atmosphere";
 import { EngagementVideo } from "../components/home/EngagementVideo";
-import { LiveTelemetryBar } from "../components/home/LiveTelemetryBar";
 import { motion, useInView, useMotionValue, useSpring, useTransform } from "motion/react";
 import {
   Heart,
@@ -757,7 +756,6 @@ export default function Home() {
         <div className="absolute bottom-0 left-0 w-[1200px] h-[1200px] bg-red-900/10 blur-[250px] pointer-events-none rounded-full -ml-80 -mb-80 group-hover/cares:bg-red-900/30 transition-colors duration-[2000ms] mix-blend-screen" />
       </section>
       
-      <LiveTelemetryBar />
     </>
   );
 }
