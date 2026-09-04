@@ -94,7 +94,12 @@ export default function SystemHealthDashboard() {
       const started = performance.now();
       try {
         const res = await fetch("/api/health");
-        if (res.ok) {
+        // ⚠️ res.ok IS NOT ENOUGH — IT ONCE REPORTED A HEALTHY API ON A SITE
+        // WITH NO API. On static hosting the SPA rewrite hands every unknown
+        // address the index.html shell with status 200, so this check passed
+        // on HTML and lit the panel ONLINE. Only JSON is the API answering.
+        const isJson = (res.headers.get("content-type") || "").includes("application/json");
+        if (res.ok && isJson) {
           misses = 0;
           setPing(Math.round(performance.now() - started));
           setApiStatus('ONLINE');

@@ -29,6 +29,16 @@ Options -Indexes
   RewriteEngine On
   RewriteBase /
 
+  # ⚠️ /api/ MUST NOT BE ANSWERED BY THE APP SHELL.
+  # Without this, the catch-all below hands /api/health the index.html page
+  # with status 200. The health dashboard only checks res.ok, so it read that
+  # as a healthy API and displayed "API ONLINE" on a site that has no API at
+  # all — a green light with nothing behind it. A real 404 is the honest
+  # answer for static hosting. (In Node mode this file is not used; Express
+  # handles /api itself before any static file.)
+  RewriteCond %{REQUEST_URI} ^/api/
+  RewriteRule ^ - [R=404,L]
+
   # A real file always wins — assets, images, sw.js, robots.txt, the manifest.
   RewriteCond %{REQUEST_FILENAME} -f
   RewriteRule ^ - [L]

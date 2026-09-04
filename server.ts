@@ -443,9 +443,15 @@ Directives: Safe for continuous high-load operations. Calibrated for maximum phy
     });
     app.use(vite.middlewares);
   } else {
-    app.use(express.static(path.join(resolvedDirname, '..', 'dist')));
+    // Resolve from the project root, never relative to this bundle. The
+    // bundle has moved once already (dist/ -> server-dist/), and each move
+    // silently changed where the site was served from: the previous version
+    // resolved to <root>/dist/dist and answered every page with a bare 404
+    // while /api/health still reported healthy.
+    const CLIENT_DIST = path.join(process.cwd(), 'dist');
+    app.use(express.static(CLIENT_DIST));
     app.get('*', (req, res) => {
-      res.sendFile(path.join(resolvedDirname, '..', 'dist', 'index.html'));
+      res.sendFile(path.join(CLIENT_DIST, 'index.html'));
     });
   }
 
