@@ -1,8 +1,10 @@
 import React, { createContext, useContext, useState, useEffect, useMemo, useCallback } from "react";
 
-export type ChromePart = 'header' | 'sidebar' | 'statusBar' | 'voiceHub' | 'aiHub' | 'diagnostics' | 'protocolChip' | 'hudFrame';
+export type ChromePart = 'header' | 'sidebar' | 'statusBar' | 'diagnostics' | 'protocolChip' | 'hudFrame';
 
-export const CHROME_PARTS: ChromePart[] = ['header', 'sidebar', 'statusBar', 'voiceHub', 'aiHub', 'diagnostics', 'protocolChip', 'hudFrame'];
+// voiceHub and aiHub were removed with the AI features; a saved list that still
+// names them is filtered against this array on load, so old choices stay valid.
+export const CHROME_PARTS: ChromePart[] = ['header', 'sidebar', 'statusBar', 'diagnostics', 'protocolChip', 'hudFrame'];
 
 /**
  * What a first-time visitor sees: the header and the sidebar, and nothing

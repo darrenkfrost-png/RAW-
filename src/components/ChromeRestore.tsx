@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { PanelTop, PanelLeft, PanelBottom, Mic, Bot, Activity, Layers, Scan, Eye, EyeOff, X } from "lucide-react";
+import { PanelTop, PanelLeft, PanelBottom, Activity, Layers, Scan, Eye, EyeOff, X } from "lucide-react";
 import { useUI, CHROME_PARTS, type ChromePart } from "../context/UIContext";
 
 /**
@@ -31,8 +31,6 @@ const LABELS: Record<ChromePart, { label: string; icon: typeof PanelTop }> = {
   header: { label: "Top bar", icon: PanelTop },
   sidebar: { label: "Side bar", icon: PanelLeft },
   statusBar: { label: "Status bar", icon: PanelBottom },
-  voiceHub: { label: "Voice panel", icon: Mic },
-  aiHub: { label: "AI assistant", icon: Bot },
   diagnostics: { label: "Readout chip", icon: Activity },
   protocolChip: { label: "Stack badge", icon: Layers },
   hudFrame: { label: "HUD frame", icon: Scan },
