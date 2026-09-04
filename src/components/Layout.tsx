@@ -18,6 +18,7 @@ import AmbientField from "./AmbientField";
 import VideoWallpaper from "./VideoWallpaper";
 import Screensaver from "./Screensaver";
 import ChromeRestore from "./ChromeRestore";
+import InstallPrompt from "./InstallPrompt";
 import { usePageMeta } from "../hooks/usePageMeta";
 import { useUI } from "../context/UIContext";
 import { useSettings } from "../context/SettingsContext";
@@ -160,6 +161,7 @@ export default function Layout() {
 
       {/* Nothing may hide without leaving a door: the RAW mark is it. */}
       <ChromeRestore />
+      <InstallPrompt />
 
       {/* Takes the whole screen after a minute of stillness, or on demand. */}
       <Screensaver />

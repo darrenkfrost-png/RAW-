@@ -1,0 +1,31 @@
+{
+  "name": "RAW Official — Performance & Recovery",
+  "short_name": "RAW",
+  "description": "Train with intent, recover with purpose. Performance nutrition, recovery equipment and combat gear from RAW Official.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#0a0a0c",
+  "theme_color": "#0a0a0c",
+  "categories": ["shopping", "health", "sports"],
+  "icons": [
+    {
+      "src": "/brand/app-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/favicon.png",
+      "sizes": "813x348",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ],
+  "shortcuts": [
+    { "name": "Stay Safe campaign", "url": "/stay-safe" },
+    { "name": "The Archive", "url": "/shop" },
+    { "name": "Showcase", "url": "/showcase" }
+  ]
+}
