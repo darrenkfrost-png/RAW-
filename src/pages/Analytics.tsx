@@ -52,7 +52,11 @@ export default function Analytics() {
   return (
     <div className={`min-h-svh pt-36 xl:pt-48 pb-32 px-[var(--shell-padding-mobile)] md:px-[var(--shell-padding)] lg:px-[var(--shell-padding-lg)] transition-colors duration-500 relative ${is110Percent ? 'bg-editorial-bg noise-overlay' : 'bg-editorial-bg'}`}>
       {!is110Percent && <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-editorial-bg/40 via-transparent to-transparent pointer-events-none opacity-60 mix-blend-screen" />}
-      {is110Percent && <div className="absolute inset-0 pointer-events-none mix-blend-overlay opacity-20 bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />}
+      {/* A noise texture was fetched from grainy-gradients.vercel.app here — a
+          third-party request made purely for decoration, and the last one left
+          in the app. The overlay stays; it just no longer reaches off this site
+          to draw itself. */}
+      {is110Percent && <div className="absolute inset-0 pointer-events-none mix-blend-overlay opacity-20 bg-gradient-to-br from-white/5 via-transparent to-white/5" />}
       
       <div className="max-w-[var(--content-max-width)] mx-auto space-y-16 relative z-10">
         <Breadcrumb items={[{ label: 'System', path: '/performance-system' }, { label: 'Analytics', active: true }]} />

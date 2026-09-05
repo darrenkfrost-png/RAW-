@@ -10,7 +10,9 @@
     "start": "node server-dist/server.cjs",
     "clean": "rm -rf dist",
     "lint": "tsc --noEmit",
-    "test": "tsx src/tests/test_suite.ts"
+    "test": "tsx src/tests/test_suite.ts",
+    "verify": "node scripts/verify.mjs",
+    "test:sw": "node scripts/test-sw.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
