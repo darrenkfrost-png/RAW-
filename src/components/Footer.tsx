@@ -64,6 +64,11 @@ export default function Footer() {
               <Link to="/nutrients" className="link-premium w-fit font-mono text-[0.6875rem] uppercase tracking-[0.25em] px-1 font-bold text-editorial-text-muted hover:text-editorial-text transition-all duration-300">Nutrients</Link>
               <Link to="/recovery" className="link-premium w-fit font-mono text-[0.6875rem] uppercase tracking-[0.25em] px-1 font-bold text-editorial-text-muted hover:text-editorial-text transition-all duration-300">Recovery</Link>
               <Link to="/combat" className="link-premium w-fit font-mono text-[0.6875rem] uppercase tracking-[0.25em] px-1 font-bold text-editorial-text-muted hover:text-editorial-text transition-all duration-300">Combat</Link>
+              <span className="mt-2 mb-1 h-px w-10 bg-white/[0.08]" aria-hidden="true" />
+              <Link to="/target/athletes" className="link-premium w-fit font-mono text-[0.6875rem] uppercase tracking-[0.25em] px-1 font-bold text-editorial-text-muted hover:text-editorial-text transition-all duration-300">For_Athletes</Link>
+              <Link to="/target/fighters" className="link-premium w-fit font-mono text-[0.6875rem] uppercase tracking-[0.25em] px-1 font-bold text-editorial-text-muted hover:text-editorial-text transition-all duration-300">For_Fighters</Link>
+              <Link to="/target/everyday" className="link-premium w-fit font-mono text-[0.6875rem] uppercase tracking-[0.25em] px-1 font-bold text-editorial-text-muted hover:text-editorial-text transition-all duration-300">Everyday_Performance</Link>
+              <Link to="/target/recovery" className="link-premium w-fit font-mono text-[0.6875rem] uppercase tracking-[0.25em] px-1 font-bold text-editorial-text-muted hover:text-editorial-text transition-all duration-300">For_Recovery</Link>
            </nav>
         </div>
       </div>
