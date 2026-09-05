@@ -1,7 +1,7 @@
 import { motion } from "motion/react";
 import { useCart } from "../context/CartContext";
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { ArrowRight, CheckCircle, ShieldCheck } from "lucide-react";
 
 /**
@@ -19,7 +19,8 @@ export default function Checkout() {
   const [isProcessing, setIsProcessing] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [notLive, setNotLive] = useState(false);
-  const navigate = useNavigate();
+  // The processor's own order reference, shown on the confirmation screen. Never invented locally.
+  const [orderRef, setOrderRef] = useState<string | null>(null);
 
   /**
    * ⚠️ ORDERING IS NOT LIVE, AND THE PAGE NOW SAYS SO.
@@ -31,10 +32,10 @@ export default function Checkout() {
    * card number, expiry and CVV into a form connected to nothing and been
    * told their purchase succeeded.
    *
-   * That is the most damaging thing a shop can do, so it is gated rather than
-   * simulated. Flip PAYMENTS_ENABLED to true once a real processor is wired
-   * and the original confirmation flow below returns unchanged — nothing was
-   * deleted, only prevented from lying.
+   * That is the most damaging thing a shop can do, so the simulated
+   * confirmation is gone for good. Flipping PAYMENTS_ENABLED alone does NOT
+   * confirm anything: the enabled branch below is the seam where the real
+   * processor call goes. Only its response may set orderRef and isSuccess.
    */
   const handleCheckout = (e: React.FormEvent) => {
     e.preventDefault();
@@ -47,11 +48,15 @@ export default function Checkout() {
     }
 
     setIsProcessing(true);
-    setTimeout(() => {
-      setIsProcessing(false);
-      setIsSuccess(true);
-      items.forEach(item => removeFromCart(item.id));
-    }, 2500);
+    // INTEGRATION SEAM — replace this block with the real processor call:
+    //   const { orderRef } = await processor.createOrder({ items, cartTotal, ...form });
+    //   setOrderRef(orderRef);
+    //   items.forEach(item => removeFromCart(item.id));
+    //   setIsSuccess(true);
+    // Until that call exists nothing is confirmed, no matter what the switch says.
+    setIsProcessing(false);
+    setNotLive(true);
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   if (items.length === 0 && !isSuccess) {
@@ -93,19 +98,14 @@ export default function Checkout() {
           <p className="text-editorial-text-muted mb-12 font-mono text-[0.6875rem] xl:text-[0.75rem] tracking-[0.4em] uppercase font-bold drop-shadow-[0_2px_4px_rgba(0,0,0,0.08)]">
             Order Protocol Confirmed. Awaiting Dispatch.
           </p>
-          <div className="font-mono text-[0.6875rem] text-editorial-text-muted mb-12 border-t border-editorial-border-light pt-10 bg-editorial-bg/60 p-8 rounded-2xl border border-editorial-border inline-block text-left relative z-10 w-full max-w-md mx-auto shadow-[0_10px_30px_rgba(0,0,0,0.08)]">
-            <div className="flex justify-between items-center mb-6">
-              <span className="font-bold tracking-widest">TRANSACTION_HASH:</span>
-              <span className="text-editorial-text drop-shadow-[0_0_5px_rgba(0,0,0,0.06)]">{Math.random().toString(36).substr(2, 12).toUpperCase()}</span>
+          {orderRef && (
+            <div className="font-mono text-[0.6875rem] text-editorial-text-muted mb-12 border-t border-editorial-border-light pt-10 bg-editorial-bg/60 p-8 rounded-2xl border border-editorial-border inline-block text-left relative z-10 w-full max-w-md mx-auto shadow-[0_10px_30px_rgba(0,0,0,0.08)]">
+              <div className="flex justify-between items-center gap-4 flex-wrap">
+                <span className="font-bold tracking-widest">ORDER_REF:</span>
+                <span className="text-editorial-text drop-shadow-[0_0_5px_rgba(0,0,0,0.06)] break-all">{orderRef}</span>
+              </div>
             </div>
-            <div className="flex justify-between items-center">
-              <span className="font-bold text-emerald-500 flex items-center gap-3 tracking-widest">
-                 <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse shadow-[0_0_5px_currentColor]"></div>
-                 SYSTEM_STATUS:
-              </span>
-              <span className="text-emerald-500 drop-shadow-[0_0_5px_currentColor]">PREPARING_DEPLOYMENT</span>
-            </div>
-          </div>
+          )}
           <br className="hidden md:block"/>
           <Link to="/" className="inline-flex items-center gap-4 bg-editorial-text text-editorial-bg px-12 py-6 font-black uppercase tracking-[0.4em] text-[0.75rem] hover:bg-emerald-500 hover:text-editorial-text transition-all duration-500 rounded-2xl shadow-[0_15px_40px_rgba(0,0,0,0.08)] hover:shadow-[0_20px_50px_rgba(16,185,129,0.3)] relative z-10 mx-auto group/btn transform-gpu hover:-translate-y-1">
             Return to Base <ArrowRight className="w-5 h-5 group-hover/btn:translate-x-2 transition-transform duration-300" />
@@ -136,7 +136,7 @@ export default function Checkout() {
               </p>
               <p className="mt-3 text-sm leading-relaxed text-editorial-text-muted">
                 This checkout is not connected to a payment provider, so no order
-                can be placed and no card is taken. Card fields are disabled for
+                can be placed and no card is taken. The form is disabled for
                 that reason — please don&rsquo;t enter card details anywhere on
                 this page. Your basket is kept as it is.
               </p>
@@ -165,8 +165,8 @@ export default function Checkout() {
               <div className="absolute top-0 right-0 w-full h-[2px] bg-gradient-to-r from-transparent via-red-600/50 to-transparent transform translate-x-full group-hover:translate-x-0 transition-transform duration-[1500ms] ease-[0.16,1,0.3,1] shadow-[0_0_15px_#dc2626]" />
               <h2 className="font-sans font-black text-3xl uppercase tracking-tighter border-b border-editorial-border pb-8 text-editorial-text group-hover:text-red-500 transition-colors duration-[800ms] drop-shadow-[0_2px_4px_rgba(0,0,0,0.08)]">Contact Information</h2>
               <div className="space-y-4">
-                <label className="text-[0.6875rem] font-black uppercase tracking-[0.4em] text-editorial-text-muted ml-2">Email Address</label>
-                <input required type="email" className="w-full bg-editorial-bg/80 backdrop-blur-md border border-editorial-border rounded-2xl px-8 py-6 focus:border-red-500 outline-none transition-all duration-[500ms] font-mono text-lg text-editorial-text shadow-[inset_0_2px_10px_rgba(0,0,0,0.1)] focus:shadow-[0_0_20px_rgba(220,38,38,0.2)] focus:bg-editorial-bg placeholder:text-zinc-600 hover:border-editorial-border-light" placeholder="operative@domain.com" />
+                <label htmlFor="co-email" className="text-[0.6875rem] font-black uppercase tracking-[0.4em] text-editorial-text-muted ml-2">Email Address</label>
+                <input id="co-email" required disabled={!PAYMENTS_ENABLED} type="email" autoComplete="email" className="w-full bg-editorial-bg/80 backdrop-blur-md border border-editorial-border rounded-2xl px-8 py-6 focus:border-red-500 outline-none transition-all duration-[500ms] font-mono text-lg text-editorial-text shadow-[inset_0_2px_10px_rgba(0,0,0,0.1)] focus:shadow-[0_0_20px_rgba(220,38,38,0.2)] focus:bg-editorial-bg placeholder:text-zinc-600 hover:border-editorial-border-light disabled:cursor-not-allowed disabled:opacity-40" placeholder="operative@domain.com" />
               </div>
             </div>
 
@@ -176,26 +176,26 @@ export default function Checkout() {
               <h2 className="font-sans font-black text-3xl uppercase tracking-tighter border-b border-editorial-border pb-8 text-editorial-text group-hover:text-red-500 transition-colors duration-[800ms] drop-shadow-[0_2px_4px_rgba(0,0,0,0.08)]">Shipping Protocol</h2>
               <div className="grid md:grid-cols-2 gap-8">
                 <div className="space-y-4">
-                  <label className="text-[0.6875rem] font-black uppercase tracking-[0.4em] text-editorial-text-muted ml-2">First Name</label>
-                  <input required type="text" className="w-full bg-editorial-bg/80 backdrop-blur-md border border-editorial-border rounded-2xl px-8 py-6 focus:border-red-500 outline-none transition-all duration-[500ms] font-mono text-lg text-editorial-text shadow-[inset_0_2px_10px_rgba(0,0,0,0.1)] focus:shadow-[0_0_20px_rgba(220,38,38,0.2)] focus:bg-editorial-bg hover:border-editorial-border-light disabled:cursor-not-allowed disabled:opacity-40" />
+                  <label htmlFor="co-first-name" className="text-[0.6875rem] font-black uppercase tracking-[0.4em] text-editorial-text-muted ml-2">First Name</label>
+                  <input id="co-first-name" required disabled={!PAYMENTS_ENABLED} autoComplete="given-name" type="text" className="w-full bg-editorial-bg/80 backdrop-blur-md border border-editorial-border rounded-2xl px-8 py-6 focus:border-red-500 outline-none transition-all duration-[500ms] font-mono text-lg text-editorial-text shadow-[inset_0_2px_10px_rgba(0,0,0,0.1)] focus:shadow-[0_0_20px_rgba(220,38,38,0.2)] focus:bg-editorial-bg hover:border-editorial-border-light disabled:cursor-not-allowed disabled:opacity-40" />
                 </div>
                 <div className="space-y-4">
-                  <label className="text-[0.6875rem] font-black uppercase tracking-[0.4em] text-editorial-text-muted ml-2">Last Name</label>
-                  <input required type="text" className="w-full bg-editorial-bg/80 backdrop-blur-md border border-editorial-border rounded-2xl px-8 py-6 focus:border-red-500 outline-none transition-all duration-[500ms] font-mono text-lg text-editorial-text shadow-[inset_0_2px_10px_rgba(0,0,0,0.1)] focus:shadow-[0_0_20px_rgba(220,38,38,0.2)] focus:bg-editorial-bg hover:border-editorial-border-light disabled:cursor-not-allowed disabled:opacity-40" />
+                  <label htmlFor="co-last-name" className="text-[0.6875rem] font-black uppercase tracking-[0.4em] text-editorial-text-muted ml-2">Last Name</label>
+                  <input id="co-last-name" required disabled={!PAYMENTS_ENABLED} autoComplete="family-name" type="text" className="w-full bg-editorial-bg/80 backdrop-blur-md border border-editorial-border rounded-2xl px-8 py-6 focus:border-red-500 outline-none transition-all duration-[500ms] font-mono text-lg text-editorial-text shadow-[inset_0_2px_10px_rgba(0,0,0,0.1)] focus:shadow-[0_0_20px_rgba(220,38,38,0.2)] focus:bg-editorial-bg hover:border-editorial-border-light disabled:cursor-not-allowed disabled:opacity-40" />
                 </div>
               </div>
               <div className="space-y-4">
-                <label className="text-[0.6875rem] font-black uppercase tracking-[0.4em] text-editorial-text-muted ml-2">Sector / Address</label>
-                <input required type="text" className="w-full bg-editorial-bg/80 backdrop-blur-md border border-editorial-border rounded-2xl px-8 py-6 focus:border-red-500 outline-none transition-all duration-[500ms] font-mono text-lg text-editorial-text shadow-[inset_0_2px_10px_rgba(0,0,0,0.1)] focus:shadow-[0_0_20px_rgba(220,38,38,0.2)] focus:bg-editorial-bg hover:border-editorial-border-light disabled:cursor-not-allowed disabled:opacity-40" />
+                <label htmlFor="co-address" className="text-[0.6875rem] font-black uppercase tracking-[0.4em] text-editorial-text-muted ml-2">Sector / Address</label>
+                <input id="co-address" required disabled={!PAYMENTS_ENABLED} autoComplete="street-address" type="text" className="w-full bg-editorial-bg/80 backdrop-blur-md border border-editorial-border rounded-2xl px-8 py-6 focus:border-red-500 outline-none transition-all duration-[500ms] font-mono text-lg text-editorial-text shadow-[inset_0_2px_10px_rgba(0,0,0,0.1)] focus:shadow-[0_0_20px_rgba(220,38,38,0.2)] focus:bg-editorial-bg hover:border-editorial-border-light disabled:cursor-not-allowed disabled:opacity-40" />
               </div>
               <div className="grid md:grid-cols-2 gap-8">
                 <div className="space-y-4">
-                  <label className="text-[0.6875rem] font-black uppercase tracking-[0.4em] text-editorial-text-muted ml-2">City</label>
-                  <input required type="text" className="w-full bg-editorial-bg/80 backdrop-blur-md border border-editorial-border rounded-2xl px-8 py-6 focus:border-red-500 outline-none transition-all duration-[500ms] font-mono text-lg text-editorial-text shadow-[inset_0_2px_10px_rgba(0,0,0,0.1)] focus:shadow-[0_0_20px_rgba(220,38,38,0.2)] focus:bg-editorial-bg hover:border-editorial-border-light disabled:cursor-not-allowed disabled:opacity-40" />
+                  <label htmlFor="co-city" className="text-[0.6875rem] font-black uppercase tracking-[0.4em] text-editorial-text-muted ml-2">City</label>
+                  <input id="co-city" required disabled={!PAYMENTS_ENABLED} autoComplete="address-level2" type="text" className="w-full bg-editorial-bg/80 backdrop-blur-md border border-editorial-border rounded-2xl px-8 py-6 focus:border-red-500 outline-none transition-all duration-[500ms] font-mono text-lg text-editorial-text shadow-[inset_0_2px_10px_rgba(0,0,0,0.1)] focus:shadow-[0_0_20px_rgba(220,38,38,0.2)] focus:bg-editorial-bg hover:border-editorial-border-light disabled:cursor-not-allowed disabled:opacity-40" />
                 </div>
                 <div className="space-y-4">
-                  <label className="text-[0.6875rem] font-black uppercase tracking-[0.4em] text-editorial-text-muted ml-2">Postal Code</label>
-                  <input required type="text" className="w-full bg-editorial-bg/80 backdrop-blur-md border border-editorial-border rounded-2xl px-8 py-6 focus:border-red-500 outline-none transition-all duration-[500ms] font-mono text-lg text-editorial-text shadow-[inset_0_2px_10px_rgba(0,0,0,0.1)] focus:shadow-[0_0_20px_rgba(220,38,38,0.2)] focus:bg-editorial-bg hover:border-editorial-border-light disabled:cursor-not-allowed disabled:opacity-40" />
+                  <label htmlFor="co-postal-code" className="text-[0.6875rem] font-black uppercase tracking-[0.4em] text-editorial-text-muted ml-2">Postal Code</label>
+                  <input id="co-postal-code" required disabled={!PAYMENTS_ENABLED} autoComplete="postal-code" type="text" className="w-full bg-editorial-bg/80 backdrop-blur-md border border-editorial-border rounded-2xl px-8 py-6 focus:border-red-500 outline-none transition-all duration-[500ms] font-mono text-lg text-editorial-text shadow-[inset_0_2px_10px_rgba(0,0,0,0.1)] focus:shadow-[0_0_20px_rgba(220,38,38,0.2)] focus:bg-editorial-bg hover:border-editorial-border-light disabled:cursor-not-allowed disabled:opacity-40" />
                 </div>
               </div>
             </div>
@@ -210,17 +210,17 @@ export default function Checkout() {
               
               <h2 className="font-sans font-black text-3xl uppercase tracking-tighter border-b border-editorial-border pb-8 relative z-10 text-editorial-text group-hover:text-red-500 transition-colors duration-[800ms] drop-shadow-[0_2px_4px_rgba(0,0,0,0.08)]">Payment Mechanism</h2>
               <div className="space-y-4 relative z-10">
-                <label className="text-[0.6875rem] font-black uppercase tracking-[0.4em] text-editorial-text-muted ml-2">Card Number</label>
-                <input required={PAYMENTS_ENABLED} disabled={!PAYMENTS_ENABLED} autoComplete="off" type="text" pattern="[0-9]{16}" placeholder="0000 0000 0000 0000" className="w-full bg-editorial-bg/80 backdrop-blur-md border border-editorial-border rounded-2xl px-8 py-6 focus:border-red-500 outline-none transition-all duration-[500ms] font-mono text-xl text-editorial-text tracking-widest shadow-[inset_0_2px_10px_rgba(0,0,0,0.1)] focus:shadow-[0_0_20px_rgba(220,38,38,0.2)] focus:bg-editorial-bg placeholder:text-zinc-600 hover:border-editorial-border-light disabled:cursor-not-allowed disabled:opacity-40" />
+                <label htmlFor="co-card-number" className="text-[0.6875rem] font-black uppercase tracking-[0.4em] text-editorial-text-muted ml-2">Card Number</label>
+                <input id="co-card-number" required={PAYMENTS_ENABLED} disabled={!PAYMENTS_ENABLED} autoComplete="off" type="text" inputMode="numeric" pattern="[0-9 ]{13,23}" title="13 to 19 digits, spaces allowed" placeholder="0000 0000 0000 0000" className="w-full bg-editorial-bg/80 backdrop-blur-md border border-editorial-border rounded-2xl px-8 py-6 focus:border-red-500 outline-none transition-all duration-[500ms] font-mono text-xl text-editorial-text tracking-widest shadow-[inset_0_2px_10px_rgba(0,0,0,0.1)] focus:shadow-[0_0_20px_rgba(220,38,38,0.2)] focus:bg-editorial-bg placeholder:text-zinc-600 hover:border-editorial-border-light disabled:cursor-not-allowed disabled:opacity-40" />
               </div>
               <div className="grid md:grid-cols-2 gap-8 relative z-10">
                 <div className="space-y-4">
-                  <label className="text-[0.6875rem] font-black uppercase tracking-[0.4em] text-editorial-text-muted ml-2">Expiry (MM/YY)</label>
-                  <input required={PAYMENTS_ENABLED} disabled={!PAYMENTS_ENABLED} autoComplete="off" type="text" placeholder="12/25" className="w-full bg-editorial-bg/80 backdrop-blur-md border border-editorial-border rounded-2xl px-8 py-6 focus:border-red-500 outline-none transition-all duration-[500ms] font-mono text-xl text-editorial-text tracking-widest shadow-[inset_0_2px_10px_rgba(0,0,0,0.1)] focus:shadow-[0_0_20px_rgba(220,38,38,0.2)] focus:bg-editorial-bg placeholder:text-zinc-600 hover:border-editorial-border-light disabled:cursor-not-allowed disabled:opacity-40" />
+                  <label htmlFor="co-card-expiry" className="text-[0.6875rem] font-black uppercase tracking-[0.4em] text-editorial-text-muted ml-2">Expiry (MM/YY)</label>
+                  <input id="co-card-expiry" required={PAYMENTS_ENABLED} disabled={!PAYMENTS_ENABLED} autoComplete="off" type="text" inputMode="numeric" placeholder="12/25" className="w-full bg-editorial-bg/80 backdrop-blur-md border border-editorial-border rounded-2xl px-8 py-6 focus:border-red-500 outline-none transition-all duration-[500ms] font-mono text-xl text-editorial-text tracking-widest shadow-[inset_0_2px_10px_rgba(0,0,0,0.1)] focus:shadow-[0_0_20px_rgba(220,38,38,0.2)] focus:bg-editorial-bg placeholder:text-zinc-600 hover:border-editorial-border-light disabled:cursor-not-allowed disabled:opacity-40" />
                 </div>
                 <div className="space-y-4">
-                  <label className="text-[0.6875rem] font-black uppercase tracking-[0.4em] text-editorial-text-muted ml-2">CVC</label>
-                  <input required={PAYMENTS_ENABLED} disabled={!PAYMENTS_ENABLED} autoComplete="off" type="password" placeholder="***" className="w-full bg-editorial-bg/80 backdrop-blur-md border border-editorial-border rounded-2xl px-8 py-6 focus:border-red-500 outline-none transition-all duration-[500ms] font-mono text-xl text-editorial-text tracking-widest shadow-[inset_0_2px_10px_rgba(0,0,0,0.1)] focus:shadow-[0_0_20px_rgba(220,38,38,0.2)] focus:bg-editorial-bg placeholder:text-zinc-600 hover:border-editorial-border-light disabled:cursor-not-allowed disabled:opacity-40" />
+                  <label htmlFor="co-card-cvc" className="text-[0.6875rem] font-black uppercase tracking-[0.4em] text-editorial-text-muted ml-2">CVC</label>
+                  <input id="co-card-cvc" required={PAYMENTS_ENABLED} disabled={!PAYMENTS_ENABLED} autoComplete="off" type="password" inputMode="numeric" placeholder="***" className="w-full bg-editorial-bg/80 backdrop-blur-md border border-editorial-border rounded-2xl px-8 py-6 focus:border-red-500 outline-none transition-all duration-[500ms] font-mono text-xl text-editorial-text tracking-widest shadow-[inset_0_2px_10px_rgba(0,0,0,0.1)] focus:shadow-[0_0_20px_rgba(220,38,38,0.2)] focus:bg-editorial-bg placeholder:text-zinc-600 hover:border-editorial-border-light disabled:cursor-not-allowed disabled:opacity-40" />
                 </div>
               </div>
             </div>
@@ -238,7 +238,7 @@ export default function Checkout() {
             ) : (
               <div className="space-y-6 mb-12 max-h-[45vh] overflow-y-auto custom-scrollbar pr-4 relative z-10">
                 {items.map((item) => (
-                  <div key={item.id} className="flex gap-6 group hover:bg-editorial-text/[0.03] p-4 rounded-2xl transition-colors duration-[800ms] border border-transparent hover:border-editorial-border -mx-4 cursor-pointer">
+                  <Link key={item.id} to={`/product/${item.id}`} className="flex gap-6 group hover:bg-editorial-text/[0.03] p-4 rounded-2xl transition-colors duration-[800ms] border border-transparent hover:border-editorial-border -mx-4" aria-label={`View ${item.name}`}>
                     <div className="w-24 h-24 bg-editorial-text border border-editorial-border-light rounded-xl overflow-hidden shadow-[0_10px_30px_rgba(0,0,0,0.08)] relative">
                       <img src={item.image} alt={item.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-[1500ms] ease-[0.16,1,0.3,1]" />
                       <div className="absolute inset-0 bg-editorial-bg/10 group-hover:bg-transparent transition-colors duration-[800ms] pointer-events-none" />
@@ -250,7 +250,7 @@ export default function Checkout() {
                     <div className="font-black text-xl xl:text-2xl tracking-tighter text-editorial-text flex items-center drop-shadow-[0_2px_4px_rgba(0,0,0,0.08)]">
                       £{(parseFloat(item.price.replace("£", "")) * item.quantity).toFixed(2)}
                     </div>
-                  </div>
+                  </Link>
                 ))}
               </div>
             )}
@@ -275,7 +275,8 @@ export default function Checkout() {
             <button 
               form="checkout-form"
               type="submit"
-              disabled={items.length === 0 || isProcessing}
+              disabled={!PAYMENTS_ENABLED || items.length === 0 || isProcessing}
+              aria-disabled={!PAYMENTS_ENABLED || items.length === 0 || isProcessing}
               className="w-full mt-12 bg-red-600 border-b-[4px] border-red-800 text-white py-7 rounded-2xl font-black uppercase tracking-[0.4em] text-[0.8125rem] hover:bg-editorial-text hover:text-editorial-bg transition-all duration-[800ms] ease-[0.16,1,0.3,1] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-4 relative overflow-hidden group/btn shadow-[0_20px_50px_rgba(220,38,38,0.3)] hover:shadow-[0_30px_80px_rgba(0,0,0,0.08)] transform-gpu active:border-b-0 active:translate-y-[2px] z-10"
             >
               {isProcessing ? (
@@ -286,6 +287,9 @@ export default function Checkout() {
               ) : (
                 <>
                    <span className="relative z-10 mt-0.5 pointer-events-none drop-shadow-[0_2px_4px_rgba(0,0,0,0.08)] group-hover/btn:drop-shadow-none group-hover/btn:text-editorial-bg">AUTHORIZE DEPLOYMENT</span>
+                   {!PAYMENTS_ENABLED && (
+                     <span className="relative z-10 font-mono text-[0.5625rem] tracking-widest border border-white/40 rounded px-1.5 py-0.5 pointer-events-none">COMING_SOON</span>
+                   )}
                    <ArrowRight className="w-6 h-6 relative z-10 group-hover/btn:translate-x-3 transition-transform duration-[800ms] drop-shadow-[0_2px_4px_rgba(0,0,0,0.08)] group-hover/btn:drop-shadow-none group-hover/btn:text-editorial-bg" />
                 </>
               )}

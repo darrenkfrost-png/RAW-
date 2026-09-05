@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from "motion/react";
-import { Crosshair, Target, Shield, Zap } from "lucide-react";
+import { Crosshair, Target } from "lucide-react";
 
 interface TargetInfo {
   id: string;
@@ -34,7 +34,7 @@ export default function CombatTargetZone() {
       <div className="max-w-[1400px] mx-auto grid lg:grid-cols-2 gap-24 xl:gap-32 items-center">
         {/* Silhouette Visualization */}
         <div 
-          className="relative min-w-0 aspect-[3/4] bg-editorial-bg border border-red-900/10 flex items-center justify-center overflow-hidden perspective-1000 rounded-[3rem] shadow-[inset_0_0_80px_rgba(0,0,0,0.1),0_20px_50px_rgba(220,38,38,0.05)] group/scanner"
+          className="relative min-w-0 aspect-[3/4] bg-editorial-bg border border-red-900/10 flex items-center justify-center overflow-hidden perspective-[1000px] rounded-[3rem] shadow-[inset_0_0_80px_rgba(0,0,0,0.1),0_20px_50px_rgba(220,38,38,0.05)] group/scanner"
           onMouseMove={(e) => {
              const { left, top, width, height } = e.currentTarget.getBoundingClientRect();
              mouseX.set(e.clientX - left - width / 2);
@@ -45,7 +45,7 @@ export default function CombatTargetZone() {
             mouseY.set(0);
           }}
         >
-          {/* Scanning Grid Backdrop */}
+          {/* Grid backdrop */}
           <div className="absolute inset-0 opacity-[0.05] bg-[linear-gradient(#dc2626_1px,transparent_1px),linear-gradient(90deg,#dc2626_1px,transparent_1px)] bg-[size:40px_40px] mix-blend-screen transition-opacity duration-1000 group-hover/scanner:opacity-[0.1]" />
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-red-900/10 via-transparent to-transparent opacity-50 mix-blend-screen pointer-events-none" />
           
@@ -65,11 +65,13 @@ export default function CombatTargetZone() {
                    key={target.id}
                    onMouseEnter={() => setActiveTarget(target)}
                    onMouseLeave={() => setActiveTarget(null)}
+                   onClick={() => setActiveTarget(target)}
+                   aria-pressed={activeTarget?.id === target.id}
                    onFocus={() => setActiveTarget(target)}
                    onBlur={() => setActiveTarget(null)}
                    aria-label={`${target.label.replace(/_/g, " ")} — ${target.stat.replace(/_/g, " ")}`}
                    style={{ left: `${target.x}%`, top: `${target.y}%` }}
-                   className="absolute group/node z-20 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 rounded-full"
+                   className="absolute group/node z-20 p-3 -m-3 min-w-11 min-h-11 flex items-center justify-center focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 rounded-full"
                 >
                    <div className="relative">
                       <motion.div
@@ -94,7 +96,7 @@ export default function CombatTargetZone() {
 
 
 
-        {/* Diagnostic Panel */}
+        {/* Zone detail panel */}
         <div className="min-w-0 space-y-16">
             <div>
               <div className="flex items-center gap-6 mb-10">
@@ -131,16 +133,6 @@ export default function CombatTargetZone() {
                            {activeTarget.stat}
                            <div className="absolute -inset-4 bg-red-600/10 blur-[30px] -z-10 mix-blend-screen" />
                        </div>
-                       <div className="flex gap-8 pt-4">
-                          <div className="flex items-center gap-4 bg-editorial-bg p-4 rounded-xl border border-editorial-border shadow-[inset_0_2px_10px_rgba(0,0,0,0.03)]">
-                             <Shield className="w-5 h-5 text-emerald-500 drop-shadow-[0_0_8px_currentColor]" />
-                             <span className="font-mono text-[0.6875rem] text-emerald-500 tracking-[0.2em] font-bold">STABILITY_LOCKED</span>
-                          </div>
-                          <div className="flex items-center gap-4 bg-editorial-bg p-4 rounded-xl border border-editorial-border shadow-[inset_0_2px_10px_rgba(0,0,0,0.03)]">
-                             <Zap className="w-5 h-5 text-red-600 drop-shadow-[0_0_8px_currentColor]" />
-                             <span className="font-mono text-[0.6875rem] text-red-600 tracking-[0.2em] font-bold">ENERGY_MAX</span>
-                          </div>
-                       </div>
                     </motion.div>
                   ) : (
                     <motion.div
@@ -157,31 +149,12 @@ export default function CombatTargetZone() {
                           />
                           <Target className="w-20 h-20 text-zinc-800 drop-shadow-[0_0_20px_rgba(0,0,0,0.1)] relative z-10" />
                        </div>
-                       <span className="font-mono text-[0.75rem] text-zinc-600 tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] uppercase font-bold">Awaiting_Target_Lock...</span>
+                       <span className="font-mono text-[0.75rem] text-zinc-600 tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] uppercase font-bold">Hover_Or_Tap_A_Zone</span>
                     </motion.div>
                   )}
                </AnimatePresence>
             </div>
 
-            {/* ⚠️ TWO COLUMNS HERE FORCED THE WHOLE TEXT COLUMN TO 434px ON A PHONE. A flex/grid
-               child's minimum width is its content's minimum, and two unbreakable stat cards
-               side by side could not go below 434 — so the heading, the paragraph and this row
-               were all laid out at 434px, centred in a 375px screen and clipped both sides. One
-               column until there is room for two. */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 sm:gap-12 border-t border-editorial-border pt-12">
-               <div className="space-y-5 bg-editorial-bg/40 p-6 rounded-2xl border border-editorial-border">
-                  <span className="text-[0.75rem] font-black uppercase text-editorial-text-muted tracking-[0.4em] drop-shadow-[0_2px_4px_rgba(0,0,0,0.08)] block">Active Protocol</span>
-                  <div className="text-lg xl:text-xl text-editorial-text tracking-[0.3em] font-black drop-shadow-[0_2px_4px_rgba(0,0,0,0.1)] flex items-center gap-3">
-                     <div className="w-2.5 h-2.5 bg-emerald-500 rounded-full shadow-[0_0_10px_#10b981]" /> STRIKE_SYNC_V4
-                  </div>
-               </div>
-               <div className="space-y-5 bg-editorial-bg/40 p-6 rounded-2xl border border-editorial-border">
-                  <span className="text-[0.75rem] font-black uppercase text-editorial-text-muted tracking-[0.4em] drop-shadow-[0_2px_4px_rgba(0,0,0,0.08)] block">System Status</span>
-                  <div className="text-lg xl:text-xl text-red-500 tracking-[0.3em] font-black italic drop-shadow-[0_0_10px_rgba(220,38,38,0.5)] flex items-center gap-3">
-                     <div className="w-2.5 h-2.5 bg-red-500 rounded-full animate-pulse shadow-[0_0_10px_#dc2626]" /> PRODUCTION_READY
-                  </div>
-               </div>
-            </div>
         </div>
       </div>
     </div>

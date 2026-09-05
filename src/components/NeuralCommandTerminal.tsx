@@ -28,7 +28,7 @@ export default function NeuralCommandTerminal({ isOpen, onClose }: { isOpen: boo
 
   const filteredProducts = allProducts.filter(p => 
     p.name.toLowerCase().includes(query.toLowerCase()) || 
-    p.description.toLowerCase().includes(query.toLowerCase())
+    (p.description ?? "").toLowerCase().includes(query.toLowerCase())
   ).slice(0, 3);
 
   const navItems = [
@@ -43,12 +43,18 @@ export default function NeuralCommandTerminal({ isOpen, onClose }: { isOpen: boo
     cmd.category.toLowerCase().includes(query.toLowerCase())
   ).slice(0, 5);
 
-  const handleSelect = (path: string, label: string) => {
+  const handleSelect = (path: string) => {
     navigate(path);
     onClose();
   };
 
-  const executeSystemCommand = (id: string, label: string) => {
+  const executeSystemCommand = (id: string, label: string, category: string) => {
+    // Reader commands are no-ops unless a document is open in the reader; say so instead of closing silently
+    if (category === "Reader" && !(window as any).readerControls) {
+      addToast("Open a document in the reader first", "warning");
+      onClose();
+      return;
+    }
     executeCommand(id).then((ok) => {
       if (!ok) addToast(`Couldn't run "${label}"`, "error");
     }).catch((err: any) => addToast(`Couldn't run "${label}": ${err?.message || err}`, "error"));
@@ -76,7 +82,8 @@ export default function NeuralCommandTerminal({ isOpen, onClose }: { isOpen: boo
               <Search className="w-5 h-5 text-red-500" />
               <input
                 autoFocus
-                placeholder="EXECUTE_PROTOCOL_SEARCH..."
+                placeholder="SEARCH_PRODUCTS_PAGES_COMMANDS..."
+                aria-label="Search products, pages and commands"
                 className="flex-1 bg-transparent border-none outline-none font-mono text-lg text-editorial-text placeholder:text-zinc-600"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
@@ -93,7 +100,7 @@ export default function NeuralCommandTerminal({ isOpen, onClose }: { isOpen: boo
                         {execFilteredCommands.map((cmd) => (
                             <button
                                 key={cmd.id}
-                                onClick={() => executeSystemCommand(cmd.id, cmd.label)}
+                                onClick={() => executeSystemCommand(cmd.id, cmd.label, cmd.category)}
                                 className="w-full flex items-center justify-between p-3 rounded-xl hover:bg-zinc-800/20 text-editorial-text transition-colors group"
                             >
                                 <div className="flex items-center gap-3">
@@ -113,7 +120,7 @@ export default function NeuralCommandTerminal({ isOpen, onClose }: { isOpen: boo
                         {navItems.map((item) => (
                             <button
                                 key={item.path}
-                                onClick={() => handleSelect(item.path, item.name)}
+                                onClick={() => handleSelect(item.path)}
                                 className="w-full flex items-center justify-between p-3 rounded-xl hover:bg-red-600/10 hover:text-red-500 transition-colors group"
                             >
                                 <div className="flex items-center gap-3">
@@ -132,7 +139,7 @@ export default function NeuralCommandTerminal({ isOpen, onClose }: { isOpen: boo
                        {filteredProducts.map((product) => (
                             <button
                                 key={product.id}
-                                onClick={() => handleSelect(`/product/${product.id}`, product.name)}
+                                onClick={() => handleSelect(`/product/${product.id}`)}
                                 className="w-full flex items-center gap-4 p-3 rounded-xl hover:bg-editorial-bg transition-colors"
                             >
                                 <img src={product.image} className="w-10 h-10 object-cover rounded-lg" alt="" referrerPolicy="no-referrer" />

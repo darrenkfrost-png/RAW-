@@ -1,9 +1,8 @@
-import React, { useRef, useEffect } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import { Product } from "../types";
 import { allProducts } from "../data/products";
 import LazyImage from "../components/LazyImage";
-import { useUI } from "../context/UIContext";
 import MagneticWrapper from "../components/MagneticWrapper";
 import { CascadingBackground } from "../components/home/CascadingBackground";
 import ProductCard from "../components/common/ProductCard";
@@ -11,13 +10,10 @@ import { TiltCard } from "../components/common/TiltCard";
 import { LazyHeroVideo } from "../components/home/LazyHeroVideo";
 import { Atmosphere } from "../components/common/Atmosphere";
 import { EngagementVideo } from "../components/home/EngagementVideo";
-import { motion, useInView, useMotionValue, useSpring, useTransform } from "motion/react";
+import { motion, useMotionValue, useSpring, useTransform } from "motion/react";
 import {
   Heart,
   ChevronRight,
-  Play,
-  Eye,
-  ArrowRight,
 } from "lucide-react";
 
 
@@ -49,7 +45,7 @@ export default function Home() {
     <>
       {/* Hero Section */}
       <section 
-        className="relative h-[100svh] min-h-[900px] flex items-center justify-start overflow-hidden px-[var(--shell-padding-mobile)] md:px-[var(--shell-padding)] lg:px-[var(--shell-padding-lg)] bg-editorial-bg"
+        className="relative min-h-[100svh] lg:min-h-[max(100svh,900px)] py-24 lg:py-0 flex items-center justify-start overflow-hidden px-[var(--shell-padding-mobile)] md:px-[var(--shell-padding)] lg:px-[var(--shell-padding-lg)] bg-editorial-bg"
         onMouseMove={handleMouseMove}
       >
         <LazyHeroVideo />
@@ -70,14 +66,6 @@ export default function Home() {
             transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
             className="h-32 w-full bg-gradient-to-b from-red-500/20 to-transparent shadow-[0_0_60px_rgba(244,44,75,0.25)]"
           />
-          <div className="absolute top-8 left-8 right-8 flex justify-between items-start opacity-40">
-            <div className="flex gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse shadow-[0_0_10px_rgba(220,38,38,1)]" />
-              <span className="font-mono text-[0.6875rem] uppercase tracking-[0.4em] font-bold text-red-500">LIVE</span>
-            </div>
-            <span className="font-mono text-[0.6875rem] uppercase tracking-[0.4em] font-bold">V.4.0.0</span>
-          </div>
-          <div className="absolute bottom-10 left-10 font-mono text-[0.6875rem] text-red-500/80 font-bold tracking-[0.4em] uppercase bg-editorial-bg/40 px-5 py-3.5 rounded-2xl border border-editorial-border backdrop-blur-xl shadow-lg drop-shadow-[0_0_15px_rgba(244,44,75,0.3)] hover:bg-editorial-bg/60 hover:text-red-400 transition-all cursor-crosshair">TACTICAL_OVERLAY // ACTIVE</div>
         </motion.div>
         
           {/* ⚠️ min-w-0 IS LOAD-BEARING. This container is a flex ITEM (the section is
@@ -127,7 +115,7 @@ export default function Home() {
               <div className="h-[2px] w-full bg-gradient-to-r from-red-600 via-red-900 to-transparent mt-6 opacity-60 shadow-[0_0_10px_rgba(244,63,94,0.5)] rounded-full"></div>
             </div>
 
-            <motion.h1 
+            <motion.div
               initial={{ clipPath: "polygon(0 0, 0 0, 0 100%, 0% 100%)", filter: "blur(40px)", opacity: 0 }}
               animate={{ clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%)", filter: "blur(0px)", opacity: 1 }}
               transition={{ duration: 2.5, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
@@ -139,8 +127,9 @@ export default function Home() {
               style={{ x: headingX, y: headingY }}
               className="text-[clamp(1.625rem,7vw,8rem)] leading-[0.7] font-black uppercase tracking-[-0.08em] mb-12 drop-shadow-2xl relative mix-blend-plus-lighter text-premium"
             >
-              <span className="relative inline-block">
-                <span className="text-zinc-600/30 transition-colors duration-1000 block font-light tracking-[-0.05em] mt-8">RECOVER_INTENT</span>
+              <div className="relative inline-block">
+                <h1 className="block text-premium text-[clamp(1.625rem,7vw,8rem)] leading-[0.7] font-black uppercase tracking-[-0.08em] drop-shadow-2xl">
+                <span className="text-zinc-500 transition-colors duration-1000 block font-light tracking-[-0.05em] mt-8">RECOVER_INTENT</span>
                 <motion.span 
                   animate={{ 
                     opacity: [0.85, 1, 0.85],
@@ -151,17 +140,18 @@ export default function Home() {
                 >
                   INTEGRATE_PURPOSE
                 </motion.span>
-                <div className="text-white text-lg xl:text-2xl uppercase tracking-[0.3em] mt-10 font-mono">
+                </h1>
+                <p className="text-white text-lg xl:text-2xl uppercase tracking-[0.3em] mt-10 mb-0 font-mono font-black leading-none max-w-none">
                   Train with purpose. Recover with intent.
-                </div>
-              </span>
+                </p>
+              </div>
               
               <div className="absolute top-1/2 left-1/4 w-[80%] h-[500px] bg-red-600/10 blur-[200px] -z-10 mix-blend-screen pointer-events-none" />
               
               {/* HUD Frame Accents */}
               <div className="absolute -top-16 -left-16 w-32 h-32 border-t-2 border-l-2 border-red-600/40 rounded-tl-[4rem] pointer-events-none shadow-[0_0_30px_rgba(220,38,38,0.2)]" />
               <div className="absolute -bottom-16 -right-16 w-32 h-32 border-b-2 border-r-2 border-red-600/40 rounded-br-[4rem] pointer-events-none shadow-[0_0_30px_rgba(220,38,38,0.2)]" />
-            </motion.h1>
+            </motion.div>
             
             <motion.div 
               initial={{ opacity: 0, x: -30, filter: "blur(10px)" }}
@@ -181,7 +171,7 @@ export default function Home() {
                className="flex flex-wrap gap-4 mb-20 relative z-20"
             >
                 <Link to="/shop" className="button-premium" aria-label="Explore Archive Collection">Explore_Archive</Link>
-                <Link to="/knowledge-core" className="button-secondary" aria-label="Open AI Product Scanner">AI_Product_Scan</Link>
+                <Link to="/knowledge-core" className="button-secondary" aria-label="Open the Knowledge Core">Knowledge_Core</Link>
                 <Link to="/protocol-builder" className="button-secondary" aria-label="Launch Protocol Builder">Build_Protocol</Link>
                 <Link to="/recovery" className="button-secondary" aria-label="View Recovery category">View_Recovery</Link>
             </motion.div>
@@ -201,10 +191,6 @@ export default function Home() {
                     <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-[150%] skew-x-[-20deg] group-hover/btn:animate-[shimmer_1.5s_infinite]" />
                  </Link>
                </MagneticWrapper>
-               <div className="flex items-center gap-5 bg-editorial-bg/80 px-10 py-5 rounded-full border border-editorial-border backdrop-blur-xl shadow-[0_20px_50px_rgba(0,0,0,0.1)]">
-                  <div className="w-2.5 h-2.5 bg-green-500 rounded-full animate-ping shadow-[0_0_10px_#22c55e]" />
-                  <span className="text-[0.6875rem] font-bold text-editorial-text-muted tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] uppercase">OPERATIONAL_STATUS: <span className="text-green-500 drop-shadow-[0_0_8px_currentColor]">OPTIMAL</span></span>
-               </div>
             </div>
           </motion.div>
         </div>
@@ -280,73 +266,89 @@ export default function Home() {
             </div>
           </div>
           
+          {/* THE CARD IS A COLUMN, NOT A STACK OF LAYERS. Logo box on top, title under it, description + button pinned to the bottom, height from content (the grid keeps the three equal). The old version drew the logo full-card and centred behind a bottom-anchored text block whose hidden hover elements still took up room — once the fluid root grew that block, the title's second line landed on the logo (seen live 2026-09-05). A fixed 3:4 box cannot hold four elements at phone or laptop widths without clipping. */}
           <div className="grid md:grid-cols-3 gap-12 xl:gap-20">
-            <Link to="/nutrients" className="card-premium group/card aspect-[3/4] hover-raise" aria-label="Explore Nutrients Protocols">
+            <Link to="/nutrients" className="card-premium group/card hover-raise flex flex-col min-h-[26rem]" aria-label="Explore Nutrients Protocols">
               <div className="holographic-glow group-hover/card:opacity-60 transition-opacity duration-1000" />
               <div className="scanner-line top-1/4 group-hover/card:animate-[scan_3s_infinite]" />
               
+              {/* The wordmark lives in the TOP of the card, the title block at the BOTTOM — they can never meet. Drawn full-card and centred, the logo sat exactly where the title's second line landed once the fluid root grew the bottom block (2026-09-05, seen live). */}
+              <div className="relative h-40 md:h-44 shrink-0 pointer-events-none">
               <LazyImage 
                 src="https://rawofficial.co/wp-content/uploads/2026/02/nutrients-1024x173.png" 
                 alt="Nutrients" 
-                className="w-full h-full object-contain p-16 opacity-40 group-hover/card:opacity-100 group-hover/card:scale-110 transition-all duration-[2s] ease-fluid" 
-                containerClassName="w-full h-full"
+                className="w-full h-full object-contain p-8 opacity-40 group-hover/card:opacity-100 group-hover/card:scale-110 transition-all duration-[2s] ease-fluid" 
+                containerClassName="w-full h-full !bg-transparent"
               />
+              </div>
 
-              <div className="absolute inset-0 flex flex-col justify-end p-12 z-30">
-                <div className="mb-6 w-24 h-[1px] bg-editorial-text/20 overflow-hidden relative">
+              <div className="relative z-30 flex flex-col flex-1 px-10 pb-10 pt-2 md:px-12 md:pb-12">
+                <div className="mb-5 w-24 h-[1px] bg-editorial-text/20 overflow-hidden relative">
                    <motion.div initial={{ x: "-100%" }} whileInView={{ x: "100%" }} transition={{ duration: 2, repeat: Infinity, ease: "linear" }} className="absolute inset-y-0 w-1/2 bg-red-500 shadow-[0_0_15px_#dc2626]" />
                 </div>
-                <h3 className="font-sans font-black uppercase mb-6 leading-none text-editorial-text transition-transform duration-700 group-hover/card:-translate-y-2 text-display-sm">Fuel <br /> <span className="text-red-500">Intent</span></h3>
-                <p className="text-editorial-text-muted font-mono text-[0.6875rem] tracking-widest uppercase mb-10 opacity-0 group-hover/card:opacity-100 transition-all duration-700 delay-100 translate-y-4 group-hover/card:translate-y-0 leading-relaxed">
+                <h3 className="font-sans font-black uppercase mb-5 leading-none text-editorial-text transition-transform duration-700 group-hover/card:-translate-y-2 text-[clamp(2.25rem,1.25rem+2.2vw,4rem)]">Fuel <br /> <span className="text-red-500">Intent</span></h3>
+                <div className="mt-auto pt-4">
+                <p className="text-editorial-text-muted font-mono text-[0.6875rem] tracking-widest uppercase mb-8 opacity-100 translate-y-0 md:opacity-0 md:translate-y-4 md:group-hover/card:opacity-100 md:group-hover/card:translate-y-0 transition-all duration-700 delay-100 leading-relaxed">
                   // Precision nutrition and supplementation systems engineered for maximum bio-availability.
                 </p>
-                <div className="button-secondary w-fit pointer-events-auto opacity-0 group-hover/card:opacity-100 transition-all duration-700 delay-200">Deploy Nutrients</div>
+                <div className="button-secondary w-fit pointer-events-auto opacity-100 md:opacity-0 md:group-hover/card:opacity-100 transition-all duration-700 delay-200">Deploy Nutrients</div>
+                </div>
               </div>
             </Link>
             
-            <Link to="/combat" className="card-premium group/card aspect-[3/4] hover-raise" aria-label="Explore Combat Protocols">
+            <Link to="/combat" className="card-premium group/card hover-raise flex flex-col min-h-[26rem]" aria-label="Explore Combat Protocols">
               <div className="holographic-glow group-hover/card:opacity-60 transition-opacity duration-1000" />
               <div className="scanner-line top-1/2 group-hover/card:animate-[scan_4s_infinite]" />
               
+              {/* The wordmark lives in the TOP of the card, the title block at the BOTTOM — they can never meet. Drawn full-card and centred, the logo sat exactly where the title's second line landed once the fluid root grew the bottom block (2026-09-05, seen live). */}
+              <div className="relative h-40 md:h-44 shrink-0 pointer-events-none">
               <LazyImage 
                 src="https://rawofficial.co/wp-content/uploads/2026/02/combat-1024x201.png" 
                 alt="Combat" 
-                className="w-full h-full object-contain p-16 opacity-40 group-hover/card:opacity-100 group-hover/card:scale-110 transition-all duration-[2s] ease-fluid" 
-                containerClassName="w-full h-full"
+                className="w-full h-full object-contain p-8 opacity-40 group-hover/card:opacity-100 group-hover/card:scale-110 transition-all duration-[2s] ease-fluid" 
+                containerClassName="w-full h-full !bg-transparent"
               />
+              </div>
 
-              <div className="absolute inset-0 flex flex-col justify-end p-12 z-30">
-                <div className="mb-6 w-24 h-[1px] bg-editorial-text/20 overflow-hidden relative">
+              <div className="relative z-30 flex flex-col flex-1 px-10 pb-10 pt-2 md:px-12 md:pb-12">
+                <div className="mb-5 w-24 h-[1px] bg-editorial-text/20 overflow-hidden relative">
                    <motion.div initial={{ x: "-100%" }} whileInView={{ x: "100%" }} transition={{ duration: 2, repeat: Infinity, ease: "linear" }} className="absolute inset-y-0 w-1/2 bg-red-500 shadow-[0_0_15px_#dc2626]" />
                 </div>
-                <h3 className="font-sans font-black uppercase mb-6 leading-none text-editorial-text transition-transform duration-700 group-hover/card:-translate-y-2 text-display-sm">The <br /> <span className="text-red-500">Arena</span></h3>
-                <p className="text-editorial-text-muted font-mono text-[0.6875rem] tracking-widest uppercase mb-10 opacity-0 group-hover/card:opacity-100 transition-all duration-700 delay-100 translate-y-4 group-hover/card:translate-y-0 leading-relaxed">
+                <h3 className="font-sans font-black uppercase mb-5 leading-none text-editorial-text transition-transform duration-700 group-hover/card:-translate-y-2 text-[clamp(2.25rem,1.25rem+2.2vw,4rem)]">The <br /> <span className="text-red-500">Arena</span></h3>
+                <div className="mt-auto pt-4">
+                <p className="text-editorial-text-muted font-mono text-[0.6875rem] tracking-widest uppercase mb-8 opacity-100 translate-y-0 md:opacity-0 md:translate-y-4 md:group-hover/card:opacity-100 md:group-hover/card:translate-y-0 transition-all duration-700 delay-100 leading-relaxed">
                   // Combat architecture and tactical fightwear designed for high-intensity environments.
                 </p>
-                <div className="button-secondary w-fit pointer-events-auto opacity-0 group-hover/card:opacity-100 transition-all duration-700 delay-200">Enter Arena</div>
+                <div className="button-secondary w-fit pointer-events-auto opacity-100 md:opacity-0 md:group-hover/card:opacity-100 transition-all duration-700 delay-200">Enter Arena</div>
+                </div>
               </div>
             </Link>
             
-            <Link to="/recovery" className="card-premium group/card aspect-[3/4] hover-raise" aria-label="Explore Recovery Protocols">
+            <Link to="/recovery" className="card-premium group/card hover-raise flex flex-col min-h-[26rem]" aria-label="Explore Recovery Protocols">
               <div className="holographic-glow group-hover/card:opacity-60 transition-opacity duration-1000" />
               <div className="scanner-line top-3/4 group-hover/card:animate-[scan_2.5s_infinite]" />
               
+              {/* The wordmark lives in the TOP of the card, the title block at the BOTTOM — they can never meet. Drawn full-card and centred, the logo sat exactly where the title's second line landed once the fluid root grew the bottom block (2026-09-05, seen live). */}
+              <div className="relative h-40 md:h-44 shrink-0 pointer-events-none">
               <LazyImage 
                 src="https://rawofficial.co/wp-content/uploads/2026/02/recovery-1024x179.png" 
                 alt="Recovery" 
-                className="w-full h-full object-contain p-16 opacity-40 group-hover/card:opacity-100 group-hover/card:scale-110 transition-all duration-[2s] ease-fluid" 
-                containerClassName="w-full h-full"
+                className="w-full h-full object-contain p-8 opacity-40 group-hover/card:opacity-100 group-hover/card:scale-110 transition-all duration-[2s] ease-fluid" 
+                containerClassName="w-full h-full !bg-transparent"
               />
+              </div>
 
-              <div className="absolute inset-0 flex flex-col justify-end p-12 z-30">
-                <div className="mb-6 w-24 h-[1px] bg-editorial-text/20 overflow-hidden relative">
+              <div className="relative z-30 flex flex-col flex-1 px-10 pb-10 pt-2 md:px-12 md:pb-12">
+                <div className="mb-5 w-24 h-[1px] bg-editorial-text/20 overflow-hidden relative">
                    <motion.div initial={{ x: "-100%" }} whileInView={{ x: "100%" }} transition={{ duration: 2, repeat: Infinity, ease: "linear" }} className="absolute inset-y-0 w-1/2 bg-red-500 shadow-[0_0_15px_#dc2626]" />
                 </div>
-                <h3 className="font-sans font-black uppercase mb-6 leading-none text-editorial-text transition-transform duration-700 group-hover/card:-translate-y-2 text-display-sm">Total <br /> <span className="text-red-500">Reset</span></h3>
-                <p className="text-editorial-text-muted font-mono text-[0.6875rem] tracking-widest uppercase mb-10 opacity-0 group-hover/card:opacity-100 transition-all duration-700 delay-100 translate-y-4 group-hover/card:translate-y-0 leading-relaxed">
+                <h3 className="font-sans font-black uppercase mb-5 leading-none text-editorial-text transition-transform duration-700 group-hover/card:-translate-y-2 text-[clamp(2.25rem,1.25rem+2.2vw,4rem)]">Total <br /> <span className="text-red-500">Reset</span></h3>
+                <div className="mt-auto pt-4">
+                <p className="text-editorial-text-muted font-mono text-[0.6875rem] tracking-widest uppercase mb-8 opacity-100 translate-y-0 md:opacity-0 md:translate-y-4 md:group-hover/card:opacity-100 md:group-hover/card:translate-y-0 transition-all duration-700 delay-100 leading-relaxed">
                   // Rest optimisation and regulation tools built to help the body return stronger.
                 </p>
-                <div className="button-secondary w-fit pointer-events-auto opacity-0 group-hover/card:opacity-100 transition-all duration-700 delay-200">Deploy Recovery</div>
+                <div className="button-secondary w-fit pointer-events-auto opacity-100 md:opacity-0 md:group-hover/card:opacity-100 transition-all duration-700 delay-200">Deploy Recovery</div>
+                </div>
               </div>
             </Link>
           </div>
@@ -358,15 +360,14 @@ export default function Home() {
         {/* Left Side: Editorial Context */}
         <div className="relative p-12 lg:p-24 flex flex-col justify-center border-b lg:border-b-0 lg:border-r border-editorial-border z-10 bg-black/40 backdrop-blur-3xl shadow-inner shadow-red-500/5">
           <div className="absolute top-0 left-0 w-full overflow-hidden whitespace-nowrap p-4 border-b border-white/5 pointer-events-none opacity-20">
-             <div className="flex gap-20 animate-[marquee_40s_linear_infinite] font-mono text-[0.6875rem] font-black uppercase tracking-[0.3em] sm:tracking-[0.6em] [overflow-wrap:anywhere] text-red-500">
-               <span>RECOVER_INTENT</span>
-               <span>INTEGRATE_PURPOSE</span>
-               <span>RAW_OFFICIAL</span>
-               <span>COMBAT</span>
-               <span>NUTRIENTS</span>
-               <span>RECOVERY</span>
-               <span>RECOVER_INTENT</span>
-               <span>INTEGRATE_PURPOSE</span>
+             <div className="flex w-max animate-[marquee_40s_linear_infinite] font-mono text-[0.6875rem] font-black uppercase tracking-[0.3em] sm:tracking-[0.6em] text-red-500">
+               {[0, 1].map((copy) => (
+                 <span key={copy} className="flex" aria-hidden={copy === 1 ? true : undefined}>
+                   {["RECOVER_INTENT", "INTEGRATE_PURPOSE", "RAW_OFFICIAL", "COMBAT", "NUTRIENTS", "RECOVERY"].map((word) => (
+                     <span key={word} className="pr-20">{word}</span>
+                   ))}
+                 </span>
+               ))}
              </div>
           </div>
           <div className="absolute top-12 left-12 flex items-center gap-4 pt-12">
@@ -383,22 +384,9 @@ export default function Home() {
               Witness the discipline. Every drop of sweat, every breath, every rep is a step towards total output optimization.
             </p>
             
-            {/* Live Feed Overlay UI */}
-             <div className="flex gap-8 items-center bg-editorial-bg/60 backdrop-blur-xl border border-editorial-border p-6 rounded-3xl w-fit shadow-md group/feed hover:border-red-500 transition-colors">
-                   <div className="flex flex-col">
-                      <span className="text-[0.6875rem] font-bold text-editorial-text-muted tracking-[0.3em] uppercase mb-2">FPS_SIGNAL</span>
-                      <span className="font-mono text-lg text-editorial-text font-black group-hover:text-red-500">60.00</span>
-                   </div>
-                   <div className="w-[1px] h-10 bg-editorial-text/10" />
-                   <div className="flex flex-col">
-                      <span className="text-[0.6875rem] font-bold text-editorial-text-muted tracking-[0.3em] uppercase mb-2">BITRATE</span>
-                      <span className="font-mono text-lg text-emerald-500 font-black">10.5MB/s</span>
-                   </div>
-                </div>
-
             <div className="pt-8">
-            <Link to="/performance-system" className="button-premium" aria-label="Watch Protocol Process Video">
-               Watch Protocol <Play className="w-5 h-5 fill-current ml-4 inline-block" aria-hidden="true" />
+            <Link to="/performance-system" className="button-premium" aria-label="View the Performance System">
+               View_The_System <ChevronRight className="w-5 h-5 ml-4 inline-block" aria-hidden="true" />
             </Link>
             </div>
           </div>
@@ -407,11 +395,6 @@ export default function Home() {
         {/* Right Side: Immersive Media Pane */}
         <div className="relative aspect-square lg:aspect-auto overflow-hidden group">
           <EngagementVideo />
-          
-          {/* Signal/Live Indicators */}
-           <div className="absolute top-10 left-10 z-20 bg-red-600 text-white text-[0.6875rem] font-black tracking-widest px-4 py-2 rounded-full shadow-lg flex items-center gap-3">
-             <div className="w-2 h-2 rounded-full bg-editorial-text animate-pulse" /> LIVE_FEED
-           </div>
         </div>
       </section>
 
@@ -460,28 +443,13 @@ export default function Home() {
              <h2 className="font-sans font-black uppercase tracking-[-0.05em] leading-[0.75] drop-shadow-[0_15px_40px_rgba(0,0,0,0.15)] text-premium text-display-xl">THE ARCHITECTURE <br /> OF <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-red-800 drop-shadow-[0_0_40px_rgba(220,38,38,0.4)]">OUTPUT</span></h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-24 xl:gap-40">
+          <div className="flex justify-center max-w-4xl mx-auto">
              {[
-               { 
-                 label: "PURITY_VALVE", 
-                 value: 99.8, 
-                 detail: "ISO_9951_SECURED", 
-                 color: "#dc2626",
-                 subMetrics: ["MOLECULAR_STABILITY: 1.0", "FILTRATION: MAX"]
-               },
-               { 
-                 label: "QUANTUM_OUTPUT", 
-                 value: 42.4, 
-                 detail: "EXAFLOP_COMPUTE", 
-                 color: "#ffffff",
-                 subMetrics: ["SIGNAL_RECEPTION: OPTIMAL", "LATENCY: 0.1MS"]
-               },
-               { 
-                 label: "SYNC_RATE", 
-                 value: 94.1, 
-                 detail: "GLOBAL_NODE_MESH", 
-                 color: "#dc2626",
-                 subMetrics: ["PEER_CONNECTION: STATIC", "UPTIME: 99.99%"]
+               {
+                 label: "PURITY_VALVE",
+                 value: 99.8,
+                 detail: "ISO_9951_SECURED",
+                 color: "#dc2626"
                }
              ].map((gauge, i) => (
                <motion.div 
@@ -515,20 +483,6 @@ export default function Home() {
                  </div>
                  
                  <div className="text-center space-y-8 w-full max-w-xs">
-                    <div className="font-mono text-[0.6875rem] font-black tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] uppercase flex items-center justify-center gap-4 text-editorial-text drop-shadow-[0_4px_8px_rgba(0,0,0,0.1)]">
-                      <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse shadow-[0_0_15px_#22c55e]" /> PROTOCOL_STATUS: <span className="text-green-500 italic">VERIFIED</span>
-                    </div>
-                    
-                    <div className="space-y-4 p-8 bg-editorial-bg/40 border border-white/5 rounded-3xl backdrop-blur-xl group-hover:border-red-600/20 transition-all duration-700">
-                        {gauge.subMetrics.map((sm, j) => (
-                          <div key={j} className="flex justify-between items-center gap-6">
-                             <div className="h-[1px] flex-1 bg-white/5" />
-                             <span className="font-mono text-[0.6875rem] text-zinc-500 font-bold tracking-widest uppercase truncate">{sm}</span>
-                             <div className="h-[1px] flex-1 bg-white/5" />
-                          </div>
-                        ))}
-                    </div>
-
                     <div className="h-[4px] w-24 bg-zinc-800 mx-auto group-hover:w-full group-hover:bg-red-600 transition-all duration-[1500ms] ease-[0.16,1,0.3,1] shadow-[0_0_20px_rgba(220,38,38,0)] group-hover:shadow-[0_0_20px_#dc2626] rounded-full" />
                     <p className="font-mono text-[0.6875rem] font-black text-zinc-500 tracking-[0.4em] uppercase opacity-40 group-hover:opacity-100 transition-opacity duration-1000">{gauge.detail}</p>
                  </div>
@@ -585,7 +539,7 @@ export default function Home() {
                   className="group/intel relative aspect-[3/4.5] rounded-[3rem] overflow-hidden border border-editorial-border shadow-depth-3"
                 >
                    <div className="absolute inset-0 bg-editorial-surface/40 backdrop-blur-sm z-10 opacity-0 group-hover/intel:opacity-100 transition-all duration-700" />
-                   <img src={intel.image} className="absolute inset-0 w-full h-full object-cover grayscale group-hover/intel:grayscale-0 group-hover/intel:scale-110 transition-all duration-[2s] ease-fluid opacity-40 group-hover/intel:opacity-60" referrerPolicy="no-referrer" />
+                   <img src={intel.image} alt="" loading="lazy" className="absolute inset-0 w-full h-full object-cover grayscale group-hover/intel:grayscale-0 group-hover/intel:scale-110 transition-all duration-[2s] ease-fluid opacity-40 group-hover/intel:opacity-60" referrerPolicy="no-referrer" />
                    
                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent z-20" />
                    
@@ -597,14 +551,9 @@ export default function Home() {
                       <h3 className="font-sans font-black text-3xl uppercase tracking-tight text-white group-hover/intel:text-red-500 transition-colors duration-500 leading-tight">
                         {intel.title}
                       </h3>
-                      <p className="text-sm font-light text-editorial-text-muted leading-relaxed opacity-0 group-hover/intel:opacity-100 transition-all duration-700 translate-y-4 group-hover/intel:translate-y-0">
+                      <p className="text-sm font-light text-editorial-text-muted leading-relaxed opacity-100 translate-y-0 md:opacity-0 md:translate-y-4 md:group-hover/intel:opacity-100 md:group-hover/intel:translate-y-0 transition-all duration-700">
                         {intel.summary}
                       </p>
-                      <div className="pt-4 opacity-0 group-hover/intel:opacity-100 transition-all duration-700 delay-100">
-                         <button className="text-[0.6875rem] font-mono font-black uppercase tracking-[0.4em] text-white flex items-center gap-3">
-                           AUTHENTICATE_INTEL <ArrowRight className="w-4 h-4 text-red-500" />
-                         </button>
-                      </div>
                    </div>
 
                    <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-red-600/40 to-transparent opacity-0 group-hover/intel:opacity-100 transition-opacity" />

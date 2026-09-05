@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { X, CheckCircle2, ChevronDown, Repeat, Layers, Bot, Activity, AlertTriangle, Users, Clock, Zap, Target, Loader2 } from 'lucide-react';
+import { X, CheckCircle2, ChevronDown, Layers, Activity, AlertTriangle, Users, Clock, Zap, Target } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useCompare } from '../context/CompareContext';
 import { allProducts } from '../data/products';
@@ -9,6 +9,7 @@ import SynergyMatrix from '../components/SynergyMatrix';
 export default function CompareProducts() {
   const { selectedItems, toggleProduct, removeProduct } = useCompare();
   const [isSelectorOpen, setIsSelectorOpen] = useState(false);
+  const isFull = selectedItems.length >= 3;
 
 
   return (
@@ -46,7 +47,7 @@ export default function CompareProducts() {
              transition={{ delay: 0.6 }}
              className="text-editorial-text-muted font-mono text-[0.6875rem] md:text-[0.8125rem] tracking-[0.3em] uppercase max-w-4xl mx-auto leading-relaxed border-y border-editorial-border py-10"
            >
-             Perform a structural comparative analysis on your prospective stack. Select up to 3 units for diagnostic evaluation and synergistic modeling.
+             Perform a structural comparative analysis on your prospective stack. Select up to 3 units to compare side by side.
            </motion.p>
         </div>
 
@@ -77,22 +78,27 @@ export default function CompareProducts() {
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0, y: -20, scale: 0.98 }}
                 transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                className="absolute top-full left-0 right-0 mt-6 bg-editorial-surface/95 backdrop-blur-3xl border border-editorial-border-light rounded-[2.5rem] p-6 max-h-[500px] overflow-y-auto custom-scrollbar shadow-premium z-50 lg:w-[120%]"
-                style={{ left: '50%', transform: 'translateX(-50%)' }}
+                className="absolute top-full left-0 right-0 mt-6 bg-editorial-surface/95 backdrop-blur-3xl border border-editorial-border-light rounded-[2.5rem] p-6 max-h-[500px] overflow-y-auto custom-scrollbar shadow-premium z-50"
               >
-                <div className="grid sm:grid-cols-2 gap-4">
+                {isFull && (
+                  <p className="font-mono text-[0.6875rem] text-red-500 uppercase tracking-[0.3em] font-black px-2 pb-4">3 of 3 selected // remove one to add another</p>
+                )}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {allProducts.map(product => {
                     const isSelected = selectedItems.find(p => p.id === product.id);
+                    const isBlocked = !isSelected && isFull;
                     return (
                       <button 
                         key={product.id}
                         onClick={() => toggleProduct(product)}
+                        disabled={isBlocked}
+                        aria-disabled={isBlocked}
                         aria-pressed={!!isSelected}
                         aria-label={`Toggle ${product.name}`}
-                        className={`flex items-center gap-6 p-5 rounded-2xl border transition-all duration-500 text-left group/item relative overflow-hidden ${isSelected ? 'bg-red-600/10 border-red-600/50 shadow-[0_0_30px_rgba(220,38,38,0.15)]' : 'bg-editorial-bg border-editorial-border hover:border-editorial-border-light hover:bg-editorial-text/[0.03]'}`}
+                        className={`flex items-center gap-6 p-5 rounded-2xl border transition-all duration-500 text-left group/item relative overflow-hidden ${isBlocked ? 'opacity-40 cursor-not-allowed' : ''} ${isSelected ? 'bg-red-600/10 border-red-600/50 shadow-[0_0_30px_rgba(220,38,38,0.15)]' : 'bg-editorial-bg border-editorial-border hover:border-editorial-border-light hover:bg-editorial-text/[0.03]'}`}
                       >
-                        <div className="w-16 h-16 rounded-xl overflow-hidden bg-editorial-bg border border-editorial-border p-2 shrink-0 group-hover/item:scale-110 transition-transform duration-700">
-                           <img src={product.image} alt={product.name} className={`w-full h-full object-contain mix-blend-screen transition-all duration-700 ${isSelected ? 'grayscale-0 scale-110' : 'grayscale group-hover/item:grayscale-0'}`} />
+                        <div className="w-16 h-16 rounded-xl overflow-hidden bg-editorial-bg bg-[radial-gradient(ellipse_at_50%_65%,rgba(255,255,255,0.10),transparent_62%)] border border-editorial-border p-2 shrink-0 group-hover/item:scale-110 transition-transform duration-700">
+                           <img src={product.image} alt={product.name} className={`w-full h-full object-contain transition-all duration-700 ${isSelected ? 'grayscale-0 scale-110' : 'grayscale group-hover/item:grayscale-0'}`} />
                         </div>
                         <div className="flex-1 min-w-0 space-y-1">
                            <span className={`block font-sans font-black text-sm uppercase tracking-tight truncate transition-colors duration-500 ${isSelected ? 'text-editorial-text' : 'text-editorial-text-muted group-hover/item:text-editorial-text'}`}>{product.name}</span>
@@ -140,8 +146,9 @@ export default function CompareProducts() {
                   </button>
                   
                   <div className="aspect-square bg-editorial-bg rounded-[2.5rem] overflow-hidden mb-12 p-12 border border-editorial-border group-hover:border-red-600/20 transition-all duration-1000 shadow-depth-1 relative">
-                     <div className="absolute inset-0 bg-red-900/10 opacity-0 group-hover:opacity-100 transition-opacity mix-blend-screen pointer-events-none z-10" />
-                     <img src={item.image} alt={item.name} className="w-full h-full object-contain mix-blend-screen group-hover:scale-125 transition-transform duration-[2000ms] ease-[0.16,1,0.3,1] relative z-0" />
+                     <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_50%_65%,rgba(255,255,255,0.10),transparent_62%)]" />
+                     <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(220,38,38,0.22),transparent_60%)] opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10" />
+                     <img src={item.image} alt={item.name} className="w-full h-full object-contain group-hover:scale-125 transition-transform duration-[2000ms] ease-[0.16,1,0.3,1] relative z-0" />
                   </div>
                   
                   <div className="mb-12 relative z-10 border-b border-editorial-border pb-10 space-y-6">
@@ -190,7 +197,7 @@ export default function CompareProducts() {
                  </div>
                  <div className="space-y-4">
                     <span className="font-mono text-[0.8125rem] text-red-600 uppercase tracking-[0.3em] sm:tracking-[0.8em] [overflow-wrap:anywhere] font-black block animate-pulse">AWAITING_INPUT_PARAMETERS</span>
-                    <p className="text-zinc-600 font-mono max-w-md mx-auto text-xs leading-[2.5] tracking-widest uppercase px-12">Select units from the matrix registry to initiate structural comparative analysis and AI synergy modeling.</p>
+                    <p className="text-zinc-600 font-mono max-w-md mx-auto text-xs leading-[2.5] tracking-widest uppercase px-12">Select up to three units from the matrix registry to compare them side by side.</p>
                  </div>
                </div>
             </motion.div>

@@ -1,14 +1,20 @@
-import React, { useState, useEffect } from "react";
-import { 
-  Wifi, WifiOff, Download, RefreshCcw, HardDrive, ShieldCheck, CheckCircle2 
-} from "lucide-react";
+import { useState, useEffect, useCallback } from "react";
+import { Wifi, WifiOff, HardDrive, Trash2 } from "lucide-react";
 import { useToast } from "./common/Toast";
+
+type SwState = "checking" | "active" | "installing" | "not_installed" | "unsupported";
+
+const formatBytes = (n: number) =>
+  n >= 1048576 ? `${(n / 1048576).toFixed(1)} MB` : `${(n / 1024).toFixed(1)} KB`;
 
 export default function PwaOfflineConsole() {
   const { addToast } = useToast();
   const [isOnline, setIsOnline] = useState<boolean>(navigator.onLine);
-  const [syncPercentage, setSyncPercentage] = useState<number>(100);
-  const [isSyncing, setIsSyncing] = useState<boolean>(false);
+  const [isClearing, setIsClearing] = useState<boolean>(false);
+  // null = not readable in this browser (no Cache API / no storage estimate)
+  const [cacheCount, setCacheCount] = useState<number | null>(null);
+  const [storageUsage, setStorageUsage] = useState<number | null>(null);
+  const [swState, setSwState] = useState<SwState>("checking");
 
   // Network listener
   useEffect(() => {
@@ -18,7 +24,7 @@ export default function PwaOfflineConsole() {
     };
     const handleOffline = () => {
       setIsOnline(false);
-      addToast("Connection lost. Operating in secure offline mode.", "info");
+      addToast("You're offline. Pages you've already opened still work.", "info");
     };
 
     window.addEventListener("online", handleOnline);
@@ -29,35 +35,91 @@ export default function PwaOfflineConsole() {
     };
   }, []);
 
-  const handleSyncResources = () => {
-    if (isSyncing) return;
-    setIsSyncing(true);
-    setSyncPercentage(0);
-    addToast("Re-authenticating node certificates and syncing local database cache...", "info");
+  // Real readings: how many caches the service worker holds and how much this
+  // origin is using. Both are origin-wide figures — the browser cannot break
+  // them down per asset type.
+  const readStorage = useCallback(async () => {
+    let count: number | null = null;
+    let usage: number | null = null;
+    try {
+      if ("caches" in window) count = (await caches.keys()).length;
+    } catch {
+      count = null;
+    }
+    try {
+      if (navigator.storage && typeof navigator.storage.estimate === "function") {
+        const est = await navigator.storage.estimate();
+        usage = typeof est.usage === "number" ? est.usage : null;
+      }
+    } catch {
+      usage = null;
+    }
+    return { count, usage };
+  }, []);
 
-    const timer = setInterval(() => {
-      setSyncPercentage(prev => {
-        if (prev >= 100) {
-          clearInterval(timer);
-          setIsSyncing(false);
-          addToast("Static asset cache completely synchronized. Ready for offline deployment.", "success");
-          return 100;
-        }
-        return prev + 20;
-      });
-    }, 450);
+  useEffect(() => {
+    let live = true;
+    readStorage().then(({ count, usage }) => {
+      if (!live) return;
+      setCacheCount(count);
+      setStorageUsage(usage);
+    });
+
+    if (!("serviceWorker" in navigator)) {
+      setSwState("unsupported");
+    } else {
+      navigator.serviceWorker
+        .getRegistration()
+        .then((reg) => {
+          if (live) setSwState(reg?.active ? "active" : reg && (reg.installing || reg.waiting) ? "installing" : "not_installed");
+        })
+        .catch(() => {
+          if (live) setSwState("not_installed");
+        });
+    }
+
+    return () => {
+      live = false;
+    };
+  }, [readStorage]);
+
+  const clearCachedStates = async () => {
+    if (isClearing) return;
+    if (!isOnline) {
+      addToast("You're offline — clearing the cache now would leave nothing to load from. Reconnect first.", "warning");
+      return;
+    }
+    setIsClearing(true);
+    try {
+      const keys = "caches" in window ? await caches.keys() : [];
+      const results = await Promise.all(keys.map((k) => caches.delete(k)));
+      const removed = results.filter(Boolean).length;
+      addToast(
+        removed === 0
+          ? "No local caches to clear."
+          : `Cleared ${removed} local cache${removed === 1 ? "" : "s"}. Pages will load fresh from the network.`,
+        "success"
+      );
+    } catch {
+      addToast("Couldn't clear the local caches.", "error");
+    }
+    const { count, usage } = await readStorage();
+    setCacheCount(count);
+    setStorageUsage(usage);
+    setIsClearing(false);
   };
 
-  const clearCachedStates = () => {
-    addToast("Clearing local storage database tokens...", "info");
-    setTimeout(() => {
-      addToast("Local caches cleared. Real-time memory nominal.", "success");
-    }, 500);
+  const swLabel: Record<SwState, string> = {
+    checking: "CHECKING...",
+    active: "ACTIVE",
+    installing: "INSTALLING...",
+    not_installed: "NOT_INSTALLED",
+    unsupported: "UNSUPPORTED_IN_THIS_BROWSER",
   };
 
   return (
     <div className="p-8 space-y-8 flex-1 overflow-y-auto custom-scrollbar bg-[#050508]/95 max-w-4xl mx-auto font-sans">
-      
+
       {/* Header Block */}
       <div className="flex flex-col md:flex-row items-start md:items-center justify-between border-b border-editorial-border/40 pb-5 gap-3">
         <div>
@@ -71,8 +133,8 @@ export default function PwaOfflineConsole() {
 
         {/* Dynamic network status indicator */}
         <div className={`flex items-center gap-2 font-mono text-[0.6875rem] uppercase border px-4 py-2 rounded-xl ${
-          isOnline 
-            ? "text-emerald-500 bg-emerald-500/10 border-emerald-500/25" 
+          isOnline
+            ? "text-emerald-500 bg-emerald-500/10 border-emerald-500/25"
             : "text-amber-500 bg-amber-500/10 border-amber-500/25 animate-pulse"
         }`}>
           {isOnline ? (
@@ -88,106 +150,45 @@ export default function PwaOfflineConsole() {
       </div>
 
       <p className="text-zinc-400 font-light text-sm leading-relaxed max-w-2xl">
-        DeFrost OS automatically pre-allocates public assets to client-side storage partitions. This allows full usage of bookstores (first 10 pages), timelines, and diagnostic dashboards directly inside airplanes, bunkers, or other remote wilderness blocks.
+        The site's service worker keeps a copy of the entry page, the build files it has already fetched, and images you have already loaded. Pages you have opened keep working without a signal; anything you have not visited yet still needs a connection.
       </p>
 
-      {/* Grid panels */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        
-        {/* Core Storage metrics */}
-        <div className="bg-black/40 border border-editorial-border p-6 rounded-[2rem] space-y-4">
-          <div className="flex items-center gap-3">
-            <HardDrive className="w-5 h-5 text-red-500" />
-            <h3 className="font-mono text-[0.6875rem] font-black uppercase tracking-widest text-[#f5f5f7]">
-              ALLOCATED CACHE METRICS
-            </h3>
-          </div>
-
-          <div className="space-y-3">
-            <div className="flex justify-between text-xs border-b border-white/[0.02] pb-2 text-zinc-400">
-              <span>Public eBooks text arrays:</span>
-              <span className="font-mono text-white">45.2 KB // CACHED</span>
-            </div>
-            <div className="flex justify-between text-xs border-b border-white/[0.02] pb-2 text-zinc-400">
-              <span>Dynamic audio loop waveforms:</span>
-              <span className="font-mono text-white">124.0 KB // COLD_CACHE</span>
-            </div>
-            <div className="flex justify-between text-xs border-b border-white/[0.02] pb-2 text-zinc-400">
-              <span>Telemetry system gauges and fonts:</span>
-              <span className="font-mono text-white">820.5 KB // ACTIVE</span>
-            </div>
-          </div>
-
-          <button
-            onClick={clearCachedStates}
-            className="w-full py-2.5 bg-zinc-900 hover:bg-zinc-850 border border-editorial-border rounded-xl font-mono text-[0.6875rem] uppercase font-black text-zinc-400 hover:text-white tracking-widest transition-all"
-          >
-            FLUSH_LOCAL_CACHE
-          </button>
+      {/* Local cache panel — every figure below is read from the browser */}
+      <div className="bg-black/40 border border-editorial-border p-6 rounded-[2rem] space-y-4">
+        <div className="flex items-center gap-3">
+          <HardDrive className="w-5 h-5 text-red-500" />
+          <h3 className="font-mono text-[0.6875rem] font-black uppercase tracking-widest text-[#f5f5f7]">
+            LOCAL CACHE
+          </h3>
         </div>
 
-        {/* Sync panel */}
-        <div className="bg-black/40 border border-editorial-border p-6 rounded-[2rem] space-y-4 flex flex-col justify-between">
-          <div className="space-y-4">
-            <div className="flex items-center gap-3">
-              <RefreshCcw className={`w-5 h-5 text-red-500 ${isSyncing ? "animate-spin" : ""}`} />
-              <h3 className="font-mono text-[0.6875rem] font-black uppercase tracking-widest text-[#f5f5f7]">
-                SYNCHRONOUS CONTROL BOARD
-              </h3>
-            </div>
-
-            <p className="text-xs text-zinc-400 leading-relaxed font-light">
-              To force-pull newly registered tactical manuals or asset packages to client-side database tables, initiate a synchronization pass below.
-            </p>
+        <div className="space-y-3">
+          <div className="flex flex-wrap justify-between gap-2 text-xs border-b border-white/[0.02] pb-2 text-zinc-400">
+            <span>Service worker:</span>
+            <span className={`font-mono ${swState === "active" ? "text-emerald-400" : "text-zinc-300"}`}>{swLabel[swState]}</span>
           </div>
-
-          <div className="space-y-3">
-            <div className="flex justify-between font-mono text-[0.6875rem] text-[#f5f5f7]">
-              <span>SYNC_STATUS:</span>
-              <span>{isSyncing ? "SYNCING..." : `${syncPercentage}% ONLINE`}</span>
-            </div>
-            <div className="w-full bg-[#13131a] h-1.5 rounded-full overflow-hidden border border-white/[0.04]">
-              <div 
-                className="bg-red-500 h-full transition-all duration-300" 
-                style={{ width: `${syncPercentage}%` }} 
-              />
-            </div>
-
-            <button
-              onClick={handleSyncResources}
-              disabled={isSyncing}
-              className="w-full py-3 button-premium !text-[0.6875rem] font-mono tracking-widest uppercase flex items-center justify-center gap-2"
-            >
-              <Download className="w-4 h-4" /> RE_SYNC_SYSTEM_NODES
-            </button>
+          <div className="flex flex-wrap justify-between gap-2 text-xs border-b border-white/[0.02] pb-2 text-zinc-400">
+            <span>Caches held by this site:</span>
+            <span className="font-mono text-white">{cacheCount === null ? "UNAVAILABLE" : cacheCount}</span>
+          </div>
+          <div className="flex flex-wrap justify-between gap-2 text-xs border-b border-white/[0.02] pb-2 text-zinc-400">
+            <span>Storage used by this site (all types):</span>
+            <span className="font-mono text-white">{storageUsage === null ? "UNAVAILABLE" : formatBytes(storageUsage)}</span>
           </div>
         </div>
 
-      </div>
-
-      {/* Deployment Checks List */}
-      <div className="p-6 bg-red-650/10 border border-red-500/25 rounded-[2rem] space-y-4">
-        <div className="flex items-center gap-2">
-          <ShieldCheck className="w-5 h-5 text-red-500" />
-          <h4 className="font-mono text-[0.6875rem] font-black tracking-widest uppercase text-white">
-            OFFLINE READINESS CHECKLIST
-          </h4>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="flex items-center gap-3 text-xs text-zinc-300">
-            <CheckCircle2 className="w-4 h-4 text-emerald-500 flex-shrink-0" /> ServiceWorker installation parameters nominal
-          </div>
-          <div className="flex items-center gap-3 text-xs text-zinc-300">
-            <CheckCircle2 className="w-4 h-4 text-emerald-500 flex-shrink-0" /> Local database tables seeded with books database
-          </div>
-          <div className="flex items-center gap-3 text-xs text-zinc-300">
-            <CheckCircle2 className="w-4 h-4 text-emerald-500 flex-shrink-0" /> Media libraries asset links configured to bypass caches
-          </div>
-          <div className="flex items-center gap-3 text-xs text-zinc-300">
-            <CheckCircle2 className="w-4 h-4 text-emerald-500 flex-shrink-0" /> Security authorization policies fails safely when offline
-          </div>
-        </div>
+        <button
+          onClick={clearCachedStates}
+          disabled={isClearing || !isOnline}
+          className="w-full py-2.5 bg-zinc-900 hover:bg-zinc-800 border border-editorial-border rounded-xl font-mono text-[0.6875rem] uppercase font-black text-zinc-400 hover:text-white tracking-widest transition-all disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+        >
+          <Trash2 className="w-4 h-4" /> {isClearing ? "CLEARING..." : "FLUSH_LOCAL_CACHE"}
+        </button>
+        {!isOnline && (
+          <p className="text-[0.6875rem] font-mono text-amber-500/80 uppercase tracking-widest">
+            Disabled while offline — the cache is all you have to load from.
+          </p>
+        )}
       </div>
 
     </div>

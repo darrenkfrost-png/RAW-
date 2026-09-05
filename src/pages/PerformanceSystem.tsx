@@ -1,5 +1,5 @@
-import React from 'react';
 import { motion } from 'motion/react';
+import { Link } from 'react-router-dom';
 import Breadcrumb from '../components/Breadcrumb';
 import { Activity, Zap, RefreshCw, Layers } from 'lucide-react';
 
@@ -10,6 +10,7 @@ const systems = [
     subtitle: 'Sport, combat, discipline, strength, movement.',
     description: 'The foundation of output. We build gear and systems designed for the harsh realities of physical exertion and combat sports. No compromises, just resilience.',
     icon: Activity,
+    to: '/combat',
     color: 'text-red-500',
     bg: 'bg-red-500/10'
   },
@@ -19,6 +20,7 @@ const systems = [
     subtitle: 'Nutrients, hydration, protein, adaptogens, minerals.',
     description: 'What you put in determines what you get out. Our formulations are stripped of filler and engineered with clinically studied compounds to support cellular energy, power output, and cognitive drive.',
     icon: Zap,
+    to: '/nutrients',
     color: 'text-emerald-500',
     bg: 'bg-emerald-500/10'
   },
@@ -28,6 +30,7 @@ const systems = [
     subtitle: 'Sleep, cold exposure, magnesium, nervous system regulation.',
     description: 'Growth happens in the silence. Mastering the parasympathetic state is critical. We provide the tools for active restoration, thermal stress adaptation, and deep sleep architecture.',
     icon: RefreshCw,
+    to: '/recovery',
     color: 'text-blue-500',
     bg: 'bg-blue-500/10'
   },
@@ -37,6 +40,7 @@ const systems = [
     subtitle: 'Consistency, tracking, protocol building, output optimisation.',
     description: 'Discipline is the sustained application of the system. Build your protocol, adhere to it relentlessly, and compound your gains over time.',
     icon: Layers,
+    to: '/protocol-builder',
     color: 'text-purple-500',
     bg: 'bg-purple-500/10'
   }
@@ -47,7 +51,6 @@ export default function PerformanceSystem() {
     <div className="min-h-svh bg-editorial-bg pt-40 pb-32 font-sans overflow-hidden selection:bg-red-600 selection:text-white">
       {/* Dynamic Background */}
       <div className="fixed inset-0 pointer-events-none z-0">
-        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-[0.03]" />
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-[radial-gradient(circle_at_50%_-20%,_var(--tw-gradient-stops))] from-red-600/[0.08] via-transparent to-transparent" />
         <div className="absolute inset-0 opacity-[0.15] mix-blend-overlay" style={{backgroundImage: 'radial-gradient(#ffffff 1px, transparent 1px)', backgroundSize: '40px 40px'}} />
       </div>
@@ -117,7 +120,7 @@ export default function PerformanceSystem() {
                {/* Background Glow */}
                <div className={`absolute -inset-2 bg-gradient-to-br from-red-600/0 to-red-600/0 group-hover:from-red-600/10 transition-all duration-1000 rounded-[3.5rem] blur-2xl opacity-0 group-hover:opacity-100`} />
 
-               <div className="p-10 lg:p-14 bg-editorial-bg/60 border border-editorial-border rounded-[3rem] hover:border-red-600/40 transition-all duration-1000 group relative overflow-hidden backdrop-blur-3xl shadow-depth-1 hover:shadow-premium">
+               <Link to={sys.to} aria-label={`${sys.title} — ${sys.subtitle}`} className="block p-6 sm:p-10 lg:p-14 bg-editorial-bg/60 border border-editorial-border rounded-[3rem] hover:border-red-600/40 focus-visible:border-red-600/60 focus:outline-none transition-all duration-1000 group relative overflow-hidden backdrop-blur-3xl shadow-depth-1 hover:shadow-premium">
                   
                   {/* Tactical ID */}
                   <div className="absolute top-10 right-10 flex flex-col items-end opacity-20 group-hover:opacity-100 transition-opacity duration-700">
@@ -144,15 +147,6 @@ export default function PerformanceSystem() {
                     <p className="text-editorial-text-muted font-medium leading-relaxed text-base lg:text-lg">
                        {sys.description}
                     </p>
-
-                    {/* Telemetry Dots */}
-                    <div className="pt-8 flex flex-wrap gap-3">
-                       {['HORMESIS', 'ADAPTATION', 'OUTPUT', 'RECOVERY'].map((tag, i) => (
-                         <div key={i} className="px-4 py-2 bg-editorial-text/5 border border-editorial-border rounded-full font-mono text-[0.6875rem] text-zinc-600 uppercase tracking-widest group-hover:border-red-600/20 group-hover:text-editorial-text transition-all duration-700">
-                            {tag}_INIT
-                         </div>
-                       ))}
-                    </div>
                   </div>
 
                   {/* Geometric Accents */}
@@ -163,7 +157,7 @@ export default function PerformanceSystem() {
 
                   {/* Scanline Effect */}
                   <div className="absolute inset-x-0 h-[100%] bg-gradient-to-b from-transparent via-red-600/[0.03] to-transparent -top-full group-hover:top-full transition-all duration-[2000ms] pointer-events-none" />
-               </div>
+               </Link>
             </motion.div>
           ))}
         </div>

@@ -25,6 +25,7 @@ import { Download, X } from "lucide-react";
 
 const SEEN_KEY = "raw_install_dismissed";
 const VISITS_KEY = "raw_visit_count";
+const SESSION_KEY = "raw_visit_counted"; // sessionStorage: one count per browsing session, not per page load
 
 export default function InstallPrompt() {
   const [deferred, setDeferred] = useState<any>(null);
@@ -33,8 +34,15 @@ export default function InstallPrompt() {
   useEffect(() => {
     let visits = 1;
     try {
-      visits = Number(localStorage.getItem(VISITS_KEY) || "0") + 1;
-      localStorage.setItem(VISITS_KEY, String(visits));
+      visits = Number(localStorage.getItem(VISITS_KEY) || "0");
+      // A reload or a second hard-navigated URL is the same visit: only count
+      // once per browsing session, so "first visit" means what it says.
+      if (sessionStorage.getItem(SESSION_KEY) !== "1") {
+        visits += 1;
+        localStorage.setItem(VISITS_KEY, String(visits));
+        sessionStorage.setItem(SESSION_KEY, "1");
+      }
+      if (visits < 1) visits = 1;
     } catch { /* private mode: treat as a first visit */ }
 
     let dismissed = false;

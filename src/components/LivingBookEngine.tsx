@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useRef, useMemo, useCallback } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { 
-  BookOpen, Lock, ChevronLeft, ChevronRight, ZoomIn, ZoomOut, Maximize2, X, 
-  Sparkles, FileText, Download, Bookmark, Plus, Trash2, Search, HelpCircle,
-  Network, Copy, CheckCircle2, ShieldCheck, RefreshCw, Cpu
+import {
+  BookOpen, Lock, ChevronLeft, ChevronRight, ZoomIn, ZoomOut, Maximize2, Minimize2, X,
+  Download, Bookmark, Trash2, Search, PanelLeft, Copy, CheckCircle2
 } from "lucide-react";
 import { booksData, Book, BookPage } from "../data/books";
 import { useToast } from "./common/Toast";
@@ -25,9 +24,8 @@ export default function LivingBookEngine() {
   const touchStartZoom = useRef<number>(1);
   const lastTouchTime = useRef<number>(0);
 
-  const [isOcrEnabled, setIsOcrEnabled] = useState<boolean>(false);
-  const [isKnowledgeGraphOpen, setIsKnowledgeGraphOpen] = useState<boolean>(false);
-  const [isSearchOpen, setIsSearchOpen] = useState<boolean>(false);
+  const [isNotesOpen, setIsNotesOpen] = useState<boolean>(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false); // below lg the page strip is a drawer
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
   
@@ -36,9 +34,6 @@ export default function LivingBookEngine() {
   const [annotations, setAnnotations] = useState<{ [key: string]: { id: string; text: string; date: string }[] }>({});
   const [newNoteText, setNewNoteText] = useState<string>("");
   const [isAddingNote, setIsAddingNote] = useState<boolean>(false);
-
-  // Reference hooks
-  const readerStageRef = useRef<HTMLDivElement>(null);
 
   // Check if current page is premium locked
   const isPageLocked = useMemo(() => {
@@ -57,14 +52,17 @@ export default function LivingBookEngine() {
     setCurrentPageIdx(0);
     setZoomScale(1);
     setPanOffset({ x: 0, y: 0 });
-    setIsOcrEnabled(false);
-    setIsKnowledgeGraphOpen(false);
+    setIsNotesOpen(false);
+    setIsSidebarOpen(false);
+    setIsFullscreen(false);
   };
 
   // Close reader
   const handleExitBook = useCallback(() => {
     setSelectedBook(null);
     setPanOffset({ x: 0, y: 0 });
+    setIsFullscreen(false);
+    setIsSidebarOpen(false);
   }, []);
 
   // Safe navigation controls
@@ -85,20 +83,20 @@ export default function LivingBookEngine() {
     }
   }, [currentPageIdx]);
 
+  // Jump straight to a page (page strip / search results): zoom and pan reset exactly like the arrows do
+  const jumpToPage = useCallback((idx: number) => {
+    setCurrentPageIdx(idx);
+    setZoomScale(1);
+    setPanOffset({ x: 0, y: 0 });
+    setIsSidebarOpen(false);
+  }, []);
+
   // Restore back to Safe Public Preview
   const handleReturnToSafePreview = useCallback(() => {
     setCurrentPageIdx(FREE_PREVIEW_PAGE_LIMIT - 1); // Select exactly 10th page (Index 9)
     setZoomScale(1);
     setPanOffset({ x: 0, y: 0 });
     addToast("Returned safely to public preview limits.", "info");
-  }, [addToast]);
-
-  // Mock unlock sequence
-  const handleTriggerSubscription = useCallback(() => {
-    addToast("Submitting subscription authorization token to node matrix...", "info");
-    setTimeout(() => {
-      addToast("ACCESS RESTRICTED: Subscription / stripe gate requires backend environment credentials.", "error");
-    }, 1200);
   }, [addToast]);
 
   // Wheel Zoom supporting standard mouse gestures
@@ -192,16 +190,16 @@ export default function LivingBookEngine() {
     setIsDraggingPan(false);
   };
 
-  // OCR Copy Action
-  const copyOcrToClipboard = () => {
+  // Copy the page text to the clipboard (public pages only)
+  const copyPageText = () => {
     if (isPageLocked) {
-      addToast("Security violation: Restricted premium pages cannot be scanned.", "error");
+      addToast("Premium pages cannot be copied.", "error");
       return;
     }
-    if (currentPageData) {
-      navigator.clipboard.writeText(currentPageData.content);
-      addToast("OCR Text successfully copied to clipboard system.", "success");
-    }
+    if (!currentPageData) return;
+    navigator.clipboard.writeText(currentPageData.content)
+      .then(() => addToast("Page text copied to clipboard.", "success"))
+      .catch(() => addToast("Copy failed. Select the text and copy it manually.", "error"));
   };
 
   // Annotations Handlers
@@ -216,7 +214,7 @@ export default function LivingBookEngine() {
     if (!newNoteText.trim() || !selectedBook) return;
 
     if (isPageLocked) {
-      addToast("Writing annotation protocols to secure premium chapters is prohibited.", "error");
+      addToast("Notes cannot be added to premium pages.", "error");
       return;
     }
 
@@ -233,7 +231,7 @@ export default function LivingBookEngine() {
     }));
     setNewNoteText("");
     setIsAddingNote(false);
-    addToast("Annotation note anchored to page matrix.", "success");
+    addToast("Note saved for this session.", "success");
   };
 
   const handleDeleteAnnotation = (id: string) => {
@@ -249,7 +247,7 @@ export default function LivingBookEngine() {
   // Safe Export/Download Tool: Only exports public pages 1-10!
   const triggerSafeExport = () => {
     if (!selectedBook) return;
-    addToast("Compiling secure public preview export...", "info");
+    addToast("Exporting pages 1-10 as JSON...", "info");
 
     const exportedPages = selectedBook.pages.slice(0, FREE_PREVIEW_PAGE_LIMIT);
     const contentToSave = {
@@ -268,7 +266,7 @@ export default function LivingBookEngine() {
     downloadAnchor.click();
     downloadAnchor.remove();
 
-    addToast("Public documents downloaded successfully. Premium tier pages cleared from bundle stream.", "success");
+    addToast("Pages 1-10 exported as JSON.", "success");
   };
 
   // Book Search: search only pages 1 to 10
@@ -284,26 +282,28 @@ export default function LivingBookEngine() {
     );
   }, [selectedBook, searchQuery]);
 
-  // Semantic Knowledge Graph: mock nodes matching the current active content (allowed pages only)
-  const activeKnowledgeNodes = useMemo(() => {
-    if (isPageLocked || !currentPageData) return [];
-    
-    const keyphrases = ["aerobic", "strength", "overdrive", "ruck", "sleep", "water", "stress", "sunlight", "hyperthermic", "combative"];
-    return keyphrases.map((phrase, i) => {
-      const active = currentPageData.content.toLowerCase().includes(phrase);
-      return {
-        id: `node-${i}`,
-        label: phrase.toUpperCase(),
-        active,
-        connection: active ? "Direct Chapter Link" : "Secondary System Influence"
-      };
-    });
-  }, [isPageLocked, currentPageData]);
-
   // Toggle fullscreen mode
   const toggleFullscreen = () => {
     setIsFullscreen(prev => !prev);
   };
+
+  // Escape leaves fullscreen (listened for only while it is on)
+  useEffect(() => {
+    if (!isFullscreen) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setIsFullscreen(false);
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [isFullscreen]);
+
+  // Notes are unavailable on locked pages: close the panel rather than leave an empty column
+  useEffect(() => {
+    if (isPageLocked) {
+      setIsNotesOpen(false);
+      setIsAddingNote(false);
+    }
+  }, [isPageLocked]);
 
   return (
     <div className="flex-1 flex flex-col min-h-0 bg-[#06060a]/90">
@@ -314,19 +314,16 @@ export default function LivingBookEngine() {
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between border-b border-editorial-border/40 pb-6 gap-4">
             <div>
               <span className="font-mono text-[0.6875rem] text-zinc-500 uppercase tracking-[0.4em] font-black">
-                SYSTEM_INTEL_DISTRIBUTION // ACTIVE
+                SYSTEM_INTEL_DISTRIBUTION
               </span>
               <h2 className="text-3xl font-black text-white tracking-tight uppercase">
                 Living Book Bookstore
               </h2>
             </div>
-            <div className="flex items-center gap-2 text-[0.6875rem] font-mono text-emerald-500 bg-emerald-500/10 border border-emerald-500/20 px-4 py-2 rounded-xl">
-              <ShieldCheck className="w-4 h-4 animate-pulse" /> SECURITY_STATUS: SECURE_FAIL_CLOSED
-            </div>
           </div>
 
           <p className="text-zinc-400 font-light max-w-2xl text-sm leading-relaxed">
-            Access secure RAW performance, recovery, and tactical training manuals. All accounts receive immediate access to the first <strong className="text-red-500">10 pages (public preview)</strong>. Pages 11+ belong to premium protocol streams.
+            Access RAW performance, recovery, and tactical training manuals. All accounts receive immediate access to the first <strong className="text-red-500">10 pages (public preview)</strong>. Pages 11+ belong to premium protocol streams.
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -375,74 +372,83 @@ export default function LivingBookEngine() {
         <div className={`flex flex-col flex-1 min-h-0 bg-[#040407] select-none ${isFullscreen ? "fixed inset-0 z-[10000] p-6 lg:p-12 overflow-hidden bg-black" : "relative"}`}>
           
           {/* Reader Top Command Bar */}
-          <header className="px-6 py-4 border-b border-editorial-border/40 flex items-center justify-between shrink-0 bg-editorial-surface/30">
-            <div className="flex items-center gap-3">
-              <button 
+          <header className="px-4 sm:px-6 py-4 border-b border-editorial-border/40 flex flex-wrap items-center justify-between gap-3 shrink-0 bg-editorial-surface/30">
+            <div className="flex items-center gap-3 min-w-0">
+              <button
                 onClick={handleExitBook}
-                className="p-2.5 bg-zinc-900 border border-editorial-border rounded-xl text-zinc-400 hover:text-white hover:border-zinc-705 transition-all text-xs font-mono font-bold tracking-widest uppercase"
+                className="p-2.5 bg-zinc-900 border border-editorial-border rounded-xl text-zinc-400 hover:text-white hover:border-zinc-700 transition-all text-xs font-mono font-bold tracking-widest uppercase whitespace-nowrap"
               >
                 ← EXIT_SYS
               </button>
-              <div className="h-6 w-px bg-editorial-border/20 mx-2" />
-              <div>
-                <h4 className="text-sm font-semibold uppercase text-white tracking-widest">
+              <div className="h-6 w-px bg-editorial-border/20 mx-2 hidden sm:block" />
+              <div className="min-w-0">
+                <h4 className="text-sm font-semibold uppercase text-white tracking-widest truncate">
                   {selectedBook.title}
                 </h4>
-                <p className="font-mono text-[0.6875rem] text-zinc-500 uppercase tracking-[0.2em]">
+                <p className="font-mono text-[0.6875rem] text-zinc-500 uppercase tracking-[0.2em] truncate">
                   BY {selectedBook.author} // CORE INTELLIGENCE MODULE
                 </p>
               </div>
             </div>
 
             <div className="flex items-center gap-2">
-              {/* OCR Toggle (Allowed Pages Only!) */}
+              {/* Below lg: open the page strip / search drawer */}
               <button
-                onClick={() => {
-                  if (isPageLocked) {
-                    addToast("OCR Text scanning is completely disabled on locked premium contents.", "error");
-                    return;
-                  }
-                  setIsOcrEnabled(prev => !prev);
-                  addToast(isOcrEnabled ? "OCR selection mode paused." : "OCR scan selection enabled. Text blocks copyable.", "info");
-                }}
-                disabled={isPageLocked}
-                className={`p-2.5 rounded-xl border transition-all flex items-center gap-2 text-[0.6875rem] font-mono whitespace-nowrap uppercase tracking-widest ${
-                  isOcrEnabled 
-                    ? "bg-red-650/25 text-red-500 border-red-500/50" 
+                onClick={() => setIsSidebarOpen(prev => !prev)}
+                className={`lg:hidden p-2.5 rounded-xl border transition-all ${
+                  isSidebarOpen
+                    ? "bg-red-700/20 text-red-500 border-red-500/50"
                     : "bg-zinc-900 text-zinc-400 border-editorial-border hover:text-white"
-                } disabled:opacity-30 disabled:cursor-not-allowed`}
-                title="Select OCR Selectable Text Mode"
+                }`}
+                title="Pages and search"
+                aria-label="Toggle page list and search"
+                aria-pressed={isSidebarOpen}
               >
-                <FileText className="w-4 h-4" /> OCR_MODE
+                <PanelLeft className="w-4 h-4" />
               </button>
 
-              {/* Knowledge Graph Toggle */}
+              {/* Copy page text (public pages only) */}
+              <button
+                onClick={copyPageText}
+                disabled={isPageLocked}
+                className="p-2.5 rounded-xl border transition-all flex items-center gap-2 text-[0.6875rem] font-mono whitespace-nowrap uppercase tracking-widest bg-zinc-900 text-zinc-400 border-editorial-border hover:text-white disabled:opacity-30 disabled:cursor-not-allowed"
+                title="Copy this page's text"
+                aria-label="Copy this page's text"
+              >
+                <Copy className="w-4 h-4" /><span className="hidden sm:inline">COPY_TEXT</span>
+              </button>
+
+              {/* Notes panel toggle */}
               <button
                 onClick={() => {
                   if (isPageLocked) {
-                    addToast("Knowledge Graph connections are premium-locked for Page 11+.", "error");
+                    addToast("Notes are unavailable on premium pages.", "error");
                     return;
                   }
-                  setIsKnowledgeGraphOpen(!isKnowledgeGraphOpen);
+                  setIsNotesOpen(prev => !prev);
                 }}
                 disabled={isPageLocked}
                 className={`p-2.5 rounded-xl border transition-all ${
-                  isKnowledgeGraphOpen 
-                    ? "bg-red-650/20 text-red-500 border-red-500/50" 
+                  isNotesOpen
+                    ? "bg-red-700/20 text-red-500 border-red-500/50"
                     : "bg-zinc-900 text-zinc-400 border-editorial-border hover:text-white"
                 } disabled:opacity-30 disabled:cursor-not-allowed`}
-                title="Toggle Semantic Knowledge Graph"
+                title="Toggle page notes"
+                aria-label="Toggle page notes"
+                aria-pressed={isNotesOpen}
               >
-                <Network className="w-4 h-4" />
+                <Bookmark className="w-4 h-4" />
               </button>
 
               {/* Fullscreen Toggle */}
               <button
                 onClick={toggleFullscreen}
                 className="p-2.5 bg-zinc-900 hover:bg-zinc-800 border border-editorial-border rounded-xl text-zinc-400 hover:text-white transition-all"
-                title="Toggle Immersive Fullscreen Reader"
+                title={isFullscreen ? "Exit fullscreen (Esc)" : "Fullscreen reader"}
+                aria-label={isFullscreen ? "Exit fullscreen" : "Fullscreen reader"}
+                aria-pressed={isFullscreen}
               >
-                <Maximize2 className="w-4 h-4" />
+                {isFullscreen ? <Minimize2 className="w-4 h-4" /> : <Maximize2 className="w-4 h-4" />}
               </button>
             </div>
           </header>
@@ -451,7 +457,7 @@ export default function LivingBookEngine() {
           <div className="flex-1 flex min-h-0 relative overflow-hidden" onWheel={handleWheelZoom}>
             
             {/* Left Wing Sidebar: Search & Thumbnail Grid Strip */}
-            <div className="w-72 border-r border-editorial-border/40 bg-zinc-950/80 flex flex-col shrink-0">
+            <div className={`${isSidebarOpen ? "flex" : "hidden"} lg:flex absolute inset-y-0 left-0 z-20 w-72 max-w-full lg:static border-r border-editorial-border/40 bg-zinc-950/95 lg:bg-zinc-950/80 flex-col shrink-0`}>
               
               {/* Document Search Panel */}
               <div className="p-4 border-b border-editorial-border/40">
@@ -460,9 +466,10 @@ export default function LivingBookEngine() {
                   <input
                     type="text"
                     placeholder="SEARCH MODULE (1-10)..."
+                    aria-label="Search pages 1-10"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full bg-[#0a0a0f] border border-editorial-border rounded-xl pl-9 pr-4 py-2 font-mono text-[0.6875rem] text-white focus:border-red-500 focus:outline-none transition-all uppercase tracking-widest placeholder:text-zinc-650"
+                    className="w-full bg-[#0a0a0f] border border-editorial-border rounded-xl pl-9 pr-4 py-2 font-mono text-[0.6875rem] text-white focus:border-red-500 focus:outline-none transition-all uppercase tracking-widest placeholder:text-zinc-600"
                   />
                 </div>
 
@@ -478,7 +485,7 @@ export default function LivingBookEngine() {
                         <button
                           key={result.pageNumber}
                           onClick={() => {
-                            setCurrentPageIdx(result.pageNumber - 1);
+                            jumpToPage(result.pageNumber - 1);
                             setSearchQuery("");
                           }}
                           className="w-full text-left font-mono text-[0.6875rem] text-zinc-400 hover:text-white truncate border-b border-white/[0.03] pb-1.5 last:border-0 block"
@@ -504,13 +511,10 @@ export default function LivingBookEngine() {
                   return (
                     <button
                       key={pg.pageNumber}
-                      onClick={() => {
-                        setCurrentPageIdx(idx);
-                        setZoomScale(1);
-                      }}
+                      onClick={() => jumpToPage(idx)}
                       className={`w-full p-3 rounded-xl border flex items-center justify-between transition-all ${
                         isActive 
-                          ? "bg-red-650/10 border-red-500 text-white" 
+                          ? "bg-red-700/10 border-red-500 text-white" 
                           : "bg-black/40 border-editorial-border text-zinc-400 hover:bg-zinc-900/40 hover:text-white"
                       }`}
                     >
@@ -523,7 +527,7 @@ export default function LivingBookEngine() {
                         </span>
                       </div>
                       
-                      {isThumbLocked && <Lock className="w-3.5 h-3.5 text-zinc-650 flex-shrink-0" />}
+                      {isThumbLocked && <Lock className="w-3.5 h-3.5 text-zinc-600 flex-shrink-0" />}
                     </button>
                   );
                 })}
@@ -531,7 +535,7 @@ export default function LivingBookEngine() {
             </div>
 
             {/* Core Reader Canvas (Center Stage) */}
-            <div className="flex-1 bg-[#020204] flex flex-col justify-between overflow-hidden relative" ref={readerStageRef}>
+            <div className="flex-1 bg-[#020204] flex flex-col justify-between overflow-hidden relative">
               
               {/* Zoom Scale HUD Badge */}
               <div className="absolute top-4 left-6 z-10 font-mono text-[0.6875rem] text-zinc-500 bg-black/60 border border-editorial-border/60 px-3 py-1.5 rounded-lg">
@@ -580,29 +584,19 @@ export default function LivingBookEngine() {
                         </span>
                       </div>
 
-                      <div className={`space-y-6 ${isOcrEnabled ? "select-text text-white/95" : "select-all"}`}>
+                      <div className="space-y-6 select-text">
                         <h3 className="text-3xl font-bold uppercase tracking-tight text-white leading-tight">
                           {currentPageData?.title}
                         </h3>
-                        <p className="font-light leading-relaxed text-zinc-300 text-lg md:text-xl drop-shadow-sm border-l-2 border-red-650/15 pl-6 py-2 select-text">
+                        <p className="font-light leading-relaxed text-zinc-300 text-lg md:text-xl drop-shadow-sm border-l-2 border-red-700/15 pl-6 py-2 select-text">
                           {currentPageData?.content}
                         </p>
                       </div>
 
                       <div className="border-t border-editorial-border/20 pt-6 mt-10 flex justify-between items-center">
-                        <span className="font-mono text-[0.6875rem] text-zinc-650 uppercase tracking-[0.3em]">
+                        <span className="font-mono text-[0.6875rem] text-zinc-600 uppercase tracking-[0.3em]">
                           DOCTRINE_INDEX_{selectedBook.id.substring(0,6).toUpperCase()}
                         </span>
-                        <div className="flex gap-2">
-                          {isOcrEnabled && (
-                            <button
-                              onClick={copyOcrToClipboard}
-                              className="px-3 py-1.5 bg-red-650/10 hover:bg-red-600 hover:text-white border border-red-500/20 rounded-lg font-mono text-[0.6875rem] text-red-400 transition-all uppercase tracking-widest flex items-center gap-1.5"
-                            >
-                              <Copy className="w-3 h-3" /> COPY_OCR_RAW
-                            </button>
-                          )}
-                        </div>
                       </div>
                     </motion.div>
                   ) : (
@@ -617,7 +611,7 @@ export default function LivingBookEngine() {
                       {/* Aesthetic locked glows */}
                       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-48 h-48 bg-red-600/10 blur-[100px] pointer-events-none" />
 
-                      <div className="mx-auto w-16 h-16 rounded-full bg-red-650/15 border border-red-500/30 flex items-center justify-center text-red-500 animate-pulse">
+                      <div className="mx-auto w-16 h-16 rounded-full bg-red-700/15 border border-red-500/30 flex items-center justify-center text-red-500 animate-pulse">
                         <Lock className="w-8 h-8" />
                       </div>
 
@@ -657,15 +651,18 @@ export default function LivingBookEngine() {
                       <div className="flex flex-col sm:flex-row gap-4 pt-4 shrink-0">
                         <button
                           onClick={handleReturnToSafePreview}
-                          className="flex-1 px-6 py-4 bg-zinc-90 w bg-zinc-900 border border-editorial-border hover:border-zinc-700 rounded-xl font-mono text-[0.6875rem] uppercase font-black text-zinc-400 hover:text-white transition-all tracking-widest"
+                          className="flex-1 px-6 py-4 bg-zinc-900 border border-editorial-border hover:border-zinc-700 rounded-xl font-mono text-[0.6875rem] uppercase font-black text-zinc-400 hover:text-white transition-all tracking-widest"
                         >
                           ← BACK_TO_PAGE_10
                         </button>
                         <button
-                          onClick={handleTriggerSubscription}
-                          className="flex-1 button-premium !py-4 text-[0.6875rem] font-mono uppercase tracking-widest"
+                          type="button"
+                          disabled
+                          aria-disabled="true"
+                          className="flex-1 button-premium !py-4 text-[0.6875rem] font-mono uppercase tracking-widest opacity-50 cursor-not-allowed flex flex-wrap items-center justify-center gap-2"
                         >
                           SUBSCRIBE TO UNLOCK
+                          <span className="font-mono text-[0.5625rem] tracking-widest border border-white/30 rounded px-1.5 py-0.5">COMING_SOON</span>
                         </button>
                       </div>
                     </motion.div>
@@ -674,71 +671,54 @@ export default function LivingBookEngine() {
               </div>
 
               {/* Reader Bottom Navigation & Zoom Bar */}
-              <footer className="px-6 py-4 border-t border-editorial-border/40 bg-zinc-950 flex flex-col md:flex-row items-center justify-between gap-4 shrink-0">
-                <div className="flex items-center gap-4">
+              <footer className="px-4 sm:px-6 py-4 border-t border-editorial-border/40 bg-zinc-950 flex flex-col md:flex-row items-center justify-between gap-4 shrink-0">
+                <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4">
                   {/* Zoom Controls */}
                   <div className="flex items-center bg-[#07070a] border border-editorial-border rounded-xl p-1 gap-1">
                     <button
-                      onClick={() => setZoomScale(prev => Math.max(0.8, prev - 0.2))}
+                      onClick={() => {
+                        const next = Math.max(0.8, zoomScale - 0.2);
+                        setZoomScale(next);
+                        if (next <= 1) setPanOffset({ x: 0, y: 0 });
+                      }}
                       className="p-2 hover:bg-zinc-800 rounded-lg text-zinc-400 hover:text-white transition-colors"
                       title="Zoom Out"
+                      aria-label="Zoom out"
                     >
                       <ZoomOut className="w-3.5 h-3.5" />
-                    </button>
-                    <button
-                      onClick={() => setZoomScale(1)}
-                      className="px-2 font-mono text-[0.6875rem] text-zinc-500 hover:text-white transition-colors"
-                      title="Reset Zoom"
-                    >
-                      100%
-                    </button>
-                    <button
-                      onClick={() => setZoomScale(1.3)}
-                      className="px-2 font-mono text-[0.6875rem] text-zinc-500 hover:text-white transition-colors border-l border-white/[0.04]"
-                      title="Fit Width Zoom"
-                    >
-                      FIT_W
-                    </button>
-                    <button
-                      onClick={() => setZoomScale(0.85)}
-                      className="px-2 font-mono text-[0.6875rem] text-zinc-500 hover:text-white transition-colors border-l border-white/[0.04]"
-                      title="Fit Height Zoom"
-                    >
-                      FIT_H
                     </button>
                     <button
                       onClick={() => {
                         setZoomScale(1);
                         setPanOffset({ x: 0, y: 0 });
-                        addToast("Centered and aligned to viewport screen.", "info");
                       }}
-                      className="px-2 font-mono text-[0.6875rem] text-zinc-500 hover:text-white transition-colors border-l border-white/[0.04]"
-                      title="Fit Screen Zoom"
+                      className="px-2 font-mono text-[0.6875rem] text-zinc-500 hover:text-white transition-colors"
+                      title="Reset zoom and centre the page"
                     >
-                      FIT_SCR
+                      100%
                     </button>
                     <button
-                      onClick={() => setZoomScale(prev => Math.min(2.5, prev + 0.2))}
+                      onClick={() => {
+                        const next = Math.min(2.5, zoomScale + 0.2);
+                        setZoomScale(next);
+                        if (next <= 1) setPanOffset({ x: 0, y: 0 });
+                      }}
                       className="p-2 hover:bg-zinc-800 rounded-lg text-zinc-400 hover:text-white transition-colors"
                       title="Zoom In"
+                      aria-label="Zoom in"
                     >
                       <ZoomIn className="w-3.5 h-3.5" />
                     </button>
                   </div>
 
-                  {/* Safe Downloader (Only Allowed Pages!) */}
+                  {/* Export (public pages only) */}
                   <button
                     onClick={triggerSafeExport}
                     className="p-2.5 bg-zinc-900 hover:bg-zinc-800 border border-editorial-border rounded-xl text-zinc-400 hover:text-white transition-all flex items-center gap-2 font-mono text-[0.6875rem] uppercase tracking-widest"
-                    title="Export Allowed Pages to JSON"
+                    title="Export pages 1-10 as a JSON file"
                   >
-                    <Download className="w-3.5 h-3.5" /> EXPORT_GUIDE
+                    <Download className="w-3.5 h-3.5" /> EXPORT_JSON
                   </button>
-
-                  {/* Active Page Diagnostics Node */}
-                  <span className="font-mono text-[0.6875rem] text-zinc-650 max-w-[200px] truncate uppercase tracking-widest hidden lg:block">
-                    MDL_VER_STABLE_{currentPageIdx + 1}
-                  </span>
                 </div>
 
                 {/* Left/Right arrow flippers */}
@@ -768,28 +748,28 @@ export default function LivingBookEngine() {
               </footer>
             </div>
 
-            {/* Right Side Sliding Panel overlaying Knowledge Graph, or Sticky Notes */}
+            {/* Right side notes panel: a drawer over the page below lg, a column beside it from lg */}
             <AnimatePresence>
-              {(isKnowledgeGraphOpen || activeKnowledgeNodes.length > 0) && (
+              {isNotesOpen && (
                 <motion.div
-                  initial={{ width: 0, opacity: 0 }}
-                  animate={{ width: 340, opacity: 1 }}
-                  exit={{ width: 0, opacity: 0 }}
+                  initial={{ x: 40, opacity: 0 }}
+                  animate={{ x: 0, opacity: 1 }}
+                  exit={{ x: 40, opacity: 0 }}
                   transition={{ type: "spring", damping: 30, stiffness: 220 }}
-                  className="border-l border-editorial-border/40 bg-zinc-950/95 flex flex-col shrink-0 min-h-0 relative select-text"
+                  className="absolute inset-y-0 right-0 z-20 w-full max-w-[340px] lg:static lg:w-[340px] border-l border-editorial-border/40 bg-zinc-950/95 flex flex-col shrink-0 min-h-0 select-text"
                 >
                   <div className="p-6 border-b border-editorial-border/40 flex items-center justify-between shrink-0">
                     <div className="flex items-center gap-2">
-                      <Sparkles className="w-4 h-4 text-red-500 animate-pulse" />
+                      <Bookmark className="w-4 h-4 text-red-500" />
                       <span className="font-sans font-bold text-xs uppercase text-white tracking-widest">
-                        Page Connections
+                        Page Notes
                       </span>
                     </div>
                     <button
-                      onClick={() => {
-                        setIsKnowledgeGraphOpen(false);
-                      }}
-                      className="p-1 hover:bg-white/5 rounded-lg text-zinc-400 hover:text-white"
+                      onClick={() => setIsNotesOpen(false)}
+                      className="p-2 min-h-11 min-w-11 flex items-center justify-center hover:bg-white/5 rounded-lg text-zinc-400 hover:text-white"
+                      aria-label="Close notes panel"
+                      title="Close notes panel"
                     >
                       <X className="w-4 h-4" />
                     </button>
@@ -797,59 +777,30 @@ export default function LivingBookEngine() {
 
                   {/* Content area */}
                   <div className="flex-1 overflow-y-auto custom-scrollbar p-6 space-y-6">
-                    
-
-                    {isKnowledgeGraphOpen && !isPageLocked && (
-                      /* Semantic knowledge graph connections panel */
-                      <div className="space-y-5">
-                        <span className="block font-mono text-[0.6875rem] text-zinc-500 uppercase tracking-widest leading-none">
-                          KNOWLEDGE CONNECTIVITY NODES
-                        </span>
-                        
-                        <div className="space-y-3">
-                          {activeKnowledgeNodes.map(node => (
-                            <div 
-                              key={node.id}
-                              className={`p-3.5 rounded-xl border flex flex-col gap-1 transition-all ${
-                                node.active 
-                                  ? "bg-emerald-500/10 border-emerald-500/30 text-emerald-400" 
-                                  : "bg-black/40 border-editorial-border/40 text-zinc-500"
-                              }`}
-                            >
-                              <div className="flex items-center justify-between">
-                                <span className="font-mono text-[0.6875rem] font-black tracking-widest">
-                                  {node.label}
-                                </span>
-                                <div className={`w-2 h-2 rounded-full ${node.active ? "bg-emerald-500 animate-pulse shadow-[0_0_8px_#10b981]" : "bg-zinc-800"}`} />
-                              </div>
-                              <span className="font-sans text-[0.6875rem] font-light">
-                                {node.connection}
-                              </span>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-
-                    {/* Interactive Annotation Sticky Notes Block */}
+                    {/* Session notes block */}
                     {!isPageLocked && (
-                      <div className="border-t border-editorial-border/40 pt-6 space-y-4 select-text">
+                      <div className="space-y-4 select-text">
                         <div className="flex items-center justify-between">
                           <span className="font-mono text-[0.6875rem] text-zinc-500 uppercase tracking-widest leading-none">
                             PAGE_ANNOTATIONS ({activeAnnotationsList.length})
                           </span>
                           <button
                             onClick={() => setIsAddingNote(!isAddingNote)}
-                            className="p-1 px-2.5 bg-red-650/10 hover:bg-red-600 hover:text-white border border-red-500/20 text-red-500 rounded-lg text-[0.6875rem] font-mono uppercase font-black tracking-widest transition-all"
+                            className="min-h-11 px-3 bg-red-700/10 hover:bg-red-600 hover:text-white border border-red-500/20 text-red-500 rounded-lg text-[0.6875rem] font-mono uppercase font-black tracking-widest transition-all"
+                            aria-pressed={isAddingNote}
                           >
                             + ADD_NOTE
                           </button>
                         </div>
+                        <p className="font-mono text-[0.625rem] text-zinc-600 uppercase tracking-widest leading-relaxed">
+                          Session only: notes are not kept once the reader closes.
+                        </p>
 
                         {isAddingNote && (
                           <form onSubmit={handleAddAnnotation} className="space-y-3 bg-black/60 border border-editorial-border p-4 rounded-xl relative select-text">
                             <textarea
                               placeholder="COMPILE LOCAL NOTE..."
+                              aria-label="New note"
                               value={newNoteText}
                               onChange={(e) => setNewNoteText(e.target.value)}
                               className="w-full bg-[#07070a] border border-editorial-border/60 rounded-xl p-3 font-mono text-[0.6875rem] text-white focus:border-red-500 outline-none uppercase placeholder:text-zinc-700 resize-none h-20"
@@ -876,14 +827,15 @@ export default function LivingBookEngine() {
                           {activeAnnotationsList.map(note => (
                             <div 
                               key={note.id}
-                              className="p-3.5 bg-[#0a0a0f] border border-editorial-border/80 rounded-xl flex flex-col gap-2 relative select-text group/note"
+                              className="p-3.5 bg-[#0a0a0f] border border-editorial-border/80 rounded-xl flex flex-col gap-2 relative select-text"
                             >
                               <div className="flex justify-between items-center select-none shrink-0">
                                 <span className="font-mono text-[0.6875rem] text-zinc-500">TIMESTAMP: {note.date}</span>
                                 <button
                                   onClick={() => handleDeleteAnnotation(note.id)}
-                                  className="p-1 text-zinc-600 hover:text-red-500 opacity-0 group-hover/note:opacity-100 transition-all"
-                                  title="Delete Note"
+                                  className="p-2.5 min-h-11 min-w-11 flex items-center justify-center text-zinc-500 hover:text-red-500 transition-colors"
+                                  title="Delete note"
+                                  aria-label="Delete note"
                                 >
                                   <Trash2 className="w-3 h-3" />
                                 </button>

@@ -569,3 +569,12 @@ body.motion-enhanced .group:hover {
     right: max(1rem, env(safe-area-inset-right));
   }
 }
+
+/* THE MARQUEE THAT NEVER MOVED. Home used animate-[marquee_40s_linear_infinite]
+   for a strip that no @keyframes ever defined, so it sat still. The strip holds
+   two exact copies of its word list (second copy aria-hidden), so -50% loops
+   seamlessly. */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}

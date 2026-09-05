@@ -1,15 +1,22 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useCart } from '../context/CartContext';
 import { X, Search } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import MagneticWrapper from './MagneticWrapper';
-import { useUI } from '../context/UIContext';
-import { Bot, ArrowRight } from 'lucide-react';
 
 export default function ProductQuickView({ product, isOpen, onClose }: { product: any; isOpen: boolean; onClose: () => void }) {
   const { addToCart } = useCart();
-  useUI();
+
+  // Dialog behaviour: Escape closes.
+  useEffect(() => {
+    if (!isOpen) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [isOpen, onClose]);
 
   if (!product) return null;
 
@@ -23,6 +30,7 @@ export default function ProductQuickView({ product, isOpen, onClose }: { product
             exit={{ opacity: 0 }}
             transition={{ duration: 0.4 }}
             onClick={onClose}
+            aria-hidden="true"
             className="fixed inset-0 bg-editorial-bg/80 backdrop-blur-md z-[9999]"
           />
           <motion.div
@@ -30,14 +38,18 @@ export default function ProductQuickView({ product, isOpen, onClose }: { product
             animate={{ opacity: 1, scale: 1, y: 0, filter: 'blur(0px)' }}
             exit={{ opacity: 0, scale: 0.95, y: 30, filter: 'blur(20px)' }}
             transition={{ type: "spring", damping: 30, stiffness: 200 }}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="quick-view-title"
             className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90vw] max-w-[1200px] h-[85vh] flex flex-col md:flex-row bg-editorial-card border border-editorial-border z-[10000] overflow-hidden shadow-[0_80px_160px_-40px_rgba(0,0,0,0.8),inset_0_0_80px_rgba(0,0,0,0.5)] rounded-[3rem]"
           >
             {/* Edge Highlights */}
             <div className="absolute top-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent z-50 pointer-events-none mix-blend-overlay" />
             <div className="absolute inset-y-0 left-0 w-[1px] bg-gradient-to-b from-transparent via-white/10 to-transparent z-50 pointer-events-none mix-blend-overlay" />
             <MagneticWrapper>
-              <button 
-                onClick={onClose} 
+              <button
+                onClick={onClose}
+                aria-label="Close quick view"
                 className="absolute top-8 right-8 z-50 p-4 text-editorial-text-muted hover:text-editorial-text bg-editorial-bg/60 border border-editorial-border-light hover:border-editorial-accent hover:bg-editorial-accent backdrop-blur-xl rounded-full transition-all duration-500 shadow-depth-2 group/close"
               >
                 <X className="w-5 h-5 group-hover/close:rotate-90 transition-transform duration-500" />
@@ -48,7 +60,7 @@ export default function ProductQuickView({ product, isOpen, onClose }: { product
               <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808008_1px,transparent_1px),linear-gradient(to_bottom,#80808008_1px,transparent_1px)] bg-[size:32px_32px] pointer-events-none mix-blend-screen opacity-50 z-10" />
               <div className="absolute inset-0 bg-gradient-to-t from-transparent via-transparent to-editorial-bg opacity-60 z-20 mix-blend-multiply" />
               
-              {/* Scanline Sweep Upgrade */}
+              {/* Hover sweep highlight (decorative) */}
               <motion.div 
                  animate={{ y: ["-10%", "110%"] }}
                  transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
@@ -82,7 +94,7 @@ export default function ProductQuickView({ product, isOpen, onClose }: { product
                 <span className="text-meta-premium !text-red-500 mb-6 block flex items-center gap-3 drop-shadow-[0_0_8px_rgba(220,38,38,0.5)]">
                   <div className="w-1.5 h-1.5 bg-red-600 rounded-full shadow-[0_0_5px_currentColor]" /> {product.category}
                 </span>
-                <h2 className="font-sans font-black uppercase tracking-tighter leading-none mb-8 text-premium drop-shadow-sm text-display-sm">
+                <h2 id="quick-view-title" className="font-sans font-black uppercase tracking-tighter leading-none mb-8 text-premium drop-shadow-sm text-display-sm">
                   {product.name}
                 </h2>
                 <div className="text-3xl md:text-4xl font-sans font-black mb-10 border-b border-editorial-border-light pb-8 text-premium drop-shadow-md inline-block w-full">

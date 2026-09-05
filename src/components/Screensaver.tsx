@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Film, X } from "lucide-react";
 import { useSettings } from "../context/SettingsContext";
+import { useUI } from "../context/UIContext";
 import { VIDEO_LIBRARY, videoById, nextVideo, lightVideos } from "../data/videoLibrary";
 
 /**
@@ -9,7 +10,8 @@ import { VIDEO_LIBRARY, videoById, nextVideo, lightVideos } from "../data/videoL
  *
  * Arrives after a minute of stillness, or instantly from the button in the
  * header. Full-bleed film, the mark, the line, a clock, and a shelf of other
- * films that slides out when the pointer finds the left edge.
+ * films that slides out when the pointer finds the left edge (or a finger
+ * taps it).
  *
  * THE HARD PART IS LEAVING, NOT ARRIVING
  *
@@ -22,13 +24,19 @@ import { VIDEO_LIBRARY, videoById, nextVideo, lightVideos } from "../data/videoL
  *    running underneath and re-arms against itself.
  *  - Typing never counts as idling: the timer resets on keystrokes too, so it
  *    cannot ambush someone filling in the signup form.
- *  - It never appears over a dialog or the intro, and never on first paint.
+ *  - It never appears over a dialog or the intro, and never on first paint:
+ *    the idle clock does not run until the intro is done, and when it fires
+ *    over an open dialog it simply waits another round.
+ *  - Opened from the header button, the mouse leaving that button would wake
+ *    it during its own fade-in. Passive motion (pointermove, wheel) is ignored
+ *    for the first 700ms; a press, key or touch is deliberate and always wins.
  */
 
 const IDLE_EVENTS = ["pointermove", "pointerdown", "keydown", "wheel", "touchstart"] as const;
 
 export default function Screensaver() {
   const { settings, updateSettings } = useSettings();
+  const { hasCompletedIntro } = useUI();
   const [active, setActive] = useState(false);
   const [shelfOpen, setShelfOpen] = useState(false);
   const [clock, setClock] = useState("");
@@ -59,11 +67,16 @@ export default function Screensaver() {
 
   // The idle clock. Rebuilt whenever the setting changes or we wake.
   useEffect(() => {
-    if (!settings.screensaverEnabled || active || saveData) return;
+    if (!settings.screensaverEnabled || active || saveData || !hasCompletedIntro) return;
 
     const arm = () => {
       if (timer.current) clearTimeout(timer.current);
-      timer.current = setTimeout(() => setActive(true), Math.max(10000, settings.screensaverDelayMs));
+      timer.current = setTimeout(() => {
+        // Over a dialog (cart drawer, image viewer, any modal) the film would
+        // bury what the visitor was doing — wait another round instead.
+        if (document.querySelector('[role="dialog"], [aria-modal="true"]')) { arm(); return; }
+        setActive(true);
+      }, Math.max(10000, settings.screensaverDelayMs));
     };
 
     const onActivity = () => arm();
@@ -74,7 +87,7 @@ export default function Screensaver() {
       if (timer.current) clearTimeout(timer.current);
       IDLE_EVENTS.forEach((e) => window.removeEventListener(e, onActivity));
     };
-  }, [settings.screensaverEnabled, settings.screensaverDelayMs, active, saveData]);
+  }, [settings.screensaverEnabled, settings.screensaverDelayMs, active, saveData, hasCompletedIntro]);
 
   // Every arrival draws a fresh film.
   useEffect(() => {
@@ -93,7 +106,12 @@ export default function Screensaver() {
   useEffect(() => {
     if (!active) return;
 
-    const wake = () => { if (!overChrome.current) dismiss(); };
+    const openedAt = Date.now();
+    const wake = (e: Event) => {
+      if (overChrome.current) return;
+      if ((e.type === "pointermove" || e.type === "wheel") && Date.now() - openedAt < 700) return;
+      dismiss();
+    };
     // A pointer that has merely arrived over the shelf should not wake us, so
     // the guard is checked at event time rather than bound at listen time.
     IDLE_EVENTS.forEach((e) => window.addEventListener(e, wake, { passive: true }));
@@ -167,18 +185,26 @@ export default function Screensaver() {
           {/* Clock, and the way out — stated, so nobody wonders. */}
           <div className="pointer-events-none absolute inset-x-0 bottom-8 flex flex-col items-center gap-2">
             <span className="font-sans text-3xl font-black tracking-tight text-white/80">{clock}</span>
-            <span className="font-mono text-[0.6875rem] uppercase tracking-[0.4em] text-white/30">
-              Move to resume
+            <span className="font-mono text-[0.6875rem] uppercase tracking-[0.4em] text-white/60">
+              Tap or move to resume
             </span>
           </div>
 
           {/* ── THE FILM SHELF ────────────────────────────────────────────
-              A strip on the left edge; hovering it slides the list out. It is
-              marked as our own chrome so using it does not dismiss the very
-              screen it is controlling. */}
+              A strip on the left edge; hovering or tapping it slides the list
+              out. It is marked as our own chrome so using it does not dismiss
+              the very screen it is controlling. On touch, pointerleave fires
+              the moment the finger lifts, which would shut the shelf the same
+              tap opened — so a touch pointer leaving only clears the chrome
+              flag and leaves the shelf up; the next tap outside the strip
+              dismisses as usual. */}
           <div
             onPointerEnter={() => { overChrome.current = true; setShelfOpen(true); }}
-            onPointerLeave={() => { overChrome.current = false; setShelfOpen(false); }}
+            onPointerLeave={(e) => {
+              overChrome.current = false;
+              if (e.pointerType !== "touch") setShelfOpen(false);
+            }}
+            onClick={() => setShelfOpen(true)}
             className="absolute inset-y-0 left-0 z-10 flex cursor-default items-center"
           >
             <div className="flex h-full w-8 items-center justify-center bg-gradient-to-r from-black/70 to-transparent">

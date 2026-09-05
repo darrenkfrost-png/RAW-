@@ -1,16 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
-export type AITone = 
-  'technical' | 'friendly' | 'concise' | 'british_scholar' | 'aussie_mate' | 
-  'gym_bro' | 'zen_master' | 'cyberpunk_hacker' | 'military_commander' | 
-  'calm_scientist' | 'french_sophisticate' | 'texas_ranger';
-
-export const allAITones: AITone[] = [
-  'technical', 'friendly', 'concise', 'british_scholar', 'aussie_mate', 
-  'gym_bro', 'zen_master', 'cyberpunk_hacker', 'military_commander', 
-  'calm_scientist', 'french_sophisticate', 'texas_ranger'
-];
-
 interface Settings {
   /** The film playing behind the whole site, and how present it is. */
   videoWallpaper: boolean;
@@ -28,14 +17,10 @@ interface Settings {
   wallpaperColor: string;
   wallpaperSpeed: number;
   wallpaperBrightness: number;
-  aiVoiceTone: AITone;
   voiceRate: number;
   voicePitch: number;
-  voiceContinuous: boolean;
   visualFidelity: 'low' | 'balanced' | 'high' | 'overdrive';
-  realtimeDiagnostics: boolean;
   motionIntensity: 'reduced' | 'standard' | 'enhanced';
-  uiStabilityFeedback: boolean;
 }
 
 interface SettingsContextType {
@@ -63,14 +48,10 @@ const defaultSettings: Settings = {
   wallpaperColor: '#dc2626',
   wallpaperSpeed: 1,
   wallpaperBrightness: 1,
-  aiVoiceTone: 'technical',
   voiceRate: 1,
   voicePitch: 1,
-  voiceContinuous: false,
   visualFidelity: 'balanced',
-  realtimeDiagnostics: true,
   motionIntensity: 'standard',
-  uiStabilityFeedback: true,
 };
 
 export function SettingsProvider({ children }: { children: React.ReactNode }) {
@@ -103,12 +84,10 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
     // Remove old classes
     classList.remove('fidelity-low', 'fidelity-balanced', 'fidelity-high', 'fidelity-overdrive');
     classList.remove('motion-reduced', 'motion-standard', 'motion-enhanced');
-    classList.remove('diagnostics-enabled', 'diagnostics-disabled');
 
     // Add new classes
     classList.add(`fidelity-${settings.visualFidelity}`);
     classList.add(`motion-${settings.motionIntensity}`);
-    classList.add(settings.realtimeDiagnostics ? 'diagnostics-enabled' : 'diagnostics-disabled');
 
     // Dynamically inject color variables for custom themes
     if (settings.wallpaperColor) {

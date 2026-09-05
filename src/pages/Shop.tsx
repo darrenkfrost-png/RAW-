@@ -1,16 +1,14 @@
 import { Atmosphere } from '../components/common/Atmosphere';
 import { motion, AnimatePresence } from "motion/react";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { Product } from "../types";
 import { allProducts } from "../data/products";
 import React, { useState, useMemo, useEffect } from "react";
 import ProductCard from "../components/common/ProductCard";
-import { ProductCardSkeleton } from "../components/common/Skeleton";
 import ProductQuickView from "../components/ProductQuickView";
 import Breadcrumb from "../components/Breadcrumb";
-import { Search, Filter, Zap, LayoutGrid, Bot } from "lucide-react";
+import { Search, Filter, LayoutGrid } from "lucide-react";
 import ShopFilters, { FilterState } from "../components/ShopFilters";
-import { useUI } from "../context/UIContext";
 
 export default function Shop() {
   const { slug } = useParams();
@@ -28,13 +26,6 @@ export default function Shop() {
 
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [quickViewProduct, setQuickViewProduct] = useState<Product | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    // Simulate initial telemetry scan
-    const timer = setTimeout(() => setIsLoading(false), 1200);
-    return () => clearTimeout(timer);
-  }, []);
 
   useEffect(() => {
     if (slug) {
@@ -212,7 +203,7 @@ export default function Shop() {
                     value={filters.searchQuery}
                     onChange={(e) => setFilters(prev => ({...prev, searchQuery: e.target.value}))}
                     aria-label="Search parameters"
-                    placeholder="INITIATE_PARAMETER_SCAN..."
+                    placeholder="SEARCH_THE_ARCHIVE..."
                     className="w-full bg-editorial-bg backdrop-blur-3xl text-editorial-text placeholder-zinc-700 border border-editorial-border rounded-[1.5rem] py-6 pl-16 pr-8 text-[0.8125rem] font-black uppercase tracking-[0.4em] outline-none focus:border-red-500/50 transition-all duration-[600ms] shadow-[inset_0_2px_10px_rgba(0,0,0,0.1)] focus:shadow-[0_0_40px_rgba(220,38,38,0.15)] font-mono"
                 />
                 <div className="absolute right-6 top-1/2 -translate-y-1/2 opacity-0 group-focus-within/search:opacity-100 transition-opacity duration-500">
@@ -266,20 +257,14 @@ export default function Shop() {
         className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 lg:gap-6 relative z-10"
       >
         <AnimatePresence mode="popLayout" initial={false}>
-          {isLoading ? (
-            Array.from({ length: 10 }).map((_, i) => (
-              <ProductCardSkeleton key={`skeleton-${i}`} />
-            ))
-          ) : (
-            filteredProducts.map((product, idx) => (
-              <ProductCard 
-                  key={product.id} 
-                  product={product} 
-                  idx={idx} 
-                  onQuickView={setQuickViewProduct} 
-              />
-            ))
-          )}
+          {filteredProducts.map((product, idx) => (
+            <ProductCard 
+                key={product.id} 
+                product={product} 
+                idx={idx} 
+                onQuickView={setQuickViewProduct} 
+            />
+          ))}
         </AnimatePresence>
       </motion.div>
       
@@ -304,7 +289,7 @@ export default function Shop() {
             </h3>
             
             <p className="text-editorial-text-muted font-mono text-[0.6875rem] xl:text-[0.75rem] uppercase tracking-[0.4em] font-medium max-w-lg mx-auto leading-relaxed mb-16">
-              Our registry failed to find any assets matching your current filtering parameters. Adjust your scan criteria, clear the protocol, or consult the Intelligence Advisor for assistance.
+              Our registry failed to find any assets matching your current filtering parameters. Adjust your search criteria or clear the protocol to see the full archive.
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-6">

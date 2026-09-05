@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ChevronRight, ArrowRight, ShieldCheck, Target, Zap, Waves, Activity, RefreshCw } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
@@ -101,66 +101,151 @@ export default function ProtocolBuilder() {
   const [currentStep, setCurrentStep] = useState(0);
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [resultStack, setResultStack] = useState<any[] | null>(null);
-  
+  const advanceTimer = useRef<number | null>(null);
+
   const { addToProtocol } = useProtocol();
-  const navigate = useNavigate();  const { addToast } = useToast();
+  const navigate = useNavigate();
+  const { addToast } = useToast();
+
+  // Clear a pending step advance if the visitor leaves mid-transition.
+  useEffect(() => {
+    return () => {
+      if (advanceTimer.current !== null) window.clearTimeout(advanceTimer.current);
+    };
+  }, []);
 
   const handleSelect = (stepId: string, optionId: string) => {
+    // A second tap inside the 400ms transition must not skip a question.
+    if (advanceTimer.current !== null) return;
     const newAnswers = { ...answers, [stepId]: optionId };
     setAnswers(newAnswers);
-    
+
     if (currentStep < steps.length - 1) {
-      setTimeout(() => setCurrentStep(prev => prev + 1), 400);
+      advanceTimer.current = window.setTimeout(() => {
+        advanceTimer.current = null;
+        setCurrentStep(prev => prev + 1);
+      }, 400);
     } else {
       generateProtocol(newAnswers);
     }
   };
 
   const generateProtocol = (userAnswers: Record<string, string>) => {
-    // A plain rule table over the catalogue: goal → the products that serve it. No wait, no "analysis".
+    // A plain rule table over the catalogue: every answer maps to products by name. No wait, no "analysis".
       try {
-        let filtered: any[] = [];
-        const goal = userAnswers.goal;
-        const combatStyle = userAnswers.combat_style;
-        const sleep = userAnswers.sleep_calm;
-        
-        const addReason = (products: any[], defaultReason: string) => 
-          products.map(p => ({ ...p, reason: defaultReason }));
+        const {
+          goal, frequency, experience, budget, preferred_type: format,
+          recovery_priority: recovery, energy_focus: energy, sleep_calm: sleep, combat_style: combatStyle,
+        } = userAnswers;
 
+        const nameHas = (...needles: string[]) =>
+          allProducts.filter(p => needles.some(n => p.name.toLowerCase().includes(n)));
+        const categoryHas = (needle: string) =>
+          allProducts.filter(p => p.category.toLowerCase().includes(needle));
+        const isPowder = (p: any) => /powder|drink mix|coffee|\(\d+(\.\d+)?k?g\)/i.test(p.name);
+        const isCapsule = (p: any) => /capsule|gumm|tabs|tablet|\d+mg/i.test(p.name);
+        const matchesFormat = (p: any) =>
+          format === 'powders' ? isPowder(p) : format === 'capsules' ? isCapsule(p) : true;
+        // Prefer the chosen format, but never drop a product the goal needs just because of its format.
+        const preferFormat = (products: any[]) =>
+          [...products.filter(matchesFormat), ...products.filter(p => !matchesFormat(p))];
+        const pick = (products: any[], reason: string) =>
+          preferFormat(products).slice(0, 1).map(p => ({ ...p, reason }));
+
+        let filtered: any[] = [];
+
+        // 1. Primary goal
         if (goal === 'strength') {
            filtered = [
-             ...addReason(allProducts.filter(p => p.name.toLowerCase().includes('protein')).slice(0, 1), "Fundamental building block for muscle repair and growth after heavy lifting."),
-             ...addReason(allProducts.filter(p => p.name.toLowerCase().includes('creatine')).slice(0, 1), "Increases ATP production for enhanced strength and power output."),
-             ...addReason(allProducts.filter(p => p.name.toLowerCase().includes('pre-workout')).slice(0, 1), "Maximizes intensity and focus during strength sessions.")
+             ...pick(nameHas('protein'), "Fundamental building block for muscle repair and growth after heavy lifting."),
+             ...pick(nameHas('creatine'), "Increases ATP production for enhanced strength and power output."),
+             ...pick(nameHas('pre-workout'), "Maximizes intensity and focus during strength sessions."),
+           ];
+        } else if (goal === 'endurance') {
+           filtered = [
+             ...pick(nameHas('electrolyte'), "Keeps hydration and nerve function steady through long sessions."),
+             ...pick(nameHas('bcaa'), "Spares muscle tissue and eases fatigue over extended work."),
+             ...pick(nameHas('creatine'), "Supports repeated high-output efforts and faster recovery between them."),
            ];
         } else if (goal === 'recovery') {
            filtered = [
-             ...addReason(allProducts.filter(p => p.name.toLowerCase().includes('magnesium')).slice(0, 1), "Supports muscle relaxation and prevents cramping post-training."),
-             ...addReason(allProducts.filter(p => p.name.toLowerCase().includes('protein')).slice(0, 1), "Essential for repairing muscle fibers damaged during training."),
-             ...addReason(allProducts.filter(p => p.name.toLowerCase().includes('electrolyte')).slice(0, 1), "Replenishes essential minerals lost through sweat.")
+             ...pick(nameHas('magnesium'), "Supports muscle relaxation and prevents cramping post-training."),
+             ...pick(nameHas('protein'), "Essential for repairing muscle fibers damaged during training."),
+             ...pick(nameHas('electrolyte'), "Replenishes essential minerals lost through sweat."),
            ];
-        } else if (goal === 'combat' || combatStyle === 'striking' || combatStyle === 'grappling') {
+        } else if (goal === 'sleep') {
            filtered = [
-             ...addReason(allProducts.filter(p => p.category.toLowerCase().includes('combat')).slice(0, 2), "Engineered specifically for the demands of martial arts and fighting."),
-             ...addReason(allProducts.filter(p => p.name.toLowerCase().includes('electrolyte')).slice(0, 1), "Critical for maintaining hydration and nerve function during intense rounds.")
+             ...pick(nameHas('magnesium'), "Crucial for down-regulating the nervous system before bed."),
+             ...pick(nameHas('gaba', 'melatonin'), "Promotes deep, restorative sleep cycles for optimal recovery."),
            ];
-        } else if (goal === 'sleep' || sleep === 'deep_sleep') {
+        } else if (goal === 'combat') {
            filtered = [
-             ...addReason(allProducts.filter(p => p.name.toLowerCase().includes('magnesium')).slice(0, 1), "Crucial for down-regulating the nervous system before bed."),
-             ...addReason(allProducts.filter(p => p.name.toLowerCase().includes('gaba') || p.name.toLowerCase().includes('sleep')).slice(0, 1), "Promotes deep, restorative sleep cycles for optimal recovery.")
+             ...preferFormat(categoryHas('combat')).slice(0, 2).map(p => ({ ...p, reason: "Engineered specifically for the demands of martial arts and fighting." })),
+             ...pick(nameHas('electrolyte'), "Critical for maintaining hydration and nerve function during intense rounds."),
            ];
-        } else {
-           filtered = addReason(allProducts.slice(0, 3), "Core foundational supplement for general performance and health.");
         }
 
-        // Fill up to 4 if needed (ensure uniqueness)
-        const uniqueProducts = Array.from(new Map(filtered.map(item => [item.id, item])).values()).slice(0, 4);
-        while(uniqueProducts.length < 4) {
-           const remaining = allProducts.filter(p => !uniqueProducts.find(up => up.id === p.id));
-           if (remaining.length > 0) {
-              uniqueProducts.push({ ...remaining[0], reason: "Rounds out the stack for the goals you picked." });
-           } else {
-               break;
+        // 2. Training style: combat kit only when the goal is combat; otherwise the style steers one pick.
+        if (goal === 'combat' && ['striking', 'grappling', 'mixed'].includes(combatStyle)) {
+           filtered.push(...pick(nameHas('gloves'), "Round-ready kit for striking and sparring work."));
+        } else if (combatStyle === 'lifting') {
+           filtered.push(...pick(nameHas('creatine'), "The most studied supplement for heavy lifting and powerbuilding."));
+        } else if (combatStyle === 'tactical') {
+           filtered.push(...pick(nameHas('electrolyte'), "Hybrid training days demand steady hydration across sessions."));
+        }
+
+        // 3. Recovery focus
+        if (recovery === 'joint_health') {
+           filtered.push(...pick(nameHas('turmeric', 'bone strength'), "Supports joint comfort and mobility under load."));
+        } else if (recovery === 'muscle_soreness') {
+           filtered.push(...pick(nameHas('bcaa', 'protein'), "Amino acids to support repair after hard sessions."));
+        } else if (recovery === 'cns_faigue') {
+           filtered.push(...pick(nameHas('ashwagandha'), "Adaptogenic support for stress load and CNS fatigue."));
+        } else if (recovery === 'hydration') {
+           filtered.push(...pick(nameHas('electrolyte'), "Replaces the minerals lost through sweat."));
+        }
+
+        // 4. Energy & focus
+        if (energy === 'high_stim') {
+           filtered.push(...pick(nameHas('pre-workout'), "Maximum stimulation for high-intensity sessions."));
+        } else if (energy === 'smooth_focus') {
+           filtered.push(...pick(nameHas('lion', 'mushroom coffee'), "Nootropic support for clean, low-caffeine focus."));
+        } else if (energy === 'stim_free') {
+           filtered.push(...pick(nameHas('l-arginine', 'bcaa'), "Stim-free pump and endurance support."));
+        }
+
+        // 5. Sleep & calm
+        if (sleep === 'deep_sleep') {
+           filtered.push(...pick(nameHas('melatonin', 'gaba'), "Supports falling asleep and staying in deep sleep."));
+        } else if (sleep === 'stress_relief') {
+           filtered.push(...pick(nameHas('ashwagandha', '5-htp'), "Calming support for stress relief and relaxation."));
+        }
+
+        // 6. Frequency & experience
+        if (frequency === '5+' || frequency === 'everyday') {
+           filtered.push(...pick(nameHas('magnesium'), "Training most days raises the recovery load; magnesium helps you keep up."));
+        }
+        if (experience === 'beginner') {
+           filtered.push(...pick(nameHas('whey', 'protein'), "A foundation product to build the habit around."));
+        } else if (experience === 'advanced') {
+           filtered.push(...pick(nameHas('creatine'), "Advanced output relies on saturated creatine stores."));
+        }
+
+        // 7. Budget sets how many products the stack may hold.
+        const maxItems = budget === 'essentials' ? 3 : budget === 'comprehensive' ? 6 : 4;
+        const minItems = Math.min(3, maxItems);
+
+        // Dedupe (first reason wins) and cap to the budget.
+        const uniqueProducts = Array.from(new Map(filtered.map(item => [item.id, item])).values()).slice(0, maxItems);
+
+        // Fill to the minimum from the supplement range only, chosen format first.
+        if (uniqueProducts.length < minItems) {
+           const pool = preferFormat(allProducts.filter(p => p.productType === 'supplement'));
+           for (const p of pool) {
+              if (uniqueProducts.length >= minItems) break;
+              if (!uniqueProducts.find(up => up.id === p.id)) {
+                 uniqueProducts.push({ ...p, reason: "Rounds out the stack for the goals you picked." });
+              }
            }
         }
 
@@ -175,15 +260,16 @@ export default function ProtocolBuilder() {
     setResultStack(null);
     setCurrentStep(0);
     setAnswers({});
-    addToast("Biometric parameters reset. Re-calibrating system baseline.", "info");
+    addToast("Answers cleared. Start again.", "info");
   };
 
+  // ProtocolContext.addToProtocol is a functional, de-duplicating update, so
+  // every product in the stack lands even when added in one handler.
   const addAllToProtocol = () => {
-    if (resultStack) {
-      resultStack.forEach(product => addToProtocol(product));
-      addToast("Performance protocol deployed. Redirection underway.", "success");
-      navigate('/shop');
-    }
+    if (!resultStack) return;
+    resultStack.forEach(product => addToProtocol(product));
+    addToast("Performance protocol deployed. Redirection underway.", "success");
+    navigate('/shop');
   };
 
   return (
@@ -229,12 +315,12 @@ export default function ProtocolBuilder() {
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 1.05 }}
               transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-              className="bg-editorial-bg/40 backdrop-blur-3xl border border-editorial-border-light p-12 md:p-20 rounded-[3rem] shadow-premium relative overflow-hidden group"
+              className="bg-editorial-bg/40 backdrop-blur-3xl border border-editorial-border-light p-6 sm:p-12 md:p-20 rounded-[3rem] shadow-premium relative overflow-hidden group"
             >
               <div className="absolute inset-0 bg-gradient-to-br from-red-600/[0.03] to-transparent pointer-events-none" />
               
               {/* Stepper HUD */}
-              <div className="flex items-center gap-10 mb-20 relative z-10">
+              <div className="flex items-center gap-4 sm:gap-10 mb-20 relative z-10">
                  <div className="flex flex-col">
                    <span className="text-meta-premium opacity-40 mb-1">Step_Index</span>
                    <span className="text-meta-premium text-2xl !text-editorial-text">0{currentStep + 1}</span>
@@ -268,7 +354,7 @@ export default function ProtocolBuilder() {
                   <button
                     key={option.id}
                     onClick={() => handleSelect(steps[currentStep].id, option.id)}
-                    className="flex flex-col items-start gap-8 p-10 bg-editorial-text/5 backdrop-blur-xl border border-editorial-border rounded-[2rem] hover:border-red-600/50 hover:bg-red-600/[0.03] transition-all duration-700 group/btn transform-gpu active:scale-[0.98] text-left relative overflow-hidden"
+                    className="flex flex-col items-start gap-8 p-6 sm:p-10 bg-editorial-text/5 backdrop-blur-xl border border-editorial-border rounded-[2rem] hover:border-red-600/50 hover:bg-red-600/[0.03] transition-all duration-700 group/btn transform-gpu active:scale-[0.98] text-left relative overflow-hidden"
                     aria-label={`Select ${option.label}`}
                   >
                     <div className="absolute inset-0 bg-gradient-to-br from-red-600/5 to-transparent opacity-0 group-hover/btn:opacity-100 transition-opacity duration-700" />
@@ -291,14 +377,14 @@ export default function ProtocolBuilder() {
               animate={{ opacity: 1, scale: 1 }}
               className="space-y-12"
             >
-              <div className="bg-editorial-bg/60 backdrop-blur-3xl border border-editorial-border-light rounded-[3rem] p-12 md:p-20 relative overflow-hidden shadow-premium">
+              <div className="bg-editorial-bg/60 backdrop-blur-3xl border border-editorial-border-light rounded-[3rem] p-6 sm:p-12 md:p-20 relative overflow-hidden shadow-premium">
                 <div className="absolute top-0 inset-x-0 h-[2px] bg-red-600 shadow-[0_0_20px_#dc2626]" />
                 <div className="absolute inset-0 bg-gradient-to-br from-red-600/[0.02] to-transparent pointer-events-none" />
                 
                 <div className="mb-20 text-center relative z-10">
                   <div className="inline-flex items-center gap-3 bg-red-600/10 border border-red-600/20 px-6 py-2 rounded-full mb-8">
-                     <ShieldCheck className="w-4 h-4 text-red-500" />
-                     <span className="text-meta-premium !text-red-500">VALIDATED_RECOMENDATION</span>
+                     <Target className="w-4 h-4 text-red-500" />
+                     <span className="text-meta-premium !text-red-500">YOUR_RECOMMENDED_STACK</span>
                   </div>
                   <h2 className="font-sans font-black uppercase tracking-tighter mb-6 drop-shadow-strong text-premium text-display-sm">Target Protocol</h2>
                   <p className="text-meta-premium opacity-60">Deployment methodology optimized for your parameters.</p>
@@ -360,7 +446,7 @@ export default function ProtocolBuilder() {
                 </div>
               </div>
 
-              <div className="flex flex-col xl:flex-row items-start gap-8 p-12 bg-editorial-bg/40 backdrop-blur-xl border border-editorial-border-light rounded-[3rem] shadow-depth-1">
+              <div className="flex flex-col xl:flex-row items-start gap-8 p-6 sm:p-12 bg-editorial-bg/40 backdrop-blur-xl border border-editorial-border-light rounded-[3rem] shadow-depth-1">
                 <ShieldCheck className="w-10 h-10 text-red-600 shrink-0 mt-1 drop-shadow-strong" />
                 <div className="space-y-4">
                   <span className="text-meta-premium text-lg">Responsible_Deployment_Notice</span>

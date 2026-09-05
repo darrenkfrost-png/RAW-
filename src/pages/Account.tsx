@@ -1,33 +1,24 @@
 import { motion } from "motion/react";
 import { Link, useNavigate } from "react-router-dom";
-import { User, Package, Settings, LogOut, Hexagon, ShieldAlert, Cpu } from "lucide-react";
+import { User, Package, Settings, LogOut, Hexagon, ShieldAlert } from "lucide-react";
 import { useState } from "react";
 import MagneticWrapper from "../components/MagneticWrapper";
-import { useToast } from "../components/common/Toast";
 
 /**
- * ⚠️ THERE IS NO ACCOUNT SYSTEM BEHIND THIS PAGE.
+ * THERE IS NO ACCOUNT SYSTEM BEHIND THIS PAGE.
  *
  * No sign-in exists anywhere in the app; the profile shown is a hard-coded
- * GUEST_OPERATIVE. That is fine as a preview — but two controls here claimed
- * to have DONE something:
- *
- *  · "Cycle Encryption Key" announced "Generating new 2048-bit encryption
- *    key..." then "Encryption key cycled successfully. Node secured." while
- *    changing nothing. That is the dangerous one: somebody who feared their
- *    password was compromised would press it, be told they were secure, and
- *    remain exactly as exposed.
- *  · "Disconnect Node" reported "Operator session ended" when there was no
- *    session to end.
- *
- * Both are now honest. Flip ACCOUNTS_ENABLED when real accounts exist.
+ * GUEST_OPERATIVE preview. Every control that needs a real account
+ * ("Edit Parameters", "Cycle Encryption Key", "Disconnect Node") is
+ * disabled and tagged COMING_SOON while ACCOUNTS_ENABLED is false; none of
+ * them simulates success. Flip the flag and wire the real calls (marked in
+ * place below) when accounts exist.
  */
 const ACCOUNTS_ENABLED = false;
 
 export default function Account() {
   const [activeTab, setActiveTab] = useState("profile");
   const navigate = useNavigate();
-  const { addToast } = useToast();
 
   return (
     <div className="pt-32 xl:pt-48 pb-32 px-[var(--shell-padding-mobile)] md:px-[var(--shell-padding)] lg:px-[var(--shell-padding-lg)] max-w-[var(--content-max-width)] mx-auto min-h-[80vh] relative">
@@ -36,7 +27,7 @@ export default function Account() {
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: [0.16,1,0.3,1] }}
-        className="mb-20 relative z-10 border-b border-editorial-border pb-10 flex flex-col md:flex-row justify-between items-end gap-10"
+        className="mb-20 relative z-10 border-b border-editorial-border pb-10 flex flex-col md:flex-row justify-between items-start md:items-end gap-10"
       >
         <div>
           <span className="font-mono text-[0.6875rem] xl:text-[0.75rem] text-red-500 font-black tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] mb-8 block uppercase flex items-center gap-4 drop-shadow-[0_0_8px_rgba(220,38,38,0.5)]">
@@ -58,21 +49,13 @@ export default function Account() {
             </p>
           )}
         </div>
-        <div className="hidden md:flex gap-5 items-center bg-editorial-bg/60 p-5 xl:p-6 border border-editorial-border rounded-2xl backdrop-blur-md shadow-[0_10px_30px_rgba(0,0,0,0.08)] transform-gpu hover:-translate-y-1 transition-transform duration-500">
-           <Cpu className="w-6 h-6 text-red-500 drop-shadow-[0_0_5px_currentColor]" />
-           <div className="flex flex-col gap-1">
-              <span className="font-mono text-[0.6875rem] xl:text-[0.6875rem] uppercase tracking-widest text-editorial-text-muted font-bold">System_Status</span>
-              <span className="font-mono text-sm xl:text-base uppercase tracking-widest text-emerald-500 font-black drop-shadow-[0_0_8px_#10b981] flex items-center gap-2">
-                 <div className="w-2 h-2 bg-emerald-500 rounded-full animate-ping" /> OPTIMAL
-              </span>
-           </div>
-        </div>
       </motion.div>
 
       <div className="grid lg:grid-cols-12 gap-12 xl:gap-16 relative z-10">
         <div className="lg:col-span-3 space-y-4">
           <button 
             onClick={() => setActiveTab('profile')}
+            aria-pressed={activeTab === 'profile'}
             className={`w-full text-left p-6 font-black uppercase text-[0.75rem] tracking-[0.2em] flex items-center gap-5 transition-all duration-500 rounded-2xl group relative overflow-hidden ${activeTab === 'profile' ? 'bg-red-600 text-white shadow-[0_10px_30px_rgba(220,38,38,0.4)]' : 'bg-editorial-bg/80 border border-editorial-border text-editorial-text-muted hover:text-editorial-text hover:border-red-500/50 hover:bg-editorial-surface/90 shadow-[0_10px_30px_rgba(0,0,0,0.08)] hover:shadow-[0_10px_30px_rgba(220,38,38,0.2)]'}`}
           >
             {activeTab === 'profile' && <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-editorial-text shadow-[0_0_10px_#fff]" />}
@@ -80,6 +63,7 @@ export default function Account() {
           </button>
           <button 
             onClick={() => setActiveTab('orders')}
+            aria-pressed={activeTab === 'orders'}
             className={`w-full text-left p-6 font-black uppercase text-[0.75rem] tracking-[0.2em] flex items-center gap-5 transition-all duration-500 rounded-2xl group relative overflow-hidden ${activeTab === 'orders' ? 'bg-red-600 text-white shadow-[0_10px_30px_rgba(220,38,38,0.4)]' : 'bg-editorial-bg/80 border border-editorial-border text-editorial-text-muted hover:text-editorial-text hover:border-red-500/50 hover:bg-editorial-surface/90 shadow-[0_10px_30px_rgba(0,0,0,0.08)] hover:shadow-[0_10px_30px_rgba(220,38,38,0.2)]'}`}
           >
             {activeTab === 'orders' && <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-editorial-text shadow-[0_0_10px_#fff]" />}
@@ -87,28 +71,28 @@ export default function Account() {
           </button>
           <button 
             onClick={() => setActiveTab('settings')}
+            aria-pressed={activeTab === 'settings'}
             className={`w-full text-left p-6 font-black uppercase text-[0.75rem] tracking-[0.2em] flex items-center gap-5 transition-all duration-500 rounded-2xl group relative overflow-hidden ${activeTab === 'settings' ? 'bg-red-600 text-white shadow-[0_10px_30px_rgba(220,38,38,0.4)]' : 'bg-editorial-bg/80 border border-editorial-border text-editorial-text-muted hover:text-editorial-text hover:border-red-500/50 hover:bg-editorial-surface/90 shadow-[0_10px_30px_rgba(0,0,0,0.08)] hover:shadow-[0_10px_30px_rgba(220,38,38,0.2)]'}`}
           >
             {activeTab === 'settings' && <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-editorial-text shadow-[0_0_10px_#fff]" />}
             <Settings className={`w-6 h-6 transition-transform duration-500 ${activeTab === 'settings' ? 'scale-110 drop-shadow-[0_2px_4px_rgba(0,0,0,0.08)]' : 'group-hover:scale-110 group-hover:text-red-500'}`} /> System Config
           </button>
-          <button 
-            onClick={() => {
-              if (!ACCOUNTS_ENABLED) {
-                // No session exists, so nothing is ended — just go home quietly.
-                navigate("/");
-                return;
-              }
-              addToast("Signing out…", "info");
-              setTimeout(() => {
-                 navigate("/");
-                 addToast("Signed out.", "success");
-              }, 1500);
-            }}
-            className="w-full text-left p-6 font-black uppercase text-[0.75rem] tracking-[0.2em] flex items-center gap-5 transition-all duration-500 rounded-2xl group bg-transparent text-zinc-600 hover:text-red-500 mt-16 hover:bg-red-950/30 border border-transparent hover:border-red-900/50"
-          >
-            <LogOut className="w-6 h-6 group-hover:-translate-x-2 transition-transform duration-500" /> Disconnect Node
-          </button>
+          {/* There is no session to end while accounts are off, so the
+              sign-out control is disabled and tagged. When accounts exist,
+              call the real sign-out here and navigate on its response. */}
+          <div className="mt-16 flex flex-wrap items-center gap-4">
+            <button
+              onClick={() => navigate("/")}
+              disabled={!ACCOUNTS_ENABLED}
+              aria-disabled={!ACCOUNTS_ENABLED}
+              className="flex-1 min-w-0 text-left p-6 font-black uppercase text-[0.75rem] tracking-[0.2em] flex items-center gap-5 transition-all duration-500 rounded-2xl group bg-transparent text-zinc-600 hover:text-red-500 hover:bg-red-950/30 border border-transparent hover:border-red-900/50 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:text-zinc-600 disabled:hover:bg-transparent disabled:hover:border-transparent"
+            >
+              <LogOut className="w-6 h-6 group-hover:-translate-x-2 group-disabled:translate-x-0 transition-transform duration-500" /> Disconnect Node
+            </button>
+            {!ACCOUNTS_ENABLED && (
+              <span className="font-mono text-[0.6875rem] font-black uppercase tracking-[0.3em] text-amber-400 border border-amber-500/40 rounded-full px-4 py-2">COMING_SOON</span>
+            )}
+          </div>
         </div>
 
         <div className="lg:col-span-9 h-full min-h-[500px]">
@@ -120,19 +104,24 @@ export default function Account() {
                    <h2 className="font-sans font-black text-3xl uppercase tracking-tighter border-b border-editorial-border pb-8 mb-12 text-editorial-text drop-shadow-[0_2px_10px_rgba(0,0,0,0.08)]">Operative Details</h2>
                    <div className="grid md:grid-cols-2 gap-12 relative z-10">
                      <div className="bg-editorial-bg/60 p-8 rounded-2xl border border-editorial-border shadow-[0_10px_30px_rgba(0,0,0,0.08)]">
-                       <label className="text-[0.6875rem] font-black uppercase tracking-[0.4em] text-red-500 mb-4 block flex items-center gap-3"><div className="w-1.5 h-1.5 bg-red-500 rounded-full" /> Callsign (Name)</label>
+                       <span className="text-[0.6875rem] font-black uppercase tracking-[0.4em] text-red-500 mb-4 flex items-center gap-3"><div className="w-1.5 h-1.5 bg-red-500 rounded-full" /> Callsign (Name)</span>
                        <p className="font-mono text-xl xl:text-2xl tracking-widest text-editorial-text drop-shadow-[0_2px_4px_rgba(0,0,0,0.08)]">GUEST_OPERATIVE</p>
                      </div>
                      <div className="bg-editorial-bg/60 p-8 rounded-2xl border border-editorial-border shadow-[0_10px_30px_rgba(0,0,0,0.08)]">
-                       <label className="text-[0.6875rem] font-black uppercase tracking-[0.4em] text-red-500 mb-4 block flex items-center gap-3"><div className="w-1.5 h-1.5 bg-red-500 rounded-full" /> Comms Link (Email)</label>
+                       <span className="text-[0.6875rem] font-black uppercase tracking-[0.4em] text-red-500 mb-4 flex items-center gap-3"><div className="w-1.5 h-1.5 bg-red-500 rounded-full" /> Comms Link (Email)</span>
                        <p className="font-mono text-xl xl:text-2xl tracking-widest text-editorial-text drop-shadow-[0_2px_4px_rgba(0,0,0,0.08)] break-all">GUEST@RAWOFFICIAL.CO</p>
                      </div>
                    </div>
-                   <div className="mt-16 pt-10 border-t border-editorial-border flex justify-end relative z-10">
+                   <div className="mt-16 pt-10 border-t border-editorial-border flex flex-wrap items-center justify-end gap-4 relative z-10">
+                      {!ACCOUNTS_ENABLED && (
+                        <span className="font-mono text-[0.6875rem] font-black uppercase tracking-[0.3em] text-amber-400 border border-amber-500/40 rounded-full px-4 py-2">COMING_SOON</span>
+                      )}
                       <MagneticWrapper>
-            <button 
-               onClick={() => addToast(ACCOUNTS_ENABLED ? "Initializing parameter edit interface..." : "Accounts are not live yet — nothing to edit.", "info")}
-               className="bg-editorial-text text-editorial-bg px-12 py-6 rounded-2xl font-black uppercase tracking-[0.4em] text-[0.75rem] hover:bg-red-600 hover:text-white transition-all duration-500 shadow-[0_15px_40px_rgba(0,0,0,0.08)] hover:shadow-[0_20px_50px_rgba(220,38,38,0.4)] transform-gpu hover:-translate-y-1">
+            {/* Wire to the real profile editor when accounts exist. */}
+            <button
+               disabled={!ACCOUNTS_ENABLED}
+               aria-disabled={!ACCOUNTS_ENABLED}
+               className="bg-editorial-text text-editorial-bg px-12 py-6 rounded-2xl font-black uppercase tracking-[0.4em] text-[0.75rem] hover:bg-red-600 hover:text-white transition-all duration-500 shadow-[0_15px_40px_rgba(0,0,0,0.08)] hover:shadow-[0_20px_50px_rgba(220,38,38,0.4)] transform-gpu hover:-translate-y-1 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-editorial-text disabled:hover:text-editorial-bg disabled:hover:translate-y-0">
                Edit Parameters
             </button>
                       </MagneticWrapper>
@@ -166,26 +155,28 @@ export default function Account() {
                    </h2>
                    <div className="space-y-10 relative z-10">
                       <div className="bg-editorial-bg/60 p-10 rounded-2xl border border-editorial-border shadow-[0_10px_30px_rgba(0,0,0,0.08)]">
-                        <label className="text-[0.6875rem] font-black uppercase tracking-[0.4em] text-red-500 mb-6 block flex items-center gap-3"><div className="w-1.5 h-1.5 bg-red-500 rounded-full" /> Encryption Key (Password)</label>
-                        <p className="font-mono text-4xl xl:text-5xl tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] text-editorial-text drop-shadow-[0_2px_4px_rgba(0,0,0,0.08)]">••••••••</p>
+                        <span className="text-[0.6875rem] font-black uppercase tracking-[0.4em] text-red-500 mb-6 flex items-center gap-3"><div className="w-1.5 h-1.5 bg-red-500 rounded-full" /> Encryption Key (Password)</span>
+                        {ACCOUNTS_ENABLED ? (
+                          <p className="font-mono text-4xl xl:text-5xl tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] text-editorial-text drop-shadow-[0_2px_4px_rgba(0,0,0,0.08)]">••••••••</p>
+                        ) : (
+                          <p className="font-mono text-xl xl:text-2xl tracking-widest text-editorial-text-muted">NONE — ACCOUNTS NOT LIVE</p>
+                        )}
                       </div>
-                      <MagneticWrapper>
-                        <button 
-                          disabled={!ACCOUNTS_ENABLED}
-                          onClick={() => {
-                            if (!ACCOUNTS_ENABLED) {
-                              addToast("Accounts are not live yet — there is no password to change.", "info");
-                              return;
-                            }
-                            addToast("Generating new 2048-bit encryption key...", "info");
-                            setTimeout(() => {
-                               addToast("Encryption key cycled successfully. Node secured.", "success");
-                            }, 1500);
-                          }}
-                          className="bg-transparent border border-editorial-border-light text-editorial-text px-12 py-6 rounded-2xl font-black uppercase tracking-[0.4em] text-[0.75rem] hover:bg-editorial-text hover:text-editorial-bg hover:border-white transition-all duration-500 shadow-[0_10px_30px_rgba(0,0,0,0.08)] hover:shadow-[0_20px_50px_rgba(0,0,0,0.06)] transform-gpu hover:-translate-y-1">
-                          Cycle Encryption Key
-                        </button>
-                      </MagneticWrapper>
+                      <div className="flex flex-wrap items-center gap-4">
+                        <MagneticWrapper>
+                          {/* Wire to the real password-change flow when accounts
+                              exist, and only toast on its response. */}
+                          <button
+                            disabled={!ACCOUNTS_ENABLED}
+                            aria-disabled={!ACCOUNTS_ENABLED}
+                            className="bg-transparent border border-editorial-border-light text-editorial-text px-12 py-6 rounded-2xl font-black uppercase tracking-[0.4em] text-[0.75rem] hover:bg-editorial-text hover:text-editorial-bg hover:border-white transition-all duration-500 shadow-[0_10px_30px_rgba(0,0,0,0.08)] hover:shadow-[0_20px_50px_rgba(0,0,0,0.06)] transform-gpu hover:-translate-y-1 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-transparent disabled:hover:text-editorial-text disabled:hover:border-editorial-border-light disabled:hover:translate-y-0">
+                            Cycle Encryption Key
+                          </button>
+                        </MagneticWrapper>
+                        {!ACCOUNTS_ENABLED && (
+                          <span className="font-mono text-[0.6875rem] font-black uppercase tracking-[0.3em] text-amber-400 border border-amber-500/40 rounded-full px-4 py-2">COMING_SOON</span>
+                        )}
+                      </div>
                    </div>
                 </div>
              </motion.div>

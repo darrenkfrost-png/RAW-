@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { motion, useAnimation } from "motion/react";
+import { motion } from "motion/react";
 import { ChevronLeft, ChevronRight, Play, Image as ImageIcon, Box } from "lucide-react";
 import LazyImage from "./LazyImage";
 
@@ -15,10 +15,14 @@ interface ProductGalleryProps {
 }
 
 export default function ProductGallery({ galleryItems, activeItem, setActiveItem }: ProductGalleryProps) {
-  const controls = useAnimation();
-
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
+      // Arrow keys inside a field are for the caret, and while a dialog (the
+      // image viewer, the cart) is open they belong to that dialog.
+      const t = e.target as HTMLElement | null;
+      if (t && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName))) return;
+      if (document.querySelector('[role="dialog"], [aria-modal="true"]')) return;
       if (e.key === "ArrowLeft") {
         setActiveItem(activeItem === 0 ? galleryItems.length - 1 : activeItem - 1);
       } else if (e.key === "ArrowRight") {
@@ -42,11 +46,8 @@ export default function ProductGallery({ galleryItems, activeItem, setActiveItem
           <ChevronLeft className="w-6 h-6 drop-shadow-[0_2px_4px_currentColor]" />
         </button>
         
-        <motion.div 
-          className="flex-1 overflow-visible min-w-0 custom-scrollbar pb-4 pt-4 -mt-4 -mb-4 px-2 -mx-2 flex gap-5 snap-x smooth-scroll"
-          drag="x"
-          dragConstraints={{ left: -300, right: 300 }}
-          dragElastic={0.2}
+        <div
+          className="flex-1 overflow-x-auto min-w-0 custom-scrollbar pb-4 pt-4 -mt-4 -mb-4 px-2 -mx-2 flex gap-5 snap-x smooth-scroll"
         >
           {galleryItems.map((item, i) => (
              <motion.button 
@@ -106,7 +107,7 @@ export default function ProductGallery({ galleryItems, activeItem, setActiveItem
                 <div className="absolute inset-0 bg-gradient-to-t from-red-600/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
              </motion.button>
           ))}
-        </motion.div>
+        </div>
         
         <button 
           onClick={() => setActiveItem(activeItem === galleryItems.length - 1 ? 0 : activeItem + 1)}

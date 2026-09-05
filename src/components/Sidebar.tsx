@@ -2,8 +2,22 @@ import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useUI } from "../context/UIContext";
 import { motion, AnimatePresence } from "motion/react";
-import { Home, ShoppingBag, BookOpen, Layers, Menu, X, Box, Compass, ChevronLeft, ChevronRight, Activity, Database, FileText, Monitor, PanelLeftClose } from "lucide-react";
+import { Home, ShoppingBag, BookOpen, Layers, Menu, ChevronLeft, Activity, Database, FileText, Monitor, PanelLeftClose } from "lucide-react";
 import { Tooltip } from "./common/Tooltip";
+
+/* --layout-transition-duration (index.css) is a constant; read it once on the
+   first render rather than forcing a style recalc on every route change. */
+let layoutTransitionSeconds: number | null = null;
+function getLayoutTransitionSeconds(): number {
+  if (layoutTransitionSeconds === null) {
+    try {
+      layoutTransitionSeconds = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--layout-transition-duration')) / 1000 || 0.7;
+    } catch {
+      layoutTransitionSeconds = 0.7;
+    }
+  }
+  return layoutTransitionSeconds;
+}
 
 function Sidebar() {
   const { pathname } = useLocation();
@@ -33,7 +47,7 @@ function Sidebar() {
          transform: hidden ? 'translateX(-100%)' : 'translateX(0)',
          pointerEvents: hidden ? 'none' : undefined
       }}
-      transition={{ duration: parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--layout-transition-duration')) / 1000 || 0.7, ease: [0.16, 1, 0.3, 1] }}
+      transition={{ duration: getLayoutTransitionSeconds(), ease: [0.16, 1, 0.3, 1] }}
       className="fixed left-0 top-0 bottom-0 z-[var(--z-sidebar)] bg-editorial-bg border-r border-editorial-border border-opacity-30 overflow-hidden hidden md:flex flex-col shadow-[20px_0_50px_rgba(0,0,0,0.5)] backdrop-blur-3xl group/sidebar"
       aria-label="Main Navigation Sidebar"
     >
@@ -86,14 +100,10 @@ function Sidebar() {
           {links.map((link) => {
             const isActive = link.path !== '#' && pathname === link.path;
             
-            const LinkContent = (
-              <div key={link.name} className="relative group">
-                <Link 
-                  to={link.path}
-                  onClick={link.action ? (e) => { e.preventDefault(); link.action(); } : undefined}
-                  aria-current={isActive ? "page" : undefined}
-                  className={`relative z-10 flex items-center rounded-2xl transition-all duration-500 font-mono text-[0.6875rem] uppercase tracking-[0.2em] font-black whitespace-nowrap focus:outline-none focus:ring-2 focus:ring-red-500/50 group-hover:px-6 ${isSidebarCollapsed ? 'justify-center p-3.5 mx-auto w-12 h-12 group-hover:px-3.5' : 'gap-4 px-5 py-4'} ${isActive ? 'bg-red-600 text-white shadow-[0_10px_30px_rgba(220,38,38,0.4)]' : 'text-zinc-500 hover:bg-white/5 hover:text-white'}`}
-                >
+            const itemClass = `relative z-10 flex items-center rounded-2xl transition-all duration-500 font-mono text-[0.6875rem] uppercase tracking-[0.2em] font-black whitespace-nowrap focus:outline-none focus:ring-2 focus:ring-red-500/50 group-hover:px-6 ${isSidebarCollapsed ? 'justify-center p-3.5 mx-auto w-12 h-12 group-hover:px-3.5' : 'gap-4 px-5 py-4'} ${isActive ? 'bg-red-600 text-white shadow-[0_10px_30px_rgba(220,38,38,0.4)]' : 'text-zinc-500 hover:bg-white/5 hover:text-white'}`;
+
+            const itemInner = (
+              <>
                    <span className={`flex-shrink-0 transition-all duration-500 ${isActive ? 'scale-110 drop-shadow-[0_0_8px_rgba(255,255,255,0.8)] text-white' : 'group-hover:scale-125 group-hover:text-red-500 group-hover:drop-shadow-[0_0_10px_rgba(220,38,38,0.8)]'}`}>
                       {link.icon}
                    </span>
@@ -110,7 +120,29 @@ function Sidebar() {
                        </motion.span>
                      )}
                    </AnimatePresence>
-                </Link>
+              </>
+            );
+
+            const LinkContent = (
+              <div key={link.name} className="relative group">
+                {link.action ? (
+                  <button
+                    type="button"
+                    onClick={link.action}
+                    aria-expanded={isDiscoveryOpen}
+                    className={`${itemClass} cursor-pointer ${isSidebarCollapsed ? '' : 'w-full text-left'}`}
+                  >
+                    {itemInner}
+                  </button>
+                ) : (
+                  <Link 
+                    to={link.path}
+                    aria-current={isActive ? "page" : undefined}
+                    className={itemClass}
+                  >
+                    {itemInner}
+                  </Link>
+                )}
                 {/* Cinematic Hover Glow */}
                 {!isActive && (
                    <div className="absolute inset-0 bg-red-600/0 blur-[10px] pointer-events-none group-hover:bg-red-600/20 rounded-2xl transition-all duration-500 opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 scale-95 group-hover:scale-100 mix-blend-screen" />
@@ -120,7 +152,7 @@ function Sidebar() {
 
             if (isSidebarCollapsed) {
               return (
-                <Tooltip key={link.path} content={link.name} placement="right">
+                <Tooltip key={link.name} content={link.name} placement="right">
                   <div>{LinkContent}</div>
                 </Tooltip>
               );
@@ -130,42 +162,6 @@ function Sidebar() {
          })}
       </nav>
       
-      <div className="p-6 border-t border-editorial-border/30 relative overflow-hidden group/metrics">
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,_var(--tw-gradient-stops))] from-emerald-500/0 via-transparent to-transparent group-hover/metrics:from-emerald-500/5 transition-colors duration-1000" />
-          <div className="mb-6 space-y-4 relative z-10">
-             <div className="flex justify-between items-center px-1">
-                <span className="text-[0.6875rem] font-mono font-black text-zinc-600 tracking-tighter uppercase whitespace-nowrap group-hover/metrics:text-zinc-400 transition-colors">CPU_CORE_0</span>
-                <span className="text-[0.6875rem] font-mono font-black text-emerald-500 italic drop-shadow-[0_0_8px_rgba(16,185,129,0.5)]">44.2%</span>
-             </div>
-             <div className="h-[2px] w-full bg-white/5 rounded-full overflow-hidden relative shadow-[inset_0_0_2px_rgba(0,0,0,0.5)]">
-                <motion.div animate={{ width: ["10%", "80%", "40%", "90%"] }} transition={{ duration: 4, repeat: Infinity }} className="h-full bg-emerald-500 shadow-[0_0_10px_#10b981]" />
-                <motion.div 
-                   animate={{ x: ["-100%", "200%"] }} 
-                   transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
-                   className="absolute inset-y-0 w-1/4 bg-gradient-to-r from-transparent via-white/40 to-transparent pointer-events-none mix-blend-overlay"
-                />
-             </div>
-          </div>
-          
-          <Tooltip content="System Status: Optimal" placement="right">
-            <div className="flex items-center gap-4 cursor-pointer group/status">
-               <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_10px_#10b981] flex-shrink-0 group-hover/status:scale-125 transition-transform" />
-               <AnimatePresence>
-                 {!isSidebarCollapsed && (
-                   <motion.span 
-                     initial={{ opacity: 0 }}
-                     animate={{ opacity: 1 }}
-                     exit={{ opacity: 0 }}
-                     transition={{ duration: 0.2 }}
-                     className="font-mono text-[0.6875rem] uppercase tracking-widest text-emerald-500 font-black whitespace-nowrap"
-                   >
-                     Status: Online
-                   </motion.span>
-                 )}
-               </AnimatePresence>
-            </div>
-          </Tooltip>
-      </div>
     </motion.aside>
   );
 }

@@ -1,10 +1,9 @@
 import { Atmosphere } from '../components/common/Atmosphere';
 import Breadcrumb from '../components/Breadcrumb';
 import { motion } from "motion/react";
-import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { allProducts } from "../data/products";
-import { ChevronRight, Calendar, MapPin, Award, Crosshair, ArrowRight } from "lucide-react";
+import { Calendar, MapPin, Award, Crosshair, ArrowRight } from "lucide-react";
 import LazyImage from "../components/LazyImage";
 import CombatTargetZone from "../components/CombatTargetZone";
 import ProductCard from "../components/common/ProductCard";
@@ -18,7 +17,7 @@ export default function Combat() {  const products = allProducts.filter(p => p.
           content. As a flex ROW they sat side by side — 182px + 326px on a 375px phone —
           were centred as a pair, and the headline started 182px from the left edge with
           its right half off the screen. Stacked, the breadcrumb sits above the hero. */}
-      <section className="relative h-[80vh] flex flex-col items-center justify-center text-center overflow-hidden">
+      <section className="relative h-[80vh] min-h-[28rem] flex flex-col items-center justify-center text-center overflow-hidden">
         <video 
           {...({
             autoPlay: true,
@@ -37,7 +36,7 @@ export default function Combat() {  const products = allProducts.filter(p => p.
         <Atmosphere glowOpacity={0.02} gridMode="lines" intensity="low" />
         
         <div className="relative z-50 max-w-[var(--content-max-width)] mx-auto px-[var(--shell-padding-mobile)] md:px-[var(--shell-padding)] lg:px-[var(--shell-padding-lg)] mb-10 w-full flex justify-start">
-            <Breadcrumb items={[{ label: 'Protocols', path: '/performance-system' }, { label: 'Combat', active: true }]} />
+            <Breadcrumb items={[{ label: 'System', path: '/performance-system' }, { label: 'Combat', active: true }]} />
         </div>
 
         <div className="relative z-10 space-y-8 px-[var(--shell-padding-mobile)] md:px-[var(--shell-padding)] lg:px-[var(--shell-padding-lg)] max-w-[var(--content-max-width)] w-full flex flex-col items-center">
@@ -133,7 +132,7 @@ export default function Combat() {  const products = allProducts.filter(p => p.
              <h2 className="font-sans font-black uppercase tracking-tighter leading-[0.8] text-editorial-text drop-shadow-[0_10px_30px_rgba(0,0,0,0.1)] text-display-lg">LIVE <br /> EVENTS</h2>
           </div>
 
-          <div className="group relative overflow-hidden rounded-[4rem] border border-editorial-border bg-editorial-bg/80 backdrop-blur-3xl p-12 md:p-20 xl:p-24 hover:border-red-500/30 transition-all duration-[1000ms] ease-[0.16,1,0.3,1] shadow-[0_40px_100px_rgba(0,0,0,0.1)] hover:shadow-[0_60px_150px_rgba(220,38,38,0.15)] hover:-translate-y-4 transform-gpu">
+          <div className="group relative overflow-hidden rounded-[4rem] border border-editorial-border bg-editorial-bg/80 backdrop-blur-3xl p-6 sm:p-12 md:p-20 xl:p-24 hover:border-red-500/30 transition-all duration-[1000ms] ease-[0.16,1,0.3,1] shadow-[0_40px_100px_rgba(0,0,0,0.1)] hover:shadow-[0_60px_150px_rgba(220,38,38,0.15)] hover:-translate-y-4 transform-gpu">
              <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-red-600 via-red-500 to-transparent opacity-50 group-hover:opacity-100 transition-opacity duration-1000"></div>
              <div className="grid lg:grid-cols-[1fr_1.2fr] gap-20 xl:gap-32 items-center">
                 <div className="relative aspect-[3/4] overflow-hidden border border-editorial-border rounded-[3rem] shadow-[0_30px_80px_rgba(0,0,0,0.1)] group-hover:shadow-[0_40px_100px_rgba(220,38,38,0.3)] transition-all duration-[1000ms] ease-[0.16,1,0.3,1] transform-gpu group-hover:-translate-y-4">
@@ -176,7 +175,7 @@ export default function Combat() {  const products = allProducts.filter(p => p.
                       </div>
                    </div>
                    <div className="pt-12">
-                      <Link to="/contact?subject=Tickets" className="inline-flex items-center gap-6 bg-editorial-text text-editorial-bg px-16 py-8 rounded-2xl font-black uppercase tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] text-[0.8125rem] hover:bg-red-600 hover:text-white transition-all duration-[800ms] ease-[0.16,1,0.3,1] shadow-[0_20px_50px_rgba(0,0,0,0.05)] hover:shadow-[0_30px_80px_rgba(220,38,38,0.4)] transform-gpu hover:-translate-y-2 overflow-hidden relative group/btn border-b-[4px] border-zinc-400 hover:border-red-800 active:translate-y-[2px] active:border-b-0">
+                      <Link to="/contact?subject=Tickets" className="inline-flex w-full sm:w-auto justify-center items-center gap-6 bg-editorial-text text-editorial-bg px-8 sm:px-16 py-8 rounded-2xl font-black uppercase tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] text-[0.8125rem] hover:bg-red-600 hover:text-white transition-all duration-[800ms] ease-[0.16,1,0.3,1] shadow-[0_20px_50px_rgba(0,0,0,0.05)] hover:shadow-[0_30px_80px_rgba(220,38,38,0.4)] transform-gpu hover:-translate-y-2 overflow-hidden relative group/btn border-b-[4px] border-zinc-400 hover:border-red-800 active:translate-y-[2px] active:border-b-0">
                         <span className="relative z-10 flex items-center gap-5">Secure Tickets <ArrowRight className="w-6 h-6 group-hover/btn:translate-x-3 transition-transform duration-[800ms] ease-[0.16,1,0.3,1]" /></span>
                         <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover/btn:animate-[shimmer_1.5s_infinite]" />
                       </Link>
@@ -226,7 +225,7 @@ export default function Combat() {  const products = allProducts.filter(p => p.
         </div>
       </section>
 
-      {/* Interactive Diagnostics */}
+      {/* Target Zones */}
       <section className="py-32 px-10 border-b border-editorial-border bg-editorial-bg overflow-hidden relative">
         <CombatTargetZone />
       </section>

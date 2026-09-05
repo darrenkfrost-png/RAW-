@@ -2,7 +2,7 @@ import React from 'react';
 import { motion } from 'motion/react';
 import { allProducts } from '../data/products';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Box, Layers, Target, Shield, Zap, Cpu, Activity, Info, Plus } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { Atmosphere } from '../components/common/Atmosphere';
 
 const stacks = [
@@ -11,7 +11,8 @@ const stacks = [
     title: 'RAW_STRENGTH_PROTOCOL',
     target: 'For gym users, lifters, and power-output training.',
     description: 'Designed to maximize muscular output, promote hypertrophy, and ensure sustained power during intense training cycles.',
-    products: allProducts.filter(p => p.category === 'Nutrients' || p.name.includes('Creatine') || p.id === 4 || p.id === 6),
+    // Whey, Creatine, Pre-Workout, Protein Peptide — the same four the detail page loads. The old category filter counted all 35 Nutrients products here while the detail page showed four.
+    products: allProducts.filter(p => [9, 23, 4, 6].includes(p.id)),
     intensity: 'High',
     synergy: 'Pairs with Recovery Protocol'
   },
@@ -77,7 +78,7 @@ export default function ProtocolStacks() {
       <Atmosphere glowOpacity={0.05} gridMode="lines" intensity="medium" />
       
       <div className="max-w-[var(--content-max-width)] mx-auto relative z-10">
-        <div className="mb-48 flex flex-col lg:grid lg:grid-cols-2 gap-20 items-end">
+        <div className="mb-48">
            <div className="space-y-12">
               <motion.div 
                 initial={{ opacity: 0, x: -20 }}
@@ -87,7 +88,7 @@ export default function ProtocolStacks() {
                 <div className="flex gap-2">
                   {[1,2,3].map(i => <div key={i} className="w-1.5 h-8 bg-red-600 shadow-[0_0_15px_#dc2626]" style={{ animation: `pulse 2s infinite ${i * 0.2}s` }} />)}
                 </div>
-                <span className="font-mono text-[0.6875rem] text-zinc-500 uppercase tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] font-black">Curated_Records // Archive_v2.5</span>
+                <span className="font-mono text-[0.6875rem] text-zinc-500 uppercase tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] font-black">Curated_Records</span>
               </motion.div>
               <h1 className="font-black text-white uppercase tracking-tighter leading-[0.8] drop-shadow-[0_10px_30px_rgba(0,0,0,0.2)] text-display-xl">
                 Performance <br/> <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-red-900 italic">Stacks</span>
@@ -95,43 +96,6 @@ export default function ProtocolStacks() {
               <p className="text-xl xl:text-3xl text-editorial-text-muted font-light leading-relaxed max-w-2xl border-l-4 border-red-600/50 pl-10 py-4 shadow-[inset_20px_0_40px_rgba(220,38,38,0.05)]">
                 Pre-configured performance architectures. Designed to eliminate guesswork and optimize specific functional outcomes for athletes and operators.
               </p>
-           </div>
-           
-           <div className="w-full">
-              <div className="p-10 bg-editorial-surface/40 backdrop-blur-3xl border border-editorial-border rounded-[3rem] shadow-depth-3 relative overflow-hidden group/sys">
-                  <div className="absolute inset-0 bg-gradient-to-br from-red-600/5 to-transparent pointer-events-none" />
-                  <div className="flex justify-between items-center mb-10">
-                      <h3 className="text-zinc-600 font-mono text-[0.6875rem] uppercase tracking-widest font-black flex items-center gap-3">
-                        <Cpu className="w-4 h-4" /> System_Hierarchy
-                      </h3>
-                      <div className="flex gap-2">
-                          <div className="w-2 h-2 rounded-full bg-red-600 animate-pulse" />
-                          <div className="w-2 h-2 rounded-full bg-emerald-500" />
-                      </div>
-                  </div>
-                  <div className="space-y-8">
-                      {[
-                        { label: "Strength_Index", value: 92 },
-                        { label: "Restoration_Pulse", value: 45 },
-                        { label: "Combat_Readiness", level: "Elite" }
-                      ].map((stat, i) => (
-                        <div key={i} className="space-y-3">
-                            <div className="flex justify-between items-center text-[0.6875rem] font-mono text-zinc-500 uppercase tracking-widest font-black">
-                                <span>{stat.label}</span>
-                                <span>{stat.level || `${stat.value}%`}</span>
-                            </div>
-                            <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden border border-white/5">
-                                <motion.div 
-                                  initial={{ width: 0 }}
-                                  animate={{ width: typeof stat.value === 'number' ? `${stat.value}%` : "100%" }}
-                                  transition={{ duration: 1.5, delay: i * 0.2 }}
-                                  className="h-full bg-red-600 shadow-[0_0_10px_#dc2626]"
-                                />
-                            </div>
-                        </div>
-                      ))}
-                  </div>
-              </div>
            </div>
         </div>
 
@@ -202,8 +166,8 @@ export default function ProtocolStacks() {
                         <div className="aspect-square bg-black/40 rounded-[2.5rem] overflow-hidden mb-12 relative border border-white/5 shadow-depth-1 group-hover/card:scale-[1.02] transition-transform duration-[1500ms]">
                            <div className="absolute inset-0 bg-editorial-surface opacity-0 group-hover/card:opacity-10 transition-opacity z-10" />
                            <img src={product.image} alt={product.name} className="w-full h-full object-contain p-12 mix-blend-screen scale-110 group-hover/card:scale-[1.25] transition-transform duration-[2000ms] ease-fluid" />
-                           <div className="absolute top-6 right-6 w-10 h-10 bg-editorial-bg border border-white/5 rounded-xl flex items-center justify-center opacity-0 group-hover/card:opacity-100 transition-all duration-700 translate-x-4 group-hover/card:translate-x-0">
-                               <Plus className="w-4 h-4 text-red-500" />
+                           <div className="absolute top-6 right-6 w-10 h-10 bg-editorial-bg border border-white/5 rounded-xl flex items-center justify-center opacity-100 md:opacity-0 md:group-hover/card:opacity-100 transition-all duration-700 md:translate-x-4 md:group-hover/card:translate-x-0">
+                               <ArrowRight className="w-4 h-4 text-red-500" />
                            </div>
                         </div>
                         
@@ -211,7 +175,7 @@ export default function ProtocolStacks() {
                           <span className="font-mono text-[0.6875rem] text-red-500 uppercase tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] block font-black transition-all duration-700 group-hover/card:tracking-[0.7em]">{product.category}</span>
                           <h3 className="font-black text-editorial-text uppercase text-3xl lg:text-4xl leading-[0.8] tracking-tighter transition-all duration-1000 group-hover:text-red-500">{product.name}</h3>
                           <p className="text-editorial-text-muted font-light leading-relaxed group-hover/card:text-editorial-text transition-colors text-base line-clamp-3">
-                             {product.description || "Every batch of this premium performance architecture undergoes a multi-phase validation cycle."}
+                             {product.description || product.shortBenefit}
                           </p>
                         </div>
                         
@@ -229,64 +193,6 @@ export default function ProtocolStacks() {
             </motion.section>
           ))}
         </div>
-
-        {/* Comparative Matrix Expansion */}
-        <section className="mt-64 pt-48 border-t border-editorial-border relative">
-             <div className="flex flex-col lg:flex-row justify-between items-end mb-32 gap-12">
-                <div className="space-y-6">
-                    <div className="flex items-center gap-5">
-                       <span className="w-12 h-[1px] bg-red-600" />
-                       <span className="font-mono text-[0.6875rem] text-zinc-500 uppercase tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] font-black">Comparative_Performance_Matrix</span>
-                    </div>
-                    <h2 className="font-black uppercase tracking-tighter text-white text-display-md">Cross-Protocol <br /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-red-900 italic">Benchmarks</span></h2>
-                </div>
-                <div className="p-8 bg-editorial-surface/20 border border-editorial-border rounded-3xl max-w-md">
-                   <p className="text-sm text-editorial-text-muted font-light leading-relaxed">System-wide data analysis of stack utilization across all sectors. Benchmarks based on 10,000+ operative deployments.</p>
-                </div>
-             </div>
-
-             <div className="overflow-x-auto relative z-10 -mx-6 px-6 lg:mx-0 lg:px-0">
-                <table className="w-full border-collapse">
-                   <thead>
-                      <tr className="border-b border-editorial-border">
-                         <th className="py-10 text-left font-mono text-[0.6875rem] text-zinc-600 uppercase tracking-widest font-black">Protocol_Core</th>
-                         <th className="py-10 text-center font-mono text-[0.6875rem] text-zinc-600 uppercase tracking-widest font-black">Output_Impact</th>
-                         <th className="py-10 text-center font-mono text-[0.6875rem] text-zinc-600 uppercase tracking-widest font-black">Bio_Stress_Index</th>
-                         <th className="py-10 text-center font-mono text-[0.6875rem] text-zinc-600 uppercase tracking-widest font-black">Deployment</th>
-                         <th className="py-10 text-right font-mono text-[0.6875rem] text-zinc-600 uppercase tracking-widest font-black">Status</th>
-                      </tr>
-                   </thead>
-                   <tbody>
-                      {stacks.map((stack, i) => (
-                        <tr key={i} className="border-b border-editorial-border/30 hover:bg-white/5 transition-colors group/row">
-                           <td className="py-10">
-                              <span className="block font-black text-xl lg:text-2xl text-white uppercase tracking-tight group-hover/row:text-red-500 transition-colors">{stack.title.replace('RAW_', '').replace('_PROTOCOL', '')}</span>
-                              <span className="block font-mono text-[0.6875rem] text-zinc-600 uppercase tracking-widest mt-2">{stack.id}_SYS_ID</span>
-                           </td>
-                           <td className="py-10 text-center">
-                              <div className="flex items-center justify-center gap-1">
-                                 {[1,2,3,4,5].map(star => (
-                                   <div key={star} className={`w-1.5 h-6 rounded-full ${star <= (i % 2 === 0 ? 5 : 4) ? 'bg-red-600 shadow-[0_0_8px_#dc2626]' : 'bg-white/5'}`} />
-                                 ))}
-                              </div>
-                           </td>
-                           <td className="py-10 text-center">
-                               <span className="font-mono text-[0.6875rem] font-black text-white">{i * 12 + 40}%</span>
-                           </td>
-                           <td className="py-10 text-center">
-                              <span className="px-5 py-2 bg-editorial-surface border border-editorial-border rounded-xl font-mono text-[0.6875rem] text-zinc-500 uppercase font-black">{stack.intensity}</span>
-                           </td>
-                           <td className="py-10 text-right">
-                              <div className="flex items-center justify-end gap-3 font-mono text-[0.6875rem] font-black text-emerald-500">
-                                 <div className="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_10px_#10b981]" /> VERIFIED
-                              </div>
-                           </td>
-                        </tr>
-                      ))}
-                   </tbody>
-                </table>
-             </div>
-        </section>
 
       </div>
     </div>

@@ -1,8 +1,7 @@
-import React from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { X, Settings as SettingsIcon, AlertTriangle, Monitor, Activity, Eye, Zap, Mic, RotateCcw } from 'lucide-react';
+import { X, Settings as SettingsIcon, AlertTriangle, Monitor, Eye, RotateCcw } from 'lucide-react';
 import { useUI } from '../context/UIContext';
-import { useSettings, allAITones } from '../context/SettingsContext';
+import { useSettings } from '../context/SettingsContext';
 import { useToast } from './common/Toast';
 
 const GlobalSettingsPanel = () => {
@@ -16,14 +15,10 @@ const GlobalSettingsPanel = () => {
       wallpaperColor: '#dc2626',
       wallpaperSpeed: 1,
       wallpaperBrightness: 1,
-      aiVoiceTone: 'technical',
       voiceRate: 1,
       voicePitch: 1,
-      voiceContinuous: false,
       visualFidelity: 'balanced',
-      realtimeDiagnostics: true,
       motionIntensity: 'standard',
-      uiStabilityFeedback: true,
     });
     addToast("SYSTEM render profile restored to default baselines", "success");
   };
@@ -59,6 +54,7 @@ const GlobalSettingsPanel = () => {
               </div>
               <button 
                 onClick={() => setIsGlobalSettingsOpen(false)}
+                aria-label="Close settings"
                 className="text-editorial-text-muted hover:text-editorial-text transition-colors"
               >
                 <X className="w-5 h-5" />
@@ -66,29 +62,6 @@ const GlobalSettingsPanel = () => {
             </div>
 
             <div className="p-6 space-y-10">
-              {/* AI Voice Tone */}
-              <div className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2 text-editorial-text">
-                    <Mic className="w-4 h-4 text-red-500" />
-                    <h3 className="font-mono text-xs uppercase tracking-widest">AI_Voice_Tone</h3>
-                  </div>
-                  <span className="text-[0.6875rem] font-mono text-editorial-text-muted uppercase">{settings.aiVoiceTone}</span>
-                </div>
-                
-                <div className="grid grid-cols-2 gap-3">
-                  {allAITones.map(tone => (
-                    <button
-                      key={tone}
-                      onClick={() => updateSettings({ aiVoiceTone: tone })}
-                      className={`py-3 px-4 rounded-lg font-mono text-[0.6875rem] uppercase transition-all duration-300 border hover:scale-[1.02] active:scale-[0.98] ${settings.aiVoiceTone === tone ? 'bg-red-600/10 border-red-600 text-red-500' : 'bg-editorial-surface border-editorial-border text-white-muted hover:border-editorial-border-light hover:text-editorial-text'}`}
-                    >
-                      {tone.replace('_', ' ')}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
               {/* Visual Fidelity */}
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
@@ -104,7 +77,7 @@ const GlobalSettingsPanel = () => {
                     <button
                       key={level}
                       onClick={() => updateSettings({ visualFidelity: level })}
-                      className={`py-3 px-4 rounded-lg font-mono text-xs uppercase transition-all duration-300 border hover:scale-[1.02] active:scale-[0.98] ${settings.visualFidelity === level ? 'bg-red-600/10 border-red-600 text-red-500' : 'bg-editorial-surface border-editorial-border text-white-muted hover:border-editorial-border-light hover:text-editorial-text'}`}
+                      className={`py-3 px-4 rounded-lg font-mono text-xs uppercase transition-all duration-300 border hover:scale-[1.02] active:scale-[0.98] ${settings.visualFidelity === level ? 'bg-red-600/10 border-red-600 text-red-500' : 'bg-editorial-surface border-editorial-border text-editorial-text-muted hover:border-editorial-border-light hover:text-editorial-text'}`}
                     >
                       {level}
                     </button>
@@ -133,28 +106,6 @@ const GlobalSettingsPanel = () => {
                 </AnimatePresence>
               </div>
 
-              {/* Realtime Diagnostics */}
-              <div className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2 text-editorial-text">
-                    <Activity className="w-4 h-4 text-red-500" />
-                    <h3 className="font-mono text-xs uppercase tracking-widest">Realtime_Diagnostics</h3>
-                  </div>
-                  <button 
-                    onClick={() => updateSettings({ realtimeDiagnostics: !settings.realtimeDiagnostics })}
-                    className={`relative w-12 h-6 rounded-full transition-colors duration-300 ${settings.realtimeDiagnostics ? 'bg-red-600' : 'bg-zinc-800'}`}
-                  >
-                    <motion.div 
-                      className="absolute top-1 bottom-1 w-4 bg-editorial-text rounded-full bg-editorial-text shadow-sm"
-                      animate={{ left: settings.realtimeDiagnostics ? 'calc(100% - 1.25rem)' : '0.25rem' }}
-                    />
-                  </button>
-                </div>
-                <p className="text-editorial-text-muted text-[0.6875rem] leading-relaxed">
-                  Show optional HUD overlays and system health modules over main content.
-                </p>
-              </div>
-
               {/* Motion Intensity */}
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
@@ -170,7 +121,7 @@ const GlobalSettingsPanel = () => {
                     <button
                       key={level}
                       onClick={() => updateSettings({ motionIntensity: level })}
-                      className={`py-3 px-2 rounded-lg font-mono text-[0.6875rem] uppercase transition-all duration-300 border hover:scale-[1.02] active:scale-[0.98] ${settings.motionIntensity === level ? 'bg-red-600/10 border-red-600 text-red-500' : 'bg-editorial-surface border-editorial-border text-white-muted hover:border-editorial-border-light hover:text-editorial-text'}`}
+                      className={`py-3 px-2 rounded-lg font-mono text-[0.6875rem] uppercase transition-all duration-300 border hover:scale-[1.02] active:scale-[0.98] ${settings.motionIntensity === level ? 'bg-red-600/10 border-red-600 text-red-500' : 'bg-editorial-surface border-editorial-border text-editorial-text-muted hover:border-editorial-border-light hover:text-editorial-text'}`}
                     >
                       {level}
                     </button>
@@ -179,43 +130,6 @@ const GlobalSettingsPanel = () => {
                 <p className="text-editorial-text-muted text-[0.6875rem] leading-relaxed">
                   Control the intensity of parallax, transitions, and interface animation energy.
                 </p>
-              </div>
-
-              {/* UI Stability Feedback */}
-              <div className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2 text-editorial-text">
-                    <Zap className="w-4 h-4 text-red-500" />
-                    <h3 className="font-mono text-xs uppercase tracking-widest">UI_Stability_Feedback</h3>
-                  </div>
-                  <button 
-                    onClick={() => updateSettings({ uiStabilityFeedback: !settings.uiStabilityFeedback })}
-                    className={`relative w-12 h-6 rounded-full transition-colors duration-300 ${settings.uiStabilityFeedback ? 'bg-red-600' : 'bg-zinc-800'}`}
-                  >
-                    <motion.div 
-                      className="absolute top-1 bottom-1 w-4 bg-editorial-text rounded-full bg-editorial-text shadow-sm"
-                      animate={{ left: settings.uiStabilityFeedback ? 'calc(100% - 1.25rem)' : '0.25rem' }}
-                    />
-                  </button>
-                </div>
-                <p className="text-editorial-text-muted text-[0.6875rem] leading-relaxed">
-                  Show small system health indicators such as FPS_OPTIMAL, SYNC_STAT, and SYSTEM_HEALTHY across the interface.
-                </p>
-
-                {/* Example preview block */}
-                <AnimatePresence>
-                  {settings.uiStabilityFeedback && (
-                    <motion.div 
-                      initial={{ opacity: 0, height: 0 }}
-                      animate={{ opacity: 1, height: 'auto' }}
-                      exit={{ opacity: 0, height: 0 }}
-                      className="pt-2 flex flex-wrap gap-2"
-                    >
-                      <span className="px-2 py-1 bg-green-500/10 text-green-500 border border-green-500/20 text-[0.6875rem] font-mono tracking-widest rounded uppercase">FPS_OPTIMAL</span>
-                      <span className="px-2 py-1 bg-blue-500/10 text-blue-500 border border-blue-500/20 text-[0.6875rem] font-mono tracking-widest rounded uppercase">SYNC_STAT</span>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
               </div>
 
               {/* Reset to Baseline */}

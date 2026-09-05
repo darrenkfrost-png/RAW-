@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState, useCallback } from "react";
-import { motion, AnimatePresence, useReducedMotion } from "motion/react";
-import { X, ChevronLeft, ChevronRight, Play, Camera, Film, LayoutGrid, Youtube, Music2 } from "lucide-react";
+import { motion, useReducedMotion } from "motion/react";
+import { Play, Camera, Film, LayoutGrid, Youtube, Music2 } from "lucide-react";
 import { SHOWCASE, ShowcaseItem } from "../data/showcase";
 import { SOCIAL } from "../data/social";
 import SocialEmbed from "../components/SocialEmbed";
@@ -158,24 +158,21 @@ export default function Showcase() {
     [items.length],
   );
 
+  const open = openAt === null ? null : items[openAt];
+  const openKind = open?.kind ?? null;
+
   useEffect(() => {
     if (openAt === null) return;
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") setOpenAt(null);
-      if (e.key === "ArrowRight") step(1);
-      if (e.key === "ArrowLeft") step(-1);
+      if (openKind === "video" && e.key === "ArrowRight") step(1);
+      if (openKind === "video" && e.key === "ArrowLeft") step(-1);
     };
     window.addEventListener("keydown", onKey);
-    // The page behind a full-screen viewer must not scroll under it.
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
     return () => {
       window.removeEventListener("keydown", onKey);
-      document.body.style.overflow = prev;
     };
-  }, [openAt, step]);
-
-  const open = openAt === null ? null : items[openAt];
+  }, [openAt, step, openKind]);
 
   return (
     <div className="relative min-h-svh">

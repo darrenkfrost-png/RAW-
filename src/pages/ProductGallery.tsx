@@ -26,7 +26,7 @@ export default function ProductGallery() {
     <div className="pt-32 pb-24 px-[var(--shell-padding-mobile)] md:px-[var(--shell-padding)] lg:px-[var(--shell-padding-lg)] max-w-[var(--content-max-width)] mx-auto min-h-svh flex flex-col justify-center">
       <h1 className="text-4xl md:text-6xl font-black uppercase tracking-tighter text-editorial-text mb-16 text-center">Visual Protocol Gallery</h1>
       
-      <div className="relative aspect-[16/9] w-full bg-editorial-bg border border-editorial-border-light rounded-2xl overflow-hidden shadow-2xl">
+      <div className="relative md:aspect-[16/9] w-full bg-editorial-bg border border-editorial-border-light rounded-2xl overflow-hidden shadow-2xl">
         <AnimatePresence mode="wait">
           <motion.div
             key={product.id}
@@ -34,12 +34,12 @@ export default function ProductGallery() {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -100 }}
             transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-            className="absolute inset-0 flex flex-col md:flex-row items-center"
+            className="relative md:absolute md:inset-0 flex flex-col md:flex-row items-center"
           >
-            <div className="w-full md:w-1/2 h-64 md:h-full relative bg-editorial-surface border-r border-editorial-border">
+            <div className="w-full md:w-1/2 h-64 md:h-full relative bg-editorial-surface border-b md:border-b-0 md:border-r border-editorial-border">
                <img src={product.image} alt={product.name} className="w-full h-full object-contain p-8" />
             </div>
-            <div className="w-full md:w-1/2 p-10 flex flex-col justify-center">
+            <div className="w-full md:w-1/2 p-6 sm:p-10 flex flex-col justify-center min-w-0">
                <span className="text-red-500 font-mono text-xs uppercase tracking-widest mb-4">{product.category}</span>
                <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tighter text-editorial-text mb-6">{product.name}</h2>
                <p className="text-editorial-text-muted mb-8 font-mono text-sm leading-relaxed">{product.shortBenefit}</p>
@@ -53,7 +53,7 @@ export default function ProductGallery() {
           </motion.div>
         </AnimatePresence>
 
-        <div className="absolute bottom-6 left-6 right-6 flex justify-between items-center z-20">
+        <div className="relative px-6 py-4 border-t border-editorial-border-light md:border-0 md:p-0 md:absolute md:bottom-6 md:left-6 md:right-6 flex justify-between items-center z-20">
             <div className="flex gap-4">
                  <button onClick={prev} aria-label="Previous product" className="p-3 bg-editorial-bg/50 hover:bg-red-600 text-white rounded-full backdrop-blur-md border border-editorial-border-light transition-all">
                    <ChevronLeft className="w-5 h-5" />

@@ -2,14 +2,23 @@ import { Atmosphere } from '../components/common/Atmosphere';
 import Breadcrumb from '../components/Breadcrumb';
 import { motion } from "motion/react";
 import { useUI } from '../context/UIContext';
-import { BookOpen, Volume2 } from 'lucide-react';
+import { Volume2 } from 'lucide-react';
 
 export default function Manifesto() {
   const { setActiveReaderItem } = useUI();
 
+  // The reader HUD reads `sections` (own titles, in page order) when a reader
+  // item carries them; the product-shaped slots below are the fallback for a
+  // HUD build without that path, left exactly as originally written.
   const manifestoReaderItem = {
     id: "raw-manifesto",
     name: "RAW SYSTEM MANIFESTO",
+    sections: [
+      { title: "CORE_DIRECTIVE // M-001", text: "We do not exist to maintain the status quo. We are the anomaly in the system. The override switch. We engineer supplements and gear for those who break boundaries, defy limits, and rewrite their own reality." },
+      { title: "TESTED_IN_THE_FIELD", text: "Every formula, every thread, every piece of hardware we deploy is meticulously tested in the most demanding combat and recovery scenarios. We do not compromise because the mission does not allow for failure." },
+      { title: "THE_CREED", text: "Purity is our weapon. Performance is our mandate. Only the elite survive the algorithm." },
+      { title: "THE_SYNDICATE", text: "This is not a community. It is a syndicate of high-performers operating at peak frequency. By equipping yourself with RAW gear, you accept the protocol: endless iteration, relentless optimization, and total systemic dominance." }
+    ],
     overview: "We do not exist to maintain the status quo. We are the anomaly in the system. The override switch. We engineer supplements and gear for those who break boundaries, defy limits, and rewrite their own reality.",
     whatItDoes: "Every formula, every thread, every piece of hardware we deploy is meticulously tested in the most demanding combat and recovery scenarios. We do not compromise because the mission does not allow for failure.",
     keyBenefits: [
@@ -29,7 +38,7 @@ export default function Manifesto() {
       <Atmosphere glowOpacity={0.02} gridMode="lines" intensity="low" />
       
       <div className="relative z-50 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-10">
-        <Breadcrumb items={[{ label: 'System', path: '/' }, { label: 'Manifesto', active: true }]} />
+        <Breadcrumb items={[{ label: 'System', path: '/performance-system' }, { label: 'Manifesto', active: true }]} />
         
         <motion.button
           initial={{ opacity: 0, scale: 0.9 }}

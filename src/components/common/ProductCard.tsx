@@ -1,13 +1,12 @@
 import { memo, useRef } from "react";
 import { Link } from "react-router-dom";
 import { motion, useMotionValue, useSpring, useTransform, useReducedMotion } from "motion/react";
-import { Search, Layers, Plus, ExternalLink } from "lucide-react";
+import { Layers, Plus, Eye, ExternalLink } from "lucide-react";
 import { useProtocol } from "../../context/ProtocolContext";
 import { useCart } from "../../context/CartContext";
 import { useCompare } from "../../context/CompareContext";
 import LazyImage from "../LazyImage";
 import { Tooltip } from "./Tooltip";
-import { useUI } from "../../context/UIContext";
 import { Product } from "../../types";
 
 /**
@@ -114,6 +113,9 @@ function ProductCardComponent({ product, idx, onQuickView }: ProductCardProps) {
       />
 
       {/* ── THE PHOTOGRAPH ─────────────────────────────────────────────── */}
+      {/* The wrapper is the positioning box for the quick actions, which sit
+          BESIDE the link rather than inside it: buttons may not live in an <a>. */}
+      <div className="relative">
       <Link
         to={`/product/${product.id}`}
         className="relative block aspect-[4/5] overflow-hidden rounded-[1.5rem] border border-white/10 bg-gradient-to-b from-white/[0.06] to-transparent transition-colors duration-500 group-hover:border-red-600/30"
@@ -133,9 +135,24 @@ function ProductCardComponent({ product, idx, onQuickView }: ProductCardProps) {
         <span className="absolute left-3 top-3 z-20 rounded-full border border-white/15 bg-black/65 px-3 py-1.5 font-mono text-[0.6875rem] font-black uppercase tracking-[0.25em] text-white/80 backdrop-blur-md">
           {product.category}
         </span>
+      </Link>
 
-        {/* Quick actions — revealed on hover, real functions only. */}
-        <div className="absolute inset-x-0 bottom-3 z-30 flex items-center justify-center gap-3 opacity-0 transition-opacity duration-500 group-hover:opacity-100">
+        {/* Quick actions — real functions only. Always visible on touch
+            (no hover exists there); from md they appear on hover or keyboard focus. */}
+        <div className="absolute inset-x-0 bottom-3 z-30 flex items-center justify-center gap-3 opacity-100 transition-opacity duration-500 md:opacity-0 md:group-hover:opacity-100 md:focus-within:opacity-100">
+          {onQuickView && (
+            <Tooltip content="Quick view">
+              <button
+                type="button"
+                onClick={(e) => { e.stopPropagation(); onQuickView(product); }}
+                className="flex h-11 w-11 items-center justify-center rounded-full border border-white/15 bg-black/70 text-white backdrop-blur-md transition-colors hover:border-red-500/60"
+                aria-label={`Quick view ${product.name}`}
+              >
+                <Eye className="h-4 w-4" />
+              </button>
+            </Tooltip>
+          )}
+
           <Tooltip content="Compare">
             <button
               onClick={(e) => { e.preventDefault(); e.stopPropagation(); toggleProduct(product); }}
@@ -160,9 +177,8 @@ function ProductCardComponent({ product, idx, onQuickView }: ProductCardProps) {
               <Plus className="h-5 w-5" />
             </button>
           </Tooltip>
-
         </div>
-      </Link>
+      </div>
 
       {/* ── THE FACTS ──────────────────────────────────────────────────── */}
       <div className="mt-5 flex flex-1 flex-col">

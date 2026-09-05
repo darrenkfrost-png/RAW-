@@ -1,19 +1,19 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import Breadcrumb from '../components/Breadcrumb';
-import { BookOpen, FileText, ArrowRight, Zap, Target, Play, Shield, Cpu, Activity, Info, ChevronRight, Lock } from 'lucide-react';
+import { BookOpen, FileText, ArrowRight, Target, Play, Lock } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Atmosphere } from '../components/common/Atmosphere';
 
-const categories = ['All', 'Training', 'Nutrition', 'Recovery', 'Combat', 'Sleep', 'Hydration'];
+const categories = ['All', 'Training', 'Nutrition', 'Recovery', 'Sleep', 'Hydration'];
 
 const intelNodes = [
-  { id: 1, type: 'Recovery', title: 'Cold Exposure and the Parasympathetic System', excerpt: 'How thermal stress triggers advanced recovery states and regulates cortisol.', products: ['PRTCL_5'], readTime: '6min' },
-  { id: 2, type: 'Nutrition', title: 'Creatine: Beyond Muscular Output', excerpt: 'The cognitive and cellular benefits of consistent creatine supplementation.', products: ['PRTCL_4'], readTime: '8min' },
-  { id: 3, type: 'Training', title: 'Combat Training Recovery Essentials', excerpt: 'Managing impact stress and joint resilience after heavy sparring.', products: ['PRTCL_5', 'PRTCL_6'], readTime: '5min' },
-  { id: 4, type: 'Hydration', title: 'Electrolytes: The Engine of Cellular Energy', excerpt: 'Why water alone drains your performance capacity during high output.', products: ['PRTCL_3'], readTime: '4min' },
-  { id: 5, type: 'Nutrition', title: 'Building Your First Supplement Stack', excerpt: 'A zero-BS guide to foundational nutrition for new athletes.', products: ['PRTCL_1', 'PRTCL_3'], readTime: '12min' },
-  { id: 6, type: 'Sleep', title: 'Nervous System Regulation Before Sleep', excerpt: 'Magnesium, melatonin, and the architecture of deep rest.', products: ['PRTCL_2'], readTime: '7min' },
+  { id: 1, type: 'Recovery', title: 'Cold Exposure and the Parasympathetic System', excerpt: 'How thermal stress triggers advanced recovery states and regulates cortisol.', products: ['PRTCL_5'] },
+  { id: 2, type: 'Nutrition', title: 'Creatine: Beyond Muscular Output', excerpt: 'The cognitive and cellular benefits of consistent creatine supplementation.', products: ['PRTCL_4'] },
+  { id: 3, type: 'Training', title: 'Combat Training Recovery Essentials', excerpt: 'Managing impact stress and joint resilience after heavy sparring.', products: ['PRTCL_5', 'PRTCL_6'] },
+  { id: 4, type: 'Hydration', title: 'Electrolytes: The Engine of Cellular Energy', excerpt: 'Why water alone drains your performance capacity during high output.', products: ['PRTCL_3'] },
+  { id: 5, type: 'Nutrition', title: 'Building Your First Supplement Stack', excerpt: 'A zero-BS guide to foundational nutrition for new athletes.', products: ['PRTCL_1', 'PRTCL_3'] },
+  { id: 6, type: 'Sleep', title: 'Nervous System Regulation Before Sleep', excerpt: 'Magnesium, melatonin, and the architecture of deep rest.', products: ['PRTCL_2'] },
 ];
 
 const courses = [
@@ -37,7 +37,7 @@ export default function RawAcademy() {
         <Breadcrumb items={[{ label: 'System', path: '/performance-system' }, { label: 'Academy', active: true }]} />
         
         {/* Cinematic Header Block */}
-        <section className="mb-32 flex flex-col lg:grid lg:grid-cols-2 gap-20 items-end">
+        <section className="mb-32">
             <div className="space-y-10">
                <div className="flex items-center gap-5">
                   <div className="w-12 h-12 bg-red-600 rounded-2xl flex items-center justify-center shadow-[0_0_20px_#dc2626]">
@@ -52,41 +52,6 @@ export default function RawAcademy() {
                  Elite performance requires elite understanding. Access our intelligence network on training, recovery, and clinical application.
                </p>
             </div>
-
-            <div className="w-full">
-                <div className="p-10 bg-editorial-surface/40 backdrop-blur-3xl border border-editorial-border rounded-[3rem] shadow-depth-3 space-y-8 relative overflow-hidden group/progress">
-                    <div className="absolute top-0 right-0 p-10 opacity-5 group-hover/progress:opacity-20 transition-opacity">
-                        <Cpu className="w-32 h-32" />
-                    </div>
-                    <div className="flex justify-between items-center relative z-10">
-                        <span className="font-mono text-[0.6875rem] text-zinc-500 uppercase tracking-widest font-black">OPERATIVE_SYSC_PROGRESS</span>
-                        <span className="font-mono text-[0.6875rem] text-red-500 uppercase tracking-widest font-black">LVL_04 // RANK_S</span>
-                    </div>
-                    <div className="grid grid-cols-4 gap-4 relative z-10">
-                        {[
-                            { label: "TACT_TECH", level: 82 },
-                            { label: "BIO_REST", level: 44 },
-                            { label: "KINETIC", level: 91 },
-                            { label: "PROTO_X", level: 65 },
-                        ].map((node, i) => (
-                            <div key={i} className="space-y-3">
-                                <div className="h-24 w-full bg-white/5 rounded-2xl border border-white/5 relative overflow-hidden group/bar">
-                                    <motion.div 
-                                      initial={{ height: 0 }}
-                                      animate={{ height: `${node.level}%` }}
-                                      transition={{ duration: 1.5, delay: i * 0.2 }}
-                                      className="absolute bottom-0 inset-x-0 bg-red-600/80 shadow-[0_0_15px_#dc2626]"
-                                    />
-                                    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover/bar:opacity-100 transition-opacity">
-                                        <span className="font-mono text-[0.6875rem] font-black text-white">{node.level}%</span>
-                                    </div>
-                                </div>
-                                <span className="block text-[0.6875rem] font-mono text-zinc-600 text-center tracking-tighter">{node.label}</span>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </div>
         </section>
 
         {/* Featured Academy Modules */}
@@ -97,7 +62,7 @@ export default function RawAcademy() {
             </div>
 
             <div className="grid md:grid-cols-3 gap-10">
-                {courses.map((course, i) => (
+                {courses.map((course) => (
                     <div key={course.id} className={`p-10 rounded-[2.5rem] border transition-all duration-700 group/course relative overflow-hidden ${
                         course.status === 'Locked' 
                         ? 'bg-editorial-bg border-editorial-border opacity-50 grayscale' 
@@ -112,13 +77,11 @@ export default function RawAcademy() {
                                 <span className="font-mono text-[0.6875rem] text-zinc-500 uppercase tracking-widest">{course.level}_PROGRAM // {course.modules}_DOCS</span>
                                 <h3 className="text-3xl font-black text-white uppercase tracking-tighter leading-tight group-hover/course:text-red-500 transition-colors">{course.title}</h3>
                             </div>
-                            <div className="mt-auto relative">
-                                {course.status === 'Locked' && (
-                                  <div className="absolute inset-0 z-20 cursor-not-allowed" onClick={() => alert("Premium access required. Backend entitlement adapter not connected.")} title="Premium Protocol - Subscription Required" />
-                                )}
-                                <button disabled={course.status === 'Locked'} className={`w-full button-${course.status === 'Locked' ? 'secondary opacity-50 cursor-not-allowed' : 'premium'} !py-4 !text-[0.6875rem] relative z-10`}>
+                            <div className="mt-auto space-y-3">
+                                <button disabled aria-disabled="true" className={`w-full button-${course.status === 'Locked' ? 'secondary' : 'premium'} !py-4 !text-[0.6875rem] relative z-10 opacity-50 cursor-not-allowed`}>
                                     {course.status === 'Locked' ? 'PREMIUM_LOCKED' : 'LAUNCH_MODULE'}
                                 </button>
+                                <span className="block text-center font-mono text-[0.6875rem] font-black uppercase tracking-[0.3em] text-zinc-500">COMING_SOON</span>
                             </div>
                         </div>
                         {course.status !== 'Locked' && (
@@ -158,7 +121,7 @@ export default function RawAcademy() {
 
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10 relative z-10">
                <AnimatePresence mode="popLayout">
-                 {filteredArticles.map((article, i) => (
+                 {filteredArticles.map((article) => (
                    <motion.div 
                      layout
                      key={article.id}
@@ -175,7 +138,6 @@ export default function RawAcademy() {
                            </span>
                            <span className="text-zinc-500 uppercase tracking-widest">{article.type}</span>
                          </div>
-                         <span className="text-zinc-600 uppercase tracking-widest">{article.readTime}</span>
                       </div>
                       
                       <h3 className="text-3xl font-black text-white uppercase tracking-tighter mb-6 group-hover:text-red-500 transition-colors leading-tight relative z-10 transition-transform duration-700 group-hover:-translate-y-1">{article.title}</h3>
@@ -195,7 +157,7 @@ export default function RawAcademy() {
                          <div className="flex flex-wrap gap-2 pt-6 border-t border-editorial-border border-dashed">
                             <span className="w-full text-[0.6875rem] font-mono text-zinc-700 uppercase tracking-[0.4em] mb-2 font-black italic">PROTOCOL_SYSLINK:</span>
                             {article.products.map(pid => (
-                               <Link key={pid} to={`/knowledge-core`} className="px-4 py-1.5 bg-white/5 hover:bg-red-600/20 border border-editorial-border-light hover:border-red-500/50 rounded-xl text-[0.6875rem] font-mono uppercase tracking-widest text-zinc-400 hover:text-white transition-all flex items-center gap-2 group/tag">
+                               <Link key={pid} to={`/knowledge-core?id=${pid}`} className="px-4 py-1.5 bg-white/5 hover:bg-red-600/20 border border-editorial-border-light hover:border-red-500/50 rounded-xl text-[0.6875rem] font-mono uppercase tracking-widest text-zinc-400 hover:text-white transition-all flex items-center gap-2 group/tag">
                                  <Target className="w-3 h-3 group-hover/tag:scale-125 transition-transform" /> {pid}
                                </Link>
                             ))}

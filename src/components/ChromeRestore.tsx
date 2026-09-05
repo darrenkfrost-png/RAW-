@@ -59,11 +59,17 @@ export default function ChromeRestore() {
   return (
     <div
       ref={root}
-      onMouseEnter={() => setOpen(true)}
-      onMouseLeave={() => setOpen(false)}
-      /* Bottom-left: clear of the cart, the AI halo and the readout chip, all
-         of which live bottom-right. Inset uses safe-area so it clears the home
-         indicator on a phone. */
+      /* ⚠️ HOVER-OPEN IS FOR MICE AND PENS ONLY. On a touch screen a tap fires
+         an emulated mouseenter (open) and then the click (toggle → closed) in
+         the same gesture, so the panel opened and shut before it was seen and
+         needed a second tap — on the one control that is the way back once
+         everything is hidden. Pointer events carry the pointer type, so touch
+         is left to the tap-toggle on the mark below. */
+      onPointerEnter={(e) => { if (e.pointerType !== "touch") setOpen(true); }}
+      onPointerLeave={(e) => { if (e.pointerType !== "touch") setOpen(false); }}
+      /* Bottom-left: clear of the cart and the stack badge, both of which live
+         bottom-right. Inset uses safe-area so it clears the home indicator on a
+         phone. */
       className="fixed z-[1150] flex flex-col items-start gap-2"
       style={{
         left: "max(1rem, env(safe-area-inset-left))",
@@ -86,7 +92,7 @@ export default function ChromeRestore() {
               <button
                 onClick={() => setOpen(false)}
                 aria-label="Close display panel"
-                className="flex h-6 w-6 items-center justify-center rounded-md text-white/40 transition-colors hover:text-white"
+                className="-mr-2 flex min-h-11 min-w-11 items-center justify-center rounded-md text-white/40 transition-colors hover:text-white"
               >
                 <X size={11} />
               </button>

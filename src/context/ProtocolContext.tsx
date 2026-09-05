@@ -13,14 +13,16 @@ const ProtocolContext = createContext<ProtocolContextType | undefined>(undefined
 export const ProtocolProvider = ({ children }: { children: React.ReactNode }) => {
   const [protocolItems, setProtocolItems] = useState<Product[]>([]);
 
+  /* ⚠️ FUNCTIONAL UPDATES, ON PURPOSE. The previous version spread the
+     protocolItems captured at render time, so four addToProtocol calls in
+     one click handler kept only the LAST product: each call started from the
+     same stale array. Every stack page and the builder hit this. */
   const addToProtocol = (product: Product) => {
-    if (!protocolItems.find(p => p.id === product.id)) {
-      setProtocolItems([...protocolItems, product]);
-    }
+    setProtocolItems(prev => prev.some(p => p.id === product.id) ? prev : [...prev, product]);
   };
 
   const removeFromProtocol = (productId: number) => {
-    setProtocolItems(protocolItems.filter(p => p.id !== productId));
+    setProtocolItems(prev => prev.filter(p => p.id !== productId));
   };
 
   const clearProtocol = () => setProtocolItems([]);

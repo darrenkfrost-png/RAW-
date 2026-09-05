@@ -1,4 +1,4 @@
-import { createContext, useContext, ReactNode, useCallback, useState, useEffect } from "react";
+import { createContext, useContext, ReactNode, useCallback, useState, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useUI } from "./UIContext";
 import { useSettings } from "./SettingsContext";
@@ -30,16 +30,12 @@ export function CommandProvider({ children }: { children: ReactNode }) {
     setIsSearchOpen,
     isWallpaperMode,
     setIsWallpaperMode,
-    isWallpaperSettingsOpen,
     setIsWallpaperSettingsOpen,
-    isGlobalSettingsOpen,
     setIsGlobalSettingsOpen,
     isSidebarCollapsed,
-    setIsSidebarCollapsed,
-    isCommandPaletteOpen,
-    setIsCommandPaletteOpen
+    setIsSidebarCollapsed
   } = useUI();
-  const { isCartOpen, setIsCartOpen } = useCart();
+  const { setIsCartOpen } = useCart();
   const { addToast } = useToast();
   const { trackAction, trackError } = useAppCtx();
 
@@ -205,6 +201,8 @@ export function CommandProvider({ children }: { children: ReactNode }) {
       handler: () => {
         if ((window as any).readerControls) {
           (window as any).readerControls.pause();
+        } else {
+          addToast("No doctrine open in Reader Focus Mode", "warning");
         }
       }
     },
@@ -215,6 +213,8 @@ export function CommandProvider({ children }: { children: ReactNode }) {
       handler: () => {
         if ((window as any).readerControls) {
           (window as any).readerControls.next();
+        } else {
+          addToast("No doctrine open in Reader Focus Mode", "warning");
         }
       }
     },
@@ -225,6 +225,8 @@ export function CommandProvider({ children }: { children: ReactNode }) {
       handler: () => {
         if ((window as any).readerControls) {
           (window as any).readerControls.prev();
+        } else {
+          addToast("No doctrine open in Reader Focus Mode", "warning");
         }
       }
     },
@@ -235,6 +237,8 @@ export function CommandProvider({ children }: { children: ReactNode }) {
       handler: () => {
         if ((window as any).readerControls) {
           (window as any).readerControls.close();
+        } else {
+          addToast("No doctrine open in Reader Focus Mode", "warning");
         }
       }
     },
@@ -278,8 +282,14 @@ export function CommandProvider({ children }: { children: ReactNode }) {
 
   const allCommands = [...coreCommands, ...dynamicCommands];
 
+  // The command list is rebuilt every render (its handlers close over live
+  // state), so executeCommand looks it up through a ref: consumers get one
+  // stable function and every call still reaches the freshest handlers.
+  const commandsRef = useRef(allCommands);
+  commandsRef.current = allCommands;
+
   const executeCommand = useCallback(async (id: string): Promise<boolean> => {
-    const cmd = allCommands.find(c => c.id === id);
+    const cmd = commandsRef.current.find(c => c.id === id);
     if (cmd) {
       try {
         await cmd.handler();
@@ -294,14 +304,7 @@ export function CommandProvider({ children }: { children: ReactNode }) {
     trackError(`Command unknown: ${id}`);
     addToast(`Unknown command: ${id}`, "error");
     return false;
-  }, [allCommands, trackAction, trackError, addToast]);
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-        (window as any).executeAppCommand = executeCommand;
-        (window as any).availableCommands = allCommands.map(c => ({ id: c.id, label: c.label }));
-    }
-  }, [executeCommand, allCommands]);
+  }, [trackAction, trackError, addToast]);
 
   const registerCommand = useCallback((command: AppCommand) => {
     setDynamicCommands(prev => [...prev.filter(c => c.id !== command.id), command]);

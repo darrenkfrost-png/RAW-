@@ -1,13 +1,14 @@
-import React, { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import Breadcrumb from '../components/Breadcrumb';
-import { Database, Search, ArrowRight, ShieldCheck, Cpu, Copy, Plus, Activity, Filter, BookOpen } from 'lucide-react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Database, Search, ArrowRight, ShieldCheck, Copy, Plus, Activity, BookOpen } from 'lucide-react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { rawProductContentBank as part1 } from '../data/rawProductContent';
 import { rawProductContentBank2 } from '../data/rawProductContent2';
 import { rawProductContentBank3 } from '../data/rawProductContent3';
 import { rawProductContentBank4 } from '../data/rawProductContent4';
 import { rawProductContentBank5 } from '../data/rawProductContent5';
+import { allProducts } from '../data/products';
 import { useUI } from '../context/UIContext';
 import { useToast } from '../components/common/Toast';
 
@@ -18,21 +19,26 @@ const rawProductContentBank = [
   ...rawProductContentBank4,
   ...rawProductContentBank5
 ].map(item => {
-  let cat = 'Nutrients';
-  const name = item.name.toLowerCase();
-  
-  if (name.includes('glove') || name.includes('towel') || name.includes('bottle') || name.includes('shaker') || name.includes('lounger') || name.includes('cool box') || name.includes('support')) cat = 'Accessories';
-  else if (name.includes('shirt') || name.includes('hoodie') || name.includes('shorts') || name.includes('cap') || name.includes('sliders')) cat = 'Apparel';
-  else if (name.includes('recovery') || name.includes('magnesium') || name.includes('melatonin') || name.includes('sleep') || name.includes('gaba') || name.includes('ashwagandha') || name.includes('bath')) cat = 'Recovery';
-  else if (name.includes('combat') || name.includes('glove')) cat = 'Combat';
-  
-  return { ...item, category: cat };
+  // Every content record shares its name with a product in products.ts, which
+  // already carries the real category — so the shop and this index agree.
+  // (Keyword-guessing from the name put Capsules under Apparel and left the
+  // Combat filter permanently empty.)
+  const product = allProducts.find(p => p.name === item.name);
+  return { ...item, category: product?.category ?? 'Nutrients', productId: product?.id };
 });
 
 export default function KnowledgeCore() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
-  const [expandedId, setExpandedId] = useState<string | null>(null);
+  // The Academy links here as /knowledge-core?id=PRTCL_x — arrive with that entry open and in view.
+  const [searchParams] = useSearchParams();
+  const [expandedId, setExpandedId] = useState<string | null>(() => searchParams.get('id'));
+  useEffect(() => {
+    const id = searchParams.get('id');
+    if (!id) return;
+    const el = document.getElementById('kc-' + id);
+    if (el) el.scrollIntoView({ block: 'center' });
+  }, [searchParams]);
   
   const { setActiveReaderItem } = useUI();
   const { addToast } = useToast();
@@ -50,8 +56,9 @@ export default function KnowledgeCore() {
 
   const handleCopy = (item: any) => {
     const text = `PROTOCOL: ${item.name}\nBENEFIT: ${item.shortBenefit}\nOVERVIEW: ${item.overview}`;
-    navigator.clipboard.writeText(text);
-    addToast(`${item.name} intelligence copied securely.`, 'success');
+    navigator.clipboard.writeText(text)
+      .then(() => addToast(`${item.name} intelligence copied.`, 'success'))
+      .catch(() => addToast('Copy failed — clipboard access was refused.', 'error'));
   };
 
   return (
@@ -69,7 +76,7 @@ export default function KnowledgeCore() {
               <div className="flex gap-1.5">
                 {[1,2,3].map(i => <div key={i} className={`w-1 h-4 bg-red-600 ${i === 2 ? 'animate-pulse' : ''}`} />)}
               </div>
-              <span className="font-mono text-[0.6875rem] text-editorial-accent uppercase tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] font-black">SYSTEM_DIAGNOSTIC_BANK // V4.0</span>
+              <span className="font-mono text-[0.6875rem] text-editorial-accent uppercase tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] font-black">PRODUCT_INTEL_BANK</span>
            </motion.div>
            <motion.h1 
              initial={{ scale: 1.05, opacity: 0, filter: "blur(10px)" }}
@@ -106,7 +113,7 @@ export default function KnowledgeCore() {
                className="w-full bg-editorial-bg border border-editorial-border rounded-2xl pl-16 pr-6 py-5 text-editorial-text focus:outline-none focus:border-red-500/50 transition-all font-mono text-[0.6875rem] uppercase tracking-[0.3em] font-black placeholder:text-zinc-800 shadow-inner focus:shadow-[0_0_30px_rgba(220,38,38,0.1)]"
              />
            </div>
-           <div className="flex items-center gap-3 overflow-x-auto w-full xl:w-auto pb-4 xl:pb-0 scrollbar-hide">
+           <div className="flex items-center gap-3 overflow-x-auto w-full xl:w-auto pb-4 xl:pb-0">
              {categories.map(cat => (
                <button 
                  key={cat}
@@ -122,8 +129,8 @@ export default function KnowledgeCore() {
 
         {/* Content Bank */}
         <div className="space-y-6 relative z-10">
-          {filteredContent.map((item, idx) => (
-            <div key={item.id} className="bg-editorial-bg/40 backdrop-blur-3xl border border-editorial-border rounded-[2rem] overflow-hidden transition-all duration-[800ms] hover:border-red-500/30 hover:bg-editorial-surface/60 group/item shadow-depth-1">
+          {filteredContent.map((item) => (
+            <div key={item.id} id={'kc-' + item.id} className="bg-editorial-bg/40 backdrop-blur-3xl border border-editorial-border rounded-[2rem] overflow-hidden transition-all duration-[800ms] hover:border-red-500/30 hover:bg-editorial-surface/60 group/item shadow-depth-1">
                <button 
                  onClick={() => setExpandedId(expandedId === item.id ? null : item.id)}
                  className="p-10 cursor-pointer flex flex-col xl:flex-row items-start xl:items-center justify-between gap-10 group w-full text-left"
@@ -137,7 +144,7 @@ export default function KnowledgeCore() {
                        <span className="font-mono text-[0.6875rem] text-editorial-text-muted uppercase tracking-[0.4em] font-black group-hover:text-editorial-text transition-colors">{item.category}</span>
                     </div>
                     <h3 className="text-3xl md:text-5xl font-black text-editorial-text uppercase tracking-tighter group-hover:text-red-500 transition-all duration-700">{item.name}</h3>
-                    <p className="text-editorial-text-muted font-light text-lg line-clamp-1 group-hover:line-clamp-none transition-all duration-[1000ms] leading-relaxed group-hover:text-editorial-text">{item.shortBenefit}</p>
+                    <p className={`text-editorial-text-muted font-light text-lg ${expandedId === item.id ? '' : 'line-clamp-2 md:line-clamp-1'} md:group-hover:line-clamp-none transition-all duration-[1000ms] leading-relaxed group-hover:text-editorial-text`}>{item.shortBenefit}</p>
                  </div>
                  <div className="shrink-0 flex items-center justify-center w-16 h-16 bg-editorial-text/5 rounded-full group-hover:bg-red-600 group-hover:text-white transition-all duration-700 border border-editorial-border group-hover:border-editorial-border-light shadow-depth-1">
                     <ArrowRight className={`w-6 h-6 transition-transform duration-700 ease-[0.16,1,0.3,1] ${expandedId === item.id ? 'rotate-90' : 'group-hover:translate-x-1'}`} aria-hidden="true" />
@@ -158,14 +165,14 @@ export default function KnowledgeCore() {
                         
                         {/* Quick Actions Row */}
                         <div className="flex flex-wrap items-center gap-4 mb-16 border-b border-editorial-border-light pb-12 relative z-10">
-                           <button onClick={() => navigate('/shop')} className="button-premium" aria-label={`View ${item.name} in Shop`}>
+                           <button onClick={() => navigate(item.productId != null ? `/product/${item.productId}` : '/shop')} className="button-premium" aria-label={`View ${item.name} in Shop`}>
                               <Activity className="w-4 h-4" /> View_Asset
                            </button>
-                           <button onClick={() => navigate('/protocol-builder')} className="button-secondary" aria-label="Go to Protocol Builder">
-                              <Plus className="w-4 h-4" /> Add_Protocol
+                           <button onClick={() => navigate('/protocol-builder')} className="button-secondary" aria-label="Open Protocol Builder">
+                              <Plus className="w-4 h-4" /> Open_Protocol_Builder
                            </button>
-                           <button onClick={() => navigate('/compare')} className="button-secondary" aria-label="Compare products">
-                              <Database className="w-4 h-4" /> Compare_Intel
+                           <button onClick={() => navigate('/compare')} className="button-secondary" aria-label="Open Compare">
+                              <Database className="w-4 h-4" /> Open_Compare
                            </button>
                            <button onClick={() => setActiveReaderItem(item)} className="button-secondary text-amber-500 border-amber-500/20 hover:border-amber-500/50 flex items-center gap-2" aria-label={`Open ${item.name} in Immersive Reader`}>
                               <BookOpen className="w-4 h-4" /> Open_Doc_Reader

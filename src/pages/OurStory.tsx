@@ -60,6 +60,7 @@ export default function OurStory() {
           className="absolute inset-0 w-full h-[150%] -top-[25%]"
         >
           <video 
+            aria-hidden="true"
             autoPlay 
             muted 
             loop 
@@ -121,19 +122,6 @@ export default function OurStory() {
               
               <div className="absolute top-10 right-10 bg-editorial-bg/90 backdrop-blur-2xl border border-editorial-border-light p-8 flex flex-col gap-4 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.1)] z-20 group-hover/img:border-red-500/30 group-hover/img:shadow-[0_20px_50px_rgba(220,38,38,0.2)] transition-all duration-500">
                 <span className="text-[0.6875rem] uppercase tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] font-black text-red-500 drop-shadow-[0_0_5px_currentColor]">ARCHIVE_FILE // 001</span>
-                <span className="font-mono text-[0.6875rem] text-editorial-text-muted font-black uppercase tracking-widest">IDENT_VERIFIED_ACCESS: <span className="text-emerald-500">GRANTED</span></span>
-              </div>
-              
-              {/* Image HUD Decoration */}
-              <div className="absolute bottom-12 left-12 z-20">
-                 <div className="flex gap-6 items-end bg-editorial-bg/60 backdrop-blur-md p-6 rounded-2xl border border-editorial-border shadow-[0_10px_30px_rgba(0,0,0,0.08)]">
-                    <div className="flex flex-col gap-3">
-                       <div className="w-2 h-16 bg-editorial-surface overflow-hidden rounded-full shadow-[inset_0_0_10px_rgba(0,0,0,1)] relative">
-                          <motion.div animate={{ height: ["0%", "100%", "20%"] }} transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }} className="absolute bottom-0 w-full bg-red-600 shadow-[0_0_10px_#dc2626]" />
-                       </div>
-                    </div>
-                    <span className="font-mono text-[0.6875rem] text-editorial-text-muted font-bold flex flex-col justify-end uppercase tracking-widest drop-shadow-[0_2px_4px_rgba(0,0,0,0.1)]">SIGNAL_STRENGTH<br/><span className="text-editorial-text text-base font-black mt-1">94.08%</span></span>
-                 </div>
               </div>
             </div>
           </div>
@@ -161,10 +149,10 @@ export default function OurStory() {
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 border border-editorial-border bg-editorial-bg/60 gap-px rounded-[3rem] overflow-hidden shadow-[0_30px_100px_rgba(0,0,0,0.1)] relative z-10 backdrop-blur-2xl">
           {[
-            { label: "Purity", value: "100%", detail: "ISO_9001_PROTOCOLS", color: "text-red-500", glow: "group-hover:text-red-500 group-hover:shadow-[0_0_30px_rgba(220,38,38,0.5)]" },
-            { label: "Performance", value: "Elite", detail: "FIELD_TESTED_V8", color: "text-emerald-500", glow: "group-hover:text-emerald-500 group-hover:shadow-[0_0_30px_rgba(16,185,129,0.5)]" },
-            { label: "Recovery", value: "Bio-Active", detail: "CELL_REGEN_TECH", color: "text-blue-500", glow: "group-hover:text-blue-500 group-hover:shadow-[0_0_30px_rgba(59,130,246,0.5)]" },
-            { label: "Standards", value: "Gold", detail: "GLOBAL_CERT_504", color: "text-amber-500", glow: "group-hover:text-amber-500 group-hover:shadow-[0_0_30px_rgba(245,158,11,0.5)]" }
+            { label: "Purity", value: "100%", detail: "ISO_9001_PROTOCOLS", color: "text-red-500", accent: "#ef4444", glow: "group-hover:text-red-500 group-hover:shadow-[0_0_30px_rgba(220,38,38,0.5)]" },
+            { label: "Performance", value: "Elite", detail: "FIELD_TESTED_V8", color: "text-emerald-500", accent: "#10b981", glow: "group-hover:text-emerald-500 group-hover:shadow-[0_0_30px_rgba(16,185,129,0.5)]" },
+            { label: "Recovery", value: "Bio-Active", detail: "CELL_REGEN_TECH", color: "text-blue-500", accent: "#3b82f6", glow: "group-hover:text-blue-500 group-hover:shadow-[0_0_30px_rgba(59,130,246,0.5)]" },
+            { label: "Standards", value: "Gold", detail: "GLOBAL_CERT_504", color: "text-amber-500", accent: "#f59e0b", glow: "group-hover:text-amber-500 group-hover:shadow-[0_0_30px_rgba(245,158,11,0.5)]" }
           ].map((stat, i) => (
             <div key={i} className="py-24 px-10 bg-editorial-bg group hover:bg-editorial-surface/80 transition-all duration-[800ms] relative overflow-hidden flex flex-col items-center justify-center">
                <div className="absolute inset-0 bg-gradient-to-b from-white/[0.02] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
@@ -178,7 +166,7 @@ export default function OurStory() {
               <div className="relative z-10 flex flex-col items-center justify-center h-full w-full">
                  <div className={`font-sans font-black text-6xl md:text-7xl xl:text-8xl mb-8 italic tracking-tighter text-editorial-text group-hover:scale-110 transition-all duration-[800ms] ease-[0.16,1,0.3,1] drop-shadow-[0_5px_15px_rgba(0,0,0,0.1)] ${stat.glow}`}>{stat.value}</div>
                  <div className={`text-[0.8125rem] font-black uppercase tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] mb-12 drop-shadow-[0_0_10px_currentColor] ${stat.color}`}>{stat.label}</div>
-                 <div className="h-[3px] w-16 bg-zinc-800 mx-auto group-hover:w-full group-hover:bg-current transition-all duration-[800ms] ease-[0.16,1,0.3,1] mb-12 shadow-[0_0_15px_currentColor] rounded-full" style={{ color: stat.color.replace('text-', '') /* Hack for generic tailwind colours, would typically use CSS vars */ }} />
+                 <div className="h-[3px] w-16 bg-zinc-800 mx-auto group-hover:w-full group-hover:bg-current transition-all duration-[800ms] ease-[0.16,1,0.3,1] mb-12 shadow-[0_0_15px_currentColor] rounded-full" style={{ color: stat.accent }} />
                  <div className="bg-editorial-bg/50 border border-editorial-border px-6 py-3 rounded-xl backdrop-blur-md font-mono text-[0.6875rem] font-black text-editorial-text-muted tracking-[0.3em] uppercase group-hover:text-editorial-text group-hover:border-editorial-border-light transition-all duration-500">{stat.detail}</div>
               </div>
             </div>

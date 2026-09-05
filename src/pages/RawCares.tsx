@@ -1,7 +1,7 @@
 import { Atmosphere } from '../components/common/Atmosphere';
 import Breadcrumb from '../components/Breadcrumb';
 import { motion } from "motion/react";
-import { Globe, Users, Zap, Crosshair } from "lucide-react";
+import { Globe, Users, Crosshair } from "lucide-react";
 import LazyImage from "../components/LazyImage";
 import MagneticWrapper from "../components/MagneticWrapper";
 
@@ -31,8 +31,8 @@ export default function RawCares() {
         </motion.div>
       </section>
 
-      <div className="grid md:grid-cols-2 gap-10 xl:gap-20 max-w-[var(--content-max-width)] mx-auto h-[800px] xl:h-[900px] mb-48 relative z-10">
-        <div className="relative group overflow-hidden border border-editorial-border rounded-[3rem] bg-editorial-bg shadow-[0_40px_100px_rgba(0,0,0,0.1)] transform-gpu hover:-translate-y-4 transition-all duration-[1000ms] ease-[0.16,1,0.3,1]">
+      <div className="grid md:grid-cols-2 gap-10 xl:gap-20 max-w-[var(--content-max-width)] mx-auto md:h-[800px] xl:h-[900px] mb-48 relative z-10">
+        <div className="relative group overflow-hidden min-h-[32rem] md:min-h-0 border border-editorial-border rounded-[3rem] bg-editorial-bg shadow-[0_40px_100px_rgba(0,0,0,0.1)] transform-gpu hover:-translate-y-4 transition-all duration-[1000ms] ease-[0.16,1,0.3,1]">
           <div className="absolute top-0 right-0 w-full h-[2px] bg-gradient-to-r from-transparent via-red-600/50 to-transparent transform translate-x-full group-hover:translate-x-0 transition-transform duration-[1500ms] z-30" />
           <div className="absolute inset-0 bg-red-600/10 opacity-0 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none z-10 mix-blend-screen" />
           <LazyImage 
@@ -41,19 +41,19 @@ export default function RawCares() {
             className="w-full h-full object-cover transform-gpu group-hover:scale-110 transition-transform duration-[3s] ease-[0.16,1,0.3,1] grayscale opacity-50 group-hover:grayscale-[20%] group-hover:opacity-90"
             containerClassName="w-full h-full bg-editorial-bg"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-transparent via-editorial-bg/40 to-transparent p-12 xl:p-20 flex flex-col justify-end z-20 mix-blend-multiply opacity-80" />
-          <div className="absolute inset-0 p-12 xl:p-20 flex flex-col justify-end z-30">
-            <div className="mb-10 transform translate-y-8 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-1000 ease-[0.16,1,0.3,1] delay-100">
+          <div className="absolute inset-0 bg-gradient-to-t from-transparent via-editorial-bg/40 to-transparent p-8 md:p-12 xl:p-20 flex flex-col justify-end z-20 mix-blend-multiply opacity-80" />
+          <div className="absolute inset-0 p-8 md:p-12 xl:p-20 flex flex-col justify-end z-30">
+            <div className="mb-10 transform translate-y-0 opacity-100 md:translate-y-8 md:opacity-0 md:group-hover:translate-y-0 md:group-hover:opacity-100 transition-all duration-1000 ease-[0.16,1,0.3,1] delay-100">
                <div className="flex items-center gap-4 border border-editorial-border-light bg-editorial-bg/80 backdrop-blur-md px-6 py-4 rounded-xl w-fit shadow-[0_10px_30px_rgba(0,0,0,0.1)]">
                  <div className="w-2 h-2 bg-red-500 rounded-full shadow-[0_0_10px_#dc2626]" /> 
                  <span className="text-[0.6875rem] font-black uppercase tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] text-red-500">Operation: Youth</span>
                </div>
             </div>
             <h3 className="font-sans font-black uppercase mb-8 text-editorial-text drop-shadow-[0_10px_30px_rgba(0,0,0,1)] transform transition-transform duration-1000 ease-[0.16,1,0.3,1] group-hover:-translate-y-4 leading-[0.85] text-display-md">Youth <br/> Performance</h3>
-            <p className="text-editorial-text max-w-xl font-light leading-relaxed text-xl xl:text-2xl transform opacity-0 group-hover:opacity-100 transition-opacity duration-1000 delay-200">Empowering the next generation of operatives with proper biomechanical guidance and elite hardware.</p>
+            <p className="text-editorial-text max-w-xl font-light leading-relaxed text-xl xl:text-2xl transform opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-1000 delay-200">Empowering the next generation of operatives with proper biomechanical guidance and elite hardware.</p>
           </div>
         </div>
-        <div className="relative group overflow-hidden border border-editorial-border rounded-[3rem] bg-editorial-bg shadow-[0_40px_100px_rgba(0,0,0,0.1)] transform-gpu hover:-translate-y-4 transition-all duration-[1000ms] ease-[0.16,1,0.3,1]">
+        <div className="relative group overflow-hidden min-h-[32rem] md:min-h-0 border border-editorial-border rounded-[3rem] bg-editorial-bg shadow-[0_40px_100px_rgba(0,0,0,0.1)] transform-gpu hover:-translate-y-4 transition-all duration-[1000ms] ease-[0.16,1,0.3,1]">
           <div className="absolute top-0 right-0 w-full h-[2px] bg-gradient-to-r from-transparent via-emerald-500/50 to-transparent transform translate-x-full group-hover:translate-x-0 transition-transform duration-[1500ms] z-30" />
           <div className="absolute inset-0 bg-emerald-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none z-10 mix-blend-screen" />
           <LazyImage 
@@ -62,16 +62,16 @@ export default function RawCares() {
             className="w-full h-full object-cover transform-gpu group-hover:scale-110 transition-transform duration-[3s] ease-[0.16,1,0.3,1] grayscale opacity-50 group-hover:grayscale-[20%] group-hover:opacity-90"
             containerClassName="w-full h-full bg-editorial-bg"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-transparent via-editorial-bg/40 to-transparent p-12 xl:p-20 flex flex-col justify-end z-20 mix-blend-multiply opacity-80" />
-          <div className="absolute inset-0 p-12 xl:p-20 flex flex-col justify-end z-30">
-            <div className="mb-10 transform translate-y-8 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-1000 ease-[0.16,1,0.3,1] delay-100">
+          <div className="absolute inset-0 bg-gradient-to-t from-transparent via-editorial-bg/40 to-transparent p-8 md:p-12 xl:p-20 flex flex-col justify-end z-20 mix-blend-multiply opacity-80" />
+          <div className="absolute inset-0 p-8 md:p-12 xl:p-20 flex flex-col justify-end z-30">
+            <div className="mb-10 transform translate-y-0 opacity-100 md:translate-y-8 md:opacity-0 md:group-hover:translate-y-0 md:group-hover:opacity-100 transition-all duration-1000 ease-[0.16,1,0.3,1] delay-100">
                <div className="flex items-center gap-4 border border-editorial-border-light bg-editorial-bg/80 backdrop-blur-md px-6 py-4 rounded-xl w-fit shadow-[0_10px_30px_rgba(0,0,0,0.1)]">
                   <div className="w-2 h-2 bg-emerald-500 rounded-full shadow-[0_0_10px_#10b981]" />
                   <span className="text-[0.6875rem] font-black uppercase tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] text-emerald-500">Operation: Reach</span>
                </div>
             </div>
             <h3 className="font-sans font-black uppercase mb-8 text-editorial-text drop-shadow-[0_10px_30px_rgba(0,0,0,1)] transform transition-transform duration-1000 ease-[0.16,1,0.3,1] group-hover:-translate-y-4 leading-[0.85] text-display-md">Global <br/> Reach</h3>
-            <p className="text-editorial-text max-w-xl font-light leading-relaxed text-xl xl:text-2xl transform opacity-0 group-hover:opacity-100 transition-opacity duration-1000 delay-200">Deploying recovery nodes and combat training facilities in critical scarcity sectors globally.</p>
+            <p className="text-editorial-text max-w-xl font-light leading-relaxed text-xl xl:text-2xl transform opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-1000 delay-200">Deploying recovery nodes and combat training facilities in critical scarcity sectors globally.</p>
           </div>
         </div>
       </div>
@@ -124,9 +124,10 @@ export default function RawCares() {
           <h2 className="font-sans uppercase tracking-tighter mb-12 font-black text-editorial-text drop-shadow-[0_10px_30px_rgba(0,0,0,0.1)] leading-[0.85] text-display-lg">INITIALIZE <br className="hidden md:block" /> <span className="text-transparent bg-clip-text bg-gradient-to-br from-red-500 to-red-900 drop-shadow-[0_0_30px_rgba(220,38,38,0.3)] inline-block mt-4 pb-4">INVOLVEMENT</span></h2>
           <p className="mb-20 text-editorial-text-muted max-w-2xl xl:max-w-4xl font-light text-2xl xl:text-3xl leading-relaxed drop-shadow-[0_2px_4px_rgba(0,0,0,0.1)]">Engage with our mission architecture. Your equipment requisition directly fuels global structural deployments.</p>
           <MagneticWrapper>
-            <button className="bg-red-600 text-white px-20 py-10 rounded-2xl font-black uppercase tracking-[0.4em] text-[0.9375rem] hover:bg-editorial-text hover:text-editorial-bg transition-all duration-500 shadow-[0_20px_50px_rgba(220,38,38,0.4)] hover:shadow-[0_20px_50px_rgba(0,0,0,0.08)] transform-gpu hover:-translate-y-2 border-b-[4px] border-red-800 active:border-b-0 active:translate-y-[2px]">
+            <button disabled aria-disabled="true" title="COMING_SOON" className="cursor-not-allowed opacity-50 bg-red-600 text-white px-20 py-10 rounded-2xl font-black uppercase tracking-[0.4em] text-[0.9375rem] hover:bg-editorial-text hover:text-editorial-bg transition-all duration-500 shadow-[0_20px_50px_rgba(220,38,38,0.4)] hover:shadow-[0_20px_50px_rgba(0,0,0,0.08)] transform-gpu hover:-translate-y-2 border-b-[4px] border-red-800 active:border-b-0 active:translate-y-[2px]">
               Deploy Resources
             </button>
+            <span className="block mt-6 font-mono text-[0.6875rem] font-black uppercase tracking-[0.3em] text-zinc-500">COMING_SOON</span>
           </MagneticWrapper>
         </div>
       </section>

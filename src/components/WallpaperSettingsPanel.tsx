@@ -1,15 +1,27 @@
-import React from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { X, Settings2, Film, MonitorPlay } from 'lucide-react';
 import { VIDEO_LIBRARY } from '../data/videoLibrary';
 import { useSettings } from '../context/SettingsContext';
 import { useUI } from '../context/UIContext';
+import { openScreensaver } from './Screensaver';
 
 export default function WallpaperSettingsPanel() {
   const { settings, setSettings } = useSettings();
-  const { isWallpaperSettingsOpen, setIsWallpaperSettingsOpen } = useUI(); // Need to add isWallpaperSettingsOpen to UIContext
+  const { isWallpaperSettingsOpen, setIsWallpaperSettingsOpen } = useUI();
 
-  const wallpapers = ['crystal_cascade', 'living_shell', 'polyrhythm', 'network', 'waves', 'matrix', 'grid', 'rain', 'dna', 'circuit', 'aurora', 'performance_focus'];
+  const wallpapers: { id: string; label: string }[] = [
+    { id: 'crystal_cascade', label: 'crystal cascade' },
+    { id: 'polyrhythm', label: 'polyrhythm' },
+    { id: 'network', label: 'network' },
+    { id: 'waves', label: 'waves' },
+    { id: 'matrix', label: 'matrix' },
+    { id: 'grid', label: 'grid' },
+    { id: 'rain', label: 'rain' },
+    { id: 'dna', label: 'dna' },
+    { id: 'circuit', label: 'circuit' },
+    { id: 'aurora', label: 'aurora' },
+    { id: 'performance_focus', label: 'plain (no animation)' },
+  ];
 
   return (
     <AnimatePresence>
@@ -18,7 +30,7 @@ export default function WallpaperSettingsPanel() {
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           exit={{ opacity: 0, x: 20 }}
-          className="fixed bottom-24 left-10 z-[100] w-[300px] crystal-glass-panel layered-shadows-premium p-6"
+          className="fixed bottom-24 left-4 sm:left-10 z-[100] w-[300px] max-w-[calc(100vw-2rem)] max-h-[calc(100svh-8rem)] overflow-y-auto crystal-glass-panel layered-shadows-premium p-6"
         >
           <div className="absolute inset-0 z-0 pointer-events-none neural-grid-overlay" />
           <div className="flex justify-between items-center mb-6 relative z-10">
@@ -26,7 +38,7 @@ export default function WallpaperSettingsPanel() {
                 <Settings2 className="w-4 h-4 text-red-600" />
                 VIRTUAL_ENV
             </h2>
-            <button onClick={() => setIsWallpaperSettingsOpen(false)}><X className="w-5 h-5 text-editorial-text-muted" /></button>
+            <button onClick={() => setIsWallpaperSettingsOpen(false)} aria-label="Close wallpaper settings" className="min-h-11 min-w-11 flex items-center justify-center -mr-3"><X className="w-5 h-5 text-editorial-text-muted" /></button>
           </div>
           
           <div className="space-y-4 relative z-10">
@@ -49,10 +61,11 @@ export default function WallpaperSettingsPanel() {
 
                 {settings.videoWallpaper && (
                   <>
-                    <label className="font-mono text-[0.6875rem] uppercase text-editorial-text-muted mb-2 block tracking-widest">
+                    <label htmlFor="wallpaper-video-opacity" className="font-mono text-[0.6875rem] uppercase text-editorial-text-muted mb-2 block tracking-widest">
                       OPACITY: {Math.round(settings.videoWallpaperOpacity * 100)}%
                     </label>
                     <input
+                      id="wallpaper-video-opacity"
                       type="range" min="0.05" max="1" step="0.01"
                       value={settings.videoWallpaperOpacity}
                       aria-label="Video wallpaper opacity"
@@ -75,6 +88,7 @@ export default function WallpaperSettingsPanel() {
                         <button
                           key={v.id}
                           onClick={() => setSettings(prev => ({...prev, videoWallpaperId: v.id}))}
+                          aria-pressed={settings.videoWallpaperId === v.id}
                           className={`block w-full text-left px-3 py-2 rounded-lg border transition-all ${settings.videoWallpaperId === v.id ? 'border-red-600 bg-red-600/10 text-red-300' : 'border-editorial-border text-editorial-text-muted hover:border-zinc-700'}`}
                         >
                           <span className="font-mono text-[0.6875rem] uppercase tracking-wider">{v.label}</span>
@@ -107,10 +121,11 @@ export default function WallpaperSettingsPanel() {
                     <span className={`absolute top-0.5 w-4 h-4 bg-white rounded-full transition-all ${settings.screensaverEnabled ? 'left-[1.15rem]' : 'left-0.5'}`} />
                   </button>
                 </div>
-                <label className="font-mono text-[0.6875rem] uppercase text-editorial-text-muted mb-2 block tracking-widest">
+                <label htmlFor="wallpaper-screensaver-delay" className="font-mono text-[0.6875rem] uppercase text-editorial-text-muted mb-2 block tracking-widest">
                   AFTER: {Math.round(settings.screensaverDelayMs / 1000)}s
                 </label>
                 <input
+                  id="wallpaper-screensaver-delay"
                   type="range" min="15" max="600" step="15"
                   value={Math.round(settings.screensaverDelayMs / 1000)}
                   aria-label="Screensaver idle delay in seconds"
@@ -129,7 +144,7 @@ export default function WallpaperSettingsPanel() {
                   </button>
                 </div>
                 <button
-                  onClick={() => window.dispatchEvent(new Event('raw:screensaver'))}
+                  onClick={openScreensaver}
                   className="w-full py-2.5 rounded-lg border border-red-600/40 bg-red-600/10 text-red-300 font-mono text-[0.6875rem] uppercase tracking-[0.25em] hover:bg-red-600/20 transition-colors"
                 >
                   Start now
@@ -140,20 +155,22 @@ export default function WallpaperSettingsPanel() {
              <div className="h-40 overflow-y-auto pr-2 custom-scrollbar space-y-2">
                {wallpapers.map(w => (
                    <button 
-                      key={w}
-                      onClick={() => setSettings(prev => ({...prev, activeWallpaper: w}))}
-                      className={`block w-full text-left p-3 rounded-xl border ${settings.activeWallpaper === w ? 'border-red-600 bg-red-600/10' : 'border-editorial-border bg-editorial-surface/30 hover:border-zinc-700 hover:bg-editorial-surface/80 transition-all duration-300'}`}
+                      key={w.id}
+                      onClick={() => setSettings(prev => ({...prev, activeWallpaper: w.id}))}
+                      aria-pressed={settings.activeWallpaper === w.id}
+                      className={`block w-full text-left p-3 rounded-xl border ${settings.activeWallpaper === w.id ? 'border-red-600 bg-red-600/10' : 'border-editorial-border bg-editorial-surface/30 hover:border-zinc-700 hover:bg-editorial-surface/80 transition-all duration-300'}`}
                    >
-                      <span className="font-mono text-[0.6875rem] uppercase">{w.replace(/_/g, ' ')}</span>
+                      <span className="font-mono text-[0.6875rem] uppercase">{w.label}</span>
                    </button>
                ))}
              </div>
              
              <div className="mt-6 pt-6 border-t border-editorial-border-light">
-                <label className="font-mono text-[0.6875rem] uppercase text-editorial-text-muted mb-2 block tracking-widest">
+                <label htmlFor="wallpaper-animation-speed" className="font-mono text-[0.6875rem] uppercase text-editorial-text-muted mb-2 block tracking-widest">
                   ANIMATION_SPEED: {settings.wallpaperSpeed.toFixed(1)}x
                 </label>
-                <input 
+                <input
+                  id="wallpaper-animation-speed"
                   type="range"
                   min="0.1"
                   max="3"

@@ -1,10 +1,11 @@
-import React, { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useProtocol } from '../context/ProtocolContext';
-import { Layers, X, Trash2, ArrowRight, Zap, Cpu, Copy, Crosshair, AlertTriangle } from 'lucide-react';
+import { Layers, X, Trash2, ArrowRight, Zap, Copy, Crosshair, AlertTriangle } from 'lucide-react';
 import { getHighResImageUrl } from '../lib/utils';
 import { useNavigate } from 'react-router-dom';
 import { useUI } from '../context/UIContext';
+import { useCart } from '../context/CartContext';
 import { useToast } from './common/Toast';
 
 export default function ProtocolDrawer() {
@@ -14,7 +15,20 @@ export default function ProtocolDrawer() {
   const navigate = useNavigate();
   const { chromeHidden } = useUI();
   const { addToast } = useToast();
+  const { items: cartItems, addToCart, setIsCartOpen } = useCart();
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
 
+  /* Escape closes the drawer. The listener exists only while it is open, so
+     it cannot fire from another overlay after this one has gone. */
+  useEffect(() => {
+    if (!isOpen) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setIsOpen(false);
+    };
+    window.addEventListener('keydown', onKeyDown);
+    closeButtonRef.current?.focus();
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [isOpen]);
 
   const totalEstimate = protocolItems.reduce((acc, p) => acc + Number(p.price.replace('£', '')), 0);
 
@@ -29,7 +43,10 @@ export default function ProtocolDrawer() {
        const name = item.name.toLowerCase();
        if (name.includes('protein')) protein = true;
        if (name.includes('pre-workout')) pre = true;
-       if (item.category === 'Recovery') recovery = true;
+       /* 'Recovery' as a category holds only hardware (ice bath, knee
+          support, lounger); the supplements that do the same job carry
+          stackRole 'recovery'. Either counts. */
+       if (item.category === 'Recovery' || item.stackRole === 'recovery') recovery = true;
     });
 
     const warnings = [];
@@ -45,10 +62,28 @@ export default function ProtocolDrawer() {
     return { cats, warnings, missing };
   }, [protocolItems]);
 
-  const handleCopy = () => {
-     const text = `MY RAW PROTOCOL\n\n` + protocolItems.map(p => `- ${p.name} (£${p.price})`).join('\n') + `\n\nESTIMATED TOTAL: £${totalEstimate.toFixed(2)}`;
-     navigator.clipboard.writeText(text);
-     addToast('Protocol copied to clipboard');
+  /* Prices in the catalogue already carry their £ sign. */
+  const handleCopy = async () => {
+     const text = `MY RAW PROTOCOL\n\n` + protocolItems.map(p => `- ${p.name} (${p.price})`).join('\n') + `\n\nESTIMATED TOTAL: £${totalEstimate.toFixed(2)}`;
+     try {
+       await navigator.clipboard.writeText(text);
+       addToast('Protocol copied to clipboard');
+     } catch {
+       addToast('Clipboard unavailable — copy was blocked by the browser', 'error');
+     }
+  };
+
+  /* The checkout reads the CART, not this stack. Sending the stack there means
+     putting each item in the cart first (once — never doubling a line that is
+     already in it), then going to the checkout without popping the cart drawer
+     open on the way. */
+  const handleSendToCheckout = () => {
+    protocolItems
+      .filter(p => !cartItems.some(c => c.id === p.id))
+      .forEach(p => addToCart(p, 1));
+    setIsCartOpen(false);
+    setIsOpen(false);
+    navigate('/checkout');
   };
 
   return (
@@ -64,10 +99,10 @@ export default function ProtocolDrawer() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 50, scale: 0.9 }}
             onClick={() => setIsOpen(true)}
+            aria-label={`Open my protocol stack, ${protocolItems.length} ${protocolItems.length === 1 ? 'item' : 'items'}`}
             /* Slot 2 of the corner dock (.raw-dock-stack, src/index.css).
                On a phone the label is dropped and the chip becomes a 44px
-               square: at ~200px wide it used to lie across the advisor
-               button and under the diagnostics pill. */
+               square so it cannot overlap the other corner controls. */
             className="raw-dock-stack fixed z-50 bg-editorial-bg/90 backdrop-blur-xl border-l-[3px] border-red-600 border-y border-r border-editorial-border-light p-3 sm:px-6 sm:py-4 min-h-11 min-w-11 rounded-[1.25rem] sm:rounded-[2rem] flex items-center justify-center gap-0 sm:gap-4 shadow-[0_20px_50px_rgba(0,0,0,0.15)] group hover:bg-editorial-bg transition-all duration-[600ms]"
           >
             <div className="absolute inset-0 bg-gradient-to-r from-red-600/10 to-transparent pointer-events-none mix-blend-screen opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -93,6 +128,9 @@ export default function ProtocolDrawer() {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: '100%' }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="protocol-drawer-title"
             className="fixed inset-y-0 right-0 z-[110] w-full md:w-[450px] bg-editorial-bg/95 backdrop-blur-3xl border-l border-editorial-border flex flex-col shadow-[-30px_0_100px_rgba(0,0,0,0.15)]"
           >
              {/* Header */}
@@ -104,9 +142,9 @@ export default function ProtocolDrawer() {
                      <div className="w-2 h-2 bg-red-600 rounded-full animate-ping opacity-70 shadow-[0_0_8px_#dc2626]" />
                      <span className="text-[0.6875rem] font-black tracking-[0.4em] text-red-500 uppercase">OUTPUT_SUPPORT_QUEUE</span>
                    </div>
-                   <h2 className="text-3xl font-sans font-black text-editorial-text uppercase tracking-tighter drop-shadow-[0_2px_4px_rgba(0,0,0,0.1)]">MY_PROTOCOL_STACK</h2>
+                   <h2 id="protocol-drawer-title" className="text-3xl font-sans font-black text-editorial-text uppercase tracking-tighter drop-shadow-[0_2px_4px_rgba(0,0,0,0.1)]">MY_PROTOCOL_STACK</h2>
                  </div>
-                 <button onClick={() => setIsOpen(false)} aria-label="Close Protocol Stack" className="p-3 bg-editorial-bg rounded-xl hover:bg-red-950/30 text-editorial-text-muted hover:text-red-500 transition-colors border border-editorial-border hover:border-red-500/50 group">
+                 <button ref={closeButtonRef} onClick={() => setIsOpen(false)} aria-label="Close Protocol Stack" className="p-3 bg-editorial-bg rounded-xl hover:bg-red-950/30 text-editorial-text-muted hover:text-red-500 transition-colors border border-editorial-border hover:border-red-500/50 group">
                     <X className="w-5 h-5 group-hover:scale-110 transition-transform" />
                  </button>
                </div>
@@ -236,14 +274,12 @@ export default function ProtocolDrawer() {
               
               <div className="flex gap-4">
                 <button 
-                  onClick={() => {
-                    setIsOpen(false);
-                    // Navigate to checkout
-                    navigate('/checkout');
-                  }}
-                  className="w-full bg-red-600 border-b-[3px] border-red-800 hover:border-white text-white hover:bg-editorial-text hover:text-editorial-bg rounded-2xl font-black uppercase tracking-[0.4em] text-[0.6875rem] px-6 py-5 transition-all duration-[600ms] flex items-center justify-center gap-3 relative overflow-hidden group shadow-[0_15px_30px_rgba(220,38,38,0.3)] hover:shadow-[0_20px_50px_rgba(0,0,0,0.08)] transform-gpu active:translate-y-1 active:border-b-0"
+                  onClick={handleSendToCheckout}
+                  disabled={protocolItems.length === 0}
+                  aria-disabled={protocolItems.length === 0}
+                  className="w-full bg-red-600 border-b-[3px] border-red-800 hover:border-white text-white hover:bg-editorial-text hover:text-editorial-bg rounded-2xl font-black uppercase tracking-[0.4em] text-[0.6875rem] px-6 py-5 transition-all duration-[600ms] flex items-center justify-center gap-3 relative overflow-hidden group shadow-[0_15px_30px_rgba(220,38,38,0.3)] hover:shadow-[0_20px_50px_rgba(0,0,0,0.08)] transform-gpu active:translate-y-1 active:border-b-0 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-red-600 disabled:hover:text-white"
                 >
-                  <span className="relative z-10 transition-colors">Review Stack</span>
+                  <span className="relative z-10 transition-colors">Send Stack to Checkout</span>
                   <ArrowRight className="w-4 h-4 relative z-10 group-hover:translate-x-2 transition-transform duration-[600ms]" />
                   <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:animate-[shimmer_1.5s_infinite]" />
                 </button>

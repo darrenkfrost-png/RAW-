@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "motion/react";
-import { X, ExternalLink, RefreshCw, ChevronLeft, Shield, Globe, Terminal, MessageSquare, Bot } from "lucide-react";
+import { X, ExternalLink, RefreshCw, Globe, Terminal } from "lucide-react";
 import { useUI } from "../context/UIContext";
 import { useState, useRef, useEffect } from "react";
 import MagneticWrapper from "./MagneticWrapper";
@@ -8,6 +8,16 @@ export default function ShopIframePanel() {
   const { isShopIframeOpen, setIsShopIframeOpen } = useUI();
   const [isLoading, setIsLoading] = useState(true);
   const iframeRef = useRef<HTMLIFrameElement>(null);
+
+  // Escape closes the panel, like any other dialog.
+  useEffect(() => {
+    if (!isShopIframeOpen) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setIsShopIframeOpen(false);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [isShopIframeOpen, setIsShopIframeOpen]);
 
   const handleRefresh = () => {
     setIsLoading(true);
@@ -37,6 +47,9 @@ export default function ShopIframePanel() {
             transition={{ type: "spring", damping: 35, stiffness: 250 }}
             className="fixed left-0 top-0 h-full w-full bg-editorial-bg border-r border-editorial-border-light z-[81] flex flex-col shadow-[50px_0_150px_rgba(0,0,0,0.15)] overflow-hidden"
             data-lenis-prevent
+            role="dialog"
+            aria-modal="true"
+            aria-label="RAW Official shop"
           >
             {/* Header / System Bar */}
             <div className="h-20 border-b border-editorial-border flex items-center justify-between px-8 bg-editorial-bg relative">
@@ -58,7 +71,8 @@ export default function ShopIframePanel() {
                   <button 
                     onClick={handleRefresh}
                     className="p-3 bg-editorial-surface/50 hover:bg-zinc-800 rounded-xl text-editorial-text-muted hover:text-editorial-text transition-all border border-editorial-border"
-                    title="Refresh Uplink"
+                    title="Reload the shop"
+                    aria-label="Reload the shop"
                   >
                     <RefreshCw size={18} className={isLoading ? "animate-spin" : ""} />
                   </button>
@@ -78,6 +92,7 @@ export default function ShopIframePanel() {
                 <MagneticWrapper>
                   <button 
                     onClick={() => setIsShopIframeOpen(false)}
+                    aria-label="Close panel"
                     className="p-3 bg-red-600/10 hover:bg-red-600 rounded-xl text-red-500 hover:text-white transition-all border border-red-500/20 hover:border-red-500"
                   >
                     <X size={18} />
@@ -107,7 +122,7 @@ export default function ShopIframePanel() {
                       </motion.div>
                     </div>
                     <div className="flex flex-col items-center gap-2">
-                      <span className="font-mono text-[0.6875rem] text-red-500 font-black tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] uppercase">ESTABLISHING_ENCRYPTED_UPLINK</span>
+                      <span className="font-mono text-[0.6875rem] text-red-500 font-black tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] uppercase">LOADING_STORE</span>
                       <div className="h-1 w-48 bg-editorial-surface rounded-full overflow-hidden mt-4">
                          <motion.div 
                            initial={{ x: "-100%" }}
@@ -133,15 +148,9 @@ export default function ShopIframePanel() {
 
             {/* Footer / Status */}
             <div className="h-12 border-t border-editorial-border bg-editorial-bg px-8 flex items-center justify-between relative z-20">
-              <div className="flex items-center gap-6">
-                <div className="flex items-center gap-2">
-                  <Shield size={10} className="text-emerald-500" />
-                  <span className="font-mono text-[0.6875rem] text-editorial-text-muted uppercase tracking-widest">TLS_ENCRYPTION: ACTIVE</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-1.5 h-1.5 bg-red-600 rounded-full animate-pulse shadow-[0_0_5px_#dc2626]" />
-                  <span className="font-mono text-[0.6875rem] text-editorial-text-muted uppercase tracking-widest">ORACLE_LISTENING</span>
-                </div>
+              <div className="flex items-center gap-2 min-w-0">
+                <Globe size={10} className="text-editorial-text-muted shrink-0" />
+                <span className="font-mono text-[0.6875rem] text-editorial-text-muted uppercase tracking-widest truncate">Opens rawofficial.co in a frame</span>
               </div>
               <div className="text-right">
                 <span className="font-mono text-[0.6875rem] text-zinc-700 tracking-[0.2em]">© RAW_OFFICIAL // PROCUREMENT_NODE_01</span>

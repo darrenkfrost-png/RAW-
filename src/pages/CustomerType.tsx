@@ -1,41 +1,55 @@
-import React from 'react';
-import { motion } from 'motion/react';
+import type { Product } from '../types';
 import { allProducts } from '../data/products';
 import { Link, useParams } from 'react-router-dom';
-import { ArrowRight, Target, ShieldCheck } from 'lucide-react';
+import { ArrowRight, Target } from 'lucide-react';
+import NotFound from './NotFound';
+
+// The catalogue's real categories are Nutrients / Accessories / Apparel /
+// Recovery / Combat, and every product carries goalTags — the profiles
+// filter on those rather than on a category that does not exist.
+const hasGoal = (p: Product, ...goals: string[]) => (p.goalTags ?? []).some(g => goals.includes(g));
+const nameHas = (p: Product, word: string) => p.name.toLowerCase().includes(word.toLowerCase());
+
+// A profile shows this many products; the rest are one link away in the shop.
+const PROFILE_CAP = 8;
 
 const customerTypes = {
   athletes: {
     title: 'For Athletes',
     subtitle: 'Strength, hydration, recovery, output.',
     description: 'Designed for high-output individuals focused on progressive overload, cardiovascular endurance, and rapid systemic recovery.',
-    filter: (p: any) => p.category === 'Supplements' || p.name.includes('Water') || p.name.includes('Shaker')
+    filter: (p: Product) => (p.category === 'Nutrients' && hasGoal(p, 'Build Muscle', 'Boost Energy', 'Hydration')) || nameHas(p, 'Water') || nameHas(p, 'Shaker')
   },
   fighters: {
     title: 'For Fighters',
     subtitle: 'Combat gear, endurance, impact readiness, recovery.',
     description: 'Purpose-built hardware and nutritional frameworks to support striking, grappling, and violent biological stressors.',
-    filter: (p: any) => p.category === 'Combat' || p.category === 'Apparel' || p.name.includes('Ice')
+    filter: (p: Product) => p.category === 'Combat' || p.category === 'Apparel' || nameHas(p, 'Ice')
   },
   everyday: {
     title: 'For Everyday Performance',
     subtitle: 'Energy, wellness, sleep, focus, daily discipline.',
     description: 'Foundational components to elevate the baseline format of your life. Drive energy states up and regulate sleep cycles.',
-    filter: (p: any) => p.category === 'Supplements' && !p.name.includes('Creatine') && !p.name.includes('Performance')
+    filter: (p: Product) => p.category === 'Nutrients' && hasGoal(p, 'Daily Wellness', 'Improve Sleep', 'Longevity')
   },
   recovery: {
     title: 'For Recovery',
     subtitle: 'Cold therapy, magnesium, mobility, nervous system regulation.',
     description: 'The tools necessary to drop into parasympathetic dominance. Essential required use after heavy physical or mental trauma.',
-    filter: (p: any) => p.name.includes('Ice') || p.name.includes('Magnesium') || p.name.includes('Towel') || p.category === 'Supplements'
+    filter: (p: Product) => p.category === 'Recovery' || (p.category === 'Nutrients' && hasGoal(p, 'Recover Faster', 'Mobility Support')) || nameHas(p, 'Ice') || nameHas(p, 'Magnesium') || nameHas(p, 'Towel')
   }
 };
 
+type ProfileKey = keyof typeof customerTypes;
+const isProfileKey = (k: string): k is ProfileKey => Object.prototype.hasOwnProperty.call(customerTypes, k);
+
 export default function CustomerType() {
   const { type = 'athletes' } = useParams();
-  // @ts-ignore
-  const customer = customerTypes[type] || customerTypes.athletes;
-  const products = allProducts.filter(customer.filter).slice(0, 8);
+  // An unknown profile is a missing page, not the Athletes page in disguise.
+  if (!isProfileKey(type)) return <NotFound />;
+  const customer = customerTypes[type];
+  const matches = allProducts.filter(customer.filter);
+  const products = matches.slice(0, PROFILE_CAP);
 
   return (
     <div className="min-h-svh bg-editorial-bg pt-32 pb-24 font-sans px-[var(--shell-padding-mobile)] md:px-[var(--shell-padding)] lg:px-[var(--shell-padding-lg)]">
@@ -53,7 +67,7 @@ export default function CustomerType() {
              <p className="text-editorial-text-muted font-light text-lg leading-relaxed">{customer.description}</p>
            </div>
            
-           <div className="flex flex-col gap-2 shrink-0">
+           <div className="flex flex-row flex-wrap md:flex-col gap-2 shrink-0">
              {Object.keys(customerTypes).map(k => (
                <Link 
                  key={k} 
@@ -90,6 +104,24 @@ export default function CustomerType() {
             </Link>
           ))}
         </div>
+
+        {products.length === 0 && (
+          <div className="py-24 text-center border border-dashed border-editorial-border rounded-3xl">
+            <p className="font-mono text-[0.6875rem] uppercase tracking-widest text-editorial-text-muted mb-6">Nothing in this profile yet</p>
+            <Link to="/shop" className="inline-flex items-center gap-2 font-mono text-[0.6875rem] uppercase tracking-widest font-bold text-red-500 hover:text-red-400 transition-colors">
+              Browse the full archive <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+        )}
+
+        {matches.length > products.length && (
+          <div className="mt-12 flex flex-wrap items-center justify-between gap-4 border-t border-editorial-border pt-8 font-mono text-[0.6875rem] uppercase tracking-widest">
+            <span className="text-editorial-text-muted">Showing {products.length} of {matches.length}</span>
+            <Link to="/shop" className="inline-flex items-center gap-2 font-bold text-red-500 hover:text-red-400 transition-colors">
+              See all in the shop <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+        )}
 
       </div>
     </div>

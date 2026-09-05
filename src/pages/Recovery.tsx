@@ -1,10 +1,8 @@
 import { Atmosphere } from '../components/common/Atmosphere';
 import Breadcrumb from '../components/Breadcrumb';
 import { motion } from "motion/react";
-import { useEffect } from "react";
-import { Link } from "react-router-dom";
 import { allProducts } from "../data/products";
-import { ChevronRight, Wind, Snowflake, RefreshCcw } from "lucide-react";
+import { Wind, Snowflake, RefreshCcw } from "lucide-react";
 import LazyImage from "../components/LazyImage";
 import ProductCard from "../components/common/ProductCard";
 import BreathingSimulator from "../components/BreathingSimulator";
@@ -28,7 +26,7 @@ export default function Recovery() {
   return (
     <div className="bg-editorial-bg min-h-svh">
       {/* Video Hero */}
-      <section className="relative h-[80vh] flex flex-col items-center justify-center overflow-hidden">
+      <section className="relative min-h-[80svh] py-12 flex flex-col items-center justify-center overflow-hidden">
         <video 
           {...({
             autoPlay: true,
@@ -47,7 +45,7 @@ export default function Recovery() {
         <Atmosphere glowOpacity={0.02} gridMode="lines" intensity="low" />
         
         <div className="relative z-50 max-w-[var(--content-max-width)] mx-auto px-[var(--shell-padding-mobile)] md:px-[var(--shell-padding)] lg:px-[var(--shell-padding-lg)] mb-10 w-full flex justify-start">
-            <Breadcrumb items={[{ label: 'Protocols', path: '/performance-system' }, { label: 'Recovery', active: true }]} />
+            <Breadcrumb items={[{ label: 'System', path: '/performance-system' }, { label: 'Recovery', active: true }]} />
         </div>
 
         <div className="relative z-10 text-center space-y-8 px-[var(--shell-padding-mobile)] md:px-[var(--shell-padding)] lg:px-[var(--shell-padding-lg)] max-w-[var(--content-max-width)] w-full flex flex-col items-center">
@@ -61,15 +59,15 @@ export default function Recovery() {
             <img 
                src="/brand/raw-logo-red.png" 
                alt="RAW Official" 
-               className="h-16 lg:h-20 object-contain mb-8 opacity-80"
+               className="h-16 lg:h-20 object-contain mb-6 sm:mb-8 opacity-80"
                referrerPolicy="no-referrer"
             />
-            <h2 className="text-white font-mono text-xl uppercase tracking-[0.3em] mb-12">Train with purpose. Recover with intent.</h2>
+            <p className="text-white font-mono text-xl uppercase tracking-[0.3em] mb-8 sm:mb-12">Train with purpose. Recover with intent.</p>
             
-            <span className="text-emerald-500 font-black uppercase tracking-[0.3em] sm:tracking-[0.6em] [overflow-wrap:anywhere] text-[0.8125rem] mb-14 block flex items-center justify-center gap-5 drop-shadow-[0_0_10px_rgba(16,185,129,0.5)] border border-editorial-border bg-editorial-bg/60 backdrop-blur-md px-8 py-4 rounded-full w-fit shadow-[0_10px_30px_rgba(0,0,0,0.08)]">
+            <span className="text-emerald-500 font-black uppercase tracking-[0.3em] sm:tracking-[0.6em] [overflow-wrap:anywhere] text-[0.8125rem] mb-10 sm:mb-14 block flex items-center justify-center gap-5 drop-shadow-[0_0_10px_rgba(16,185,129,0.5)] border border-editorial-border bg-editorial-bg/60 backdrop-blur-md px-8 py-4 rounded-full w-fit shadow-[0_10px_30px_rgba(0,0,0,0.08)]">
                <div className="w-2.5 h-2.5 bg-emerald-500 rounded-full animate-pulse shadow-[0_0_15px_currentColor]" /> Protocol_03
             </span>
-            <h1 className="font-sans font-black uppercase tracking-tighter leading-[0.8] mb-16 text-editorial-text drop-shadow-[0_10px_30px_rgba(0,0,0,0.1)] text-display-xl">
+            <h1 className="font-sans font-black uppercase tracking-tighter leading-[0.8] mb-10 sm:mb-16 text-editorial-text drop-shadow-[0_10px_30px_rgba(0,0,0,0.1)] text-display-xl">
               MASTER <br /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-emerald-700 drop-shadow-[0_0_30px_rgba(16,185,129,0.4)] pb-8 mt-4 inline-block">RECOVERY</span>
             </h1>
             <p className="text-editorial-text-muted font-mono text-[0.75rem] md:text-[0.875rem] xl:text-[0.9375rem] uppercase tracking-[0.4em] font-bold max-w-4xl mx-auto drop-shadow-[0_2px_4px_rgba(0,0,0,0.1)] flex flex-col md:flex-row items-center justify-center gap-4 xl:gap-8 bg-editorial-bg/80 px-10 py-5 rounded-2xl border border-editorial-border backdrop-blur-3xl shadow-[0_20px_50px_rgba(0,0,0,0.1)]">
@@ -129,7 +127,7 @@ export default function Recovery() {
                <div key={i} className={`aspect-[4/5] overflow-hidden border border-editorial-border bg-editorial-bg rounded-[3rem] group relative shadow-[0_40px_100px_rgba(0,0,0,0.1)] ${i % 2 === 1 ? 'translate-y-16 xl:translate-y-24' : ''} hover:z-10 hover:border-emerald-500/30 transition-all duration-[1000ms] ease-[0.16,1,0.3,1] hover:-translate-y-4`}>
                   <LazyImage 
                     src={img} 
-                    alt={`Recovery Session ${i}`}
+                    alt={`Recovery Session ${i + 1}`}
                     className="w-full h-full object-cover grayscale opacity-60 group-hover:grayscale-[20%] group-hover:opacity-100 group-hover:scale-110 transition-all duration-[2000ms] ease-[0.16,1,0.3,1] mix-blend-luminosity group-hover:mix-blend-normal" 
                     containerClassName="w-full h-full"
                   />
@@ -141,7 +139,7 @@ export default function Recovery() {
         </div>
       </section>
 
-      {/* Biometric Autonomic Reset Breathing Segment */}
+      {/* Breathing timer */}
       <section className="py-24 px-[var(--shell-padding-mobile)] md:px-[var(--shell-padding)] lg:px-[var(--shell-padding-lg)] max-w-[var(--content-max-width)] mx-auto relative z-10">
         <BreathingSimulator />
       </section>
@@ -187,7 +185,7 @@ export default function Recovery() {
                           className="h-full w-1/3 bg-emerald-500 shadow-[0_0_15px_#10b981]"
                         />
                      </div>
-                     <span className="text-[0.6875rem] font-black uppercase tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] text-emerald-500 block mb-4 drop-shadow-[0_0_10px_rgba(16,185,129,0.5)] opacity-0 group-hover:opacity-100 transition-opacity duration-1000 delay-100">Technique 0{i+1}</span>
+                     <span className="text-[0.6875rem] font-black uppercase tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] text-emerald-500 block mb-4 drop-shadow-[0_0_10px_rgba(16,185,129,0.5)]">Technique 0{i+1}</span>
                      <h3 className="font-sans font-black text-4xl xl:text-5xl uppercase tracking-tighter text-editorial-text drop-shadow-[0_10px_30px_rgba(0,0,0,1)] leading-[0.9]">RECOVERY <br/> PROTOCOL</h3>
                   </div>
                </div>
@@ -233,9 +231,6 @@ export default function Recovery() {
               >
                 <source src="https://videos.files.wordpress.com/lUvR2d1e/this-isnt-comfort.its-commitment.cold-exposure-doesnt-care-who-you-are-it-only-reveals-how-.mp4" type="video/mp4" />
               </video>
-              <div className="absolute bottom-10 left-10 z-20 opacity-0 group-hover:opacity-100 transition-all duration-1000 delay-100 translate-y-8 group-hover:translate-y-0">
-                 <div className="bg-emerald-600 text-editorial-text px-6 py-3 rounded-xl text-[0.6875rem] font-black uppercase tracking-[0.4em] shadow-[0_15px_30px_rgba(16,185,129,0.4)] border border-emerald-500/50 backdrop-blur-md">Play Feed // Active</div>
-              </div>
            </div>
         </div>
       </section>
@@ -250,7 +245,7 @@ export default function Recovery() {
               <h2 className="font-sans font-black uppercase tracking-tighter leading-none text-editorial-text drop-shadow-[0_10px_30px_rgba(0,0,0,0.1)] text-display-lg">THE TOOLS</h2>
            </div>
            <p className="max-w-xl text-lg xl:text-xl uppercase tracking-[0.2em] text-editorial-text-muted font-bold leading-relaxed text-center lg:text-right w-full lg:w-auto mx-auto lg:mx-0 drop-shadow-[0_2px_4px_rgba(0,0,0,0.1)]">
-              Our hardware is engineered for durability in high-traffic training environments. From Muai Thai facilities to private performance labs.
+              Our hardware is engineered for durability in high-traffic training environments. From Muay Thai facilities to private performance labs.
            </p>
         </div>
 

@@ -1,13 +1,10 @@
 import React, { Suspense, useRef } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { 
-  OrbitControls, 
-  PerspectiveCamera, 
-  Environment, 
-  Float, 
-  MeshDistortMaterial, 
+import {
+  OrbitControls,
+  PerspectiveCamera,
+  Float,
   ContactShadows,
-  MeshWobbleMaterial
 } from '@react-three/drei';
 import * as THREE from 'three';
 
@@ -15,7 +12,7 @@ function BottleModel() {
   const meshRef = useRef<THREE.Group>(null);
   const [hovered, setHovered] = React.useState(false);
 
-  useFrame((state) => {
+  useFrame(() => {
     if (meshRef.current) {
       meshRef.current.rotation.y += 0.005;
       if (hovered) {
@@ -35,8 +32,8 @@ function BottleModel() {
         <cylinderGeometry args={[0.5, 0.5, 1.4, 32]} />
         <meshPhysicalMaterial 
           color={hovered ? "#111" : "#0a0a0a"} 
-          roughness={0.1} 
-          metalness={0.8}
+          roughness={0.1}
+          metalness={0.4}
           transmission={0.3}
           thickness={0.5}
         />
@@ -55,8 +52,8 @@ function BottleModel() {
         <cylinderGeometry args={[0.3, 0.5, 0.3, 32]} />
         <meshPhysicalMaterial 
           color="#dc2626" 
-          roughness={0.2} 
-          metalness={0.9} 
+          roughness={0.2}
+          metalness={0.5}
         />
       </mesh>
 
@@ -79,18 +76,25 @@ function BottleModel() {
 
 export default function Product3DViewer() {
   return (
-    <div className="w-full h-full bg-transparent cursor-grab active:cursor-grabbing">
+    <div
+      className="w-full h-full bg-transparent cursor-grab active:cursor-grabbing"
+      role="img"
+      aria-label="Interactive 3D product model, drag to rotate"
+    >
       <Canvas shadows dpr={[1, 2]}>
         <PerspectiveCamera makeDefault position={[0, 0, 4]} fov={45} />
-        <ambientLight intensity={0.5} />
-        <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} intensity={1} castShadow />
+        {/* Lit by the scene alone — the old <Environment preset> pulled an HDR from a
+            third-party CDN at runtime, and while it loaded the bottle was blank. */}
+        <ambientLight intensity={0.7} />
+        <hemisphereLight args={["#ffffff", "#222222", 0.8]} />
+        <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} intensity={1.4} castShadow />
+        <directionalLight position={[-6, 4, 6]} intensity={0.9} />
         <pointLight position={[-10, -10, -10]} intensity={0.5} />
         
         <Suspense fallback={null}>
           <Float speed={2} rotationIntensity={1} floatIntensity={1}>
             <BottleModel />
           </Float>
-          <Environment preset="city" />
           <ContactShadows 
             position={[0, -1.2, 0]} 
             opacity={0.4} 

@@ -1,16 +1,15 @@
-import React, { useState, useMemo } from 'react';
-import { motion } from 'motion/react';
-import { Scale, Clock, Activity, ShieldCheck, Zap, Droplet } from 'lucide-react';
+import { useId, useMemo, useState } from 'react';
+import { Scale, Activity, ShieldCheck, Zap, Droplet } from 'lucide-react';
 
 export default function BiometricLoadCalculator() {
   const [weight, setWeight] = useState<number>(75); // kg
   const [duration, setDuration] = useState<number>(60); // minutes
   const [intensity, setIntensity] = useState<'low' | 'moderate' | 'high' | 'overdrive'>('high');
   const [focusArea, setFocusArea] = useState<'strength' | 'aerobic' | 'focus' | 'combat'>('strength');
+  const weightId = useId();
+  const durationId = useId();
 
   const calculations = useMemo(() => {
-    // Advanced biometric logic representing deep mathematical precision
-    const baseWater = (weight * 35) + (duration * 10); // ml per day/session
     let hydrationFactor = 1.0;
     if (intensity === 'moderate') hydrationFactor = 1.25;
     if (intensity === 'high') hydrationFactor = 1.5;
@@ -58,7 +57,7 @@ export default function BiometricLoadCalculator() {
   }, [weight, duration, intensity, focusArea]);
 
   return (
-    <div className="w-full bg-editorial-surface border border-editorial-border rounded-[3rem] p-8 lg:p-12 shadow-premium relative overflow-hidden text-editorial-text" id="biometric-calc-module">
+    <div className="w-full bg-editorial-surface border border-editorial-border rounded-[3rem] p-6 lg:p-12 shadow-premium relative overflow-hidden text-editorial-text" id="biometric-calc-module">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_100%_0%,rgba(37,99,235,0.06),transparent_60%)] pointer-events-none" />
       <div className="absolute top-0 right-0 p-8 opacity-[0.02] pointer-events-none">
         <Scale className="w-64 h-64" />
@@ -81,20 +80,21 @@ export default function BiometricLoadCalculator() {
             {/* Weight Slider */}
             <div className="space-y-4">
               <div className="flex justify-between items-center">
-                <label className="text-[0.6875rem] font-bold tracking-widest text-zinc-500 uppercase block">SUBJECT_MASS_BODY</label>
+                <label htmlFor={weightId} className="text-[0.6875rem] font-bold tracking-widest text-zinc-500 uppercase block">SUBJECT_MASS_BODY</label>
                 <span className="font-mono text-lg font-black text-white">{weight} <span className="text-xs text-zinc-500">KG</span></span>
               </div>
               <input
                 type="range"
+                id={weightId}
                 min="45"
                 max="135"
                 value={weight}
                 onChange={(e) => setWeight(parseInt(e.target.value))}
                 className="w-full accent-blue-600 bg-zinc-900 border border-zinc-800 rounded-lg h-1.5 cursor-pointer"
               />
-              <div className="flex justify-between text-[0.6875rem] font-mono font-bold text-zinc-700">
+              <div className="flex justify-between text-[0.6875rem] font-mono font-bold text-zinc-500">
                 <span>45 KG</span>
-                <span>90 KG (MEAN)</span>
+                <span>90 KG</span>
                 <span>135 KG</span>
               </div>
             </div>
@@ -102,18 +102,19 @@ export default function BiometricLoadCalculator() {
             {/* Duration Slider */}
             <div className="space-y-4">
               <div className="flex justify-between items-center">
-                <label className="text-[0.6875rem] font-bold tracking-widest text-zinc-500 uppercase block">ACTIVE_DURATION_LOAD</label>
+                <label htmlFor={durationId} className="text-[0.6875rem] font-bold tracking-widest text-zinc-500 uppercase block">ACTIVE_DURATION_LOAD</label>
                 <span className="font-mono text-lg font-black text-white">{duration} <span className="text-xs text-zinc-500">MINS</span></span>
               </div>
               <input
                 type="range"
+                id={durationId}
                 min="15"
                 max="180"
                 value={duration}
                 onChange={(e) => setDuration(parseInt(e.target.value))}
                 className="w-full accent-blue-600 bg-zinc-900 border border-zinc-800 rounded-lg h-1.5 cursor-pointer"
               />
-              <div className="flex justify-between text-[0.6875rem] font-mono font-bold text-zinc-700">
+              <div className="flex justify-between text-[0.6875rem] font-mono font-bold text-zinc-500">
                 <span>15 MIN</span>
                 <span>90 MIN</span>
                 <span>180 MIN</span>
@@ -125,10 +126,12 @@ export default function BiometricLoadCalculator() {
               {/* Focus Selector */}
               <div className="space-y-4">
                 <span className="text-[0.6875rem] font-bold tracking-widest text-zinc-500 uppercase block">TRAINING_FOCUS</span>
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-2 gap-3" role="group" aria-label="Training focus">
                   {(['strength', 'aerobic', 'focus', 'combat'] as const).map((mode) => (
                     <button
                       key={mode}
+                      type="button"
+                      aria-pressed={focusArea === mode}
                       onClick={() => setFocusArea(mode)}
                       className={`py-3.5 px-4 font-mono font-bold uppercase text-[0.6875rem] tracking-widest border rounded-xl transition-all duration-300 ${focusArea === mode ? 'bg-blue-600 border-blue-500 text-white shadow-[0_4px_15px_rgba(59,130,246,0.3)]' : 'bg-zinc-950 border-zinc-900 text-zinc-500 hover:text-white hover:border-zinc-800'}`}
                     >
@@ -141,12 +144,14 @@ export default function BiometricLoadCalculator() {
               {/* Intensity Selector */}
               <div className="space-y-4">
                 <span className="text-[0.6875rem] font-bold tracking-widest text-zinc-500 uppercase block">BIOENERGY_INTENSITY_LEVEL</span>
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-2 gap-3" role="group" aria-label="Intensity level">
                   {(['low', 'moderate', 'high', 'overdrive'] as const).map((level) => (
                     <button
                       key={level}
+                      type="button"
+                      aria-pressed={intensity === level}
                       onClick={() => setIntensity(level)}
-                      className={`py-3.5 px-4 font-mono font-bold uppercase text-[0.6875rem] tracking-widest border rounded-xl transition-all duration-300 ${intensity === level ? 'bg-blue-600 border-blue-500 text-white shadow-[0_4px_15px_rgba(59,130,246,0.3)]' : 'bg-zinc-950 border-zinc-900 text-emerald-500 hover:text-white hover:border-zinc-800'}`}
+                      className={`py-3.5 px-4 font-mono font-bold uppercase text-[0.6875rem] tracking-widest border rounded-xl transition-all duration-300 ${intensity === level ? 'bg-blue-600 border-blue-500 text-white shadow-[0_4px_15px_rgba(59,130,246,0.3)]' : 'bg-zinc-950 border-zinc-900 text-zinc-500 hover:text-white hover:border-zinc-800'}`}
                     >
                       {level}
                     </button>
@@ -158,14 +163,14 @@ export default function BiometricLoadCalculator() {
         </div>
 
         {/* Dynamic Dosage Recommendations HUD */}
-        <div className="flex-1 bg-zinc-950/60 border border-zinc-900 rounded-3xl p-8 lg:p-10 flex flex-col justify-between space-y-12">
+        <div className="flex-1 bg-zinc-950/60 border border-zinc-900 rounded-3xl p-5 lg:p-10 flex flex-col justify-between space-y-12">
           {/* Target Recommended Dosage Outputs */}
           <div className="space-y-8">
             <span className="text-[0.6875rem] font-mono font-black text-zinc-500 uppercase tracking-[0.4em] flex items-center gap-3">
-              <Activity className="w-3.5 h-3.5 text-blue-500 animate-[pulse_2s_infinite]" /> BIOAVAILABLE_OPTIMAL_YIELDS
+              <Activity className="w-3.5 h-3.5 text-blue-500" /> BIOAVAILABLE_OPTIMAL_YIELDS
             </span>
 
-            <div className="grid grid-cols-2 gap-6 pt-2">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
               {/* Water Requirement */}
               <div className="bg-zinc-950 border border-zinc-900 rounded-2xl p-5 space-y-1">
                 <div className="flex items-center gap-2 text-[0.6875rem] text-zinc-500 font-bold tracking-wider uppercase">
@@ -208,9 +213,9 @@ export default function BiometricLoadCalculator() {
               <p className="text-[0.6875rem] text-zinc-400 leading-relaxed font-light">{calculations.details}</p>
             </div>
             
-            <div className="bg-blue-600/10 border border-blue-500/20 px-4.5 py-3 rounded-xl flex justify-between items-center">
+            <div className="bg-blue-600/10 border border-blue-500/20 px-4.5 py-3 rounded-xl flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
               <span className="text-[0.6875rem] font-mono font-black text-blue-500 uppercase tracking-widest">DOSAGE_DIRECTIVE</span>
-              <span className="text-[0.6875rem] font-mono font-black text-white uppercase">{calculations.dosage}</span>
+              <span className="min-w-0 break-words text-[0.6875rem] font-mono font-black text-white uppercase sm:text-right">{calculations.dosage}</span>
             </div>
           </div>
         </div>

@@ -1,9 +1,9 @@
 import { motion } from "motion/react";
 import Breadcrumb from '../components/Breadcrumb';
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { allProducts } from "../data/products";
-import { ChevronRight, Zap, Target, Database } from "lucide-react";
+import { Zap, Target, Database } from "lucide-react";
 import LazyImage from "../components/LazyImage";
 import ProductCard from "../components/common/ProductCard";
 import BiometricLoadCalculator from "../components/BiometricLoadCalculator";
@@ -11,15 +11,19 @@ import BiometricLoadCalculator from "../components/BiometricLoadCalculator";
 export default function Nutrients() {
   const allNutrients = allProducts.filter(p => p.category === "Nutrients");
   
-  // Extract subcategories based on name keywords
+  // Product has no form field, so the form is read from the product's own
+  // name and asset filename (e.g. "...-Capsules-Mockup.png"). Products that
+  // state no form (liquids, honey sticks) appear under "All" only.
   const subcategories = ["All", "Gummies", "Powders", "Capsules/Tablets"];
   const [selectedSub, setSelectedSub] = useState("All");
 
+  const formText = (p: { name: string; image: string }) => `${p.name} ${p.image}`.toLowerCase();
   const filteredProducts = allNutrients.filter(p => {
     if (selectedSub === "All") return true;
-    if (selectedSub === "Gummies") return p.name.includes("Gummie");
-    if (selectedSub === "Powders") return p.name.includes("Powder") || p.name.includes("Mix") || p.name.includes("Resin");
-    if (selectedSub === "Capsules/Tablets") return p.name.includes("Capsule") || p.name.includes("Tab") || p.name.includes("Bottl");
+    const hay = formText(p);
+    if (selectedSub === "Gummies") return /gumm/.test(hay);
+    if (selectedSub === "Powders") return /powder|\bmix|resin/.test(hay);
+    if (selectedSub === "Capsules/Tablets") return /capsule|tablet|\btabs?\b|bottl/.test(hay);
     return true;
   });
 
@@ -44,7 +48,7 @@ export default function Nutrients() {
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-transparent via-transparent to-editorial-bg pointer-events-none" />
         
         <div className="relative z-50 max-w-[var(--content-max-width)] mx-auto px-[var(--shell-padding-mobile)] md:px-[var(--shell-padding)] lg:px-[var(--shell-padding-lg)] mb-10 w-full flex justify-start">
-            <Breadcrumb items={[{ label: 'Protocols', path: '/performance-system' }, { label: 'Nutrients', active: true }]} />
+            <Breadcrumb items={[{ label: 'System', path: '/performance-system' }, { label: 'Nutrients', active: true }]} />
         </div>
 
         <div className="relative z-10 text-center px-6 max-w-6xl w-full flex flex-col items-center">
@@ -61,11 +65,11 @@ export default function Nutrients() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5, duration: 1, ease: [0.16, 1, 0.3, 1] }}
-            className="text-2xl md:text-3xl font-mono font-black uppercase tracking-[0.3em] sm:tracking-[0.8em] [overflow-wrap:anywhere] text-editorial-text drop-shadow-[0_4px_8px_rgba(0,0,0,0.1)] flex items-center justify-center gap-8"
+            className="text-xl sm:text-2xl md:text-3xl font-mono font-black uppercase tracking-[0.3em] sm:tracking-[0.8em] text-center text-editorial-text drop-shadow-[0_4px_8px_rgba(0,0,0,0.1)] flex flex-wrap items-center justify-center gap-8"
           >
-            <div className="w-24 h-[2px] bg-gradient-to-r from-transparent to-blue-600 shadow-[0_0_15px_#2563eb]" /> 
+            <div className="hidden sm:block w-24 h-[2px] bg-gradient-to-r from-transparent to-blue-600 shadow-[0_0_15px_#2563eb]" /> 
              Fuel with Intent
-            <div className="w-24 h-[2px] bg-gradient-to-l from-transparent to-blue-600 shadow-[0_0_15px_#2563eb]" />
+            <div className="hidden sm:block w-24 h-[2px] bg-gradient-to-l from-transparent to-blue-600 shadow-[0_0_15px_#2563eb]" />
           </motion.h2>
         </div>
       </section>
@@ -87,7 +91,7 @@ export default function Nutrients() {
             <p className="text-xl xl:text-3xl text-editorial-text-muted font-light leading-relaxed max-w-3xl mb-16 drop-shadow-[0_2px_4px_rgba(0,0,0,0.1)]">
                RAW Nutrients are built to sustain clarity, resilience and long-term performance — whether you train competitively or simply refuse to live at half capacity. No filler. Just function.
             </p>
-            <div className="grid grid-cols-2 gap-16 pt-16 border-t border-editorial-border">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 sm:gap-16 pt-16 border-t border-editorial-border">
                <div className="space-y-8 group">
                   <div className="flex items-center gap-6 text-editorial-text bg-editorial-bg/50 w-fit pl-4 pr-8 py-3 rounded-full border border-editorial-border shadow-[0_10px_30px_rgba(0,0,0,0.08)] hover:border-blue-500/30 transition-colors duration-[800ms]">
                     <div className="w-14 h-14 rounded-full bg-editorial-text/5 border border-editorial-border-light flex items-center justify-center backdrop-blur-md shadow-[0_10px_20px_rgba(0,0,0,0.08)] group-hover:bg-blue-600 group-hover:border-blue-500 transition-all duration-[800ms] transform-gpu">
@@ -108,10 +112,6 @@ export default function Nutrients() {
                </div>
             </div>
           </div>
-          {/* A "Biofeedback Analysis" card sat here: accordion rows labelled NEURAL_DENSITY and
-              THERMAL_STABILITY reading ---% and ---°C. Invented readouts with placeholder values,
-              and the rows would not shrink below 485px, so on a phone the whole section was 747px
-              wide and clipped. Removed with the rest of the diagnostics theatre. */}
         </div>
       </section>
 
@@ -159,6 +159,11 @@ export default function Nutrients() {
               <ProductCard product={product} idx={idx} />
             </motion.div>
           ))}
+          {filteredProducts.length === 0 && (
+            <p className="col-span-full py-24 text-center font-mono text-[0.75rem] font-bold uppercase tracking-[0.3em] text-editorial-text-muted">
+              No {selectedSub} in the inventory yet.
+            </p>
+          )}
         </div>
       </section>
 
@@ -176,9 +181,9 @@ export default function Nutrients() {
               <p>It is one of the most researched supplements in the world, facilitating ATP production for immediate cellular energy during high-intensity output.</p>
             </div>
             <div className="mt-16">
-              <button className="bg-editorial-text text-editorial-bg px-12 py-6 rounded-2xl font-black uppercase tracking-[0.4em] text-xs hover:bg-blue-600 hover:text-editorial-text transition-all duration-500 shadow-[0_20px_50px_rgba(0,0,0,0.08)]">
+              <Link to="/knowledge-core" className="inline-block bg-editorial-text text-editorial-bg px-12 py-6 rounded-2xl font-black uppercase tracking-[0.4em] text-xs hover:bg-blue-600 hover:text-editorial-text transition-all duration-500 shadow-[0_20px_50px_rgba(0,0,0,0.08)]">
                 Access Research Data »
-              </button>
+              </Link>
             </div>
           </div>
           <div className="lg:w-1/2 relative">
@@ -206,7 +211,7 @@ export default function Nutrients() {
                "https://rawofficial.co/wp-content/uploads/2026/04/DSC07714-768x1152.jpg"
              ].map((img, i) => (
                <div key={i} className="aspect-[3/4] overflow-hidden rounded-[2rem] border border-editorial-border grayscale hover:grayscale-0 transition-all duration-1000 shadow-[0_20px_50px_rgba(0,0,0,0.08)] group/ath">
-                 <img src={img} alt={`Athlete ${i}`} className="w-full h-full object-cover group-hover/ath:scale-110 transition-transform duration-[1.5s] ease-[0.16,1,0.3,1]" />
+                 <img src={img} alt={`RAW Official athlete, portrait ${i + 1} of 4`} className="w-full h-full object-cover group-hover/ath:scale-110 transition-transform duration-[1.5s] ease-[0.16,1,0.3,1]" />
                </div>
              ))}
           </div>
@@ -220,20 +225,21 @@ export default function Nutrients() {
         <div className="absolute inset-y-0 right-0 w-64 bg-gradient-to-l from-transparent via-editorial-bg/80 to-transparent z-10 pointer-events-none" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-blue-900/5 via-transparent to-transparent pointer-events-none" />
         
-        <div className="flex animate-marquee gap-24 items-center">
-          {[...Array(10)].map((_, i) => (
+        <motion.div
+          aria-hidden="true"
+          animate={{ x: ["0%", "-50%"] }}
+          transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
+          className="flex w-max items-center"
+        >
+          {[0, 1].map((i) => (
             <span key={i} className="font-sans font-black uppercase tracking-tighter px-12 text-editorial-text/5 hover:text-editorial-text/20 transition-all duration-700 cursor-default hover:drop-shadow-[0_0_30px_rgba(59,130,246,0.2)] text-display-lg">
               Fuel your output <span className="text-blue-500/20 mx-12">{'//'}</span> Purity First <span className="text-blue-500/20 mx-12">{'//'}</span> RAW Official <span className="text-blue-500/20 mx-12">{'//'}</span> Premium Performance
             </span>
           ))}
-        </div>
+        </motion.div>
       </div>
 
-      {/* ⚠️ THE SUPPLEMENT DISCLAIMER WAS MISSING FROM THIS PAGE.
-          Every product page and the protocol builder carry it, but the three
-          category pages — the ones that talk about what supplements DO, and
-          which a campaign link can land on directly — carried none. The same
-          wording as elsewhere, so it reads as one policy rather than three. */}
+      {/* Supplement disclaimer: all three category pages must carry it (same wording as the product pages). */}
       <div className="section-container pb-24">
         <p className="mx-auto max-w-3xl border-t border-editorial-border pt-10 text-center text-[0.75rem] leading-relaxed text-editorial-text-muted">
           RAW Official products are designed to support active lifestyles and

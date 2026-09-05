@@ -3,29 +3,23 @@ import {
   Menu,
   User,
   X,
-  Lock,
   Search,
   Command,
   ArrowRight,
-  Globe,
-  Bot,
   Settings2,
   Image,
-  Mic,
-  RefreshCw,
-  AlertCircle,
-  Activity,
   MonitorPlay,
   ChevronUp
 } from "lucide-react";
 import Fuse from 'fuse.js';
-import { useState, useEffect, useMemo, useRef } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import { useUI } from "../context/UIContext";
 import { Tooltip } from "./common/Tooltip";
 import { motion, AnimatePresence, useScroll, useSpring, useMotionValue, useTransform, useMotionValueEvent } from "motion/react";
 import MagneticWrapper from "./MagneticWrapper";
+import { openScreensaver } from './Screensaver';
 import LazyImage from "./LazyImage";
 import { allProducts } from "../data/products";
 
@@ -42,7 +36,6 @@ export default function Navbar() {
     setIsWallpaperSettingsOpen, 
     isGlobalSettingsOpen,
     setIsGlobalSettingsOpen,
-    setIsWallpaperMode, 
     isSearchOpen,
     setIsSearchOpen,
     chromeHidden,
@@ -94,6 +87,7 @@ export default function Navbar() {
   });
 
   const progressColor = useTransform(scrollYProgress, [0.1, 0.2], ["#3b82f6", "#dc2626"]);
+  const logoLift = useTransform(scrollYProgress, [0, 0.1], [0, -5]);
 
   const linkScaleTransform = useTransform(scrollY, [0, 100], [1, 0.95]);
   const linkOpacityTransform = useTransform(scrollY, [0, 100], [1, 0.8]);
@@ -102,8 +96,6 @@ export default function Navbar() {
   const linkOpacity = useSpring(linkOpacityTransform, { stiffness: 100, damping: 30 });
 
   const [isMegaMenuOpen, setIsMegaMenuOpen] = useState(false);
-  const [isVisible, setIsVisible] = useState(true);
-  const [lastScrollY, setLastScrollY] = useState(0);
 
   const borderAlpha = useTransform(scrollYProgress, [0.1, 0.2], [0, 0.5]);
   const smoothedBorderAlpha = useSpring(borderAlpha, { stiffness: 100, damping: 20 });
@@ -156,26 +148,21 @@ export default function Navbar() {
 
   useEffect(() => {
     if (!isMobileMenuOpen) {
-      setTimeout(() => setActiveMobileSubmenu(null), 300); // delay reset so animation finishes
+      const t = setTimeout(() => setActiveMobileSubmenu(null), 300); // delay reset so animation finishes
+      return () => clearTimeout(t);
     }
   }, [isMobileMenuOpen]);
 
   return (
     <>
-      {/* Viewport Integrity Readout (Scroll Progress) */}
-      <AnimatePresence>
-        {(
-          <motion.div 
-            key="diagnostics"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed top-0 left-0 right-0 h-[3px] origin-left z-[70]"
-            style={{ scaleX, backgroundColor: progressColor }} 
-            transition={{ type: "spring", stiffness: 100, damping: 30 }}
-          />
-        )}
-      </AnimatePresence>
+      {/* Scroll progress bar */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        className="fixed top-0 left-0 right-0 h-[3px] origin-left z-[70]"
+        style={{ scaleX, backgroundColor: progressColor }}
+        transition={{ type: "spring", stiffness: 100, damping: 30 }}
+      />
 
       {/* Mega Menu Panel */}
       <AnimatePresence>
@@ -186,7 +173,7 @@ export default function Navbar() {
             animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
             exit={{ opacity: 0, y: -20, filter: "blur(20px)" }}
             transition={{ duration: 0.6, ease: [0.16,1,0.3,1] }}
-            className="fixed inset-x-0 bottom-0 top-[var(--header-current-height)] bg-editorial-bg/80 backdrop-blur-[60px] p-24 z-[var(--z-overlay)] shadow-[0_40px_150px_rgba(0,0,0,1)] border-t border-white/[0.05]"
+            className="fixed inset-x-0 bottom-0 top-[var(--header-current-height)] bg-editorial-bg/80 backdrop-blur-[60px] p-8 xl:p-24 z-[var(--z-overlay)] shadow-[0_40px_150px_rgba(0,0,0,1)] border-t border-white/[0.05]"
             onMouseMove={(e) => {
               mouseX.set(e.clientX);
               mouseY.set(e.clientY);
@@ -212,7 +199,7 @@ export default function Navbar() {
               initial={{ y: 40, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.8, delay: 0.2, ease: [0.16,1,0.3,1] }}
-              className="relative z-10 max-w-[var(--content-max-width)] mx-auto grid grid-cols-4 gap-20 font-mono text-sm capitalize h-full"
+              className="relative z-10 max-w-[var(--content-max-width)] mx-auto grid grid-cols-2 xl:grid-cols-4 gap-8 xl:gap-20 font-mono text-sm capitalize h-full"
             >
               <div className="col-span-1 border-r border-white/[0.05] pr-12 xl:pr-20 flex flex-col justify-end pb-32 relative">
                  <div className="absolute top-0 right-0 w-[2px] h-40 bg-gradient-to-b from-red-600/80 to-transparent shadow-[0_0_20px_#dc2626]" />
@@ -245,16 +232,6 @@ export default function Navbar() {
                      <span>Explore {cat}</span>
                      <ArrowRight className="w-4 h-4 opacity-0 -translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-[400ms] text-red-500" />
                   </Link>
-                  <div className="h-[1px] w-full bg-editorial-text/5" />
-                  <Link to="/shop" onClick={() => setIsMegaMenuOpen(false)} className="hover:text-red-500 transition-colors duration-[400ms] group flex items-center justify-between">
-                     <span>Featured Drops</span>
-                     <ArrowRight className="w-4 h-4 opacity-0 -translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-[400ms] text-red-500" />
-                  </Link>
-                  <div className="h-[1px] w-full bg-editorial-text/5" />
-                  <Link to="/shop" onClick={() => setIsMegaMenuOpen(false)} className="hover:text-red-500 transition-colors duration-[400ms] group flex items-center justify-between">
-                     <span>Archives</span>
-                     <ArrowRight className="w-4 h-4 opacity-0 -translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-[400ms] text-red-500" />
-                  </Link>
                 </div>
               </motion.div>
               ))}
@@ -279,12 +256,11 @@ export default function Navbar() {
       >
         {/* Enhanced Holographic background */}
         <div className="absolute inset-0 bg-gradient-to-r from-red-600/5 via-transparent to-red-600/5 pointer-events-none" />
-        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-[0.02] pointer-events-none" />
         <motion.div style={{ x: bgGridX, y: bgGridY }} className="absolute inset-0 opacity-[0.05] bg-[linear-gradient(to_right,#ffffff_1px,transparent_1px),linear-gradient(to_bottom,#ffffff_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none" />
         
         <motion.div style={{ x: parallaxX }} className="max-w-[var(--content-max-width)] mx-auto px-[var(--shell-padding-mobile)] md:px-[var(--shell-padding)] lg:px-[var(--shell-padding-lg)] flex justify-between items-center relative z-10 h-full">
           <Link to="/" className="flex items-center gap-2 group relative overflow-hidden p-2 rounded-xl border border-transparent hover:border-white/5 transition-all duration-500" onMouseEnter={() => setIsMegaMenuOpen(false)} aria-label="RAW Official - Return to Source">
-            <motion.div style={{ y: useTransform(scrollYProgress, [0, 0.1], [0, -5]) }}>
+            <motion.div style={{ y: logoLift }}>
               <motion.div 
                 style={{ x: logoX, y: logoY }}
                 className="transition-all duration-700 relative"
@@ -363,21 +339,23 @@ export default function Navbar() {
                      aria-label="Display settings"
                      aria-expanded={isWallpaperSettingsOpen}
                      onClick={() => setIsWallpaperSettingsOpen(!isWallpaperSettingsOpen)}
-                     className={`p-3.5 transition-colors duration-500 rounded-full focus:outline-none focus:ring-2 focus:ring-white ${isWallpaperSettingsOpen ? 'bg-red-600/20 text-red-500' : 'text-white-muted hover:text-editorial-text hover:bg-editorial-text/5'}`}
+                     className={`p-3.5 transition-colors duration-500 rounded-full focus:outline-none focus:ring-2 focus:ring-white ${isWallpaperSettingsOpen ? 'bg-red-600/20 text-red-500' : 'text-editorial-text-muted hover:text-editorial-text hover:bg-editorial-text/5'}`}
                    >
                      <Settings2 className="w-5 h-5 transition-all duration-500 ease-fluid" />
                    </button>
                 </MagneticWrapper>
               </Tooltip>
 
-              <Tooltip content="WALLPAPER_MODE">
+              <Tooltip content="WALLPAPER_MODE // COMING_SOON">
                 <MagneticWrapper className="hidden lg:block">
-                  <button 
-                    aria-label="Wallpaper mode"
-                    onClick={() => setIsWallpaperMode(true)}
-                    className="p-3.5 text-editorial-text-muted hover:text-red-500 transition-colors duration-500 group bg-transparent hover:bg-editorial-text/5 rounded-full block focus:outline-none focus:ring-2 focus:ring-white"
+                  <button
+                    aria-label="Wallpaper mode (coming soon)"
+                    aria-disabled="true"
+                    disabled
+                    className="relative p-3.5 text-editorial-text-muted opacity-40 cursor-not-allowed bg-transparent rounded-full block focus:outline-none"
                   >
-                    <Image className="w-5 h-5 group-hover:scale-110 transition-all duration-500 ease-fluid" />
+                    <Image className="w-5 h-5" />
+                    <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 font-mono text-[0.5rem] font-black tracking-[0.1em] leading-none whitespace-nowrap text-zinc-500">COMING_SOON</span>
                   </button>
                 </MagneticWrapper>
               </Tooltip>
@@ -408,7 +386,7 @@ export default function Navbar() {
                 <MagneticWrapper>
                   <button
                     aria-label="Start screensaver"
-                    onClick={() => window.dispatchEvent(new Event("raw:screensaver"))}
+                    onClick={openScreensaver}
                     className="hidden lg:block p-3.5 text-editorial-text-muted hover:text-red-500 transition-colors duration-500 bg-transparent hover:bg-editorial-text/5 rounded-full focus:outline-none focus:ring-2 focus:ring-white"
                   >
                     <MonitorPlay className="w-5 h-5 transition-all duration-500 ease-fluid" />
@@ -480,8 +458,9 @@ export default function Navbar() {
                          Shortcut: <kbd className="px-2 py-1 bg-white/5 border border-white/10 rounded font-sans text-white">⌘K</kbd>
                       </div>
                    </div>
-                   <button 
+                   <button
                     onClick={() => setIsSearchOpen(false)}
+                    aria-label="Close search"
                     className="p-6 bg-editorial-bg border border-editorial-border hover:border-red-500/50 hover:bg-editorial-bg rounded-[1.5rem] transition-all duration-[800ms] group shadow-[0_20px_50px_rgba(0,0,0,0.1)] hover:shadow-[0_30px_80px_rgba(220,38,38,0.2)]"
                   >
                     <X className="w-8 h-8 text-editorial-text group-hover:rotate-90 group-hover:text-red-500 transition-all duration-[800ms]" />
@@ -576,23 +555,6 @@ export default function Navbar() {
                      </AnimatePresence>
                   </div>
                </div>
-
-               <div className="mt-12 pt-12 border-t border-editorial-border flex justify-between items-center opacity-40">
-                  <div className="flex gap-12">
-                     <div className="flex flex-col gap-2">
-                        <span className="font-mono text-[0.6875rem] text-editorial-text-muted uppercase">INDEX_STATION</span>
-                        <span className="font-mono text-[0.75rem] text-editorial-text">BANGKOK_CORE_NODE_04</span>
-                     </div>
-                     <div className="flex flex-col gap-2">
-                        <span className="font-mono text-[0.6875rem] text-editorial-text-muted uppercase">ACCESS_LEVEL</span>
-                        <span className="font-mono text-[0.75rem] text-red-600 uppercase">AUTHORISED_OPERATIVE</span>
-                     </div>
-                  </div>
-                  <div className="text-right">
-                     <span className="font-mono text-[0.6875rem] text-zinc-700 uppercase tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] block">PROTOCOL: SEARCH.EXE</span>
-                     <span className="font-mono text-[0.6875rem] text-zinc-600 uppercase tracking-widest block mt-2">LATENCY: 0.003MS // VERIFIED</span>
-                  </div>
-               </div>
             </div>
           </motion.div>
         )}
@@ -607,7 +569,7 @@ export default function Navbar() {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: "100%" }}
             transition={{ type: "spring", damping: 25, stiffness: 200 }}
-            className="fixed inset-0 z-[var(--z-overlay)] bg-editorial-bg/98 backdrop-blur-3xl flex flex-col p-10 pt-[calc(var(--header-current-height)+2rem)] overflow-hidden"
+            className="fixed inset-0 z-[var(--z-overlay)] bg-editorial-bg/98 backdrop-blur-3xl flex flex-col p-6 sm:p-10 pt-[calc(var(--header-current-height)+2rem)] overflow-hidden"
           >
             <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-red-900/10 via-transparent to-transparent pointer-events-none mix-blend-screen opacity-50" />
             <div className="absolute inset-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:32px_32px] pointer-events-none mix-blend-screen opacity-30" />
@@ -617,7 +579,7 @@ export default function Navbar() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="flex flex-col gap-6 text-3xl font-black uppercase tracking-[-0.02em] font-sans relative z-10 custom-scrollbar overflow-y-auto pb-32"
+              className="flex flex-col gap-6 text-xl sm:text-3xl font-black uppercase tracking-[-0.02em] font-sans relative z-10 custom-scrollbar overflow-y-auto pb-32"
             >
               {[
                 { 
@@ -679,16 +641,19 @@ export default function Navbar() {
               ].map((item, idx) => (
                 <div key={item.label} className="overflow-hidden">
                   <div>
-                    <button 
+                    <button
                       onClick={() => setActiveMobileSubmenu(activeMobileSubmenu === item.label ? null : item.label)}
-                      className="flex items-center justify-between w-full hover:text-red-500 transition-colors"
+                      aria-expanded={activeMobileSubmenu === item.label}
+                      aria-controls={`mobile-submenu-${item.label.toLowerCase()}`}
+                      className="flex items-center justify-between gap-4 w-full min-w-0 hover:text-red-500 transition-colors"
                     >
-                       {item.label}
-                       <motion.span animate={{ rotate: activeMobileSubmenu === item.label ? 180 : 0 }}>
+                       <span className="min-w-0">{item.label}</span>
+                       <motion.span className="shrink-0" animate={{ rotate: activeMobileSubmenu === item.label ? 180 : 0 }}>
                          <ArrowRight className="w-6 h-6 rotate-90" />
                        </motion.span>
                     </button>
                     <motion.div
+                      id={`mobile-submenu-${item.label.toLowerCase()}`}
                       initial={{ height: 0, opacity: 0 }}
                       animate={{ height: activeMobileSubmenu === item.label ? 'auto' : 0, opacity: activeMobileSubmenu === item.label ? 1 : 0 }}
                       className="overflow-hidden"
@@ -705,16 +670,6 @@ export default function Navbar() {
                 </div>
               ))}
             </motion.div>
-            
-            <div className="mt-auto space-y-8 relative z-10 border-t border-editorial-border pt-8">
-               <div className="flex items-center gap-4 text-[0.6875rem] font-bold uppercase tracking-[0.4em] text-red-500 bg-red-950/20 p-4 rounded-xl border border-red-900/30">
-                  <Lock className="w-4 h-4 shadow-[0_0_10px_currentColor]" /> SECURE_PROTOCOL_ESTABLISHED_
-               </div>
-               <div className="flex justify-between items-center text-[0.6875rem] font-black tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] text-zinc-600">
-                  <span>V.04_NODE</span>
-                  <span>OP_ID: 2471</span>
-               </div>
-            </div>
           </motion.div>
         )}
       </AnimatePresence>

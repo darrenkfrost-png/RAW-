@@ -1,13 +1,10 @@
-import { Outlet, Link, useLocation } from "react-router-dom";
-import React, { useState, useEffect } from "react";
+import { Outlet, useLocation } from "react-router-dom";
+import React from "react";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import TechnicalStatusBar from "./TechnicalStatusBar";
 import CartDrawer from "./CartDrawer";
 import CompareTray from "./CompareTray";
-import CustomCursor from "./CustomCursor";
-import PageLoader from "./PageLoader";
-import WallpaperMode from "./WallpaperMode";
 import ShopIframePanel from "./ShopIframePanel";
 import WallpaperSettingsPanel from "./WallpaperSettingsPanel";
 import Particles from "./Particles";
@@ -17,9 +14,7 @@ import Screensaver from "./Screensaver";
 import ChromeRestore from "./ChromeRestore";
 import InstallPrompt from "./InstallPrompt";
 import { usePageMeta } from "../hooks/usePageMeta";
-import { useSettings } from "../context/SettingsContext";
-import { motion, AnimatePresence, useScroll } from "motion/react";
-import { ChevronLeft, ChevronRight, Menu, Bot, Zap } from "lucide-react";
+import { motion, AnimatePresence } from "motion/react";
 
 export default function Layout() {
   const location = useLocation();
@@ -66,7 +61,7 @@ export default function Layout() {
 
       <div 
         id="content-wrapper"
-        className="relative z-[var(--z-content)] flex flex-col min-h-svh pb-[env(safe-area-inset-bottom)] pt-[env(safe-area-inset-top)] px-[env(safe-area-inset-left)] pr-[env(safe-area-inset-right)]"
+        className="relative z-[var(--z-content)] flex flex-col min-h-svh pl-[env(safe-area-inset-left)] pr-[env(safe-area-inset-right)]"
         style={{ 
           paddingTop: 'calc(var(--header-current-height) + env(safe-area-inset-top))',
           paddingBottom: 'calc(2.75rem + env(safe-area-inset-bottom))' // Offset for TechnicalStatusBar height (h-11 = 44px) + safe area

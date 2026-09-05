@@ -24,7 +24,7 @@ export default function ModalShell({
   children,
   defaultPosition = { x: 50, y: 50 },
   width = "max-w-4xl",
-  height = "h-[700px]",
+  height = "min(700px, 85svh)",
   zIndex = 100,
   onSelect
 }: ModalShellProps) {
@@ -101,7 +101,7 @@ export default function ModalShell({
             </button>
             <button
               onClick={onClose}
-              className="p-2 bg-red-650/10 hover:bg-red-600 hover:text-white border border-red-500/20 hover:border-red-500/50 rounded-xl text-red-500 transition-all pointer-events-auto"
+              className="p-2 bg-red-700/10 hover:bg-red-600 hover:text-white border border-red-500/20 hover:border-red-500/50 rounded-xl text-red-500 transition-all pointer-events-auto"
               title="Close Application (ESC)"
             >
               <X className="w-3.5 h-3.5" />

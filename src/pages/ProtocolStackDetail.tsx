@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import { motion } from 'motion/react';
+import { useEffect } from 'react';
 import { allProducts } from '../data/products';
-import { useParams, Link, useNavigate } from 'react-router-dom';
-import { ArrowRight, Box, Layers, Target, Database, Activity, ShieldCheck, Zap } from 'lucide-react';
+import { useParams, Link } from 'react-router-dom';
+import { ArrowRight, Layers, Target, Zap } from 'lucide-react';
 import { useProtocol } from '../context/ProtocolContext';
 import { useCart } from '../context/CartContext';
 import { useToast } from '../components/common/Toast';
-import { useUI } from '../context/UIContext';
+import NotFound from './NotFound';
 import Breadcrumb from '../components/Breadcrumb';
 
 const stacks = [
@@ -16,7 +15,8 @@ const stacks = [
     target: 'For gym users, lifters, and power-output training.',
     description: 'Designed to maximize muscular output, promote hypertrophy, and ensure sustained power during intense training cycles.',
     benefits: ['Enhanced ATP Production', 'Accelerated Tissue Repair', 'CNS Output Optimization', 'Sustained Power Delivery'],
-    products: allProducts.filter(p => p.category === 'Nutrients' || p.name.includes('Creatine') || p.id === 4 || p.id === 6),
+    // Whey, Creatine, Pre-Workout, Protein Peptide. The old category filter swept in every Nutrients product (35 lines in the basket from one tap).
+    products: allProducts.filter(p => [9, 23, 4, 6].includes(p.id)),
   },
   {
     id: 'recovery',
@@ -72,23 +72,29 @@ export default function ProtocolStackDetail() {
   const { id } = useParams();
   const stack = stacks.find(s => s.id === id);
   const { addToProtocol } = useProtocol();
-  const { addToCart } = useCart();
+  const { addToCart, items: cartItems, setIsCartOpen } = useCart();
   const { addToast } = useToast();
-  const navigate = useNavigate();
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [id]);
 
-  if (!stack) return <div className="text-editorial-text text-center pt-40 min-h-svh">PROTOCOL_NOT_FOUND</div>;
+  if (!stack) return <NotFound />;
 
   const totalEstimate = stack.products.reduce((acc, p) => acc + Number(p.price.replace('£', '')), 0);
 
   const addAllToStack = () => {
-    stack.products.forEach(p => {
-       addToProtocol(p);
-       addToCart(p, 1);
-    });
-    addToast('All modules deployed to Active Protocol');
+    // Modules already in the basket are left alone: a second tap must not double every quantity.
+    const inCart = new Set(cartItems.map(item => item.id));
+    const fresh = stack.products.filter(p => !inCart.has(p.id));
+    const skipped = stack.products.length - fresh.length;
+    stack.products.forEach(p => addToProtocol(p));
+    fresh.forEach(p => addToCart(p, 1));
+    if (fresh.length === 0) {
+      setIsCartOpen(true);
+      addToast('Every module is already in your basket — Active Protocol updated');
+      return;
+    }
+    addToast(`${fresh.length} module${fresh.length === 1 ? '' : 's'} deployed to your basket and Active Protocol${skipped ? ` (${skipped} already in basket)` : ''}`);
   };
 
   return (
@@ -97,7 +103,7 @@ export default function ProtocolStackDetail() {
        <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-red-900/10 blur-[200px] rounded-full pointer-events-none" />
 
        <div className="max-w-[var(--content-max-width)] mx-auto relative z-10">
-         <Breadcrumb items={[{ label: "Home", path: "/" }, { label: "Protocol Stacks", path: "/protocol-stacks" }, { label: stack.title }]} />
+         <Breadcrumb items={[{ label: "Protocol Stacks", path: "/protocol-stacks" }, { label: stack.title }]} />
          
           {/* ⚠️ min-w-0 ON BOTH COLUMNS. Hiding the module list collapsed this grid's single
               phone track from 576px to the container width: every module row is a flex line
@@ -136,7 +142,6 @@ export default function ProtocolStackDetail() {
                     <ul className="space-y-3 font-mono text-[0.6875rem] text-editorial-text">
                       <li>UNITS INCLUDED: <span className="text-editorial-text font-bold">{stack.products.length}</span></li>
                       <li>ESTIMATED DEPLOYMENT: <span className="text-red-500 font-bold">£{totalEstimate.toFixed(2)}</span></li>
-                      <li>SYNERGY FACTOR: <span className="text-blue-500 font-bold">ALPHA+</span></li>
                     </ul>
                  </div>
                </div>
@@ -152,10 +157,7 @@ export default function ProtocolStackDetail() {
             <div className="relative min-w-0">
               <div className="absolute inset-0 bg-editorial-bg rounded-[3rem] shadow-[0_20px_100px_rgba(0,0,0,0.1)] border border-editorial-border" />
               <div className="relative z-10 p-10 lg:p-12">
-                 <h3 className="font-sans font-black text-editorial-text text-xl uppercase tracking-tighter mb-8 border-b border-editorial-border pb-4 flex items-center justify-between">
-                    <span>Component Matrix</span>
-                    <span className="font-mono text-[0.6875rem] text-red-500 tracking-widest">LIVE_STATUS: ONLINE</span>
-                 </h3>
+                 <h3 className="font-sans font-black text-editorial-text text-xl uppercase tracking-tighter mb-8 border-b border-editorial-border pb-4">Component Matrix</h3>
 
                  <div className="space-y-4">
                     {stack.products.map((p, i) => (

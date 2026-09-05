@@ -1,9 +1,9 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocation, Link } from "react-router-dom";
-import { motion, AnimatePresence } from "motion/react";
+import { motion } from "motion/react";
 import { VideoViewerPortal } from "../components/VideoViewer";
 import {
-  ShieldCheck, ArrowLeft, ArrowDown, MessageSquare, Play, X,
+  ShieldCheck, ArrowLeft, ArrowDown, MessageSquare, Play,
   Droplets, HeartHandshake, BadgeCheck, Package,
 } from "lucide-react";
 
@@ -12,8 +12,10 @@ import {
  *
  * The signup landing page and the feedback form are two finished,
  * self-contained HTML documents served verbatim from /public/promo/ and
- * framed below (forms in demo mode until FORM_ENDPOINT is set inside each
- * file). This page wraps them in the campaign's own cinema: the real
+ * framed below. Their forms are in demo mode until FORM_ENDPOINT is set inside
+ * each file, so the frame stays behind a COMING_SOON panel (and the claim
+ * buttons stay disabled) until then. This page wraps them in the campaign's
+ * own cinema: the real
  * product films and key art from /public/promo/assets/, all lazy — nothing
  * heavy loads until this route is opened. The campaign kit (emails, social
  * copy, venue outreach, pre-launch checklist) is docs/raw-campaign-kit.md.
@@ -54,9 +56,9 @@ export default function StaySafe() {
   const [frameReady, setFrameReady] = useState(false);
   const [film, setFilm] = useState(0);
   const [theatre, setTheatre] = useState<number | null>(null);
-  const signupRef = useRef<HTMLDivElement>(null);
+  const [showPreview, setShowPreview] = useState(false);
 
-  useEffect(() => { setFrameReady(false); }, [variant]);
+  useEffect(() => { setFrameReady(false); setShowPreview(false); }, [variant]);
   // Theatre open = the page's own scroll stays put and Escape closes.
   useEffect(() => {
     if (theatre === null) return;
@@ -64,8 +66,6 @@ export default function StaySafe() {
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [theatre]);
-
-  const scrollToSignup = () => signupRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
 
   return (
     <div className="min-h-[100svh] bg-editorial-bg flex flex-col">
@@ -142,10 +142,13 @@ export default function StaySafe() {
               className="mt-8 flex flex-wrap items-center gap-4"
             >
               <button
-                onClick={scrollToSignup}
-                className="inline-flex items-center gap-3 px-8 py-4 bg-red-600 hover:bg-red-500 rounded-full font-mono text-[0.6875rem] font-bold uppercase tracking-[0.3em] text-white transition-colors"
+                type="button"
+                disabled
+                aria-disabled="true"
+                className="inline-flex flex-wrap justify-center max-w-full items-center gap-3 px-6 sm:px-8 py-4 bg-red-600 rounded-full font-mono text-[0.6875rem] font-bold uppercase tracking-[0.3em] text-white opacity-60 cursor-not-allowed"
               >
                 Claim your free pack <ArrowDown size={14} />
+                <span className="ml-1 px-2 py-0.5 rounded bg-black/40 text-[0.625rem] tracking-[0.2em]">COMING_SOON</span>
               </button>
               {/* The four films, switchable in place */}
               <div className="flex items-center gap-2">
@@ -155,8 +158,11 @@ export default function StaySafe() {
                     onClick={() => setFilm(i)}
                     title={f.label}
                     aria-label={`Play ${f.label}`}
-                    className={`w-2.5 h-2.5 rounded-full transition-all ${i === film ? "bg-red-500 scale-125" : "bg-white/25 hover:bg-white/50"}`}
-                  />
+                    aria-pressed={i === film}
+                    className="w-11 h-11 flex items-center justify-center rounded-full"
+                  >
+                    <span className={`block w-2.5 h-2.5 rounded-full transition-all ${i === film ? "bg-red-500 scale-125" : "bg-white/25 hover:bg-white/50"}`} />
+                  </button>
                 ))}
                 <span className="ml-2 font-mono text-[0.6875rem] uppercase tracking-[0.3em] text-white/40">{FILMS[film].label}</span>
               </div>
@@ -179,25 +185,57 @@ export default function StaySafe() {
         </section>
       )}
 
-      {/* THE SIGNUP — the finished landing document, framed */}
-      <div ref={signupRef} className="relative flex-1 scroll-mt-4">
-        {!frameReady && (
-          <div className="absolute inset-0 flex items-center justify-center">
-            <span className="font-mono text-[0.6875rem] uppercase tracking-[0.4em] text-red-500 animate-pulse">
-              LOADING_CAMPAIGN
-            </span>
+      {/* THE SIGNUP — the finished landing document, framed. Its form has no
+          endpoint yet (FORM_ENDPOINT is empty inside the file), so a submit
+          would show a success state and send nothing. Until the founder
+          connects one, the frame stays behind this panel and opens only as
+          a labelled preview. */}
+      <div className="relative flex-1">
+        {!showPreview ? (
+          <div className="min-h-[60svh] flex flex-col items-center justify-center text-center px-6 py-20">
+            <span className="font-mono text-[0.6875rem] font-bold uppercase tracking-[0.3em] text-white bg-red-600 px-3 py-1.5 rounded-md mb-6">COMING_SOON</span>
+            <h2 className="font-sans font-black text-3xl md:text-5xl uppercase tracking-tight mb-4">
+              {variant === "landing" ? "Signups are not open yet" : "The feedback form is not open yet"}
+            </h2>
+            <p className="max-w-xl text-editorial-text-muted text-sm md:text-base leading-relaxed mb-8">
+              {variant === "landing"
+                ? "The claim form is not connected yet, so nothing entered here would be sent or shipped. This is where it opens."
+                : "The feedback form is not connected yet, so nothing entered here would be sent. This is where it opens."}
+            </p>
+            <button
+              type="button"
+              onClick={() => setShowPreview(true)}
+              className="inline-flex items-center gap-3 px-6 py-3 border border-editorial-border hover:border-red-500/40 rounded-full font-mono text-[0.6875rem] font-bold uppercase tracking-[0.3em] text-editorial-text-muted hover:text-red-400 transition-colors"
+            >
+              Preview the page (demo — nothing is sent)
+            </button>
           </div>
+        ) : (
+          <>
+            <div className="px-6 md:px-10 py-3 bg-red-600/10 border-y border-red-500/30 font-mono text-[0.6875rem] uppercase tracking-[0.2em] text-red-400">
+              DEMO_MODE // this form is not connected yet — nothing you enter is sent
+            </div>
+            <div className="relative">
+              {!frameReady && (
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <span className="font-mono text-[0.6875rem] uppercase tracking-[0.4em] text-red-500 animate-pulse">
+                    LOADING_CAMPAIGN
+                  </span>
+                </div>
+              )}
+              <motion.iframe
+                key={variant}
+                src={page.src}
+                title={page.title}
+                onLoad={() => setFrameReady(true)}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: frameReady ? 1 : 0 }}
+                transition={{ duration: 0.5 }}
+                className="w-full h-full min-h-[calc(100svh-57px)] border-0 block"
+              />
+            </div>
+          </>
         )}
-        <motion.iframe
-          key={variant}
-          src={page.src}
-          title={page.title}
-          onLoad={() => setFrameReady(true)}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: frameReady ? 1 : 0 }}
-          transition={{ duration: 0.5 }}
-          className="w-full h-full min-h-[calc(100svh-57px)] border-0 block"
-        />
       </div>
 
       {/* THE CAMPAIGN REEL — key art + films, landing variant only */}
@@ -256,10 +294,12 @@ export default function StaySafe() {
               </p>
             </div>
             <button
-              onClick={scrollToSignup}
-              className="flex-shrink-0 inline-flex items-center gap-3 px-6 py-3 border border-red-500/40 hover:border-red-500 hover:bg-red-500/10 rounded-full font-mono text-[0.6875rem] font-bold uppercase tracking-[0.3em] text-red-400 transition-all"
+              type="button"
+              disabled
+              aria-disabled="true"
+              className="flex-shrink-0 inline-flex items-center gap-3 px-6 py-3 border border-red-500/40 rounded-full font-mono text-[0.6875rem] font-bold uppercase tracking-[0.3em] text-red-400 opacity-60 cursor-not-allowed"
             >
-              Sign up above ↑
+              Sign up <span className="px-2 py-0.5 rounded bg-red-600/20 text-[0.625rem] tracking-[0.2em]">COMING_SOON</span>
             </button>
           </div>
         </section>

@@ -10,10 +10,10 @@ import MagneticWrapper from "./MagneticWrapper";
 
 export default function Footer() {
   const socialLinks = [
-    { icon: Instagram, href: "https://www.instagram.com/rawofficial_co" },
-    { icon: Youtube, href: "https://youtube.com" },
-    { icon: Facebook, href: "https://facebook.com" },
-    { icon: Twitter, href: "https://twitter.com" },
+    { icon: Instagram, name: "Instagram", href: "https://www.instagram.com/rawofficial_co" },
+    { icon: Youtube, name: "YouTube", href: "https://youtube.com" },
+    { icon: Facebook, name: "Facebook", href: "https://facebook.com" },
+    { icon: Twitter, name: "Twitter", href: "https://twitter.com" },
   ];
 
   return (
@@ -30,24 +30,14 @@ export default function Footer() {
           <p className="text-editorial-text-muted font-light text-base xl:text-lg mb-12 leading-relaxed max-w-[360px] tracking-wide italic">
             Performance doesn’t exist in isolation. You train. You break down. You rebuild. You level up.
           </p>
-          <div className="flex flex-col gap-4 mb-12 bg-editorial-text/[0.02] backdrop-blur-3xl border border-white/[0.05] hover:border-red-500/20 transition-colors p-6 rounded-[2rem] shadow-depth-1">
-             <div className="flex items-center gap-4">
-                <div className="w-2 h-2 bg-emerald-500 rounded-full animate-[pulse_2s_cubic-bezier(0.4,0,0.6,1)_infinite] shadow-[0_0_12px_#10b981]" />
-                <span className="text-meta-premium opacity-100">CORE_STATUS: <span className="text-emerald-400">NOMINAL</span></span>
-             </div>
-             <div className="flex items-center gap-4">
-                <div className="w-2 h-2 bg-red-600 rounded-full shadow-[0_0_12px_#dc2626]" />
-                <span className="text-meta-premium opacity-100">PROTOCOL: ALIGN_SRV_{"2026"}</span>
-             </div>
-          </div>
           <div className="flex items-center gap-4 mb-16">
-            {socialLinks.map(({ icon: Icon, href }, index) => (
+            {socialLinks.map(({ icon: Icon, name, href }, index) => (
               <MagneticWrapper key={index}>
                 <a 
                   href={href} 
                   target="_blank" 
                   rel="noopener noreferrer" 
-                  aria-label={`Connect on social media - registry node ${index + 1}`}
+                  aria-label={`RAW Official on ${name}`}
                   className="w-12 h-12 flex items-center justify-center border border-white/[0.05] rounded-full hover:border-red-500 hover:bg-red-950/20 transition-all duration-500 text-editorial-text-muted hover:text-editorial-text shadow-sm bg-editorial-text/5 backdrop-blur-md focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:ring-offset-black"
                 >
                   <Icon className="w-4 h-4" aria-hidden="true" />

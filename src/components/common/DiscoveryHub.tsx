@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { X, Command, Key, Activity, Eye, Layout, Cpu, ShieldCheck } from 'lucide-react';
+import { X, Command, Activity, Layout } from 'lucide-react';
 
 interface DiscoveryHubProps {
   isOpen: boolean;
@@ -122,28 +122,6 @@ export default function DiscoveryHub({ isOpen, onClose }: DiscoveryHubProps) {
                 ))}
               </div>
 
-              {/* Status Verification Card */}
-              <div className="p-6 bg-red-600/5 border border-red-600/10 rounded-[2rem] flex flex-col md:flex-row items-center justify-between gap-6">
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-2xl bg-red-600/10 flex items-center justify-center border border-red-500/20 text-red-500">
-                    <ShieldCheck className="w-6 h-6" />
-                  </div>
-                  <div>
-                    <h5 className="font-sans font-bold text-sm text-white uppercase tracking-wider">Interface Calibration Nominal</h5>
-                    <p className="text-xs text-editorial-text-muted mt-0.5">Dual-layer keyboard listeners, real-time FPS stabilizers, and voice engine connections active.</p>
-                  </div>
-                </div>
-                <div className="flex gap-3">
-                  <div className="bg-editorial-bg border border-editorial-border px-4 py-2 rounded-xl text-center">
-                    <span className="block text-[0.6875rem] font-bold text-zinc-600 uppercase">Latency</span>
-                    <span className="font-mono text-xs text-emerald-500">2ms</span>
-                  </div>
-                  <div className="bg-editorial-bg border border-editorial-border px-4 py-2 rounded-xl text-center">
-                    <span className="block text-[0.6875rem] font-bold text-zinc-600 uppercase">Status</span>
-                    <span className="font-mono text-xs text-red-500">Optimal</span>
-                  </div>
-                </div>
-              </div>
             </div>
 
             {/* Footer */}

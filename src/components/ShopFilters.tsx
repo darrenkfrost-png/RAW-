@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { X, Filter, RefreshCcw } from 'lucide-react';
 
@@ -57,6 +57,19 @@ const Chip = ({
 );
 
 export default function ShopFilters({ isOpen, onClose, filters, setFilters, totalResults }: ShopFiltersProps) {
+  const drawerRef = useRef<HTMLDivElement>(null);
+
+  // Dialog behaviour: Escape closes, focus moves into the drawer on open.
+  useEffect(() => {
+    if (!isOpen) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', onKeyDown);
+    drawerRef.current?.focus({ preventScroll: true });
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [isOpen, onClose]);
+
   const toggleArrayItem = (array: string[], item: string, key: keyof FilterState) => {
     const newArray = array.includes(item) ? array.filter(i => i !== item) : [...array, item];
     setFilters(prev => ({ ...prev, [key]: newArray }));
@@ -101,10 +114,10 @@ export default function ShopFilters({ isOpen, onClose, filters, setFilters, tota
     { label: "High Caution", value: "high" }
   ];
 
+  // Only roles that at least one product carries (products.ts stackRole values).
   const stackRoleOptions = [
-    "Foundation", "Performance", "Recovery", "Hydration", 
-    "Sleep", "Vitality", "Combat", "Utility", "Longevity", 
-    "Calm", "Mobility"
+    "Foundation", "Performance", "Recovery",
+    "Sleep", "Vitality", "Combat", "Utility", "Longevity"
   ];
 
   return (
@@ -118,18 +131,24 @@ export default function ShopFilters({ isOpen, onClose, filters, setFilters, tota
           className="fixed inset-0 z-[100] flex justify-end"
         >
           {/* Backdrop */}
-          <div 
+          <div
             className="absolute inset-0 bg-editorial-bg/80 backdrop-blur-3xl"
             onClick={onClose}
+            aria-hidden="true"
           />
 
           {/* Drawer */}
-          <motion.div 
+          <motion.div
+            ref={drawerRef}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Filters"
+            tabIndex={-1}
             initial={{ x: '100%' }}
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ type: 'spring', damping: 30, stiffness: 200 }}
-            className="relative w-full max-w-[500px] bg-editorial-bg/95 backdrop-blur-3xl border-l border-editorial-border-light h-full overflow-hidden flex flex-col shadow-[-40px_0_100px_rgba(0,0,0,0.15)]"
+            className="relative w-full max-w-[500px] focus:outline-none bg-editorial-bg/95 backdrop-blur-3xl border-l border-editorial-border-light h-full overflow-hidden flex flex-col shadow-[-40px_0_100px_rgba(0,0,0,0.15)]"
           >
             {/* Header */}
             <div className="flex-none bg-editorial-bg border-b border-editorial-border p-8 flex flex-col gap-8 shadow-md">
@@ -159,7 +178,7 @@ export default function ShopFilters({ isOpen, onClose, filters, setFilters, tota
                 {(filters.price || filters.categories.length > 0 || filters.goals.length > 0 || filters.productTypes.length > 0 || filters.cautionLevels.length > 0 || filters.stackRoles.length > 0) && (
                   <button 
                     onClick={clearFilters}
-                    className="flex items-center gap-2 text-meta-premium !text-red-500 hover:!text-red-400 transition-colors drop-shadow-sm"
+                    className="flex items-center gap-2 min-h-11 px-3 -my-3 -mr-3 text-meta-premium !text-red-500 hover:!text-red-400 transition-colors drop-shadow-sm"
                   >
                     <RefreshCcw className="w-3 h-3" /> CLEAR_MATRIX
                   </button>

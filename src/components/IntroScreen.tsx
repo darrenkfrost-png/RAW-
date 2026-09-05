@@ -79,9 +79,7 @@ export default function IntroScreen() {
       key="intro"
       exit={{ opacity: 0, filter: "blur(12px)", scale: 1.04 }}
       transition={{ duration: 0.7, ease }}
-      /* z above every floating hub and the diagnostics frame (500 / 1000):
-         at z-200 the voice buttons and the uptime chip drew ON TOP of the
-         door and sat over the Skip control. A gate has nothing above it. */
+      /* z above every floating layer; a gate has nothing above it. */
       className="fixed inset-0 z-[1100] bg-black flex items-center justify-center overflow-hidden cursor-pointer select-none"
       onClick={() => open && enter()}
       role="dialog"
@@ -137,7 +135,7 @@ export default function IntroScreen() {
                 initial={{ opacity: 0, y: 14, letterSpacing: "0.6em" }}
                 animate={{ opacity: 0.75, y: 0, letterSpacing: "0.35em" }}
                 transition={{ duration: 1, ease }}
-                className="font-mono text-[0.6875rem] md:text-[0.6875rem] uppercase tracking-[0.35em] text-white/70"
+                className="font-mono text-[0.6875rem] uppercase tracking-[0.35em] text-white/70"
               >
                 {BEATS[1].line}
               </motion.p>
@@ -150,7 +148,7 @@ export default function IntroScreen() {
                 initial={{ opacity: 0, y: 14, letterSpacing: "0.6em" }}
                 animate={{ opacity: 1, y: 0, letterSpacing: "0.35em" }}
                 transition={{ duration: 1, ease }}
-                className="font-mono text-[0.6875rem] md:text-[0.6875rem] uppercase tracking-[0.35em] text-red-400"
+                className="font-mono text-[0.6875rem] uppercase tracking-[0.35em] text-red-400"
               >
                 {BEATS[2].line}
               </motion.p>
@@ -170,7 +168,7 @@ export default function IntroScreen() {
               whileTap={{ scale: 0.97 }}
               onClick={(e) => { e.stopPropagation(); enter(); }}
               autoFocus
-              className="group relative mt-4 px-12 py-5 rounded-full border border-white/15 bg-white/[0.04] backdrop-blur-md font-mono text-[0.6875rem] md:text-[0.6875rem] font-bold uppercase tracking-[0.45em] text-white overflow-hidden focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500"
+              className="group relative mt-4 px-12 py-5 rounded-full border border-white/15 bg-white/[0.04] backdrop-blur-md font-mono text-[0.6875rem] font-bold uppercase tracking-[0.45em] text-white overflow-hidden focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500"
             >
               <span className="relative z-10">Enter</span>
               <span className="absolute inset-0 bg-gradient-to-r from-red-700 to-red-500 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
@@ -182,9 +180,9 @@ export default function IntroScreen() {
         {/* Honest strapline, readable, at full opacity — not a 5% flash. */}
         <motion.p
           initial={{ opacity: 0 }}
-          animate={{ opacity: open ? 0.45 : 0 }}
+          animate={{ opacity: open ? 1 : 0 }}
           transition={{ duration: 1.2, ease }}
-          className="mt-8 font-mono text-[0.6875rem] uppercase tracking-[0.3em] text-white/45"
+          className="mt-8 font-mono text-[0.6875rem] uppercase tracking-[0.3em] text-white/60"
         >
           Train with intent · Recover with purpose
         </motion.p>
@@ -193,7 +191,7 @@ export default function IntroScreen() {
       {/* Always available, from the very first frame. */}
       <button
         onClick={(e) => { e.stopPropagation(); enter(); }}
-        className="absolute bottom-10 left-1/2 -translate-x-1/2 font-mono text-[0.6875rem] uppercase tracking-[0.35em] text-white/25 hover:text-white/80 transition-colors px-6 py-3 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 rounded-full"
+        className="absolute bottom-10 left-1/2 -translate-x-1/2 font-mono text-[0.6875rem] uppercase tracking-[0.35em] text-white/60 hover:text-white transition-colors px-6 py-3 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 rounded-full"
       >
         Skip
       </button>

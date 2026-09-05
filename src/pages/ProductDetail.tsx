@@ -3,25 +3,25 @@ import { useParams, Link } from "react-router-dom";
 import { ImageViewerPortal } from "../components/ImageViewer";
 import { VideoViewerPortal } from "../components/VideoViewer";
 import { motion, AnimatePresence, useMotionValue, useSpring, useTransform, useScroll, useMotionTemplate } from "motion/react";
-import { Maximize, ChevronLeft, ChevronRight, Plus, Minus, ArrowRight, Shield, Truck, RefreshCw, ZoomIn, X, Star, Facebook, Twitter, Zap, Activity, Target, Copy, ChevronUp, Database, ChevronDown, Layers, Sparkles, Cpu, LineChart, Play } from "lucide-react";
-import React, { useState, useEffect, useRef, lazy, Suspense} from "react";
+import { Maximize, Plus, Minus, ArrowRight, Shield, Truck, RefreshCw, ZoomIn, Star, Facebook, Twitter, Zap, Activity, Target, Database, ChevronDown, Layers, Sparkles, Play } from "lucide-react";
+import React, { useState, useEffect } from "react";
 import { useToast } from "../components/common/Toast";
 import { useCart } from "../context/CartContext";
 import { allProducts } from "../data/products";
 import LazyImage from "../components/LazyImage";
-import CascadingOptionsViewer from "../components/CascadingOptionsViewer";
 import Breadcrumb from "../components/Breadcrumb";
+import NotFound from "./NotFound";
 import { getHighResImageUrl } from "../lib/utils";
-import { useUI } from "../context/UIContext";
 import { useProtocol } from "../context/ProtocolContext";
 import { useCompare } from "../context/CompareContext";
 import MagneticWrapper from "../components/MagneticWrapper";
 import ProductGallery, { GalleryItem } from "../components/ProductGallery";
-/* ⚠️ three.js + @react-three/fiber + drei is roughly a megabyte, and it was a
-   STATIC import — so every visitor to any product page downloaded a 3D engine
-   whether or not they ever switched to the 3D view. Measured: the
-   ProductDetail chunk was 1,032KB. Lazy now: the engine arrives only when the
-   3D tab is actually chosen. */
+/* ⚠️ THE "3D INTERACTIVE MODEL" TAB IS GONE. Product3DViewer took no props and
+   drew one procedural black cylinder with a red cap — the same bottle was
+   announced as "the model" of the T-shirt, the gloves, the sliders and the
+   cool box. Until a per-product model exists there is nothing honest to show,
+   so the gallery holds only the product's real photograph. (It also pulled a
+   ~1MB three.js engine into the page; that is gone with it.) */
 /**
  * Reviews need a store before they can be collected: one written today would
  * live in a single browser tab and disappear on refresh. Flip this when there
@@ -29,8 +29,6 @@ import ProductGallery, { GalleryItem } from "../components/ProductGallery";
  */
 const REVIEWS_ENABLED = false;
 
-const Product3DViewer = lazy(() => import("../components/Product3DViewer"));
-import NeuralTelemetryRadar from "../components/NeuralTelemetryRadar";
 
 function RotationDisplay({ x, y, active }: { x: any, y: any, active: boolean }) {
   const rotationX = useTransform(x, (v: number) => Math.round(v));
@@ -47,20 +45,21 @@ function RotationDisplay({ x, y, active }: { x: any, y: any, active: boolean }) 
 
 export default function ProductDetail() {
   const { id } = useParams();
-  const product = allProducts.find(p => p.id === Number(id)) || allProducts[0];
+  /* ⚠️ NO FALLBACK. This used to be `|| allProducts[0]`, so /product/999 or
+     /product/abc quietly rendered the NMN page — a dead link that looked
+     alive. An unknown id now renders NotFound (after every hook, so the hook
+     order is stable). */
+  const product = allProducts.find(p => p.id === Number(id));
   const { addToast } = useToast();
-  const { addToCart, items: cartItems } = useCart();
-  const { addToProtocol, protocolItems } = useProtocol();
+  const { addToCart } = useCart();
+  const { addToProtocol } = useProtocol();
   const { toggleProduct, selectedItems } = useCompare();
-  const isCompared = selectedItems.some(p => p.id === product.id);
   const [quantity, setQuantity] = useState(1);
   const [activeImage, setActiveImage] = useState(0);
   const [isZoomed, setIsZoomed] = useState(false);
   const [videoOpen, setVideoOpen] = useState<string | null>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
 
   const [activeAccordion, setActiveAccordion] = useState<number | null>(0);
-  const [activeRadarAxis, setActiveRadarAxis] = useState<string | null>(null);
   
   const [isHoverZoomed, setIsHoverZoomed] = useState(false);
   
@@ -79,14 +78,6 @@ export default function ProductDetail() {
   const rotateX = useSpring(rotateXTransform, { stiffness: 300, damping: 40 });
   const rotateY = useSpring(rotateYTransform, { stiffness: 300, damping: 40 });
 
-  const scale = useMotionValue(1);
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-
-  const smoothScale = useSpring(scale, { stiffness: 300, damping: 30 });
-  const smoothX = useSpring(x, { stiffness: 300, damping: 30 });
-  const smoothY = useSpring(y, { stiffness: 300, damping: 30 });
-
   const { scrollY } = useScroll();
   const yParallax = useTransform(scrollY, [0, 800], [0, -100]);
 
@@ -103,10 +94,16 @@ export default function ProductDetail() {
   
   const [showStickyAdd, setShowStickyAdd] = useState(false);
 
-  // 3D Viewer State
-  const [modelRotationX, setModelRotationX] = useState(0);
-  const [modelRotationY, setModelRotationY] = useState(0);
-  const [keyboardScale, setKeyboardScale] = useState(1);
+  // Keyboard rotate / zoom on the image stage.
+  /* ⚠️ THESE WERE useSpring(number) SEEDED FROM REACT STATE, AND NEVER MOVED.
+     A spring only follows a MotionValue source; a plain number is read once
+     as the initial value. So the advertised "Arrows to Rotate / +/- to Zoom /
+     0 to Reset" did nothing for the life of the page — the handler below
+     swallowed the keys and the readout stayed at X:0° Y:0°. The sources are
+     MotionValues now, so the springs follow them and the keys act. */
+  const modelRotationX = useMotionValue(0);
+  const modelRotationY = useMotionValue(0);
+  const keyboardScale = useMotionValue(1);
   const [isViewerActive, setIsViewerActive] = useState(false);
   const smoothRotationX = useSpring(modelRotationX, { stiffness: 100, damping: 20 });
   const smoothRotationY = useSpring(modelRotationY, { stiffness: 100, damping: 20 });
@@ -115,47 +112,52 @@ export default function ProductDetail() {
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (!isViewerActive) return;
+      // Browser shortcuts (Ctrl/Cmd + '+' / '-' page zoom) and typing into a
+      // field are never ours to swallow, whatever the pointer is resting on.
+      if (e.ctrlKey || e.metaKey || e.altKey) return;
+      const target = e.target as HTMLElement | null;
+      if (target && (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable)) return;
       const increment = 15;
       const scaleInc = 0.1;
-      
+
       switch (e.key) {
         case 'ArrowUp':
           e.preventDefault();
-          setModelRotationX(prev => prev + increment);
+          modelRotationX.set(modelRotationX.get() + increment);
           break;
         case 'ArrowDown':
           e.preventDefault();
-          setModelRotationX(prev => prev - increment);
+          modelRotationX.set(modelRotationX.get() - increment);
           break;
         case 'ArrowLeft':
           e.preventDefault();
-          setModelRotationY(prev => prev - increment);
+          modelRotationY.set(modelRotationY.get() - increment);
           break;
         case 'ArrowRight':
           e.preventDefault();
-          setModelRotationY(prev => prev + increment);
+          modelRotationY.set(modelRotationY.get() + increment);
           break;
         case '+':
         case '=':
           e.preventDefault();
-          setKeyboardScale(prev => Math.min(prev + scaleInc, 4));
+          keyboardScale.set(Math.min(keyboardScale.get() + scaleInc, 2));
           break;
         case '-':
         case '_':
           e.preventDefault();
-          setKeyboardScale(prev => Math.max(prev - scaleInc, 0.5));
+          keyboardScale.set(Math.max(keyboardScale.get() - scaleInc, 0.5));
           break;
         case '0':
           e.preventDefault();
-          setModelRotationX(0);
-          setModelRotationY(0);
-          setKeyboardScale(1);
+          modelRotationX.set(0);
+          modelRotationY.set(0);
+          keyboardScale.set(1);
           break;
       }
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isViewerActive]);
+  }, [isViewerActive, modelRotationX, modelRotationY, keyboardScale]);
 
   useEffect(() => {
     return scrollY.on("change", (latest) => {
@@ -186,9 +188,11 @@ export default function ProductDetail() {
   }>>([]);
   const [newReview, setNewReview] = useState({ author: '', rating: 5, content: '' });
   const [isHoveringStar, setIsHoveringStar] = useState<number | null>(null);
-  const [isAdmin, setIsAdmin] = useState(false);
 
-  const visibleReviews = isAdmin ? reviews : reviews.filter(r => r.status === 'approved');
+  /* The approve/reject moderation path that lived here had no caller (nothing
+     ever set an admin flag), so it is gone until a real moderation backend
+     exists. Only approved reviews are ever shown. */
+  const visibleReviews = reviews.filter(r => r.status === 'approved');
     /* ⚠️ THE FALLBACK WAS '5.0' — a perfect score displayed for a product with
      no reviews at all. An unrated product must read as unrated. */
   const averageRating = visibleReviews.length > 0
@@ -222,10 +226,25 @@ export default function ProductDetail() {
     setReviews(reviews.map(r => r.id === id ? { ...r, reported: true } : r));
   };
 
-  const updateReviewStatus = (id: string, newStatus: string) => {
-    setReviews(reviews.map(r => r.id === id ? { ...r, status: newStatus, reported: newStatus === 'approved' ? false : r.reported } : r));
-  };
-  
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    /* The route product/:id keeps this ONE instance mounted across the related-
+       product links, so a visitor's quantity, open accordion, gallery position
+       and keyboard rotation all carried over to the next product. Reset per id. */
+    setQuantity(1);
+    setActiveImage(0);
+    setActiveAccordion(0);
+    setIsZoomed(false);
+    setVideoOpen(null);
+    modelRotationX.set(0);
+    modelRotationY.set(0);
+    keyboardScale.set(1);
+  }, [id, modelRotationX, modelRotationY, keyboardScale]);
+
+  /* Every hook is above this line. */
+  if (!product) return <NotFound />;
+
+  const isCompared = selectedItems.some(p => p.id === product.id);
   const related = allProducts.filter(p => p.category === product.category && p.id !== product.id).slice(0, 4);
   /* ⚠️ THE PLACEHOLDERS ARE GONE, AND THAT MATTERS MORE NOW THAN IT DID.
      This gallery shipped with two Unsplash stock photos and Google's demo
@@ -240,16 +259,10 @@ export default function ProductDetail() {
      this array. */
   const galleryItems: GalleryItem[] = [
     {type: 'image', url: getHighResImageUrl(product.image)},
-    {type: '3d', url: "interactive-model"},
   ];
-
-  const cascadingOptions = allProducts.slice(0, 6).map(p => ({
-    id: p.id,
-    image: p.image,
-    title: p.name,
-    description: p.shortBenefit || 'Premium formulation'
-  }));
-  const [selectedOptionId, setSelectedOptionId] = useState<number | string>(product.id);
+  // Never index past the end: a gallery position kept from a longer list would
+  // otherwise read an undefined item.
+  const activeItem = galleryItems[Math.min(activeImage, galleryItems.length - 1)];
 
   const productDetails = [
     { title: "Product Overview", content: product.overview || "Precision Engineered for elite performance environments." },
@@ -261,19 +274,9 @@ export default function ProductDetail() {
     { title: "Quality Notes", content: typeof product.qualityNotes === 'string' ? product.qualityNotes : product.qualityNotes?.length ? `• ${product.qualityNotes.join("\n• ")}` : "• Verified sourcing." }
   ];
 
-  if (product.responsibleUse) {
-    productDetails.push({ title: "Responsible Use", content: product.responsibleUse });
-  }
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [id]);
-
-  /* The legacy zoom effect lived here: a second global wheel+key handler bound
-     whenever isZoomed was true. It preventDefault'd every wheel event and drove
-     its own scale/x/y motion values, so it fought the new viewer for the same
-     gestures. The viewer owns zooming now — one handler, on its own stage
-     rather than the window. */
+  /* product.responsibleUse is shown ONCE, as the Responsible Use Notice card in
+     the info column (it used to be pushed in here as well, so every supplement
+     page printed the same paragraph twice). */
 
   const getStockStatus = (status: string | undefined) => {
     switch (status) {
@@ -292,7 +295,6 @@ export default function ProductDetail() {
     <div className="pt-40 pb-32 px-[var(--shell-padding-mobile)] md:px-[var(--shell-padding)] lg:px-[var(--shell-padding-lg)] max-w-[var(--content-max-width)] mx-auto min-h-svh relative selection:bg-red-600 selection:text-white" aria-label="Product Detail Page">
       {/* Background HUD Matrix */}
       <div className="fixed inset-0 pointer-events-none z-0">
-        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-[0.03]" />
         <div className="absolute top-0 right-0 w-full h-full bg-[radial-gradient(circle_at_70%_20%,rgba(220,38,38,0.08),transparent_70%)]" />
         <div className="absolute inset-0 opacity-[0.1]" style={{backgroundImage: 'radial-gradient(#ffffff 1px, transparent 1px)', backgroundSize: '60px 60px'}} />
       </div>
@@ -301,7 +303,7 @@ export default function ProductDetail() {
         <Breadcrumb items={[
           { label: "Home", path: "/" },
           { label: "Archive", path: "/shop" },
-          { label: product.category, path: `/shop/${product.category.toLowerCase()}` },
+          { label: product.category, path: `/category/${product.category.toLowerCase()}` },
           { label: product.name }
         ]} />
         
@@ -343,10 +345,11 @@ export default function ProductDetail() {
                rotateX: rotateX,
                rotateY: rotateY,
                transformStyle: "preserve-3d", 
-               perspective: 1000 
+               perspective: 1000
              }}
-             role="img"
-             aria-label="Product Image - Drag to rotate"
+             /* No role="img" here: that role makes every descendant presentational,
+                which hid the Zoom and full-screen buttons inside from screen readers.
+                The photograph itself carries its alt on the LazyImage. */
            >
             <div className="absolute inset-0 bg-gradient-to-br from-white/[0.03] to-transparent pointer-events-none z-0" />
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,_rgba(220,38,38,0.1),transparent_70%)] pointer-events-none opacity-50 transition-opacity duration-500 group-hover:opacity-80" />
@@ -385,25 +388,39 @@ export default function ProductDetail() {
                   transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
                   className={`w-full h-full relative z-10 ${isHoverZoomed ? 'cursor-none' : 'cursor-zoom-in'}`}
                   style={{ transformStyle: "preserve-3d", transform: "translateZ(50px)" }}
-                  onClick={() => {
-                    if (galleryItems[activeImage].type === 'image') {
-                      scale.set(1);
-                      x.set(0);
-                      y.set(0);
+                  /* Click-to-zoom is reachable by keyboard too: focus lands here,
+                     Enter/Space opens the viewer, and focus arms the same
+                     Arrows / +/- / 0 keys the hover pill advertises. */
+                  role={activeItem.type === 'image' ? 'button' : undefined}
+                  tabIndex={activeItem.type === 'image' ? 0 : undefined}
+                  aria-label={activeItem.type === 'image' ? `Zoom image of ${product.name}` : undefined}
+                  onKeyDown={(e) => {
+                    if (activeItem.type !== 'image') return;
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
                       setIsZoomed(true);
                       setIsHoverZoomed(false);
                       setIsViewerActive(false);
                     }
                   }}
-                  onMouseEnter={() => { 
-                    if (galleryItems[activeImage].type === 'image') {
-                       setIsHoverZoomed(true); 
+                  onFocus={() => setIsViewerActive(true)}
+                  onBlur={() => setIsViewerActive(false)}
+                  onClick={() => {
+                    if (activeItem.type === 'image') {
+                      setIsZoomed(true);
+                      setIsHoverZoomed(false);
+                      setIsViewerActive(false);
                     }
-                    setIsViewerActive(true); 
+                  }}
+                  onMouseEnter={() => {
+                    if (activeItem.type === 'image') {
+                       setIsHoverZoomed(true);
+                    }
+                    setIsViewerActive(true);
                   }}
                   onMouseLeave={() => { setIsHoverZoomed(false); setIsViewerActive(false); }}
                 >
-                    {galleryItems[activeImage].type === 'image' ? (
+                    {activeItem.type === 'image' ? (
                       <motion.div
                         className="w-full h-full relative"
                         animate={{ scale: isHoverZoomed ? 2.5 : 1 }}
@@ -437,20 +454,20 @@ export default function ProductDetail() {
                            height: "100%",
                          }}>
                             <LazyImage 
-                              src={galleryItems[activeImage].url} 
+                              src={activeItem.url}
                               alt={product.name}
                               className="w-full h-full object-contain mix-blend-screen filter drop-shadow-[0_0_80px_rgba(0,0,0,0.05)]" 
                               containerClassName="w-full h-full bg-transparent flex items-center justify-center p-8 lg:p-12 absolute inset-0"
                             />
                          </motion.div>
                       </motion.div>
-                    ) : galleryItems[activeImage].type === 'video' ? (
+                    ) : activeItem.type === 'video' ? (
                       <div className="w-full h-full relative group/vid">
-                        <video src={galleryItems[activeImage].url} controls autoPlay loop muted playsInline className="w-full h-full object-cover" />
+                        <video src={activeItem.url} controls autoPlay loop muted playsInline className="w-full h-full object-cover" />
                         {/* The inline player is a preview; this opens the real
                             viewer, with the size choices. */}
                         <button
-                          onClick={(e) => { e.stopPropagation(); setVideoOpen(galleryItems[activeImage].url); }}
+                          onClick={(e) => { e.stopPropagation(); setVideoOpen(activeItem.url); }}
                           aria-label="Open video full screen"
                           className="absolute bottom-8 right-8 z-30 flex h-12 w-12 items-center justify-center rounded-2xl border border-white/15 bg-black/70 text-white backdrop-blur-md transition-colors hover:border-red-500"
                         >
@@ -464,36 +481,14 @@ export default function ProductDetail() {
                            </div>
                         </div>
                       </div>
-                    ) : (
-                      <div className="w-full h-full relative">
-                         <div className={`absolute inset-0 z-50 pointer-events-none transition-opacity duration-500 flex flex-col items-center justify-center ${!isViewerActive ? 'opacity-100' : 'opacity-0'}`}>
-                            <div className="flex gap-2 text-[0.6875rem] font-mono text-white bg-red-600 px-6 py-3 rounded-full border border-red-500/50 uppercase tracking-[0.2em] font-black shadow-premium animate-pulse">
-                               <span>3D_INTERACTIVE_MODEL_ACTIVE</span>
-                            </div>
-                         </div>
-                         <Suspense fallback={
-                           <div className="flex h-full w-full items-center justify-center">
-                             <span className="font-mono text-[0.6875rem] uppercase tracking-[0.3em] text-editorial-text-muted">
-                               Loading 3D view…
-                             </span>
-                           </div>
-                         }>
-                           <Product3DViewer />
-                         </Suspense>
-                      </div>
-                    )}
+                    ) : null}
                 </motion.div>
               </AnimatePresence>
             </motion.div>
             </motion.div>
-           {galleryItems[activeImage].type === 'image' && (
-             <button 
-               onClick={() => {
-                   scale.set(1);
-                   x.set(0);
-                   y.set(0);
-                   setIsZoomed(true);
-               }}
+           {activeItem.type === 'image' && (
+             <button
+               onClick={() => setIsZoomed(true)}
                aria-label="Zoom image"
                className="absolute bottom-8 right-8 bg-editorial-bg/90 p-5 backdrop-blur-md rounded-[1.5rem] border border-editorial-border-light filter backdrop-saturate-[1.5] group/zoom transition-all duration-[600ms] hover:scale-110 hover:border-red-500/50 shadow-[0_20px_50px_rgba(0,0,0,0.08)] z-20"
              >
@@ -504,11 +499,16 @@ export default function ProductDetail() {
            )}
           </motion.div>
           
-          <ProductGallery 
-            galleryItems={galleryItems} 
-            activeItem={activeImage} 
-            setActiveItem={setActiveImage} 
-          />
+          {/* One photograph needs no strip: with a single item the Prev/Next
+              buttons and the gallery's own ArrowLeft/Right handler would be
+              no-ops that also fight the rotate keys on the stage above. */}
+          {galleryItems.length > 1 && (
+            <ProductGallery
+              galleryItems={galleryItems}
+              activeItem={activeImage}
+              setActiveItem={setActiveImage}
+            />
+          )}
         </div>
 
       {/* ⚠️ THE VIEWER MUST LIVE OUTSIDE THIS SUBTREE.
@@ -528,7 +528,7 @@ export default function ProductDetail() {
       <ImageViewerPortal
         open={isZoomed}
         images={galleryItems.filter(g => g.type === 'image').map(g => g.url)}
-        index={Math.max(0, galleryItems.filter(g => g.type === 'image').findIndex(g => g.url === galleryItems[activeImage]?.url))}
+        index={Math.max(0, galleryItems.filter(g => g.type === 'image').findIndex(g => g.url === activeItem.url))}
         onIndexChange={(i) => {
           const imgs = galleryItems.filter(g => g.type === 'image');
           const target = galleryItems.findIndex(g => g.url === imgs[i]?.url);
@@ -577,23 +577,13 @@ export default function ProductDetail() {
                   <span className="text-4xl text-red-600 mr-4 drop-shadow-[0_0_15px_#dc2626] mt-6 font-mono">£</span>{product.price.replace('£', '')}
                 </div>
              </div>
-             <div className="h-[120px] w-[1px] bg-editorial-text/10 hidden xl:block" />
-             <div className="hidden xl:flex flex-col justify-center">
-                <span className="text-meta-premium opacity-40 mb-2">SYNERGY_INDEX</span>
-                <div className="flex items-center gap-3">
-                   <div className="flex gap-1">
-                      {[1,2,3,4,5].map(i => <div key={i} className="w-2 h-8 bg-red-600/40 rounded-sm" />)}
-                   </div>
-                   <span className="text-meta-premium text-2xl">99%</span>
-                </div>
-             </div>
           </motion.div>
           
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.8, duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-            className="mb-16 p-10 bg-editorial-surface/40 backdrop-blur-3xl rounded-[3rem] border border-editorial-border relative overflow-hidden group shadow-depth-2 hover:border-red-600/20 transition-colors duration-1000"
+            className="mb-16 p-6 md:p-10 bg-editorial-surface/40 backdrop-blur-3xl rounded-[3rem] border border-editorial-border relative overflow-hidden group shadow-depth-2 hover:border-red-600/20 transition-colors duration-1000"
           >
             <div className="absolute inset-0 bg-gradient-to-br from-red-600/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
             <div className="absolute -right-20 -top-20 w-64 h-64 bg-red-600/5 blur-[100px] rounded-full group-hover:bg-red-600/10 transition-colors duration-1000" />
@@ -601,15 +591,14 @@ export default function ProductDetail() {
                <div className="flex items-center justify-between mb-10">
                   <h2 className="font-mono text-red-500 text-[0.6875rem] uppercase tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] font-black flex items-center gap-4">
                      <span className="w-2 h-2 rounded-full bg-red-600 animate-pulse shadow-[0_0_8px_currentColor]" />
-                     MISSION_OBJECTIVE_DIAGNOSTIC
+                     MISSION_OBJECTIVE
                   </h2>
                   <div className="h-[1px] flex-1 mx-8 bg-gradient-to-r from-red-600/40 to-transparent" />
-                  <span className="font-mono text-[0.6875rem] text-zinc-700 uppercase tracking-widest font-black opacity-40">INTEL_CORE_V3</span>
                </div>
                <div className="text-white font-medium text-2xl md:text-4xl leading-[1.3] space-y-12">
                    <p className="tracking-tight drop-shadow-sm font-sans font-bold">{product.overview || `The ${product.name} is a high-flux ${product.category} deployment, engineered for tactical efficiency.`}</p>
                    {product.whatItDoes && (
-                       <div className="bg-red-600/15 border-l-8 border-red-600 p-12 lg:p-16 rounded-r-[3rem] italic text-white font-serif text-4xl md:text-6xl tracking-tighter leading-[0.95] relative group/quote">
+                       <div className="bg-red-600/15 border-l-8 border-red-600 p-6 md:p-12 lg:p-16 rounded-r-[3rem] italic text-white font-serif text-4xl md:text-6xl tracking-tighter leading-[0.95] relative group/quote">
                            <div className="absolute -top-6 -left-4 w-12 h-12 bg-red-600 flex items-center justify-center rounded-xl shadow-[0_0_20px_#dc2626]">
                               <Target className="w-6 h-6 text-white" />
                            </div>
@@ -662,7 +651,7 @@ export default function ProductDetail() {
                        addToCart(product, quantity);
                        addToProtocol(product);
                     }}
-                    className="w-full xl:w-auto xl:flex-1 h-[100px] bg-red-600 border-b-[6px] border-red-900 hover:border-white text-white font-black uppercase tracking-[0.4em] text-[0.875rem] hover:bg-editorial-text hover:text-editorial-bg transition-all duration-[800ms] ease-[0.16,1,0.3,1] outline-none relative overflow-hidden group rounded-[2.5rem] shadow-[0_40px_100px_rgba(220,38,38,0.4)] hover:shadow-glow-intense whitespace-nowrap px-14 flex items-center justify-center transform-gpu active:border-b-0 active:translate-y-[6px]"
+                    className="w-full xl:w-auto xl:flex-1 h-[100px] bg-red-600 border-b-[6px] border-red-900 hover:border-white text-white font-black uppercase tracking-[0.4em] text-[0.875rem] hover:bg-editorial-text hover:text-editorial-bg transition-all duration-[800ms] ease-[0.16,1,0.3,1] outline-none relative overflow-hidden group rounded-[2.5rem] shadow-[0_40px_100px_rgba(220,38,38,0.4)] hover:shadow-glow-intense whitespace-nowrap px-6 md:px-14 flex items-center justify-center transform-gpu active:border-b-0 active:translate-y-[6px]"
                   >
                     <span className="relative z-10 transition-colors drop-shadow-[0_4px_8px_rgba(0,0,0,0.4)] group-hover:drop-shadow-none flex items-center gap-6">
                        PROCURE_PROTOCOL <ArrowRight className="w-6 h-6 opacity-0 -ml-6 group-hover:opacity-100 group-hover:ml-0 transition-all duration-[800ms]" />
@@ -679,16 +668,17 @@ export default function ProductDetail() {
               <MagneticWrapper>
                 <button 
                   onClick={() => toggleProduct(product)}
-                  className={`px-10 h-[80px] border transition-all duration-700 text-meta-premium flex items-center justify-center gap-6 rounded-[2rem] shadow-premium ${isCompared ? 'border-red-600 bg-red-600/10 !text-red-500' : 'border-editorial-border-light bg-editorial-bg/40 text-white-muted hover:text-editorial-text'}`}
+                  className={`px-10 h-[80px] border transition-all duration-700 text-meta-premium flex items-center justify-center gap-6 rounded-[2rem] shadow-premium ${isCompared ? 'border-red-600 bg-red-600/10 !text-red-500' : 'border-editorial-border-light bg-editorial-bg/40 text-editorial-text-muted hover:text-editorial-text'}`}
                 >
                   <Layers className={`w-5 h-5 ${isCompared ? 'animate-pulse text-red-500' : ''}`} />
                   {isCompared ? 'PROTOCOL_COMPARISON_ACTIVE' : 'COMPARE_ASSET'}
                 </button>
               </MagneticWrapper>
             </div>
-            <button className="w-full border border-editorial-border-light bg-editorial-bg/50 backdrop-blur-md py-8 text-meta-premium hover:bg-editorial-text hover:!text-editorial-bg hover:border-white transition-all duration-[800ms] flex items-center justify-center gap-5 rounded-[2rem] group shadow-[0_20px_50px_rgba(0,0,0,0.1)] hover:shadow-[0_30px_80px_rgba(0,0,0,0.06)] transform-gpu hover:-translate-y-1">
+            <button disabled aria-disabled="true" title="COMING_SOON" className="cursor-not-allowed opacity-50 w-full border border-editorial-border-light bg-editorial-bg/50 backdrop-blur-md py-8 text-meta-premium hover:bg-editorial-text hover:!text-editorial-bg hover:border-white transition-all duration-[800ms] flex items-center justify-center gap-5 rounded-[2rem] group shadow-[0_20px_50px_rgba(0,0,0,0.1)] hover:shadow-[0_30px_80px_rgba(0,0,0,0.06)] transform-gpu hover:-translate-y-1">
               Elite Subscription <ArrowRight className="w-5 h-5 group-hover:translate-x-4 transition-transform duration-[800ms] drop-shadow-[0_0_8px_currentColor]" />
             </button>
+            <span className="block -mt-4 mb-2 text-center font-mono text-[0.6875rem] font-black uppercase tracking-[0.3em] text-zinc-500">COMING_SOON</span>
             
             <div className="pt-10 border-t border-editorial-border-light flex flex-col md:flex-row md:items-center justify-between gap-6">
               <span className="font-mono text-[0.6875rem] text-editorial-text-muted uppercase tracking-[0.4em] font-bold drop-shadow-[0_2px_4px_rgba(0,0,0,0.1)]">Transmit Signal:</span>
@@ -705,7 +695,7 @@ export default function ProductDetail() {
                 <button onClick={() => window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`)} className="p-4 bg-editorial-bg border border-editorial-border hover:text-editorial-text hover:border-red-500 hover:bg-editorial-bg hover:shadow-[0_10px_20px_rgba(220,38,38,0.3)] transition-all duration-[800ms] text-editorial-text-muted rounded-2xl group outline-none" aria-label="Share on Facebook">
                   <Facebook className="w-5 h-5 group-hover:scale-110 transition-transform duration-[800ms]" />
                 </button>
-                <button onClick={() => window.open(`https://pinterest.com/pin/create/button/?url=${encodeURIComponent(window.location.href)}&media=${encodeURIComponent(window.location.origin + product.image)}&description=${encodeURIComponent(product.name)}`)} className="p-4 bg-editorial-bg border border-editorial-border hover:text-editorial-text hover:border-red-500 hover:bg-editorial-bg hover:shadow-[0_10px_20px_rgba(220,38,38,0.3)] transition-all duration-[800ms] text-editorial-text-muted rounded-2xl group outline-none" aria-label="Share on Pinterest">
+                <button onClick={() => window.open(`https://pinterest.com/pin/create/button/?url=${encodeURIComponent(window.location.href)}&media=${encodeURIComponent(new URL(product.image, window.location.origin).href)}&description=${encodeURIComponent(product.name)}`)} className="p-4 bg-editorial-bg border border-editorial-border hover:text-editorial-text hover:border-red-500 hover:bg-editorial-bg hover:shadow-[0_10px_20px_rgba(220,38,38,0.3)] transition-all duration-[800ms] text-editorial-text-muted rounded-2xl group outline-none" aria-label="Share on Pinterest">
                   <svg className="w-5 h-5 group-hover:scale-110 transition-transform duration-[800ms] fill-current" viewBox="0 0 24 24">
                      <path d="M12 0C5.373 0 0 5.372 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.688 0 1.029-.653 2.568-.985 3.992-.277 1.197.601 2.172 1.77 2.172 2.122 0 3.753-2.239 3.753-5.471 0-2.861-2.056-4.86-4.991-4.86-3.398 0-5.393 2.549-5.393 5.184 0 1.031.397 2.138.893 2.738.098.119.112.224.083.345l-.279 1.14c-.038.154-.127.189-.286.115-1.068-.498-1.736-2.056-1.736-3.324 0-2.703 1.963-5.18 5.666-5.18 2.973 0 5.289 2.115 5.289 4.939 0 2.956-1.863 5.334-4.453 5.334-1.07 0-2.073-.556-2.417-1.213l-.659 2.507c-.238.913-.883 2.053-1.316 2.753C9.824 23.649 10.89 24 12 24c6.627 0 12-5.373 12-12 0-6.628-5.373-12-12-12z"/>
                   </svg>
@@ -726,16 +716,20 @@ export default function ProductDetail() {
             </div>
           </div>
 
-          {/* Responsible Use Notice */}
-          <div className="mt-12 bg-editorial-surface/50 border border-editorial-border p-6 rounded-2xl relative overflow-hidden group">
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-white/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
-            <h5 className="font-mono text-[0.6875rem] font-bold text-editorial-text-muted uppercase tracking-widest mb-2 flex items-center gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-zinc-600" /> Responsible Use Notice
-            </h5>
-            <p className="text-[0.6875rem] leading-relaxed text-editorial-text-muted font-light mix-blend-screen">
-              RAW Official products are designed to support active lifestyles and performance routines. Supplements should be used as directed on the label and are not intended to diagnose, treat, cure, or prevent disease. Always consult a qualified professional if you are pregnant, taking medication, under 18, or managing a health condition.
-            </p>
-          </div>
+          {/* Responsible Use Notice — the product's OWN wording from the data, and
+              only where the data carries one (every supplement does; the T-shirt,
+              the power bank and the gloves do not, and used to get it anyway). */}
+          {product.responsibleUse && (
+            <div className="mt-12 bg-editorial-surface/50 border border-editorial-border p-6 rounded-2xl relative overflow-hidden group">
+              <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-white/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
+              <h5 className="font-mono text-[0.6875rem] font-bold text-editorial-text-muted uppercase tracking-widest mb-2 flex items-center gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-zinc-600" /> Responsible Use Notice
+              </h5>
+              <p className="text-[0.6875rem] leading-relaxed text-editorial-text-muted font-light mix-blend-screen">
+                {product.responsibleUse}
+              </p>
+            </div>
+          )}
 
           <div className="mt-8 flex flex-wrap gap-3">
               <Link to="/knowledge-core" className="button-secondary">
@@ -754,14 +748,12 @@ export default function ProductDetail() {
         </motion.div>
       </div>
 
-      {/* Cascading Options */}
-      <section className="mt-24 border-y border-editorial-border pt-24 pb-24 max-w-[var(--content-max-width)] mx-auto px-[var(--shell-padding-mobile)] md:px-[var(--shell-padding)] lg:px-[var(--shell-padding-lg)]">
-        <div className="mb-12 text-center">
-             <h3 className="font-sans font-black text-4xl uppercase tracking-tighter text-editorial-text">Product Versions</h3>
-             <p className="text-editorial-text-muted font-mono text-xs uppercase mt-4 tracking-widest">Select your desired version</p>
-        </div>
-        <CascadingOptionsViewer options={cascadingOptions} selectedId={selectedOptionId} onSelect={(option) => setSelectedOptionId(option.id)} />
-      </section>
+      {/* ⚠️ THE "PRODUCT VERSIONS" PICKER IS GONE. It listed the first six items
+          of the whole catalogue (NMN, gummies, NAD+, pre-workout, the ice bath,
+          protein) on EVERY product page under "Select your desired version",
+          and selecting one only moved a highlight — price, cart, image and URL
+          never changed. No product in the data has variants; when one does,
+          derive the options from that product and make the choice do something. */}
 
 
       {/* Cinematic Performance Visualization */}
@@ -780,16 +772,9 @@ export default function ProductDetail() {
                   <p className="text-xl xl:text-3xl text-editorial-text-muted font-light leading-relaxed max-w-2xl border-l-[4px] border-red-600/50 pl-10 py-4 shadow-[inset_20px_0_40px_rgba(220,38,38,0.05)]">
                     Every formulation undergoes a multi-phase validation cycle. We test for bio-availability, molecular stability, and operational impact in high-stress athletic environments.
                   </p>
-                  <div className="grid grid-cols-2 gap-8">
-                      <div className="space-y-3 bg-white/5 p-8 rounded-3xl border border-white/5 hover:border-red-500/20 transition-all">
-                          <span className="block text-[0.6875rem] font-mono text-zinc-500 uppercase tracking-widest font-black">Batch_ID</span>
-                          <span className="block text-2xl font-black text-white italic">#RAW_ALPHA_74</span>
-                      </div>
-                      <div className="space-y-3 bg-white/5 p-8 rounded-3xl border border-white/5 hover:border-red-500/20 transition-all">
-                          <span className="block text-[0.6875rem] font-mono text-zinc-500 uppercase tracking-widest font-black">Sector_Rank</span>
-                          <span className="block text-2xl font-black text-red-500 italic">ELITE_01</span>
-                      </div>
-                  </div>
+                  {/* The Batch_ID (#RAW_ALPHA_74) and Sector_Rank (ELITE_01) tiles
+                      that sat here were the same two literals on all 47 products:
+                      a batch nobody issued and a rank nobody awarded. */}
               </div>
               <div className="relative aspect-square w-full max-w-[600px] lg:max-w-none group/vis">
                   <div className="absolute inset-0 bg-editorial-surface/40 backdrop-blur-3xl border border-editorial-border rounded-[4rem] group-hover/vis:border-red-500/30 transition-all duration-[1500ms] shadow-depth-3 relative overflow-hidden flex items-center justify-center">
@@ -802,21 +787,10 @@ export default function ProductDetail() {
                           className="w-48 h-48 xl:w-64 xl:h-64 border-2 border-red-600/40 rounded-[3.5rem] flex items-center justify-center bg-black/40 shadow-[0_0_80px_rgba(239,68,68,0.2),inset_0_0_40px_rgba(239,68,68,0.1)] relative group-hover/vis:scale-110 transition-transform duration-[1500ms]"
                         >
                             <Activity className="w-24 h-24 text-red-500 drop-shadow-[0_0_20px_rgba(239,68,68,0.8)]" />
-                            <div className="absolute -top-4 -right-4 w-12 h-12 bg-editorial-bg border border-red-600/40 rounded-2xl flex items-center justify-center font-mono text-xs font-black text-red-500 shadow-xl">V.04</div>
                         </motion.div>
-                        <div className="flex flex-col items-center text-center gap-2">
-                            <span className="font-mono text-[0.6875rem] text-zinc-600 uppercase tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] font-black">Live_Telemetry_Signal</span>
-                            <div className="flex gap-2">
-                                {[1,2,3,4,5,6,7].map(i => (
-                                    <motion.div 
-                                      key={i}
-                                      animate={{ height: ["4px", `${15 + Math.random() * 30}px`, "4px"] }}
-                                      transition={{ duration: 1, repeat: Infinity, delay: i * 0.1 }}
-                                      className="w-1 bg-red-600 rounded-full" 
-                                    />
-                                ))}
-                            </div>
-                        </div>
+                        {/* "Live_Telemetry_Signal" over seven Math.random() bars stood
+                            here. Nothing on this page receives telemetry; the label
+                            claimed a measurement the animation was not making. */}
                      </div>
                   </div>
               </div>
@@ -828,7 +802,7 @@ export default function ProductDetail() {
         <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-red-900/40 to-transparent" />
         <div className="mb-12 text-center">
              <h3 className="font-sans font-black text-4xl uppercase tracking-tighter text-editorial-text">Product Details</h3>
-             <p className="text-editorial-text-muted font-mono text-xs uppercase mt-4 tracking-widest">Select metric for detailed breakdown</p>
+             <p className="text-editorial-text-muted font-mono text-xs uppercase mt-4 tracking-widest">Expand a section for details</p>
         </div>
         
         <div className="w-full flex flex-col gap-4">
@@ -878,64 +852,15 @@ export default function ProductDetail() {
            <span className="font-sans font-black text-[clamp(3rem,15vw,30rem)] leading-[0.8] uppercase">ANALYSIS</span>
         </div>
         
-        <div className="max-w-[var(--content-max-width)] mx-auto px-[var(--shell-padding-mobile)] md:px-[var(--shell-padding)] lg:px-[var(--shell-padding-lg)] relative z-10 flex flex-col lg:grid lg:grid-cols-12 gap-20 lg:gap-32 pb-32">
-           <div className="lg:col-span-4">
-              <div className="flex items-center gap-5 mb-14 bg-editorial-bg border border-red-500/30 px-6 py-4 w-fit rounded-[1.5rem] shadow-[0_10px_20px_rgba(220,38,38,0.1)]">
-                 <div className="w-2.5 h-2.5 bg-red-500 rounded-full animate-ping shadow-[0_0_10px_#dc2626]" />
-                 <span className="font-mono text-[0.75rem] text-red-500 font-bold tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] uppercase drop-shadow-[0_0_5px_currentColor]">BIO_BLUEPRINT_ACCESS // GRANTED</span>
-              </div>
+        <div className="max-w-[var(--content-max-width)] mx-auto px-[var(--shell-padding-mobile)] md:px-[var(--shell-padding)] lg:px-[var(--shell-padding-lg)] relative z-10 flex flex-col gap-20 lg:gap-32 pb-32">
+           <div className="max-w-3xl">
               <h2 className="font-sans font-black uppercase tracking-[-0.05em] leading-[0.95] mb-12 text-editorial-text drop-shadow-[0_10px_30px_rgba(0,0,0,0.15)] text-display-md">SPECIFICATION <br /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-red-900 drop-shadow-[0_0_20px_rgba(220,38,38,0.4)]">PROTOCOL</span></h2>
               <p className="text-editorial-text font-light text-xl md:text-2xl leading-relaxed max-w-xl drop-shadow-[0_2px_4px_rgba(0,0,0,0.1)] mb-16">
                  Each unit is batch-tested for molecular integrity and bioavailability. Our laboratory environments maintain a Grade-5 sterile environment ensuring the highest concentration of active compounds.
               </p>
               
-              <div className="hidden lg:block bg-editorial-surface/20 rounded-[3rem] p-10 border border-editorial-border backdrop-blur-3xl group/radar relative overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-b from-red-600/5 to-transparent opacity-0 group-hover/radar:opacity-100 transition-opacity duration-1000" />
-                <div className="flex items-center gap-4 mb-10 text-[0.6875rem] font-mono tracking-[0.4em] uppercase text-editorial-text-muted">
-                    <Target className="w-4 h-4 text-red-500 animate-pulse" />
-                    Performance_Profile
-                </div>
-                <NeuralTelemetryRadar 
-                  size={320}
-                  activeAxis={activeRadarAxis}
-                  metrics={[
-                    { axis: "Molecular Stability", value: 92 },
-                    { axis: "Absorption Rate", value: 88 },
-                    { axis: "Unit Density", value: 75 },
-                    { axis: "Filter Level", value: 95 },
-                    { axis: "Relational Index", value: 85 },
-                    { axis: "Bio-Availability", value: 98 }
-                  ]} 
-                />
-              </div>
            </div>
            
-           <div className="lg:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-px bg-editorial-bg border border-editorial-border rounded-[3rem] overflow-hidden shadow-[0_40px_100px_rgba(0,0,0,0.15)] relative z-10 backdrop-blur-3xl h-fit">
-              <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-red-900/10 to-transparent pointer-events-none mix-blend-screen opacity-50" />
-              {[
-                { label: "Molecular Stability", value: "99.98%", stat: "OPTIMIZED", color: "text-emerald-500" },
-                { label: "Absorption Rate", value: "Bio-V8", stat: "HIGH", color: "text-blue-500" },
-                { label: "Unit Density", value: "Grade A", stat: "MAX", color: "text-purple-500" },
-                { label: "Filter Level", value: "0.02μ", stat: "STERILE", color: "text-amber-500" },
-                { label: "Batch Code", value: "RAW_ALPHA_04", stat: "VERIFIED", color: "text-red-500" },
-                { label: "Relational Index", value: "4.9/5", stat: "ELITE", color: "text-cyan-500" }
-              ].map((spec, i) => (
-                <div 
-                  key={i} 
-                  onMouseEnter={() => setActiveRadarAxis(spec.label)}
-                  onMouseLeave={() => setActiveRadarAxis(null)}
-                  className="bg-editorial-bg/80 p-10 lg:p-12 group hover:bg-editorial-surface transition-all duration-[1000ms] relative cursor-crosshair"
-                >
-                   <div className="absolute inset-0 bg-red-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-[1000ms] pointer-events-none mix-blend-screen" />
-                   <div className="flex justify-between items-start mb-10 relative z-10">
-                      <span className="font-mono text-[0.6875rem] font-bold text-editorial-text-muted tracking-[0.4em] uppercase">{spec.label}</span>
-                      <span className={`font-mono text-[0.6875rem] font-bold tracking-[0.3em] uppercase drop-shadow-[0_0_8px_currentColor] group-hover:animate-pulse ${spec.color}`}>{spec.stat}</span>
-                   </div>
-                   <div className="font-sans font-black text-5xl md:text-6xl text-editorial-text group-hover:scale-[1.05] group-hover:translate-x-3 transition-transform duration-[1000ms] ease-[0.16,1,0.3,1] drop-shadow-[0_4px_10px_rgba(0,0,0,0.15)] relative z-10">{spec.value}</div>
-                   <div className="mt-10 h-[3px] w-12 bg-zinc-800 group-hover:w-full group-hover:bg-red-600 transition-all duration-[1000ms] ease-[0.16,1,0.3,1] relative z-10 shadow-[0_0_15px_rgba(220,38,38,0.5)]" />
-                </div>
-              ))}
-           </div>
         </div>
       </section>
 
@@ -943,7 +868,12 @@ export default function ProductDetail() {
       <section className="mt-40 pt-24 border-t border-editorial-border relative overflow-hidden bg-editorial-bg">
          <div className="max-w-[var(--content-max-width)] mx-auto px-[var(--shell-padding-mobile)] md:px-[var(--shell-padding)] lg:px-[var(--shell-padding-lg)] relative z-10">
             <div className="grid md:grid-cols-2 gap-20">
-               {/* Usage Methodology */}
+               {/* Usage Methodology — dosing guidance ("administer", "store in a
+                   cool, dark environment") only makes sense on something you take.
+                   Gated on the same data field as the Responsible Use notice, so
+                   the gloves, the lounger and the shaker bottle no longer carry it;
+                   each product's own suggestedUse lives in the accordion above. */}
+               {product.responsibleUse && (
                <div className="card-glass p-12 lg:p-16 border rounded-[2rem] border-editorial-border">
                   <h3 className="font-sans font-black text-3xl uppercase tracking-tighter text-editorial-text mb-8">Usage Methodology</h3>
                   <p className="text-editorial-text-muted font-light leading-relaxed mb-8">
@@ -962,6 +892,7 @@ export default function ProductDetail() {
                      ))}
                   </ul>
                </div>
+               )}
 
                {/* Composition & Provenance */}
                <div className="card-glass p-12 lg:p-16 border rounded-[2rem] border-editorial-border">
@@ -1076,15 +1007,31 @@ export default function ProductDetail() {
 
           <div className="grid lg:grid-cols-12 gap-20">
             <div className="lg:col-span-4 space-y-12">
+               {/* ⚠️ NO WORKING-LOOKING FORM WHOSE SUBMIT IS A NO-OP. While
+                   REVIEWS_ENABLED is false the fields are not rendered at all —
+                   before, the whole form was live and TRANSMIT_LOG silently did
+                   nothing. The panel stays so the column (and the promise) does. */}
+               {!REVIEWS_ENABLED ? (
+               <div className="bg-editorial-surface/40 p-10 rounded-[2.5rem] border border-editorial-border backdrop-blur-3xl" aria-disabled="true">
+                  <h4 className="font-mono text-[0.6875rem] font-black uppercase tracking-[0.4em] text-red-500 mb-6 flex flex-wrap items-center gap-3">
+                     <Plus className="w-4 h-4" /> SUBMIT_REPORT
+                     <span className="font-mono text-[0.6875rem] font-black uppercase tracking-[0.3em] text-zinc-500 border border-zinc-700 rounded-full px-3 py-1">COMING_SOON</span>
+                  </h4>
+                  <p className="font-mono text-[0.6875rem] uppercase tracking-widest text-zinc-500 leading-relaxed">
+                     Field reports are not open yet. Debrief logs will be accepted here once there is somewhere to keep them.
+                  </p>
+               </div>
+               ) : (
                <div className="bg-editorial-surface/40 p-10 rounded-[2.5rem] border border-editorial-border backdrop-blur-3xl">
                   <h4 className="font-mono text-[0.6875rem] font-black uppercase tracking-[0.4em] text-red-500 mb-10 flex items-center gap-3">
                      <Plus className="w-4 h-4" /> SUBMIT_REPORT
                   </h4>
                   <form onSubmit={handleReviewSubmit} className="space-y-8">
                      <div>
-                        <label className="font-mono text-[0.6875rem] uppercase tracking-widest text-zinc-500 mb-4 block">IDENTIFIER</label>
-                        <input 
-                           type="text" 
+                        <label htmlFor="review-author" className="font-mono text-[0.6875rem] uppercase tracking-widest text-zinc-500 mb-4 block">IDENTIFIER</label>
+                        <input
+                           id="review-author"
+                           type="text"
                            placeholder="OPERATIVE_NAME"
                            value={newReview.author}
                            onChange={e => setNewReview({ ...newReview, author: e.target.value })}
@@ -1117,8 +1064,9 @@ export default function ProductDetail() {
                         </div>
                      </div>
                      <div>
-                        <label className="font-mono text-[0.6875rem] uppercase tracking-widest text-zinc-500 mb-4 block">DEBRIEF_LOG</label>
-                        <textarea 
+                        <label htmlFor="review-content" className="font-mono text-[0.6875rem] uppercase tracking-widest text-zinc-500 mb-4 block">DEBRIEF_LOG</label>
+                        <textarea
+                           id="review-content"
                            placeholder="FIELD_NOTES..."
                            value={newReview.content}
                            onChange={e => setNewReview({ ...newReview, content: e.target.value })}
@@ -1129,7 +1077,7 @@ export default function ProductDetail() {
                      <button type="submit" className="button-premium w-full !text-[0.75rem]">TRANSMIT_LOG</button>
                   </form>
                </div>
-               
+               )}
             </div>
 
             <div className="lg:col-span-8 space-y-10">
@@ -1260,9 +1208,9 @@ export default function ProductDetail() {
                 
                 <div className="flex items-center gap-8 relative z-10">
                    <div className="flex items-center border border-editorial-border bg-editorial-bg/60 backdrop-blur-3xl px-4 py-2 rounded-2xl">
-                     <button onClick={() => setQuantity(q => Math.max(1, q - 1))} className="p-4 text-editorial-text-muted hover:text-red-500 transition-colors"><Minus className="w-5 h-5" /></button>
+                     <button aria-label="Decrease quantity" onClick={() => setQuantity(q => Math.max(1, q - 1))} className="p-4 text-editorial-text-muted hover:text-red-500 transition-colors"><Minus className="w-5 h-5" /></button>
                      <span className="w-16 text-center font-mono font-black text-2xl text-editorial-text">{quantity}</span>
-                     <button onClick={() => setQuantity(q => q + 1)} className="p-4 text-editorial-text-muted hover:text-emerald-500 transition-colors"><Plus className="w-5 h-5" /></button>
+                     <button aria-label="Increase quantity" onClick={() => setQuantity(q => q + 1)} className="p-4 text-editorial-text-muted hover:text-emerald-500 transition-colors"><Plus className="w-5 h-5" /></button>
                    </div>
                    <button 
                      onClick={() => {

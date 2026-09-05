@@ -1,8 +1,8 @@
 import { motion, AnimatePresence } from "motion/react";
 import { useUI } from "../context/UIContext";
 import { useSettings } from "../context/SettingsContext";
-import { Cpu, Maximize, Settings2, Sliders, Wifi, Activity, MessageSquare, Terminal, Hash, ShieldCheck, Zap, ChevronDown } from "lucide-react";
-import { useState, useEffect, memo, useMemo } from "react";
+import { Maximize, Settings2, Sliders, Zap, ChevronDown } from "lucide-react";
+import { useState, useEffect, useMemo } from "react";
 import { Tooltip } from "./common/Tooltip";
 
 export default function TechnicalStatusBar() {
@@ -10,8 +10,6 @@ export default function TechnicalStatusBar() {
     uiScale, 
     setUIScale, 
     setIsWallpaperMode, 
-    visualFidelity,
-    setVisualFidelity,
     chromeHidden,
     toggleChrome
   } = useUI();
@@ -34,7 +32,7 @@ export default function TechnicalStatusBar() {
       /* Minimised = dropped below the bottom edge. It keeps its height in the
          layout's bottom padding either way, which is deliberate: reclaiming
          44px would reflow the whole page every time this is toggled. */
-      className="fixed bottom-0 left-0 right-0 z-[100] transition-transform duration-500 ease-[var(--layout-transition-ease)] bg-editorial-surface/95 backdrop-blur-3xl border-t border-editorial-border flex items-center justify-between px-8 pointer-events-auto transform-gpu shadow-[0_-10px_40px_rgba(0,0,0,0.8)] group/statusbar"
+      className="fixed bottom-0 left-0 right-0 z-[100] transition-transform duration-500 ease-[var(--layout-transition-ease)] bg-editorial-surface/95 backdrop-blur-3xl border-t border-editorial-border flex items-center justify-end px-3 sm:px-8 pointer-events-auto transform-gpu shadow-[0_-10px_40px_rgba(0,0,0,0.8)] group/statusbar"
       style={{
         transform: hidden ? 'translateY(100%)' : undefined,
         height: 'calc(2.75rem + env(safe-area-inset-bottom))',
@@ -43,19 +41,16 @@ export default function TechnicalStatusBar() {
     >
       {/* Cinematic Edge Highlight */}
       <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-red-600/20 to-transparent opacity-0 group-hover/statusbar:opacity-100 transition-opacity duration-1000 mix-blend-screen" />
-      <div className="flex items-center h-full relative z-10">
-        
-      </div>
-
-      <div className="flex items-center gap-6 h-full">
+      <div className="flex items-center gap-3 sm:gap-6 h-full">
 
 
-        <div className="flex items-center h-full border-l border-white/5 pl-6 gap-2">
+        <div className="flex items-center h-full sm:border-l border-white/5 sm:pl-6 gap-2">
 
           <Tooltip content="ENV_MODE_TOGGLE">
             <button 
               onClick={() => setIsWallpaperMode(true)}
-              className="flex min-h-11 items-center justify-center gap-3 p-2 rounded-lg text-meta-premium opacity-40 hover:opacity-100 hover:bg-white/5 transition-all duration-300 group"
+              aria-label="Enter wallpaper canvas mode"
+              className="flex min-h-11 min-w-11 items-center justify-center gap-3 p-2 rounded-lg text-meta-premium opacity-40 hover:opacity-100 hover:bg-white/5 transition-all duration-300 group"
             >
               <Maximize className="w-4 h-4 group-hover:scale-110 transition-transform" />
               <span className="hidden md:inline text-[0.6875rem] uppercase font-black">Canvas</span>
@@ -65,6 +60,8 @@ export default function TechnicalStatusBar() {
           <div className="relative flex items-center">
             <button 
               onClick={() => setShowScaleSlider(!showScaleSlider)}
+              aria-expanded={showScaleSlider}
+              aria-label={`Interface scale settings, ${Math.round(uiScale * 100)}%`}
               className={`flex min-h-11 items-center justify-center gap-3 p-2 rounded-lg transition-all duration-300 group ${showScaleSlider ? 'bg-red-600/20 text-red-500' : 'text-meta-premium opacity-40 hover:opacity-100 hover:bg-white/5'}`}
             >
               <Settings2 className="w-4 h-4 group-hover:rotate-90 transition-transform duration-500" />
@@ -77,7 +74,10 @@ export default function TechnicalStatusBar() {
                   initial={{ opacity: 0, y: 30, scale: 0.95 }}
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: 30, scale: 0.95 }}
-                  className="absolute bottom-14 right-0 bg-editorial-surface/98 backdrop-blur-3xl border border-white/10 p-8 shadow-[0_40px_100px_rgba(0,0,0,0.8)] min-w-[280px] rounded-2xl z-[1000]"
+                  /* Below sm the popover is FIXED and spans the viewport minus a margin: anchored right-0 to the
+                     Res button it ran 91px off the left edge of a 375px phone. The status bar's own transform makes
+                     it the containing block, so left/right here are measured from the bar, which is full-width. */
+                  className="fixed left-4 right-4 bottom-[calc(3.5rem+env(safe-area-inset-bottom))] sm:absolute sm:left-auto sm:right-0 sm:bottom-14 max-w-[calc(100vw-2rem)] sm:min-w-[280px] bg-editorial-surface/98 backdrop-blur-3xl border border-white/10 p-6 sm:p-8 shadow-[0_40px_100px_rgba(0,0,0,0.8)] rounded-2xl z-[1000]"
                 >
                   <div className="flex justify-between items-center mb-8">
                     <div className="flex items-center gap-4 text-premium">
@@ -94,8 +94,9 @@ export default function TechnicalStatusBar() {
                       max="1.5" 
                       step="0.05"
                       value={uiScale}
+                      aria-label="Interface scale"
                       onChange={(e) => setUIScale(parseFloat(e.target.value))}
-                      className="w-full h-1.5 bg-zinc-900 rounded-full appearance-none cursor-pointer outline-none slider-thumb-red"
+                      className="w-full h-1.5 bg-zinc-900 rounded-full appearance-none cursor-pointer outline-none accent-red-600"
                       style={{
                         backgroundImage: `linear-gradient(to right, #dc2626 ${(uiScale - 0.5) / 1 * 100}%, #18181b ${(uiScale - 0.5) / 1 * 100}%)`
                       }}
@@ -129,6 +130,8 @@ export default function TechnicalStatusBar() {
                     {(['low', 'balanced', 'high', 'overdrive'] as const).map(level => (
                       <button
                         key={level}
+                        type="button"
+                        aria-pressed={settings.visualFidelity === level}
                         onClick={() => updateSettings({ visualFidelity: level })}
                         className={`py-3 px-2 rounded-xl text-[0.6875rem] font-black tracking-widest uppercase transition-all duration-300 border ${settings.visualFidelity === level ? 'bg-red-600/10 border-red-600 text-red-500 shadow-[0_0_15px_rgba(220,38,38,0.2)]' : 'bg-zinc-950 border-white/5 text-zinc-500 hover:border-white/20 hover:text-white'}`}
                       >
@@ -142,7 +145,7 @@ export default function TechnicalStatusBar() {
           </div>
         </div>
         
-        <div className="flex items-center gap-6 border-l border-white/5 pl-8 h-8 ml-4">
+        <div className="hidden md:flex items-center gap-6 border-l border-white/5 pl-8 h-8 ml-4">
            <div className="flex flex-col items-end">
               <span className="text-[0.6875rem] font-mono font-bold text-zinc-700 tracking-[0.4em] uppercase mb-0.5">CLOCK</span>
               <span className="font-mono font-black text-[0.75rem] text-white tracking-widest uppercase">UTC: {timeString}</span>
