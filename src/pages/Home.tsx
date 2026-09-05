@@ -129,7 +129,7 @@ export default function Home() {
             >
               <div className="relative inline-block">
                 <h1 className="block text-premium text-[clamp(1.625rem,7vw,8rem)] leading-[0.7] font-black uppercase tracking-[-0.08em] drop-shadow-2xl">
-                <span className="text-zinc-500 transition-colors duration-1000 block font-light tracking-[-0.05em] mt-8">RECOVER_INTENT</span>
+                <span className="text-zinc-500 transition-colors duration-1000 block font-light tracking-[-0.05em] mt-8">RECOVER_<wbr />INTENT</span>
                 <motion.span 
                   animate={{ 
                     opacity: [0.85, 1, 0.85],
@@ -138,7 +138,9 @@ export default function Home() {
                   transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
                   className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-500 transition-colors duration-1000 block mt-8 relative z-10 italic"
                 >
-                  INTEGRATE_PURPOSE
+                  {/* One unbreakable word at 7vw, so the line broke as "INTEGRATE_PURPOS / E"
+                      with a lone letter under it. Offer the break at the underscore. */}
+                  INTEGRATE_<wbr />PURPOSE
                 </motion.span>
                 </h1>
                 <p className="text-white text-lg xl:text-2xl uppercase tracking-[0.3em] mt-10 mb-0 font-mono font-black leading-none max-w-none">

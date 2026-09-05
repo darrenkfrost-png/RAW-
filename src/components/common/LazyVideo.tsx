@@ -40,6 +40,7 @@ export default function LazyVideo({
   narrow = "poster",
   decorative = true,
   controls = false,
+  share,
 }: {
   src: string;
   poster?: string;
@@ -51,6 +52,12 @@ export default function LazyVideo({
   decorative?: boolean;
   /** Player controls, for a film the visitor chose to watch. Off by default. */
   controls?: boolean;
+  /**
+   * Hands the mounted <video> to the parent. For effects that need the frames
+   * that are already being downloaded — the hero's mirrored blur paints itself
+   * from this element rather than fetching the film a second time.
+   */
+  share?: (el: HTMLVideoElement | null) => void;
 }) {
   const ref = useRef<HTMLVideoElement>(null);
   const [attach, setAttach] = useState(false);
@@ -112,7 +119,10 @@ export default function LazyVideo({
 
   return (
     <video
-      ref={ref}
+      ref={(el) => {
+        (ref as React.MutableRefObject<HTMLVideoElement | null>).current = el;
+        share?.(el);
+      }}
       /* `src` exists only while the film is on screen; before that the element
          holds nothing for the browser to download. Content keeps its src once
          attached, because dropping it would throw away where they were up to. */
