@@ -501,21 +501,25 @@ body.motion-enhanced .group:hover {
    ⚠️ THIS MUST NOT GO BACK INTO A STYLE ATTRIBUTE. An inline filter beats
    every class and every media query here, which is exactly how the 1px
    value survived. Opacity stays inline because the visitor sets it.        */
+/* ⚠️ THE FILMS HAVE WORDS BURNED INTO THEM. Every film cheap enough to sit
+   behind every page is a Stay Safe campaign clip, and each carries its own
+   headline in the footage — "100,000 FREE CONDOMS. NO CATCH." was legible
+   across the top of the home page at 1440px, reading as if it were part of
+   this site. The only text-free films are the 61-133MB brand reels, which
+   cannot stream behind every page.
+
+   So the blur has to beat the type, and it has to scale WITH the screen: the
+   old rule went the wrong way (16px on a phone down to 7px at 1280+), easing
+   off exactly where the burned-in letters are biggest. A vw-based radius grows
+   with the words — 16px on a phone, ~20px at 1280, ~31px at 1920 — with a
+   ceiling so a very wide monitor does not pay for an enormous filter. */
 .wallpaper-film {
-  filter: saturate(0.85) blur(16px);
+  filter: saturate(0.85) blur(clamp(16px, 1.6vw, 32px));
   transition: opacity 0.6s ease;
   /* Blur samples transparent black beyond the element's edges, which leaves
      a pale halo at the frame. Growing the film past the viewport puts that
      halo off-screen. */
-  transform: scale(1.06);
-}
-
-@media (min-width: 768px) {
-  .wallpaper-film { filter: saturate(0.85) blur(10px); }
-}
-
-@media (min-width: 1280px) {
-  .wallpaper-film { filter: saturate(0.85) blur(7px); }
+  transform: scale(1.1);
 }
 
 /* Someone who has asked for less motion should not be handed a heavy
