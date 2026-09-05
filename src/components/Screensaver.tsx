@@ -3,7 +3,8 @@ import { motion, AnimatePresence } from "motion/react";
 import { Film, X } from "lucide-react";
 import { useSettings } from "../context/SettingsContext";
 import { useUI } from "../context/UIContext";
-import { VIDEO_LIBRARY, videoById, nextVideo, lightVideos } from "../data/videoLibrary";
+import { VIDEO_LIBRARY, videoById, nextVideo, ambientVideos } from "../data/videoLibrary";
+import CinemaFilm from "./common/CinemaFilm";
 
 /**
  * THE SCREENSAVER — RAW takes the whole screen when the room goes quiet.
@@ -91,7 +92,7 @@ export default function Screensaver() {
 
   // Every arrival draws a fresh film.
   useEffect(() => {
-    if (active && settings.screensaverShuffle) setRotated(nextVideo(lightVideos()).id);
+    if (active && settings.screensaverShuffle) setRotated(nextVideo(ambientVideos()).id);
     if (!active) setRotated(null);
   }, [active, settings.screensaverShuffle]);
 
@@ -142,17 +143,24 @@ export default function Screensaver() {
           role="dialog"
           aria-label="RAW screensaver"
         >
-          <video
-            key={asset.src}
+          {/* ⚠️ THE REELS ARE SQUARE AND THE SCREENS ARE NOT. object-cover threw away
+              a third of a 2160x2160 reel on a 16:9 monitor, and its sides on a phone.
+              fit="contain" shows the whole film whatever the device, and the space
+              left over is filled by the film itself, mirrored and blurred. */}
+          <CinemaFilm
             src={asset.src}
             poster={asset.poster}
-            autoPlay
-            muted
-            loop
-            playsInline
-            className="absolute inset-0 h-full w-full object-cover opacity-70"
+            fit="contain"
+            narrow="play"
+            className="absolute inset-0 overflow-hidden"
+            bandClassName="h-full w-full object-contain opacity-90"
+            washClassName="absolute inset-0 h-full w-full scale-125 object-cover opacity-55 blur-3xl"
+            posterWallClassName="absolute inset-0 scale-125 bg-cover bg-center opacity-30 blur-3xl"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-black/60" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/45 to-black/70" />
+          {/* A soft plate behind the wordmark and the line under it, so they read
+              over any frame the rotation lands on. */}
+          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_40%_28%_at_50%_45%,rgba(0,0,0,0.65),transparent_70%)]" />
 
           {/* ── BRAND ─────────────────────────────────────────────────── */}
           <div className="relative flex h-full flex-col items-center justify-center px-8 text-center">

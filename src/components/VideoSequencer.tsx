@@ -31,9 +31,9 @@ interface ReviewClip {
 // The brand reels the Review Room can show. These are the founder's own
 // masters; their weight is read from the video library (measured, not typed).
 const REVIEW_CLIPS: ReviewClip[] = [
-  { name: "V1_TACTICAL_WAYPOINT.MP4", url: "https://videos.files.wordpress.com/zsH6jAkj/raw-official-wide-3840-final.mp4" },
-  { name: "V2_NUTRITIONAL_SHAKE.MP4", url: "https://videos.files.wordpress.com/jqb5XX8H/raw-nutrients-reel-2160x2160-1.mp4" },
-  { name: "V3_COMBAT_SPARRING.MP4", url: "https://videos.files.wordpress.com/h8D4zswX/raw-combat-reel-2160x2160-1.mp4" }
+  { name: "V1_TACTICAL_WAYPOINT.MP4", url: "https://videos.files.wordpress.com/zsH6jAkj/raw-official-wide-3840-final_mp4_hd.mp4" },
+  { name: "V2_NUTRITIONAL_SHAKE.MP4", url: "https://videos.files.wordpress.com/jqb5XX8H/raw-nutrients-reel-2160x2160-1_mp4_hd.mp4" },
+  { name: "V3_COMBAT_SPARRING.MP4", url: "https://videos.files.wordpress.com/h8D4zswX/raw-combat-reel-2160x2160-1_mp4_hd.mp4" }
 ];
 
 const clipMegabytes = (url: string): number | undefined =>

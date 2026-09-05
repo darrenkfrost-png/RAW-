@@ -8,6 +8,7 @@ import LazyImage from "../components/LazyImage";
 import ProductCard from "../components/common/ProductCard";
 import BiometricLoadCalculator from "../components/BiometricLoadCalculator";
 import LazyVideo from "../components/common/LazyVideo";
+import { FILM } from '../data/videoLibrary';
 
 export default function Nutrients() {
   const allNutrients = allProducts.filter(p => p.category === "Nutrients");
@@ -34,7 +35,7 @@ export default function Nutrients() {
       <section className="relative h-[80vh] flex flex-col items-center justify-center overflow-hidden border-b border-editorial-border">
         {/* 61MB reel: attached only while on screen, never on a phone. */}
         <LazyVideo
-          src="https://videos.files.wordpress.com/jqb5XX8H/raw-nutrients-reel-2160x2160-1.mp4"
+          src={FILM.nutrients.hd}
           poster="https://rawofficial.co/wp-content/uploads/2026/02/nutrientsIMG-scaled.jpg"
           className="absolute inset-0 w-full h-full object-cover opacity-30 grayscale mix-blend-luminosity scale-110"
         />

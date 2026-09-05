@@ -33,7 +33,7 @@ const SettingsContext = createContext<SettingsContextType | undefined>(undefined
 
 const defaultSettings: Settings = {
   videoWallpaper: true,
-  videoWallpaperId: 'giveaway',
+  videoWallpaperId: 'wide',
   videoWallpaperOpacity: 0.33,
   screensaverEnabled: true,
   screensaverDelayMs: 60000,
@@ -41,7 +41,7 @@ const defaultSettings: Settings = {
      unasked after sixty seconds must not start a 133MB download; the local
      campaign films are ~4MB. The heavy reels remain available by explicit
      choice, with their weight shown. */
-  screensaverVideoId: 'giveaway',
+  screensaverVideoId: 'combat',
   screensaverShuffle: true,
   videoWallpaperShuffle: true,
   activeWallpaper: 'polyrhythm',

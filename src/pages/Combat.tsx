@@ -8,6 +8,7 @@ import LazyImage from "../components/LazyImage";
 import CombatTargetZone from "../components/CombatTargetZone";
 import ProductCard from "../components/common/ProductCard";
 import LazyVideo from "../components/common/LazyVideo";
+import { FILM } from '../data/videoLibrary';
 
 export default function Combat() {  const products = allProducts.filter(p => p.category === "Combat" || p.category === "Apparel");
 
@@ -21,7 +22,7 @@ export default function Combat() {  const products = allProducts.filter(p => p.
       <section className="relative h-[80vh] min-h-[28rem] flex flex-col items-center justify-center text-center overflow-hidden">
         {/* 102MB reel, autoplaying from page load on every device: attached only while on screen, never on a phone. */}
         <LazyVideo
-          src="https://videos.files.wordpress.com/h8D4zswX/raw-combat-reel-2160x2160-1.mp4"
+          src={FILM.combat.hd}
           poster="https://rawofficial.co/wp-content/uploads/2026/02/combatIMG-scaled.jpg"
           className="absolute inset-0 w-full h-full object-cover opacity-30 grayscale mix-blend-luminosity scale-110"
         />
@@ -190,7 +191,7 @@ export default function Combat() {  const products = allProducts.filter(p => p.
              <div className="relative aspect-video bg-editorial-bg rounded-[3rem] overflow-hidden border border-editorial-border group shadow-[0_40px_100px_rgba(0,0,0,0.1)] hover:border-red-500/30 transition-all duration-[1000ms] hover:-translate-y-4">
                  {/* The SAME 102MB reel again, second copy on one page: attached only while on screen, never on a phone. */}
                  <LazyVideo
-                  src="https://videos.files.wordpress.com/h8D4zswX/raw-combat-reel-2160x2160-1.mp4"
+                  src={FILM.combat.hd}
                   poster="https://rawofficial.co/wp-content/uploads/2026/02/SB-Beach-Promo-FOR-PRINT-A3-CMYK.jpg"
                   className="w-full h-full object-cover grayscale brightness-50 group-hover:grayscale-0 group-hover:brightness-100 transition-all duration-[2000ms] ease-[0.16,1,0.3,1] scale-105 group-hover:scale-100 mix-blend-luminosity group-hover:mix-blend-normal"
                 />

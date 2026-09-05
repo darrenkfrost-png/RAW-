@@ -100,11 +100,27 @@ export default function LazyVideo({
     };
   }, [narrow]);
 
+  /* Content keeps its src once attached, so a scroll past does not throw away
+     where they were up to. Decoration is dropped again the moment it leaves. */
+  const live = isContent ? everAttached : attach;
+
+  useEffect(() => {
+    if (attach) setEverAttached(true);
+  }, [attach]);
+
+  /**
+   * ⚠️ PLAY ONLY ONCE THE ELEMENT ACTUALLY HAS A SOURCE, WHICH IS A RENDER LATER
+   * FOR CONTENT. This used to call play() in the same effect that set
+   * everAttached — so on a content film the DOM still held no src at that
+   * moment, play() was called on an empty element, and the `autoplayed` latch
+   * then stopped it ever being called again. The screensaver opened on a black
+   * screen and the Our Story hero never started. Depending on `live` means this
+   * runs again on the render where the src exists.
+   */
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-    if (attach) {
-      setEverAttached(true);
+    if (attach && live) {
       /* A background loop resumes every time it comes back on screen. A film
          someone is watching is started once and then left alone — scrolling
          past it must not restart it, and must not override a pause they chose. */
@@ -112,10 +128,10 @@ export default function LazyVideo({
         autoplayed.current = true;
         el.play().catch(() => { /* a browser that refuses autoplay keeps the poster */ });
       }
-    } else {
+    } else if (!attach) {
       el.pause();
     }
-  }, [attach, isContent]);
+  }, [attach, live, isContent]);
 
   return (
     <video
@@ -126,7 +142,7 @@ export default function LazyVideo({
       /* `src` exists only while the film is on screen; before that the element
          holds nothing for the browser to download. Content keeps its src once
          attached, because dropping it would throw away where they were up to. */
-      src={(isContent ? everAttached : attach) ? src : undefined}
+      src={live ? src : undefined}
       poster={poster}
       muted
       loop={loop}

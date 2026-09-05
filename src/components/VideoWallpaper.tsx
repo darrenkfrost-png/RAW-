@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useSettings } from "../context/SettingsContext";
-import { videoById, nextVideo, lightVideos } from "../data/videoLibrary";
+import { videoById, nextVideo, ambientVideos } from "../data/videoLibrary";
 
 /**
  * THE VIDEO WALLPAPER — a RAW film playing behind the whole site.
@@ -28,17 +28,27 @@ export default function VideoWallpaper() {
   const { settings } = useSettings();
   const ref = useRef<HTMLVideoElement>(null);
 
-  /* ⚠️ THE ROTATION DRAWS FROM THE LIGHT FILMS ONLY.
-     Shuffling the whole library would eventually park a 4K master behind
-     every page — several times the weight of the page it decorates, streamed
-     for decoration. The local campaign films rotate freely; the heavy reels
+  /* ⚠️ THE ROTATION NOW DRAWS FROM THE WHOLE LIBRARY.
+     It used to be the four local campaign clips only, because everything
+     else was a 4K master. Every film now has a small copy on the same host
+     (1-5MB, see videoLibrary.ts), so the brand reels can take their turn
      stay a deliberate choice in the panel. */
   const [rotated, setRotated] = useState<string | null>(null);
-  const asset = videoById(rotated || settings.videoWallpaperId);
+  /* ⚠️ TWO FILMS WERE FETCHED ON EVERY SINGLE PAGE LOAD.
+     `rotated` starts null, so the first render showed the film saved in
+     settings and the browser began downloading it — and then the effect below
+     ran, the shuffle replaced it, and a second film downloaded too. Measured
+     live: 13.5MB per page for a background nobody asked to change.
+
+     When the shuffle is on, the choice belongs to the effect, so this waits
+     for it rather than guessing and being overruled a frame later. One film,
+     once. When the shuffle is off there is nothing to wait for. */
+  const chosen = settings.videoWallpaperShuffle ? rotated : settings.videoWallpaperId;
+  const asset = videoById(chosen || settings.videoWallpaperId);
 
   useEffect(() => {
     if (!settings.videoWallpaper || !settings.videoWallpaperShuffle) { setRotated(null); return; }
-    const draw = () => setRotated(nextVideo(lightVideos()).id);
+    const draw = () => setRotated(nextVideo(ambientVideos()).id);
     draw();
     // A new film every few minutes, so a long session is never one loop.
     const t = setInterval(draw, 4 * 60 * 1000);
@@ -85,7 +95,8 @@ export default function VideoWallpaper() {
     };
   }, [enabled, still, asset.src]);
 
-  if (!enabled) return null;
+  // Nothing at all until the film is settled: painting one to replace it costs a download.
+  if (!enabled || !chosen) return null;
 
   return (
     <div
@@ -95,8 +106,8 @@ export default function VideoWallpaper() {
     >
       <video
         ref={ref}
-        key={asset.src}
-        src={still ? undefined : asset.src}
+        key={asset.wallpaperSrc}
+        src={still ? undefined : asset.wallpaperSrc}
         /* ⚠️ NO POSTER HERE, DELIBERATELY. The campaign stills carry the
            headline burned into the image, and a still frame of typography
            sitting behind the page's own typography is the worst wallpaper

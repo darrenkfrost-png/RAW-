@@ -7,6 +7,7 @@ import LazyImage from "../components/LazyImage";
 import LazyVideo from "../components/common/LazyVideo";
 import ProductCard from "../components/common/ProductCard";
 import BreathingSimulator from "../components/BreathingSimulator";
+import { FILM } from '../data/videoLibrary';
 
 export default function Recovery() {
   const products = allProducts.filter(p => p.category === "Recovery");
@@ -30,7 +31,7 @@ export default function Recovery() {
       <section className="relative min-h-[80svh] py-12 flex flex-col items-center justify-center overflow-hidden">
         {/* 108MB decorative reel: attached only while on screen, never on a phone. */}
         <LazyVideo
-          src="https://videos.files.wordpress.com/K2dk0F8f/raw-recovery-reel-2160x2160-1.mp4"
+          src={FILM.recovery.hd}
           poster="https://rawofficial.co/wp-content/uploads/2026/02/Ice-baths-arent-about-staying-in-as-long-as-possible.Theyre-about-staying-in-long-enough-to-be-3.jpg"
           className="absolute inset-0 w-full h-full object-cover opacity-30 grayscale mix-blend-luminosity scale-110"
         />
