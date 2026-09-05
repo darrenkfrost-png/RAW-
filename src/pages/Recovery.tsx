@@ -13,10 +13,10 @@ export default function Recovery() {
   const products = allProducts.filter(p => p.category === "Recovery");
   
   const gallery = [
-    "https://rawofficial.co/wp-content/uploads/2026/02/Ice-baths-arent-about-staying-in-as-long-as-possible.Theyre-about-staying-in-long-enough-to-be-1.jpg",
-    "https://rawofficial.co/wp-content/uploads/2026/02/Ice-baths-arent-about-staying-in-as-long-as-possible.Theyre-about-staying-in-long-enough-to-be-2.jpg",
-    "https://rawofficial.co/wp-content/uploads/2026/02/Ice-baths-arent-about-staying-in-as-long-as-possible.Theyre-about-staying-in-long-enough-to-be-3.jpg",
-    "https://rawofficial.co/wp-content/uploads/2026/02/Ice-baths-arent-about-staying-in-as-long-as-possible.Theyre-about-staying-in-long-enough-to-be-4.jpg",
+    "https://rawofficial.co/wp-content/uploads/2026/02/Ice-baths-arent-about-staying-in-as-long-as-possible.Theyre-about-staying-in-long-enough-to-be-1-1536x1086.jpg",
+    "https://rawofficial.co/wp-content/uploads/2026/02/Ice-baths-arent-about-staying-in-as-long-as-possible.Theyre-about-staying-in-long-enough-to-be-2-1536x1086.jpg",
+    "https://rawofficial.co/wp-content/uploads/2026/02/Ice-baths-arent-about-staying-in-as-long-as-possible.Theyre-about-staying-in-long-enough-to-be-3-1536x1086.jpg",
+    "https://rawofficial.co/wp-content/uploads/2026/02/Ice-baths-arent-about-staying-in-as-long-as-possible.Theyre-about-staying-in-long-enough-to-be-4-1536x1086.jpg",
   ];
 
   const videos = [
@@ -32,7 +32,7 @@ export default function Recovery() {
         {/* 108MB decorative reel: attached only while on screen, never on a phone. */}
         <LazyVideo
           src={FILM.recovery.hd}
-          poster="https://rawofficial.co/wp-content/uploads/2026/02/Ice-baths-arent-about-staying-in-as-long-as-possible.Theyre-about-staying-in-long-enough-to-be-3.jpg"
+          poster="https://rawofficial.co/wp-content/uploads/2026/02/Ice-baths-arent-about-staying-in-as-long-as-possible.Theyre-about-staying-in-long-enough-to-be-3-1536x1086.jpg"
           className="absolute inset-0 w-full h-full object-cover opacity-30 grayscale mix-blend-luminosity scale-110"
         />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-emerald-900/20 via-editorial-bg/60 to-[#050505] mix-blend-multiply"></div>

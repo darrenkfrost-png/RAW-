@@ -86,7 +86,7 @@ function Tile({ item, onOpen, index }: { item: ShowcaseItem; onOpen: () => void;
         />
       ) : (
         <img
-          src={item.src}
+          src={item.thumb || item.src}
           alt={item.caption || `RAW showcase — ${item.credit}`}
           loading="lazy"
           className="absolute inset-0 h-full w-full object-cover opacity-85 transition-all duration-700 group-hover:opacity-100 group-hover:scale-[1.03]"

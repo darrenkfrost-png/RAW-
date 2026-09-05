@@ -1,6 +1,22 @@
 import { Product } from '../types';
+import { webSizedImage } from '../lib/utils';
 
-export const allProducts: Product[] = [
+/**
+ * ⚠️ ONE PLACE, BECAUSE THE PICTURE IS READ IN TWENTY-SIX.
+ *
+ * Product photos are rendered by the card, the cart, the compare tray, the
+ * command palette, the protocol drawer, six pattern layouts and the rest —
+ * most of them as a plain <img src={product.image}>. Fixing the size at each
+ * of those is twenty-six chances to miss one, and the next new component
+ * would start heavy again.
+ *
+ * So the catalogue hands out web-sized addresses and nothing downstream has to
+ * remember. Eight of these images carried WordPress's `-scaled` suffix, which
+ * is its 2560px copy and still 1.3-1.7MB each; the same picture at 1024 is
+ * 0.09MB. See webSizedImage in src/lib/utils.ts for what it will and will not
+ * touch — an address with neither suffix is passed through untouched.
+ */
+const CATALOGUE: Product[] = [
   {
     "id": 1,
     "name": "NMN 500mg + Resveratrol & Rhodiola",
@@ -2291,3 +2307,8 @@ export const allProducts: Product[] = [
     "stackRole": "foundation"
   }
 ];
+
+export const allProducts: Product[] = CATALOGUE.map((p) => ({
+  ...p,
+  image: webSizedImage(p.image),
+}));

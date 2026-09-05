@@ -27,7 +27,7 @@ export function EngagementVideo() {
         /* 133MB reel — the second copy on this page: attached only while on screen, never on a phone. */
         <LazyVideo
           src={FILM.wide.hd}
-          poster="https://rawofficial.co/wp-content/uploads/2026/02/combatIMG-scaled.jpg"
+          poster="https://rawofficial.co/wp-content/uploads/2026/02/combatIMG-1536x1086.jpg"
           className="w-full h-full object-cover transition-all duration-[2s] ease-[0.16,1,0.3,1] brightness-50 group-hover:brightness-100 scale-110 group-hover:scale-100"
         />
       ) : (
@@ -35,7 +35,7 @@ export function EngagementVideo() {
           role="img"
           aria-label="RAW Official video still"
           className="w-full h-full bg-editorial-bg bg-cover bg-center"
-          style={{ backgroundImage: "url('https://rawofficial.co/wp-content/uploads/2026/02/combatIMG-scaled.jpg')" }}
+          style={{ backgroundImage: "url('https://rawofficial.co/wp-content/uploads/2026/02/combatIMG-1536x1086.jpg')" }}
         />
       )}
     </div>

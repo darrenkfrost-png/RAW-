@@ -31,7 +31,7 @@ import { FILM } from "../../data/videoLibrary";
  * comment, it is a text node, and it rendered on the front page for one build.)
  */
 
-const POSTER = "https://rawofficial.co/wp-content/uploads/2026/02/combatIMG-scaled.jpg";
+const POSTER = "https://rawofficial.co/wp-content/uploads/2026/02/combatIMG-1536x1086.jpg";
 
 export function LazyHeroVideo() {
   return (

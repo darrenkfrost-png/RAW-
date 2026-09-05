@@ -23,7 +23,7 @@ export default function Combat() {  const products = allProducts.filter(p => p.
         {/* 102MB reel, autoplaying from page load on every device: attached only while on screen, never on a phone. */}
         <LazyVideo
           src={FILM.combat.hd}
-          poster="https://rawofficial.co/wp-content/uploads/2026/02/combatIMG-scaled.jpg"
+          poster="https://rawofficial.co/wp-content/uploads/2026/02/combatIMG-1536x1086.jpg"
           className="absolute inset-0 w-full h-full object-cover opacity-30 grayscale mix-blend-luminosity scale-110"
         />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-red-900/20 via-[#050505]/60 to-[#050505] mix-blend-multiply"></div>
@@ -93,7 +93,7 @@ export default function Combat() {  const products = allProducts.filter(p => p.
              <div className="aspect-[4/5] bg-editorial-bg border border-editorial-border overflow-hidden rounded-[3rem] shadow-[0_40px_100px_rgba(0,0,0,0.1)] group relative z-10 hover:-translate-y-4 transition-all duration-[1000ms] ease-[0.16,1,0.3,1] hover:border-red-500/30">
                 <div className="absolute inset-0 bg-red-900/10 opacity-0 group-hover:opacity-100 transition-opacity duration-1000 z-10 pointer-events-none mix-blend-screen" />
                 <LazyImage 
-                  src="https://rawofficial.co/wp-content/uploads/2026/02/combatIMG-scaled.jpg" 
+                  src="https://rawofficial.co/wp-content/uploads/2026/02/combatIMG-1536x1086.jpg" 
                   alt="Raw Combat Philosophy"
                   className="w-full h-full object-cover grayscale opacity-60 group-hover:grayscale-[20%] group-hover:opacity-100 transition-all duration-[2000ms] ease-[0.16,1,0.3,1] scale-105 group-hover:scale-100 mix-blend-luminosity group-hover:mix-blend-normal" 
                   containerClassName="w-full h-full"
@@ -132,7 +132,7 @@ export default function Combat() {  const products = allProducts.filter(p => p.
              <div className="grid lg:grid-cols-[1fr_1.2fr] gap-20 xl:gap-32 items-center">
                 <div className="relative aspect-[3/4] overflow-hidden border border-editorial-border rounded-[3rem] shadow-[0_30px_80px_rgba(0,0,0,0.1)] group-hover:shadow-[0_40px_100px_rgba(220,38,38,0.3)] transition-all duration-[1000ms] ease-[0.16,1,0.3,1] transform-gpu group-hover:-translate-y-4">
                    <LazyImage 
-                     src="https://rawofficial.co/wp-content/uploads/2026/02/SB-Beach-Promo-FOR-PRINT-A3-CMYK.jpg" 
+                     src="https://rawofficial.co/wp-content/uploads/2026/02/SB-Beach-Promo-FOR-PRINT-A3-CMYK-1536x1086.jpg" 
                      alt="Stand and Bang Featured Event"
                      className="w-full h-full object-cover grayscale brightness-75 group-hover:grayscale-[10%] group-hover:brightness-100 transition-all duration-[2000ms] scale-105 group-hover:scale-100 ease-[0.16,1,0.3,1] mix-blend-luminosity group-hover:mix-blend-normal" 
                      containerClassName="w-full h-full"
@@ -192,7 +192,7 @@ export default function Combat() {  const products = allProducts.filter(p => p.
                  {/* The SAME 102MB reel again, second copy on one page: attached only while on screen, never on a phone. */}
                  <LazyVideo
                   src={FILM.combat.hd}
-                  poster="https://rawofficial.co/wp-content/uploads/2026/02/SB-Beach-Promo-FOR-PRINT-A3-CMYK.jpg"
+                  poster="https://rawofficial.co/wp-content/uploads/2026/02/SB-Beach-Promo-FOR-PRINT-A3-CMYK-1536x1086.jpg"
                   className="w-full h-full object-cover grayscale brightness-50 group-hover:grayscale-0 group-hover:brightness-100 transition-all duration-[2000ms] ease-[0.16,1,0.3,1] scale-105 group-hover:scale-100 mix-blend-luminosity group-hover:mix-blend-normal"
                 />
                 <div className="absolute inset-0 bg-red-900/10 opacity-0 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none mix-blend-screen z-10" />

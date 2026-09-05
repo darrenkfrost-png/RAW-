@@ -31,6 +31,13 @@ export interface ShowcaseItem {
   kind: ShowcaseKind;
   /** Path under /public. */
   src: string;
+  /**
+   * ⚠️ THE TILE IS 400px AND THE ARTWORK IS 2752px. Serving the print file to
+   * a grid of thumbnails cost 5.5MB on this page alone. `thumb` is the
+   * 1600px web copy for the grid; `src` stays the full artwork, because the
+   * lightbox lets someone zoom into it and this page exists to show the work.
+   */
+  thumb?: string;
   /** Still frame for a video — without one, a video tile is a black box until it decodes. */
   poster?: string;
   /** Shown on the tile and in the lightbox. "RAW Official" for in-house work. */
@@ -48,7 +55,7 @@ export const SHOWCASE: ShowcaseItem[] = [
     id: "campaign-giveaway",
     kind: "video",
     src: "/promo/assets/campaign-giveaway.mp4",
-    poster: "/promo/assets/hero-banner.jpg",
+    poster: "/promo/assets/hero-banner-web.jpg",
     credit: "RAW Official",
     caption: "100,000 free condoms. No catch.",
   },
@@ -56,7 +63,7 @@ export const SHOWCASE: ShowcaseItem[] = [
     id: "campaign-promotion",
     kind: "video",
     src: "/promo/assets/campaign-promotion.mp4",
-    poster: "/promo/assets/covered-wide.jpg",
+    poster: "/promo/assets/covered-wide-web.jpg",
     credit: "RAW Official",
     caption: "Stay Safe With RAW",
   },
@@ -64,7 +71,7 @@ export const SHOWCASE: ShowcaseItem[] = [
     id: "campaign-distribution",
     kind: "video",
     src: "/promo/assets/campaign-distribution.mp4",
-    poster: "/promo/assets/free-means-free.jpg",
+    poster: "/promo/assets/free-means-free-web.jpg",
     credit: "RAW Official",
     caption: "Free means free",
   },
@@ -72,7 +79,7 @@ export const SHOWCASE: ShowcaseItem[] = [
     id: "campaign-distribution-2",
     kind: "video",
     src: "/promo/assets/campaign-distribution-2.mp4",
-    poster: "/promo/assets/hero-banner.jpg",
+    poster: "/promo/assets/hero-banner-web.jpg",
     credit: "RAW Official",
     caption: "Protection, where it is needed",
   },
@@ -80,6 +87,7 @@ export const SHOWCASE: ShowcaseItem[] = [
     id: "still-covered",
     kind: "image",
     src: "/promo/assets/covered-wide.jpg",
+    thumb: "/promo/assets/covered-wide-web.jpg",
     credit: "RAW Official",
     caption: "RAW has you covered",
   },
@@ -87,6 +95,7 @@ export const SHOWCASE: ShowcaseItem[] = [
     id: "still-free",
     kind: "image",
     src: "/promo/assets/free-means-free.jpg",
+    thumb: "/promo/assets/free-means-free-web.jpg",
     credit: "RAW Official",
     caption: "Not samples. Not free with purchase.",
   },
@@ -94,6 +103,7 @@ export const SHOWCASE: ShowcaseItem[] = [
     id: "still-banner",
     kind: "image",
     src: "/promo/assets/hero-banner.jpg",
+    thumb: "/promo/assets/hero-banner-web.jpg",
     credit: "RAW Official",
     caption: "Sex is part of life. Protection should be too.",
   },

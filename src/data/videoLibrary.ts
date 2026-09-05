@@ -85,7 +85,7 @@ export const VIDEO_LIBRARY: VideoAsset[] = [
     label: "Stay Safe — The Giveaway",
     src: "/promo/assets/campaign-giveaway.mp4",
     wallpaperSrc: "/promo/assets/campaign-giveaway.mp4",
-    poster: "/promo/assets/hero-banner.jpg",
+    poster: "/promo/assets/hero-banner-web.jpg",
     light: true,
   },
   {
@@ -93,7 +93,7 @@ export const VIDEO_LIBRARY: VideoAsset[] = [
     label: "Stay Safe — The Promotion",
     src: "/promo/assets/campaign-promotion.mp4",
     wallpaperSrc: "/promo/assets/campaign-promotion.mp4",
-    poster: "/promo/assets/covered-wide.jpg",
+    poster: "/promo/assets/covered-wide-web.jpg",
     light: true,
   },
   {
@@ -101,7 +101,7 @@ export const VIDEO_LIBRARY: VideoAsset[] = [
     label: "Stay Safe — Distribution",
     src: "/promo/assets/campaign-distribution.mp4",
     wallpaperSrc: "/promo/assets/campaign-distribution.mp4",
-    poster: "/promo/assets/free-means-free.jpg",
+    poster: "/promo/assets/free-means-free-web.jpg",
     light: true,
   },
   {
@@ -109,7 +109,7 @@ export const VIDEO_LIBRARY: VideoAsset[] = [
     label: "Stay Safe — Distribution II",
     src: "/promo/assets/campaign-distribution-2.mp4",
     wallpaperSrc: "/promo/assets/campaign-distribution-2.mp4",
-    poster: "/promo/assets/hero-banner.jpg",
+    poster: "/promo/assets/hero-banner-web.jpg",
     light: true,
   },
 

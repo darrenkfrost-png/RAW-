@@ -31,8 +31,8 @@ const FILMS = [
 ];
 
 const STILLS = [
-  { src: "covered-wide.jpg", label: "RAW HAS YOU COVERED", wide: true },
-  { src: "free-means-free.jpg", label: "FREE MEANS FREE", wide: true },
+  { src: "covered-wide-web.jpg", label: "RAW HAS YOU COVERED", wide: true },
+  { src: "free-means-free-web.jpg", label: "FREE MEANS FREE", wide: true },
   { src: "boxes-real.jpg", label: "THE REAL BOXES — IN HAND", wide: false },
   { src: "protect-what-matters.jpg", label: "PROTECT WHAT MATTERS", wide: false },
 ];
@@ -102,7 +102,7 @@ export default function StaySafe() {
           <video
             key={FILMS[film].src}
             src={ASSET(FILMS[film].src)}
-            poster={ASSET("hero-banner.jpg")}
+            poster={ASSET("hero-banner-web.jpg")}
             autoPlay muted loop playsInline
             /* ⚠️ THE FILMS CARRY THEIR OWN BURNED-IN HEADLINE. On a wide screen
                it sits off to the side and reads as art behind our type; at
@@ -314,7 +314,7 @@ export default function StaySafe() {
       <VideoViewerPortal
         open={theatre !== null}
         src={theatre !== null ? ASSET(FILMS[theatre].src) : ""}
-        poster={ASSET("hero-banner.jpg")}
+        poster={ASSET("hero-banner-web.jpg")}
         title={theatre !== null ? `${FILMS[theatre].label} // #StaySafeWithRAW` : undefined}
         onClose={() => setTheatre(null)}
       />

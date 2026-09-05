@@ -36,7 +36,7 @@ export default function Nutrients() {
         {/* 61MB reel: attached only while on screen, never on a phone. */}
         <LazyVideo
           src={FILM.nutrients.hd}
-          poster="https://rawofficial.co/wp-content/uploads/2026/02/nutrientsIMG-scaled.jpg"
+          poster="https://rawofficial.co/wp-content/uploads/2026/02/nutrientsIMG-1536x1086.jpg"
           className="absolute inset-0 w-full h-full object-cover opacity-30 grayscale mix-blend-luminosity scale-110"
         />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-blue-900/20 via-editorial-bg/60 to-editorial-bg"></div>
@@ -183,7 +183,7 @@ export default function Nutrients() {
           </div>
           <div className="lg:w-1/2 relative">
              <div className="aspect-video overflow-hidden rounded-[3rem] border border-editorial-border shadow-[0_30px_80px_rgba(0,0,0,0.1)]">
-                <LazyImage src="https://rawofficial.co/wp-content/uploads/2026/04/raw-supplements-scaled.jpg" alt="RAW Education" className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000" />
+                <LazyImage src="https://rawofficial.co/wp-content/uploads/2026/04/raw-supplements-1024x1024.jpg" alt="RAW Education" className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000" />
              </div>
           </div>
         </div>
