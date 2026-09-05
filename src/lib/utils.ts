@@ -20,7 +20,7 @@ export function cn(...inputs: ClassValue[]) {
  */
 export function getHighResImageUrl(url: string): string {
   if (!url) return url;
-  return url.replace(/-d+xd+(.w+)$/, '-1024x1024$1');
+  return url.replace(/-\d+x\d+(\.\w+)$/, '-1024x1024$1');
 }
 
 export function safeStringify(value: any): string {

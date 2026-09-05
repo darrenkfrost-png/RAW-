@@ -17,6 +17,7 @@ import { useProtocol } from "../context/ProtocolContext";
 import { useCompare } from "../context/CompareContext";
 import MagneticWrapper from "../components/MagneticWrapper";
 import ProductGallery, { GalleryItem } from "../components/ProductGallery";
+import { REVIEWS_ENABLED } from '../lib/site';
 /* ⚠️ THE "3D INTERACTIVE MODEL" TAB IS GONE. Product3DViewer took no props and
    drew one procedural black cylinder with a red cap — the same bottle was
    announced as "the model" of the T-shirt, the gloves, the sliders and the
@@ -28,7 +29,6 @@ import ProductGallery, { GalleryItem } from "../components/ProductGallery";
  * live in a single browser tab and disappear on refresh. Flip this when there
  * is somewhere to keep them.
  */
-const REVIEWS_ENABLED = false;
 
 
 function RotationDisplay({ x, y, active }: { x: any, y: any, active: boolean }) {

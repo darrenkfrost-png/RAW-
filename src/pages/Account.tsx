@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { User, Package, Settings, LogOut, Hexagon, ShieldAlert } from "lucide-react";
 import { useState } from "react";
 import MagneticWrapper from "../components/MagneticWrapper";
+import { ACCOUNTS_ENABLED } from "../lib/site";
 
 /**
  * THERE IS NO ACCOUNT SYSTEM BEHIND THIS PAGE.
@@ -14,7 +15,6 @@ import MagneticWrapper from "../components/MagneticWrapper";
  * them simulates success. Flip the flag and wire the real calls (marked in
  * place below) when accounts exist.
  */
-const ACCOUNTS_ENABLED = false;
 
 export default function Account() {
   const [activeTab, setActiveTab] = useState("profile");

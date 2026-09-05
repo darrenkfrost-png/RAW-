@@ -3,6 +3,7 @@ import { useCart } from "../context/CartContext";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, CheckCircle, ShieldCheck } from "lucide-react";
+import { PAYMENTS_ENABLED } from "../lib/site";
 
 /**
  * ⚠️ THE ONE SWITCH THAT MAKES THIS SHOP REAL.
@@ -12,7 +13,6 @@ import { ArrowRight, CheckCircle, ShieldCheck } from "lucide-react";
  * connected — the moment this is true, the page will tell customers their
  * order is confirmed, so it must not be true before that is a fact.
  */
-const PAYMENTS_ENABLED = false;
 
 export default function Checkout() {
   const { items, cartTotal, removeFromCart } = useCart();

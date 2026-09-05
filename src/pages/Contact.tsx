@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { CONTACT_EMAIL, CONTACT_PHONE_DISPLAY, CONTACT_PHONE_E164 } from "../lib/site";
 
 const contactSchema = z.object({
   name: z.string().min(1, "Name cannot be empty."),
@@ -15,7 +16,6 @@ const contactSchema = z.object({
 type ContactFormData = z.infer<typeof contactSchema>;
 
 /** The address messages are actually addressed to. */
-const CONTACT_EMAIL = "admin@rawofficial.co";
 
 export default function Contact() {
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -91,14 +91,14 @@ export default function Contact() {
               </div>
             </a>
 
-            <a href="tel:+447760992372" className="flex gap-8 items-center group w-full rounded-3xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2 focus-visible:ring-offset-black">
+            <a href={`tel:${CONTACT_PHONE_E164}`} className="flex gap-8 items-center group w-full rounded-3xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2 focus-visible:ring-offset-black">
               <div className="w-20 h-20 xl:w-24 xl:h-24 rounded-3xl border border-editorial-border bg-editorial-bg/80 backdrop-blur-3xl flex items-center justify-center text-editorial-text-muted group-hover:text-red-500 group-hover:border-red-500/50 group-hover:shadow-[0_20px_40px_rgba(220,38,38,0.2)] group-hover:-translate-y-2 transition-all duration-500 transform-gpu relative overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-br from-red-600/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 <Phone className="w-8 h-8 xl:w-10 xl:h-10 group-hover:drop-shadow-[0_0_15px_rgba(220,38,38,0.8)] transition-all relative z-10" />
               </div>
               <div className="flex-1 border-b border-editorial-border pb-6 text-left">
                 <h4 className="font-sans font-black text-editorial-text uppercase tracking-tighter text-2xl xl:text-3xl mb-2 group-hover:text-red-500 transition-colors drop-shadow-[0_2px_4px_rgba(0,0,0,0.08)]">Speak to Us</h4>
-                <p className="text-editorial-text-muted font-light text-xl xl:text-2xl">+44 776 0992 372</p>
+                <p className="text-editorial-text-muted font-light text-xl xl:text-2xl">{CONTACT_PHONE_DISPLAY}</p>
                 <p className="text-red-500/70 text-[0.6875rem] xl:text-[0.6875rem] mt-4 font-black uppercase tracking-[0.3em]">Mon - Fri, 9am - 6pm GMT</p>
               </div>
             </a>
