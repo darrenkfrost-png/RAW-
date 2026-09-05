@@ -12,7 +12,8 @@
     "lint": "tsc --noEmit",
     "test": "tsx src/tests/test_suite.ts",
     "verify": "node scripts/verify.mjs",
-    "test:sw": "node scripts/test-sw.mjs"
+    "test:sw": "node scripts/test-sw.mjs",
+    "weight": "node scripts/weight.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",

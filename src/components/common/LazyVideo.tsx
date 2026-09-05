@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 /**
  * A BACKGROUND FILM THAT COSTS WHAT IT IS WORTH.
@@ -72,6 +72,22 @@ export default function LazyVideo({
      Only the background films are rationed. */
   const isContent = narrow === "play" || !decorative || controls;
 
+  /**
+   * ⚠️ AN INLINE ref CALLBACK IS A NEW FUNCTION ON EVERY RENDER, AND REACT
+   * REACTS TO THAT. It detaches the old one (calling it with null) and attaches
+   * the new one — so every render fired share(null) then share(element). Where
+   * the parent kept that element in state, as the hero's mirrored wash does,
+   * each pair of calls set state twice and caused the next render, which did it
+   * again. Measured on the live home page: the 27MB reel downloaded THREE times
+   * for a single <video>, 54.4MB of a 59.8MB page.
+   *
+   * useCallback pins the identity, so the ref attaches once and stays.
+   */
+  const setElement = useCallback((el: HTMLVideoElement | null) => {
+    (ref as React.MutableRefObject<HTMLVideoElement | null>).current = el;
+    share?.(el);
+  }, [share]);
+
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
@@ -135,10 +151,7 @@ export default function LazyVideo({
 
   return (
     <video
-      ref={(el) => {
-        (ref as React.MutableRefObject<HTMLVideoElement | null>).current = el;
-        share?.(el);
-      }}
+      ref={setElement}
       /* `src` exists only while the film is on screen; before that the element
          holds nothing for the browser to download. Content keeps its src once
          attached, because dropping it would throw away where they were up to. */

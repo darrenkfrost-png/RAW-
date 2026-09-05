@@ -40,6 +40,7 @@ const vp = (guid: string, file: string) => ({
   master: `https://videos.files.wordpress.com/${guid}/${file}.mp4`,
   hd: `https://videos.files.wordpress.com/${guid}/${file}_mp4_hd.mp4`,
   std: `https://videos.files.wordpress.com/${guid}/${file}_mp4_std.mp4`,
+  dvd: `https://videos.files.wordpress.com/${guid}/${file}_mp4_dvd.mp4`,
 });
 
 const WIDE = vp("zsH6jAkj", "raw-official-wide-3840-final");
