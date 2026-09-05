@@ -167,7 +167,7 @@ export default function BiometricLoadCalculator() {
           {/* Target Recommended Dosage Outputs */}
           <div className="space-y-8">
             <span className="text-[0.6875rem] font-mono font-black text-zinc-500 uppercase tracking-[0.4em] flex items-center gap-3">
-              <Activity className="w-3.5 h-3.5 text-blue-500" /> BIOAVAILABLE_OPTIMAL_YIELDS
+              <Activity className="w-3.5 h-3.5 text-blue-500" /> BIOAVAILABLE_YIELDS
             </span>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">

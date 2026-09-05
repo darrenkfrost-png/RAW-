@@ -72,6 +72,15 @@ const stacks = [
   }
 ];
 
+
+// RAW_STRENGTH_PROTOCOL is one word to a browser, so at phone width the
+// heading wrap net broke it mid-syllable ("RAW_STRENGTH_PR / OTOCOL").
+// Offer a break after each underscore instead; the net stays as a fallback.
+const titleParts = (title: string) => {
+  const parts = title.split("_");
+  return parts.flatMap((part, i) => (i < parts.length - 1 ? [part + "_", <wbr key={i} />] : [part]));
+};
+
 export default function ProtocolStacks() {
   return (
     <div className="min-h-svh bg-editorial-bg pt-32 pb-24 px-[var(--shell-padding-mobile)] md:px-[var(--shell-padding)] lg:px-[var(--shell-padding-lg)] font-sans relative overflow-hidden">
@@ -115,7 +124,7 @@ export default function ProtocolStacks() {
                      <span className="font-mono text-[0.6875rem] text-red-500 font-black uppercase tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] transition-all duration-700 group-hover/section:tracking-[0.8em]">PROTOCOL_{idx < 9 ? '0' : ''}{idx + 1}</span>
                      <div className="h-[1px] flex-1 bg-editorial-text/5 group-hover/section:bg-red-600/30 transition-all duration-700" />
                   </div>
-                  <h2 className="font-black text-editorial-text uppercase tracking-tighter leading-[0.85] group-hover/section:text-red-500 transition-colors duration-700 italic text-display-sm">{stack.title}</h2>
+                  <h2 className="font-black text-editorial-text uppercase tracking-tighter leading-[0.85] group-hover/section:text-red-500 transition-colors duration-700 italic text-display-sm">{titleParts(stack.title)}</h2>
                 </div>
 
                 <div className="space-y-8">

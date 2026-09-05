@@ -121,7 +121,12 @@
   /* A heading may never run off the screen. `anywhere` only bites when a
      single word is wider than its line — the net under the display scale,
      not a substitute for it. `balance` evens out multi-line headlines. */
-  h1, h2, h3 { overflow-wrap: anywhere; }
+  /* ⚠️ h4-h6 BELONG HERE TOO. The global h4 is a mono caption at 0.4em
+     letter-spacing; every place that reuses h4 as a real heading keeps that
+     spacing, and a long word then runs past its card and is clipped by the
+     card's own overflow:hidden — "ENVIRONMENTAL" showed as "ENVIRONME" on a
+     phone. Measured 2026-09-05. */
+  h1, h2, h3, h4, h5, h6 { overflow-wrap: anywhere; }
   h1, h2 { text-wrap: balance; }
   
   html.lenis, html.lenis body {

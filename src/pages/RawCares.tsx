@@ -78,36 +78,36 @@ export default function RawCares() {
 
       <section className="py-40 max-w-[var(--content-max-width)] mx-auto text-editorial-text">
         <div className="grid md:grid-cols-3 gap-12 xl:gap-20 relative z-10">
-          <div className="bg-editorial-bg p-12 xl:p-16 rounded-[3rem] border border-editorial-border hover:border-red-500/30 transition-all duration-[800ms] shadow-[0_20px_50px_rgba(0,0,0,0.1)] group transform-gpu hover:-translate-y-3 relative overflow-hidden flex flex-col">
+          <div className="bg-editorial-bg p-8 sm:p-12 xl:p-16 rounded-[3rem] border border-editorial-border hover:border-red-500/30 transition-all duration-[800ms] shadow-[0_20px_50px_rgba(0,0,0,0.1)] group transform-gpu hover:-translate-y-3 relative overflow-hidden flex flex-col">
             <div className="absolute inset-0 bg-gradient-to-b from-red-600/5 to-transparent opacity-0 group-hover:opacity-100 group-hover:animate-[scan_3s_linear_infinite] pointer-events-none mix-blend-screen transition-opacity duration-1000" />
             <div className="w-20 h-20 xl:w-24 xl:h-24 bg-editorial-bg border border-editorial-border rounded-[1.5rem] flex items-center justify-center mb-12 group-hover:border-red-500/50 transition-colors shadow-[0_10px_30px_rgba(0,0,0,0.1)] group-hover:shadow-[0_0_40px_rgba(220,38,38,0.3)]">
               <Globe className="w-8 h-8 xl:w-10 xl:h-10 text-editorial-text-muted group-hover:text-red-500 transition-colors duration-500" />
             </div>
-            <h4 className="font-sans font-black text-3xl xl:text-4xl uppercase mb-6 text-editorial-text drop-shadow-[0_2px_4px_rgba(0,0,0,0.08)] relative z-10 leading-none">Environmental <br/> Intent</h4>
+            <h4 className="font-sans tracking-tight font-black text-2xl sm:text-3xl xl:text-4xl uppercase mb-6 text-editorial-text drop-shadow-[0_2px_4px_rgba(0,0,0,0.08)] relative z-10 leading-none">Environmental <br/> Intent</h4>
             <p className="text-editorial-text-muted leading-relaxed font-light text-xl relative z-10 flex-grow">We work to reduce the environmental impact of our packaging and supply chain.</p>
              <div className="mt-12 w-full h-[2px] bg-editorial-text/5 group-hover:bg-red-500/30 transition-colors duration-700 relative overflow-hidden">
                 <div className="absolute left-0 top-0 h-full bg-red-500 w-0 group-hover:w-full transition-all duration-[1000ms] ease-[0.16,1,0.3,1]" />
              </div>
           </div>
           
-          <div className="bg-editorial-bg p-12 xl:p-16 rounded-[3rem] border border-editorial-border hover:border-red-500/30 transition-all duration-[800ms] shadow-[0_20px_50px_rgba(0,0,0,0.1)] group transform-gpu hover:-translate-y-3 relative overflow-hidden flex flex-col">
+          <div className="bg-editorial-bg p-8 sm:p-12 xl:p-16 rounded-[3rem] border border-editorial-border hover:border-red-500/30 transition-all duration-[800ms] shadow-[0_20px_50px_rgba(0,0,0,0.1)] group transform-gpu hover:-translate-y-3 relative overflow-hidden flex flex-col">
              <div className="absolute inset-0 bg-gradient-to-b from-red-600/5 to-transparent opacity-0 group-hover:opacity-100 group-hover:animate-[scan_3s_linear_infinite] pointer-events-none mix-blend-screen transition-opacity duration-1000" />
              <div className="w-20 h-20 xl:w-24 xl:h-24 bg-editorial-bg border border-editorial-border rounded-[1.5rem] flex items-center justify-center mb-12 group-hover:border-red-500/50 transition-colors shadow-[0_10px_30px_rgba(0,0,0,0.1)] group-hover:shadow-[0_0_40px_rgba(220,38,38,0.3)]">
               <Users className="w-8 h-8 xl:w-10 xl:h-10 text-editorial-text-muted group-hover:text-red-500 transition-colors duration-500" />
             </div>
-            <h4 className="font-sans font-black text-3xl xl:text-4xl uppercase mb-6 text-editorial-text drop-shadow-[0_2px_4px_rgba(0,0,0,0.08)] relative z-10 leading-none">Operative <br/> Support</h4>
+            <h4 className="font-sans tracking-tight font-black text-2xl sm:text-3xl xl:text-4xl uppercase mb-6 text-editorial-text drop-shadow-[0_2px_4px_rgba(0,0,0,0.08)] relative z-10 leading-none">Operative <br/> Support</h4>
             <p className="text-editorial-text-muted leading-relaxed font-light text-xl relative z-10 flex-grow">Sponsorship protocols run on grit and raw output, completely bypassing algorithmic social metric requirements.</p>
              <div className="mt-12 w-full h-[2px] bg-editorial-text/5 group-hover:bg-red-500/30 transition-colors duration-700 relative overflow-hidden">
                 <div className="absolute left-0 top-0 h-full bg-red-500 w-0 group-hover:w-full transition-all duration-[1000ms] ease-[0.16,1,0.3,1]" />
              </div>
           </div>
           
-          <div className="bg-editorial-bg p-12 xl:p-16 rounded-[3rem] border border-editorial-border hover:border-red-500/30 transition-all duration-[800ms] shadow-[0_20px_50px_rgba(0,0,0,0.1)] group transform-gpu hover:-translate-y-3 relative overflow-hidden flex flex-col">
+          <div className="bg-editorial-bg p-8 sm:p-12 xl:p-16 rounded-[3rem] border border-editorial-border hover:border-red-500/30 transition-all duration-[800ms] shadow-[0_20px_50px_rgba(0,0,0,0.1)] group transform-gpu hover:-translate-y-3 relative overflow-hidden flex flex-col">
             <div className="absolute inset-0 bg-gradient-to-b from-red-600/5 to-transparent opacity-0 group-hover:opacity-100 group-hover:animate-[scan_3s_linear_infinite] pointer-events-none mix-blend-screen transition-opacity duration-1000" />
             <div className="w-20 h-20 xl:w-24 xl:h-24 bg-editorial-bg border border-editorial-border rounded-[1.5rem] flex items-center justify-center mb-12 group-hover:border-red-500/50 transition-colors shadow-[0_10px_30px_rgba(0,0,0,0.1)] group-hover:shadow-[0_0_40px_rgba(220,38,38,0.3)]">
               <Crosshair className="w-8 h-8 xl:w-10 xl:h-10 text-editorial-text-muted group-hover:text-red-500 transition-colors duration-500" />
             </div>
-            <h4 className="font-sans font-black text-3xl xl:text-4xl uppercase mb-6 text-editorial-text drop-shadow-[0_2px_4px_rgba(0,0,0,0.08)] relative z-10 leading-none">Action <br/> First</h4>
+            <h4 className="font-sans tracking-tight font-black text-2xl sm:text-3xl xl:text-4xl uppercase mb-6 text-editorial-text drop-shadow-[0_2px_4px_rgba(0,0,0,0.08)] relative z-10 leading-none">Action <br/> First</h4>
             <p className="text-editorial-text-muted leading-relaxed font-light text-xl relative z-10 flex-grow">A portion of all network revenue is diverted to advanced physical therapy operations for injured tactical personnel.</p>
              <div className="mt-12 w-full h-[2px] bg-editorial-text/5 group-hover:bg-red-500/30 transition-colors duration-700 relative overflow-hidden">
                 <div className="absolute left-0 top-0 h-full bg-red-500 w-0 group-hover:w-full transition-all duration-[1000ms] ease-[0.16,1,0.3,1]" />

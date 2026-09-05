@@ -1165,7 +1165,7 @@ export default function ProductDetail() {
                             containerClassName="w-full h-full absolute inset-0 p-8"
                          />
                       </div>
-                      <h4 className="font-sans font-black text-2xl uppercase tracking-tight text-editorial-text mb-3 drop-shadow-[0_2px_4px_rgba(0,0,0,0.1)] line-clamp-1">{p.name}</h4>
+                      <h4 className="font-sans font-black text-xl uppercase tracking-tight text-editorial-text mb-3 drop-shadow-[0_2px_4px_rgba(0,0,0,0.1)] line-clamp-2">{p.name}</h4>
                       <div className="flex items-center justify-between mt-auto">
                         <span className="font-mono text-editorial-text-muted text-lg font-bold drop-shadow-[0_2px_4px_rgba(0,0,0,0.1)]">{p.price}</span>
                         <span className="font-mono text-[0.6875rem] uppercase font-bold tracking-[0.3em] text-red-500 bg-red-950/30 px-3 py-1.5 rounded-lg border border-red-900/50">View Struct</span>
