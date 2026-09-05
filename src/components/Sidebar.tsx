@@ -129,6 +129,13 @@ function Sidebar() {
                   <button
                     type="button"
                     onClick={link.action}
+                    /* ⚠️ COLLAPSED, THIS CONTROL IS AN ICON AND NOTHING ELSE.
+                       The label below is only rendered when the sidebar is open, so
+                       every one of these was an unnamed control to a screen reader —
+                       axe found 8 unnamed links and 1 unnamed button on all 26
+                       routes. The name matches the visible text exactly, so it adds
+                       nothing for sighted users and everything for the rest. */
+                    aria-label={link.name}
                     aria-expanded={isDiscoveryOpen}
                     className={`${itemClass} cursor-pointer ${isSidebarCollapsed ? '' : 'w-full text-left'}`}
                   >
@@ -137,6 +144,7 @@ function Sidebar() {
                 ) : (
                   <Link 
                     to={link.path}
+                    aria-label={link.name}
                     aria-current={isActive ? "page" : undefined}
                     className={itemClass}
                   >

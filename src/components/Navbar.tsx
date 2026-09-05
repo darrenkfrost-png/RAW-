@@ -362,7 +362,7 @@ export default function Navbar() {
 
               <Tooltip content="ACCOUNT">
                 <MagneticWrapper className="hidden sm:block">
-                  <Link to="/account" className="inline-flex items-center justify-center min-h-11 min-w-11 p-2 sm:p-3.5 text-editorial-text-muted hover:text-editorial-text transition-colors duration-500 group bg-transparent hover:bg-editorial-text/5 rounded-full block focus:outline-none focus:ring-2 focus:ring-white">
+                  <Link to="/account" aria-label="Account" className="inline-flex items-center justify-center min-h-11 min-w-11 p-2 sm:p-3.5 text-editorial-text-muted hover:text-editorial-text transition-colors duration-500 group bg-transparent hover:bg-editorial-text/5 rounded-full block focus:outline-none focus:ring-2 focus:ring-white">
                     <User className="w-5 h-5 group-hover:scale-110 transition-all duration-500 ease-fluid" />
                   </Link>
                 </MagneticWrapper>

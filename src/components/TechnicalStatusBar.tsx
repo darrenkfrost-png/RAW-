@@ -50,7 +50,7 @@ export default function TechnicalStatusBar() {
             <button 
               onClick={() => setIsWallpaperMode(true)}
               aria-label="Enter wallpaper canvas mode"
-              className="flex min-h-11 min-w-11 items-center justify-center gap-3 p-2 rounded-lg text-meta-premium opacity-40 hover:opacity-100 hover:bg-white/5 transition-all duration-300 group"
+              className="flex min-h-11 min-w-11 items-center justify-center gap-3 p-2 rounded-lg text-meta-premium opacity-100 hover:bg-white/5 transition-all duration-300 group"
             >
               <Maximize className="w-4 h-4 group-hover:scale-110 transition-transform" />
               <span className="hidden md:inline text-[0.6875rem] uppercase font-black">Canvas</span>
@@ -62,7 +62,7 @@ export default function TechnicalStatusBar() {
               onClick={() => setShowScaleSlider(!showScaleSlider)}
               aria-expanded={showScaleSlider}
               aria-label={`Interface scale settings, ${Math.round(uiScale * 100)}%`}
-              className={`flex min-h-11 items-center justify-center gap-3 p-2 rounded-lg transition-all duration-300 group ${showScaleSlider ? 'bg-red-600/20 text-red-500' : 'text-meta-premium opacity-40 hover:opacity-100 hover:bg-white/5'}`}
+              className={`flex min-h-11 items-center justify-center gap-3 p-2 rounded-lg transition-all duration-300 group ${showScaleSlider ? 'bg-red-600/20 text-red-500' : 'text-meta-premium opacity-100 hover:bg-white/5'}`}
             >
               <Settings2 className="w-4 h-4 group-hover:rotate-90 transition-transform duration-500" />
               <span className="hidden md:inline text-[0.6875rem] uppercase font-black">Res:</span> <span className="font-bold text-editorial-text text-[0.6875rem]">{Math.round(uiScale * 100)}%</span>
@@ -147,7 +147,7 @@ export default function TechnicalStatusBar() {
         
         <div className="hidden md:flex items-center gap-6 border-l border-white/5 pl-8 h-8 ml-4">
            <div className="flex flex-col items-end">
-              <span className="text-[0.6875rem] font-mono font-bold text-zinc-700 tracking-[0.4em] uppercase mb-0.5">CLOCK</span>
+              <span className="text-[0.6875rem] font-mono font-bold text-zinc-400 tracking-[0.4em] uppercase mb-0.5">CLOCK</span>
               <span className="font-mono font-black text-[0.75rem] text-white tracking-widest uppercase">UTC: {timeString}</span>
            </div>
         </div>
