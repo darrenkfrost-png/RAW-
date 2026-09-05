@@ -9,6 +9,7 @@ import { useToast } from "../components/common/Toast";
 import { useCart } from "../context/CartContext";
 import { allProducts } from "../data/products";
 import LazyImage from "../components/LazyImage";
+import LazyVideo from "../components/common/LazyVideo";
 import Breadcrumb from "../components/Breadcrumb";
 import NotFound from "./NotFound";
 import { getHighResImageUrl } from "../lib/utils";
@@ -463,7 +464,8 @@ export default function ProductDetail() {
                       </motion.div>
                     ) : activeItem.type === 'video' ? (
                       <div className="w-full h-full relative group/vid">
-                        <video src={activeItem.url} controls autoPlay loop muted playsInline className="w-full h-full object-cover" />
+                        {/* The demo film used to stream from the moment the page opened, phone or not; it is attached only while on screen now — but it is what the visitor clicked to watch, so it still plays on a phone. */}
+                        <LazyVideo src={activeItem.url} controls narrow="play" decorative={false} className="w-full h-full object-cover" />
                         {/* The inline player is a preview; this opens the real
                             viewer, with the size choices. */}
                         <button

@@ -4,6 +4,7 @@ import { motion } from "motion/react";
 import { allProducts } from "../data/products";
 import { Wind, Snowflake, RefreshCcw } from "lucide-react";
 import LazyImage from "../components/LazyImage";
+import LazyVideo from "../components/common/LazyVideo";
 import ProductCard from "../components/common/ProductCard";
 import BreathingSimulator from "../components/BreathingSimulator";
 
@@ -27,19 +28,12 @@ export default function Recovery() {
     <div className="bg-editorial-bg min-h-svh">
       {/* Video Hero */}
       <section className="relative min-h-[80svh] py-12 flex flex-col items-center justify-center overflow-hidden">
-        <video 
-          {...({
-            autoPlay: true,
-            muted: true,
-            loop: true,
-            playsInline: true,
-            className: "absolute inset-0 w-full h-full object-cover opacity-30 grayscale mix-blend-luminosity scale-110",
-            referrerPolicy: "no-referrer",
-            poster: "https://rawofficial.co/wp-content/uploads/2026/02/Ice-baths-arent-about-staying-in-as-long-as-possible.Theyre-about-staying-in-long-enough-to-be-3.jpg"
-          } as any)}
-        >
-          <source src="https://videos.files.wordpress.com/K2dk0F8f/raw-recovery-reel-2160x2160-1.mp4" type="video/mp4" />
-        </video>
+        {/* 108MB decorative reel: attached only while on screen, never on a phone. */}
+        <LazyVideo
+          src="https://videos.files.wordpress.com/K2dk0F8f/raw-recovery-reel-2160x2160-1.mp4"
+          poster="https://rawofficial.co/wp-content/uploads/2026/02/Ice-baths-arent-about-staying-in-as-long-as-possible.Theyre-about-staying-in-long-enough-to-be-3.jpg"
+          className="absolute inset-0 w-full h-full object-cover opacity-30 grayscale mix-blend-luminosity scale-110"
+        />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-emerald-900/20 via-editorial-bg/60 to-[#050505] mix-blend-multiply"></div>
         <div className="absolute inset-x-0 bottom-0 h-64 bg-gradient-to-t from-[#050505] to-transparent pointer-events-none" />
         <Atmosphere glowOpacity={0.02} gridMode="lines" intensity="low" />
@@ -163,18 +157,12 @@ export default function Recovery() {
              {videos.map((vid, i) => (
                <div key={i} className="aspect-[9/16] relative overflow-hidden group border border-editorial-border bg-editorial-bg rounded-[3rem] shadow-[0_40px_100px_rgba(0,0,0,0.1)] hover:shadow-[0_50px_120px_rgba(16,185,129,0.15)] transition-all duration-[1000ms] hover:-translate-y-4">
                   <div className="absolute inset-0 bg-emerald-900/10 opacity-0 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none mix-blend-screen z-10" />
-                  <video 
-                    {...({
-                      autoPlay: true,
-                      muted: true,
-                      loop: true,
-                      playsInline: true,
-                      className: "w-full h-full object-cover opacity-60 grayscale group-hover:grayscale-[20%] group-hover:opacity-100 group-hover:scale-105 transition-all duration-[2000ms] ease-[0.16,1,0.3,1]",
-                      referrerPolicy: "no-referrer"
-                    } as any)}
-                  >
-                    <source src={vid} type="video/mp4" />
-                  </video>
+                  {/* 2-4MB technique clip each: attached only while on screen; plays on a phone because it is the content. */}
+                  <LazyVideo
+                    src={vid}
+                    className="w-full h-full object-cover opacity-60 grayscale group-hover:grayscale-[20%] group-hover:opacity-100 group-hover:scale-105 transition-all duration-[2000ms] ease-[0.16,1,0.3,1]"
+                    narrow="play"
+                  />
                   <div className="absolute inset-0 bg-gradient-to-t from-transparent via-editorial-bg/40 to-transparent pointer-events-none z-10 opacity-80 mix-blend-multiply"></div>
                   <div className="absolute bottom-16 left-12 right-12 z-20 transform-gpu transition-all duration-[1000ms] ease-[0.16,1,0.3,1] group-hover:-translate-y-4">
                      <div className="h-[3px] w-full bg-editorial-text/10 mb-10 overflow-hidden rounded-full shadow-[inset_0_0_5px_rgba(0,0,0,0.08)]">
@@ -219,18 +207,12 @@ export default function Recovery() {
            <div className="relative aspect-video border border-editorial-border bg-editorial-bg group overflow-hidden rounded-[3rem] shadow-[0_40px_100px_rgba(0,0,0,0.1)] transform-gpu hover:-translate-y-4 transition-all duration-[1000ms] ease-[0.16,1,0.3,1]">
               <div className="absolute inset-0 bg-emerald-900/20 opacity-0 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none mix-blend-screen z-10" />
               <div className="absolute inset-0 bg-gradient-to-t from-transparent/80 via-transparent to-transparent pointer-events-none z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-700 mix-blend-multiply" />
-              <video 
-                {...({
-                  autoPlay: true,
-                  muted: true,
-                  loop: true,
-                  playsInline: true,
-                  className: "w-full h-full object-cover opacity-60 grayscale group-hover:grayscale-[20%] group-hover:scale-105 group-hover:opacity-100 transition-all duration-[2000ms] ease-[0.16,1,0.3,1]",
-                  referrerPolicy: "no-referrer"
-                } as any)}
-              >
-                <source src="https://videos.files.wordpress.com/lUvR2d1e/this-isnt-comfort.its-commitment.cold-exposure-doesnt-care-who-you-are-it-only-reveals-how-.mp4" type="video/mp4" />
-              </video>
+              {/* 2.9MB clip (same film as the first technique tile): attached only while on screen; plays on a phone because it is the content. */}
+              <LazyVideo
+                src="https://videos.files.wordpress.com/lUvR2d1e/this-isnt-comfort.its-commitment.cold-exposure-doesnt-care-who-you-are-it-only-reveals-how-.mp4"
+                className="w-full h-full object-cover opacity-60 grayscale group-hover:grayscale-[20%] group-hover:scale-105 group-hover:opacity-100 transition-all duration-[2000ms] ease-[0.16,1,0.3,1]"
+                narrow="play"
+              />
            </div>
         </div>
       </section>

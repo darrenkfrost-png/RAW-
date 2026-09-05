@@ -7,6 +7,7 @@ import { Calendar, MapPin, Award, Crosshair, ArrowRight } from "lucide-react";
 import LazyImage from "../components/LazyImage";
 import CombatTargetZone from "../components/CombatTargetZone";
 import ProductCard from "../components/common/ProductCard";
+import LazyVideo from "../components/common/LazyVideo";
 
 export default function Combat() {  const products = allProducts.filter(p => p.category === "Combat" || p.category === "Apparel");
 
@@ -18,19 +19,12 @@ export default function Combat() {  const products = allProducts.filter(p => p.
           were centred as a pair, and the headline started 182px from the left edge with
           its right half off the screen. Stacked, the breadcrumb sits above the hero. */}
       <section className="relative h-[80vh] min-h-[28rem] flex flex-col items-center justify-center text-center overflow-hidden">
-        <video 
-          {...({
-            autoPlay: true,
-            muted: true,
-            loop: true,
-            playsInline: true,
-            className: "absolute inset-0 w-full h-full object-cover opacity-30 grayscale mix-blend-luminosity scale-110",
-            referrerPolicy: "no-referrer",
-            poster: "https://rawofficial.co/wp-content/uploads/2026/02/combatIMG-scaled.jpg"
-          } as any)}
-        >
-          <source src="https://videos.files.wordpress.com/h8D4zswX/raw-combat-reel-2160x2160-1.mp4" type="video/mp4" />
-        </video>
+        {/* 102MB reel, autoplaying from page load on every device: attached only while on screen, never on a phone. */}
+        <LazyVideo
+          src="https://videos.files.wordpress.com/h8D4zswX/raw-combat-reel-2160x2160-1.mp4"
+          poster="https://rawofficial.co/wp-content/uploads/2026/02/combatIMG-scaled.jpg"
+          className="absolute inset-0 w-full h-full object-cover opacity-30 grayscale mix-blend-luminosity scale-110"
+        />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-red-900/20 via-[#050505]/60 to-[#050505] mix-blend-multiply"></div>
         <div className="absolute inset-x-0 bottom-0 h-64 bg-gradient-to-t from-[#050505] to-transparent pointer-events-none" />
         <Atmosphere glowOpacity={0.02} gridMode="lines" intensity="low" />
@@ -194,19 +188,12 @@ export default function Combat() {  const products = allProducts.filter(p => p.
         <div className="max-w-[var(--content-max-width)] mx-auto px-[var(--shell-padding-mobile)] md:px-[var(--shell-padding)] lg:px-[var(--shell-padding-lg)] relative z-10">
           <div className="grid lg:grid-cols-2 gap-24 xl:gap-32 items-center">
              <div className="relative aspect-video bg-editorial-bg rounded-[3rem] overflow-hidden border border-editorial-border group shadow-[0_40px_100px_rgba(0,0,0,0.1)] hover:border-red-500/30 transition-all duration-[1000ms] hover:-translate-y-4">
-                 <video 
-                  {...({
-                    autoPlay: true,
-                    muted: true,
-                    loop: true,
-                    playsInline: true,
-                    className: "w-full h-full object-cover grayscale brightness-50 group-hover:grayscale-0 group-hover:brightness-100 transition-all duration-[2000ms] ease-[0.16,1,0.3,1] scale-105 group-hover:scale-100 mix-blend-luminosity group-hover:mix-blend-normal",
-                    referrerPolicy: "no-referrer",
-                    poster: "https://rawofficial.co/wp-content/uploads/2026/02/SB-Beach-Promo-FOR-PRINT-A3-CMYK.jpg"
-                  } as any)}
-                >
-                  <source src="https://videos.files.wordpress.com/h8D4zswX/raw-combat-reel-2160x2160-1.mp4" type="video/mp4" />
-                </video>
+                 {/* The SAME 102MB reel again, second copy on one page: attached only while on screen, never on a phone. */}
+                 <LazyVideo
+                  src="https://videos.files.wordpress.com/h8D4zswX/raw-combat-reel-2160x2160-1.mp4"
+                  poster="https://rawofficial.co/wp-content/uploads/2026/02/SB-Beach-Promo-FOR-PRINT-A3-CMYK.jpg"
+                  className="w-full h-full object-cover grayscale brightness-50 group-hover:grayscale-0 group-hover:brightness-100 transition-all duration-[2000ms] ease-[0.16,1,0.3,1] scale-105 group-hover:scale-100 mix-blend-luminosity group-hover:mix-blend-normal"
+                />
                 <div className="absolute inset-0 bg-red-900/10 opacity-0 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none mix-blend-screen z-10" />
                 <div className="absolute inset-0 bg-gradient-to-t from-transparent/80 via-transparent to-transparent pointer-events-none mix-blend-multiply opacity-0 group-hover:opacity-100 transition-opacity duration-1000 z-10" />
                 <div className="absolute top-10 left-10 text-[0.6875rem] font-black uppercase tracking-[0.4em] bg-red-600/90 text-white px-5 py-3 border border-red-500/50 rounded-xl shadow-[0_15px_30px_rgba(220,38,38,0.4)] backdrop-blur-md drop-shadow-[0_2px_4px_rgba(0,0,0,0.08)] z-20 group-hover:bg-red-600 transition-colors duration-500">Arena Feed // Alpha 1.0</div>

@@ -1,5 +1,6 @@
 import { useRef } from "react";
 import { useInView } from "motion/react";
+import LazyVideo from "../common/LazyVideo";
 
 export function EngagementVideo() {
   const containerRef = useRef(null);
@@ -22,19 +23,12 @@ export function EngagementVideo() {
       <div className="absolute inset-0 z-10 pointer-events-none neural-grid-overlay"></div>
       
       {isInView && heavyOk ? (
-        <video 
-          {...({
-            autoPlay: true,
-            muted: true,
-            loop: true,
-            playsInline: true,
-            poster: "https://rawofficial.co/wp-content/uploads/2026/02/combatIMG-scaled.jpg",
-            className: "w-full h-full object-cover transition-all duration-[2s] ease-[0.16,1,0.3,1] brightness-50 group-hover:brightness-100 scale-110 group-hover:scale-100",
-            referrerPolicy: "no-referrer"
-          } as any)}
-        >
-          <source src="https://videos.files.wordpress.com/zsH6jAkj/raw-official-wide-3840-final.mp4" type="video/mp4" />
-        </video>
+        /* 133MB reel — the second copy on this page: attached only while on screen, never on a phone. */
+        <LazyVideo
+          src="https://videos.files.wordpress.com/zsH6jAkj/raw-official-wide-3840-final.mp4"
+          poster="https://rawofficial.co/wp-content/uploads/2026/02/combatIMG-scaled.jpg"
+          className="w-full h-full object-cover transition-all duration-[2s] ease-[0.16,1,0.3,1] brightness-50 group-hover:brightness-100 scale-110 group-hover:scale-100"
+        />
       ) : (
         <div
           role="img"

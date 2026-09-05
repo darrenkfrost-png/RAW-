@@ -7,6 +7,7 @@ import { Zap, Target, Database } from "lucide-react";
 import LazyImage from "../components/LazyImage";
 import ProductCard from "../components/common/ProductCard";
 import BiometricLoadCalculator from "../components/BiometricLoadCalculator";
+import LazyVideo from "../components/common/LazyVideo";
 
 export default function Nutrients() {
   const allNutrients = allProducts.filter(p => p.category === "Nutrients");
@@ -31,19 +32,12 @@ export default function Nutrients() {
     <div className="bg-editorial-bg min-h-svh text-editorial-text">
       {/* Hero Section */}
       <section className="relative h-[80vh] flex flex-col items-center justify-center overflow-hidden border-b border-editorial-border">
-        <video 
-          {...({
-            autoPlay: true,
-            muted: true,
-            loop: true,
-            playsInline: true,
-            className: "absolute inset-0 w-full h-full object-cover opacity-30 grayscale mix-blend-luminosity scale-110",
-            referrerPolicy: "no-referrer",
-            poster: "https://rawofficial.co/wp-content/uploads/2026/02/nutrientsIMG-scaled.jpg"
-          } as any)}
-        >
-          <source src="https://videos.files.wordpress.com/jqb5XX8H/raw-nutrients-reel-2160x2160-1.mp4" type="video/mp4" />
-        </video>
+        {/* 61MB reel: attached only while on screen, never on a phone. */}
+        <LazyVideo
+          src="https://videos.files.wordpress.com/jqb5XX8H/raw-nutrients-reel-2160x2160-1.mp4"
+          poster="https://rawofficial.co/wp-content/uploads/2026/02/nutrientsIMG-scaled.jpg"
+          className="absolute inset-0 w-full h-full object-cover opacity-30 grayscale mix-blend-luminosity scale-110"
+        />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-blue-900/20 via-editorial-bg/60 to-editorial-bg"></div>
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-transparent via-transparent to-editorial-bg pointer-events-none" />
         

@@ -2,6 +2,7 @@ import { Atmosphere } from '../components/common/Atmosphere';
 import { motion, useScroll, useTransform } from "motion/react";
 import { useRef } from "react";
 import LazyImage from "../components/LazyImage";
+import LazyVideo from "../components/common/LazyVideo";
 import NeuralTimeline from "../components/NeuralTimeline";
 import MouseBlob from "../components/MouseBlob";
 
@@ -59,16 +60,14 @@ export default function OurStory() {
           style={{ y: videoY }}
           className="absolute inset-0 w-full h-[150%] -top-[25%]"
         >
-          <video 
-            aria-hidden="true"
-            autoPlay 
-            muted 
-            loop 
-            playsInline
+          {/* 2.7MB cold-exposure clip: attached only while on screen, never on a phone. */}
+          <LazyVideo
+            src="https://videos.files.wordpress.com/lUvR2d1e/this-isnt-comfort.its-commitment.cold-exposure-doesnt-care-who-you-are-it-only-reveals-how-.mp4"
             className="w-full h-full object-cover grayscale brightness-50 mix-blend-luminosity scale-105"
-          >
-            <source src="https://videos.files.wordpress.com/lUvR2d1e/this-isnt-comfort.its-commitment.cold-exposure-doesnt-care-who-you-are-it-only-reveals-how-.mp4" type="video/mp4" />
-          </video>
+            /* This hero has no still in the repo, so a phone that skipped the film
+               would show an empty section. The clip is 2.7MB — small enough to keep. */
+            narrow="play"
+          />
         </motion.div>
         
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-transparent via-editorial-bg/40 to-[#050505] pointer-events-none" />
