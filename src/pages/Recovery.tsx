@@ -156,7 +156,7 @@ export default function Recovery() {
           
           <div className="grid lg:grid-cols-3 gap-12 xl:gap-16">
              {videos.map((vid, i) => (
-               <div key={i} className="aspect-[9/16] relative overflow-hidden group border border-editorial-border bg-editorial-bg rounded-[3rem] shadow-[0_40px_100px_rgba(0,0,0,0.1)] hover:shadow-[0_50px_120px_rgba(16,185,129,0.15)] transition-all duration-[1000ms] hover:-translate-y-4">
+               <div key={i} className="edge-laser edge-crystal aspect-[9/16] relative overflow-hidden group border border-editorial-border bg-editorial-bg rounded-[3rem] shadow-[0_40px_100px_rgba(0,0,0,0.1)] hover:shadow-[0_50px_120px_rgba(16,185,129,0.15)] transition-all duration-[1000ms] hover:-translate-y-4">
                   <div className="absolute inset-0 bg-emerald-900/10 opacity-0 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none mix-blend-screen z-10" />
                   {/* 2-4MB technique clip each: attached only while on screen; plays on a phone because it is the content. */}
                   <LazyVideo

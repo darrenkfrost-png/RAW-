@@ -69,7 +69,7 @@ function Tile({ item, onOpen, index }: { item: ShowcaseItem; onOpen: () => void;
       viewport={{ once: true, margin: "-40px" }}
       transition={{ duration: 0.7, delay: Math.min(index, 8) * 0.045, ease: [0.16, 1, 0.3, 1] }}
       aria-label={`${item.kind === "video" ? "Play" : "Open"} ${item.caption || item.credit}`}
-      className={`group relative block w-full overflow-hidden rounded-2xl border border-editorial-border bg-black text-left
+      className={`edge-laser edge-crystal group relative block w-full overflow-hidden rounded-2xl border border-editorial-border bg-black text-left
         focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500
         ${item.tall ? "aspect-[3/4]" : "aspect-[4/3]"}`}
     >

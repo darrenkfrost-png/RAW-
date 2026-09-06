@@ -172,7 +172,7 @@ export default function ProtocolStacks() {
                       >
                         <div className="absolute inset-0 bg-gradient-to-br from-red-600/[0.03] to-transparent opacity-0 group-hover/card:opacity-100 transition-opacity duration-1000" />
                         
-                        <div className="aspect-square bg-black/40 rounded-[2.5rem] overflow-hidden mb-12 relative border border-white/5 shadow-depth-1 group-hover/card:scale-[1.02] transition-transform duration-[1500ms]">
+                        <div className="edge-laser aspect-square bg-black/40 rounded-[2.5rem] overflow-hidden mb-12 relative border border-white/5 shadow-depth-1 group-hover/card:scale-[1.02] transition-transform duration-[1500ms]">
                            <div className="absolute inset-0 bg-editorial-surface opacity-0 group-hover/card:opacity-10 transition-opacity z-10" />
                            <img src={product.image} alt={product.name} className="w-full h-full object-contain p-12 mix-blend-screen scale-110 group-hover/card:scale-[1.25] transition-transform duration-[2000ms] ease-fluid" />
                            <div className="absolute top-6 right-6 w-10 h-10 bg-editorial-bg border border-white/5 rounded-xl flex items-center justify-center opacity-100 md:opacity-0 md:group-hover/card:opacity-100 transition-all duration-700 md:translate-x-4 md:group-hover/card:translate-x-0">

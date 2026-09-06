@@ -270,7 +270,7 @@ export default function Home() {
           
           {/* THE CARD IS A COLUMN, NOT A STACK OF LAYERS. Logo box on top, title under it, description + button pinned to the bottom, height from content (the grid keeps the three equal). The old version drew the logo full-card and centred behind a bottom-anchored text block whose hidden hover elements still took up room — once the fluid root grew that block, the title's second line landed on the logo (seen live 2026-09-05). A fixed 3:4 box cannot hold four elements at phone or laptop widths without clipping. */}
           <div className="grid md:grid-cols-3 gap-12 xl:gap-20">
-            <Link to="/nutrients" className="card-premium group/card hover-raise flex flex-col min-h-[26rem]" aria-label="Explore Nutrients Protocols">
+            <Link to="/nutrients" className="edge-laser edge-crystal card-premium group/card hover-raise flex flex-col min-h-[26rem]" aria-label="Explore Nutrients Protocols">
               <div className="holographic-glow group-hover/card:opacity-60 transition-opacity duration-1000" />
               <div className="scanner-line top-1/4 group-hover/card:animate-[scan_3s_infinite]" />
               
@@ -298,7 +298,7 @@ export default function Home() {
               </div>
             </Link>
             
-            <Link to="/combat" className="card-premium group/card hover-raise flex flex-col min-h-[26rem]" aria-label="Explore Combat Protocols">
+            <Link to="/combat" className="edge-laser edge-crystal card-premium group/card hover-raise flex flex-col min-h-[26rem]" aria-label="Explore Combat Protocols">
               <div className="holographic-glow group-hover/card:opacity-60 transition-opacity duration-1000" />
               <div className="scanner-line top-1/2 group-hover/card:animate-[scan_4s_infinite]" />
               
@@ -326,7 +326,7 @@ export default function Home() {
               </div>
             </Link>
             
-            <Link to="/recovery" className="card-premium group/card hover-raise flex flex-col min-h-[26rem]" aria-label="Explore Recovery Protocols">
+            <Link to="/recovery" className="edge-laser edge-crystal card-premium group/card hover-raise flex flex-col min-h-[26rem]" aria-label="Explore Recovery Protocols">
               <div className="holographic-glow group-hover/card:opacity-60 transition-opacity duration-1000" />
               <div className="scanner-line top-3/4 group-hover/card:animate-[scan_2.5s_infinite]" />
               
