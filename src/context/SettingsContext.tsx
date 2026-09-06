@@ -12,6 +12,10 @@ interface Settings {
   screensaverVideoId: string;
   /** Draw a different film each time, rather than always the chosen one. */
   screensaverShuffle: boolean;
+  /** When a film ends, move on to the next one instead of repeating it. */
+  screensaverPlayAll: boolean;
+  screensaverShowClock: boolean;
+  screensaverShowTagline: boolean;
   videoWallpaperShuffle: boolean;
   activeWallpaper: string;
   wallpaperColor: string;
@@ -43,6 +47,9 @@ const defaultSettings: Settings = {
      choice, with their weight shown. */
   screensaverVideoId: 'combat',
   screensaverShuffle: true,
+  screensaverPlayAll: true,
+  screensaverShowClock: true,
+  screensaverShowTagline: true,
   videoWallpaperShuffle: true,
   activeWallpaper: 'polyrhythm',
   wallpaperColor: '#dc2626',

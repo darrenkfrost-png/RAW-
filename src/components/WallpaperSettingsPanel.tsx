@@ -143,6 +143,39 @@ export default function WallpaperSettingsPanel() {
                     <span className={`absolute top-0.5 w-4 h-4 bg-white rounded-full transition-all ${settings.screensaverShuffle ? 'left-[1.15rem]' : 'left-0.5'}`} />
                   </button>
                 </div>
+                <div className="flex items-center justify-between mb-3">
+                  <span className="font-mono text-[0.6875rem] uppercase text-editorial-text-muted tracking-widest">PLAY_ALL</span>
+                  <button
+                    onClick={() => setSettings(prev => ({...prev, screensaverPlayAll: !prev.screensaverPlayAll}))}
+                    aria-pressed={settings.screensaverPlayAll}
+                    aria-label="Play through every film instead of repeating one"
+                    className={`w-9 h-5 rounded-full transition-colors relative ${settings.screensaverPlayAll ? 'bg-red-600' : 'bg-zinc-800'}`}
+                  >
+                    <span className={`absolute top-0.5 w-4 h-4 bg-white rounded-full transition-all ${settings.screensaverPlayAll ? 'left-[1.15rem]' : 'left-0.5'}`} />
+                  </button>
+                </div>
+                <div className="flex items-center justify-between mb-3">
+                  <span className="font-mono text-[0.6875rem] uppercase text-editorial-text-muted tracking-widest">SHOW_CLOCK</span>
+                  <button
+                    onClick={() => setSettings(prev => ({...prev, screensaverShowClock: !prev.screensaverShowClock}))}
+                    aria-pressed={settings.screensaverShowClock}
+                    aria-label="Show the clock on the screensaver"
+                    className={`w-9 h-5 rounded-full transition-colors relative ${settings.screensaverShowClock ? 'bg-red-600' : 'bg-zinc-800'}`}
+                  >
+                    <span className={`absolute top-0.5 w-4 h-4 bg-white rounded-full transition-all ${settings.screensaverShowClock ? 'left-[1.15rem]' : 'left-0.5'}`} />
+                  </button>
+                </div>
+                <div className="flex items-center justify-between mb-3">
+                  <span className="font-mono text-[0.6875rem] uppercase text-editorial-text-muted tracking-widest">SHOW_TAGLINE</span>
+                  <button
+                    onClick={() => setSettings(prev => ({...prev, screensaverShowTagline: !prev.screensaverShowTagline}))}
+                    aria-pressed={settings.screensaverShowTagline}
+                    aria-label="Show the tagline on the screensaver"
+                    className={`w-9 h-5 rounded-full transition-colors relative ${settings.screensaverShowTagline ? 'bg-red-600' : 'bg-zinc-800'}`}
+                  >
+                    <span className={`absolute top-0.5 w-4 h-4 bg-white rounded-full transition-all ${settings.screensaverShowTagline ? 'left-[1.15rem]' : 'left-0.5'}`} />
+                  </button>
+                </div>
                 <button
                   onClick={openScreensaver}
                   className="w-full py-2.5 rounded-lg border border-red-600/40 bg-red-600/10 text-red-300 font-mono text-[0.6875rem] uppercase tracking-[0.25em] hover:bg-red-600/20 transition-colors"

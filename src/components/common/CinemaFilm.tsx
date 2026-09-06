@@ -39,6 +39,8 @@ export default function CinemaFilm({
   washClassName = "absolute inset-0 h-full w-full scale-150 object-cover opacity-70 blur-2xl mix-blend-screen",
   posterWallClassName = "absolute inset-0 scale-125 bg-cover bg-center opacity-0 md:opacity-20 lg:opacity-30 blur-3xl",
   narrow = "poster",
+  loop = true,
+  onEnded,
   className = "absolute inset-0 z-0 overflow-hidden pointer-events-none",
   stageChildren,
   children,
@@ -50,6 +52,9 @@ export default function CinemaFilm({
   washClassName?: string;
   posterWallClassName?: string;
   narrow?: "poster" | "play";
+  /** Off when the caller wants to move on to the next film instead of repeating. */
+  loop?: boolean;
+  onEnded?: () => void;
   className?: string;
   /** Painted inside the film's own frame — edge fades that belong to the band. */
   stageChildren?: React.ReactNode;
@@ -134,7 +139,7 @@ export default function CinemaFilm({
 
       {/* The screen itself. */}
       <div className={stage}>
-        <LazyVideo src={src} poster={poster} share={setVideo} narrow={narrow} className={bandClassName} />
+        <LazyVideo src={src} poster={poster} share={setVideo} narrow={narrow} loop={loop} onEnded={onEnded} className={bandClassName} />
         {stageChildren}
       </div>
 

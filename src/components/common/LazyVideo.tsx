@@ -41,6 +41,7 @@ export default function LazyVideo({
   decorative = true,
   controls = false,
   share,
+  onEnded,
 }: {
   src: string;
   poster?: string;
@@ -52,6 +53,8 @@ export default function LazyVideo({
   decorative?: boolean;
   /** Player controls, for a film the visitor chose to watch. Off by default. */
   controls?: boolean;
+  /** Fired when a non-looping film reaches its end — used to hand over to the next one. */
+  onEnded?: () => void;
   /**
    * Hands the mounted <video> to the parent. For effects that need the frames
    * that are already being downloaded — the hero's mirrored blur paints itself
@@ -161,6 +164,7 @@ export default function LazyVideo({
       loop={loop}
       playsInline
       preload="none"
+      onEnded={onEnded}
       controls={controls || undefined}
       aria-hidden={decorative || undefined}
       /* ⚠️ SPREAD, NOT AN ATTRIBUTE. React's VideoHTMLAttributes has no
