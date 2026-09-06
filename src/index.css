@@ -567,6 +567,27 @@
      underline animation below needs the text's own width, so height is added
      rather than padding the box out sideways. Phones only: on a desktop the
      tighter rhythm is the design, and a mouse does not need 44px. */
+  /* ⚠️ THE SELECTED CHIP WAS THE ONE THAT FELT BROKEN. Its resting state is
+     already the accent colour, so every hover rule it had resolved to the
+     colour it was already wearing — nothing moved, and the one control you had
+     just chosen was the only one that did not answer the pointer. Measured: six
+     such chips across four pages changed nothing at all under the pointer. A
+     small lift and a touch more light, shared by every pressed control. */
+  [aria-pressed='true']:not(:disabled) {
+    transition: filter 0.3s ease, transform 0.3s ease;
+  }
+
+  [aria-pressed='true']:not(:disabled):hover,
+  [aria-current='page']:hover {
+    filter: brightness(1.12);
+    transform: translateY(-1px);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    [aria-pressed='true']:not(:disabled):hover,
+    [aria-current='page']:hover { transform: none; }
+  }
+
   .link-premium {
     @apply relative text-zinc-400 hover:text-editorial-text transition-colors duration-500;
   }

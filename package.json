@@ -16,7 +16,8 @@
     "weight": "node scripts/weight.mjs",
     "fitcheck": "node scripts/fitcheck.mjs",
     "clipcheck": "node scripts/clipcheck.mjs",
-    "midword": "node scripts/midword.mjs"
+    "midword": "node scripts/midword.mjs",
+    "axeall": "node scripts/axe-all.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",

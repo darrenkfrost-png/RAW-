@@ -133,6 +133,7 @@ export default function Nutrients() {
               <button 
                 key={sub}
                 onClick={() => setSelectedSub(sub)}
+                aria-pressed={selectedSub === sub}
                 className={`text-[0.75rem] font-black uppercase tracking-[0.4em] transition-all duration-[800ms] px-10 py-5 rounded-2xl shadow-[0_5px_15px_rgba(0,0,0,0.08)] transform-gpu active:scale-95 ease-[0.16,1,0.3,1] ${selectedSub === sub ? 'bg-blue-600 text-editorial-text shadow-[0_15px_40px_rgba(59,130,246,0.4)] scale-100' : 'bg-editorial-bg text-editorial-text-muted hover:text-editorial-text hover:border-editorial-border-light border border-transparent hover:shadow-[0_10px_30px_rgba(0,0,0,0.04)]'}`}
               >
                 {sub}

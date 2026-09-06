@@ -100,6 +100,7 @@ export default function RawAcademy() {
                  <button 
                    key={c} 
                    onClick={() => setFilter(c)}
+                   aria-pressed={filter === c}
                    className={`px-8 py-3 rounded-full font-mono text-[0.6875rem] uppercase font-black tracking-[0.2em] transition-all active:scale-95 ${
                      filter === c 
                      ? 'bg-red-600 text-white shadow-[0_0_20px_rgba(220,38,38,0.4)]' 

@@ -279,6 +279,7 @@ export default function BreathingSimulator() {
                 <button
                   key={tech.name}
                   onClick={() => handleTechChange(idx)}
+                  aria-pressed={techIndex === idx}
                   className={`w-full text-left p-5 rounded-2xl border transition-all duration-500 flex items-center justify-between group ${techIndex === idx ? 'bg-zinc-950 border-emerald-500/40 shadow-inner' : 'bg-zinc-950/40 border-zinc-900/60 hover:bg-zinc-950'}`}
                 >
                   <div className="space-y-1 max-w-[80%]">
