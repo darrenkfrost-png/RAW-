@@ -8,17 +8,24 @@
   --font-serif: "Space Grotesk", serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
 
+  /* ⚠️ cqi, NOT vw. A heading sized from the window is the wrong size in a
+     column: "Magnesium" at 158px needs 824px and the product page gives it
+     497px, so the word broke in half. cqi measures the container that the
+     heading is actually in (see container-type below). With no container
+     declared, cq units fall back to the viewport — so anything not wrapped
+     behaves exactly as it did.
+
   /* THE DISPLAY SCALE — one fluid size per tier, replacing chains like
      `text-8xl md:text-9xl xl:text-[180px]` (80 of them). Each is a clamp:
      a floor a phone can hold, a slope in vw, a ceiling for wide screens.
      Floors sit at 40-48px because that is where the mobile bases already
      were on the headings that fit; only the 96-128px mobile bases and one
      unbroken 17-character word were actually running off the screen. */
-  --text-display-sm: clamp(2.5rem, 1.5rem + 3.2vw, 5rem);
-  --text-display-md: clamp(2.75rem, 1.5rem + 5vw, 7.5rem);
-  --text-display-lg: clamp(2.75rem, 1.5rem + 6vw, 9rem);
-  --text-display-xl: clamp(3rem, 1.5rem + 7.5vw, 11.25rem);
-  --text-display-2xl: clamp(3rem, 1.5rem + 9vw, 13.75rem);
+  --text-display-sm: clamp(2.25rem, 1.25rem + 3.2cqi, 5rem);
+  --text-display-md: clamp(2.5rem, 1.25rem + 5cqi, 7.5rem);
+  --text-display-lg: clamp(2.5rem, 1.25rem + 6cqi, 9rem);
+  --text-display-xl: clamp(2.75rem, 1.25rem + 7.5cqi, 11.25rem);
+  --text-display-2xl: clamp(2.75rem, 1.25rem + 9cqi, 13.75rem);
   
   --color-editorial-bg: #050505;
   --color-editorial-surface: #121215;
@@ -36,7 +43,9 @@
   --header-height-mobile: 80px;
   --header-current-height: var(--header-height-mobile);
   --sidebar-width: 280px;
-  --sidebar-collapsed-width: 84px;
+  /* 84px held an icon and nothing else. 104px holds the icon and the word
+     under it at the 11px floor, so the rail explains itself. */
+  --sidebar-collapsed-width: 104px;
   --sidebar-current-width: var(--sidebar-collapsed-width);
   --layout-transition-duration: 700ms;
   --layout-transition-ease: cubic-bezier(0.16, 1, 0.3, 1);
@@ -126,7 +135,15 @@
      spacing, and a long word then runs past its card and is clipped by the
      card's own overflow:hidden — "ENVIRONMENTAL" showed as "ENVIRONME" on a
      phone. Measured 2026-09-05. */
-  h1, h2, h3, h4, h5, h6 { overflow-wrap: anywhere; }
+  /* ⚠️ `anywhere` AND `break-word` BREAK THE SAME WORDS, BUT SIZE CONTAINERS
+     DIFFERENTLY, AND THAT DIFFERENCE IS THE BUG. Under `anywhere` an element's
+     min-content width collapses to a single character, so any flex or grid
+     parent is free to squeeze it to nothing — and then every word breaks. That
+     is how a product name rendered as PROTEI / N / PEPTIDE / POWDE / R.
+     `break-word` keeps min-content at the longest word, so the layout has to
+     make room first and a word only breaks when it genuinely cannot fit. The
+     net against a word running off a fixed-width card is unchanged. */
+  h1, h2, h3, h4, h5, h6 { overflow-wrap: break-word; }
   h1, h2 { text-wrap: balance; }
   
   html.lenis, html.lenis body {
@@ -206,11 +223,24 @@
 }
 
 @layer components {
+  /* Declaring these containers is what gives cqi something to measure. Both
+     are already positioned wrappers, so making them a containment context
+     changes nothing about where their absolute children land. */
+  /* ⚠️ PUT THIS ON THE COLUMN A BIG HEADING LIVES IN. Without a declared
+     container, cqi falls back to the viewport and a heading in a 497px
+     column is sized as though it had 1440px — which is how a product name
+     came to be set at 153px and broke across three lines. */
+  .fits-its-column {
+    container-type: inline-size;
+  }
+
   .section-container {
+    container-type: inline-size;
     @apply max-w-[var(--content-max-width)] mx-auto px-[var(--shell-padding-mobile)] md:px-[var(--shell-padding)] lg:px-[var(--shell-padding-lg)];
   }
 
   .card-premium {
+    container-type: inline-size;
     @apply bg-editorial-card border border-editorial-border rounded-[3rem] shadow-premium transition-all duration-700 hover:border-editorial-accent/30 hover:shadow-depth-3 relative overflow-hidden;
     background: linear-gradient(135deg, var(--color-editorial-card) 0%, var(--color-editorial-surface) 100%);
   }

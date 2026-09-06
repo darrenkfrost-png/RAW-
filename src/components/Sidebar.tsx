@@ -100,13 +100,22 @@ function Sidebar() {
           {links.map((link) => {
             const isActive = link.path !== '#' && pathname === link.path;
             
-            const itemClass = `relative z-10 flex items-center rounded-2xl transition-all duration-500 font-mono text-[0.6875rem] uppercase tracking-[0.2em] font-black whitespace-nowrap focus:outline-none focus:ring-2 focus:ring-red-500/50 group-hover:px-6 ${isSidebarCollapsed ? 'justify-center p-3.5 mx-auto w-12 h-12 group-hover:px-3.5' : 'gap-4 px-5 py-4'} ${isActive ? 'bg-red-600 text-white shadow-[0_10px_30px_rgba(220,38,38,0.4)]' : 'text-zinc-500 hover:bg-white/5 hover:text-white'}`;
+            const itemClass = `relative z-10 flex items-center rounded-2xl transition-all duration-500 font-mono text-[0.6875rem] uppercase tracking-[0.2em] font-black whitespace-nowrap focus:outline-none focus:ring-2 focus:ring-red-500/50 group-hover:px-6 ${isSidebarCollapsed ? 'flex-col justify-center gap-1.5 px-1 py-2.5 mx-auto w-[88px] group-hover:px-1' : 'gap-4 px-5 py-4'} ${isActive ? 'bg-red-600 text-white shadow-[0_10px_30px_rgba(220,38,38,0.4)]' : 'text-zinc-500 hover:bg-white/5 hover:text-white'}`;
 
             const itemInner = (
               <>
                    <span className={`flex-shrink-0 transition-all duration-500 ${isActive ? 'scale-110 drop-shadow-[0_0_8px_rgba(255,255,255,0.8)] text-white' : 'group-hover:scale-125 group-hover:text-red-500 group-hover:drop-shadow-[0_0_10px_rgba(220,38,38,0.8)]'}`}>
                       {link.icon}
                    </span>
+                   {isSidebarCollapsed && (
+                     /* ⚠️ THE POINT OF THE WHOLE CHANGE. Without this the rail is
+                        eight anonymous glyphs. tracking-normal because 0.2em
+                        spacing pushes "PERFORMANCE" past the rail; leading-none
+                        so the word sits tight under its icon. */
+                     <span className={`text-[0.6875rem] leading-none tracking-normal font-black ${isActive ? "text-white" : "text-editorial-text-muted group-hover:text-red-100"}`}>
+                       {link.name}
+                     </span>
+                   )}
                    <AnimatePresence>
                      {!isSidebarCollapsed && (
                        <motion.span 

@@ -326,7 +326,7 @@ export default function ProductDetail() {
           is the container and the rows inside wrap or shrink as they were designed to. */}
       <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 xl:gap-32 items-start mt-12">
         {/* Product Images */}
-        <div className="min-w-0 space-y-8">
+        <div className="fits-its-column min-w-0 space-y-8">
             <motion.div
              className="aspect-square bg-editorial-bg border border-editorial-border overflow-hidden relative rounded-[4rem] shadow-premium"
              whileHover={{ scale: 1.02 }}
@@ -560,9 +560,9 @@ export default function ProductDetail() {
             initial={{ opacity: 0, scale: 1.1, filter: "blur(20px)", x: -50 }}
             animate={{ opacity: 1, scale: 1, filter: "blur(0px)", x: 0 }}
             transition={{ delay: 0.6, duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
-            className="font-sans font-black uppercase tracking-[-0.08em] leading-[0.75] mb-16 drop-shadow-[0_40px_120px_rgba(0,0,0,1)] relative text-premium text-display-2xl"
+            className="font-sans font-black uppercase tracking-[-0.08em] leading-[0.75] mb-16 drop-shadow-[0_40px_120px_rgba(0,0,0,1)] relative text-premium text-display-sm"
           >
-            <span className="block italic text-red-600/30 tracking-tight mb-12 drop-shadow-none text-meta-premium !lowercase !tracking-normal text-[clamp(1.125rem,5vw,6rem)]">
+            <span className="block italic text-red-600/30 tracking-tight mb-12 drop-shadow-none text-meta-premium !lowercase !tracking-normal text-[clamp(0.875rem,2.2vw,2.5rem)]">
               <span className="opacity-40">[</span> TARGET_ASSET_IDENT <span className="opacity-40">]</span>
             </span>
             {product.name}
