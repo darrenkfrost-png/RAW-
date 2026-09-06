@@ -328,7 +328,7 @@ export default function ProductDetail() {
         {/* Product Images */}
         <div className="fits-its-column min-w-0 space-y-8">
             <motion.div
-             className="aspect-square bg-editorial-bg border border-editorial-border overflow-hidden relative rounded-[4rem] shadow-premium"
+             className="edge-laser edge-crystal aspect-square bg-editorial-bg border border-editorial-border overflow-hidden relative rounded-[4rem] shadow-premium"
              whileHover={{ scale: 1.02 }}
              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
              drag

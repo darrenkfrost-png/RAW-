@@ -239,6 +239,89 @@
     @apply max-w-[var(--content-max-width)] mx-auto px-[var(--shell-padding-mobile)] md:px-[var(--shell-padding)] lg:px-[var(--shell-padding-lg)];
   }
 
+  /* ───────────────────────────────────────────────────────────────────
+     THE EDGE LIGHT — a single bright arc travelling the border of a frame.
+
+     Built as a masked conic gradient rather than four animated edges: one
+     element, one paint, and it follows any border-radius exactly because the
+     ring inherits it. `padding: 1px` plus an xor mask leaves just that 1px
+     ring; everything inside is cut away.
+
+     ⚠️ IT RUNS ON HOVER AND FOCUS ONLY, DELIBERATELY. Animating an angle
+     repaints the element every frame. One card under the pointer is nothing;
+     forty-seven cards all running at once on the shop page is a scrolling
+     stutter, and this codebase has spent a week making pages cheap. Keyboard
+     focus gets it too, so it is not a mouse-only flourish.
+
+     Without @property support the angle cannot animate: the ring still
+     appears on hover as a static arc, which is a soft landing rather than a
+     broken effect. */
+  @property --laser-angle {
+    syntax: "<angle>";
+    initial-value: 0deg;
+    inherits: false;
+  }
+
+  .edge-laser {
+    position: relative;
+  }
+
+  .edge-laser::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 30;
+    border-radius: inherit;
+    padding: 1px;
+    background: conic-gradient(
+      from var(--laser-angle),
+      transparent 0deg,
+      transparent 250deg,
+      color-mix(in oklab, var(--laser-tint, #ef4444) 70%, white) 305deg,
+      var(--laser-tint, #ef4444) 330deg,
+      transparent 360deg
+    );
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.45s ease;
+    pointer-events: none;
+  }
+
+  .edge-laser:hover::after,
+  .edge-laser:focus-visible::after,
+  .edge-laser:focus-within::after,
+  .group:hover .edge-laser::after,
+  .group:focus-within .edge-laser::after {
+    opacity: 1;
+    animation: laser-run 2.8s linear infinite;
+  }
+
+  @keyframes laser-run {
+    to { --laser-angle: 360deg; }
+  }
+
+  /* A hairline of light along the top edge and a whisper of one all round:
+     what makes a dark panel read as a cut object rather than a flat hole. */
+  .edge-crystal {
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.10),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.035),
+      0 24px 60px -30px rgba(0, 0, 0, 0.9);
+  }
+
+  /* Someone who asked for less motion gets the ring, not the running. */
+  @media (prefers-reduced-motion: reduce) {
+    .edge-laser:hover::after,
+    .edge-laser:focus-within::after,
+    .group:hover .edge-laser::after {
+      animation: none;
+      opacity: 0.55;
+    }
+  }
+
   .card-premium {
     container-type: inline-size;
     @apply bg-editorial-card border border-editorial-border rounded-[3rem] shadow-premium transition-all duration-700 hover:border-editorial-accent/30 hover:shadow-depth-3 relative overflow-hidden;

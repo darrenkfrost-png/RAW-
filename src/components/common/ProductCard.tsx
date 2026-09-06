@@ -118,7 +118,7 @@ function ProductCardComponent({ product, idx, onQuickView }: ProductCardProps) {
       <div className="relative">
       <Link
         to={`/product/${product.id}`}
-        className="relative block aspect-[4/5] overflow-hidden rounded-[1.5rem] border border-white/10 bg-gradient-to-b from-white/[0.06] to-transparent transition-colors duration-500 group-hover:border-red-600/30"
+        className="edge-laser edge-crystal relative block aspect-[4/5] overflow-hidden rounded-[1.5rem] border border-white/10 bg-gradient-to-b from-white/[0.06] to-transparent transition-colors duration-500 group-hover:border-red-600/30"
       >
         {/* A soft plinth of light so the product is lit rather than floating. */}
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_50%_65%,rgba(255,255,255,0.10),transparent_62%)]" />

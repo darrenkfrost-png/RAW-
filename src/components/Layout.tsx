@@ -15,6 +15,7 @@ import ChromeRestore from "./ChromeRestore";
 import InstallPrompt from "./InstallPrompt";
 import { usePageMeta } from "../hooks/usePageMeta";
 import { motion, AnimatePresence } from "motion/react";
+import SelectionReader from "./common/SelectionReader";
 
 export default function Layout() {
   const location = useLocation();
@@ -117,6 +118,10 @@ export default function Layout() {
               </AnimatePresence>
           </main>
 
+          {/* Select any passage on a page and a play button offers to read it
+              aloud in the browser's own voice. Mounted here so it survives
+              navigation rather than restarting on every route. */}
+          <SelectionReader />
           <Footer />
           <TechnicalStatusBar />
       </div>
