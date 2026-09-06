@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from "motion/react";
 import { Crosshair, Target } from "lucide-react";
+import { machineText } from "../lib/machineText";
 
 interface TargetInfo {
   id: string;
@@ -97,15 +98,15 @@ export default function CombatTargetZone() {
 
 
         {/* Zone detail panel */}
-        <div className="min-w-0 space-y-16">
+        <div className="fits-its-column min-w-0 space-y-16">
             <div>
               <div className="flex items-center gap-6 mb-10">
                  <div className="p-3 bg-red-600/10 rounded-xl border border-red-500/20 shadow-[0_5px_15px_rgba(220,38,38,0.2)]">
                    <Crosshair className="w-6 h-6 text-red-600 drop-shadow-[0_0_10px_rgba(220,38,38,0.5)]" />
                  </div>
-                 <span className="font-mono text-[0.75rem] text-editorial-text-muted tracking-[0.3em] sm:tracking-[0.5em] uppercase [overflow-wrap:anywhere] drop-shadow-[0_2px_4px_rgba(0,0,0,0.08)] font-bold">Combat_Efficiency_Model</span>
+                 <span className="font-mono text-[0.75rem] text-editorial-text-muted tracking-[0.3em] sm:tracking-[0.5em] uppercase [overflow-wrap:anywhere] drop-shadow-[0_2px_4px_rgba(0,0,0,0.08)] font-bold">{machineText("Combat_Efficiency_Model")}</span>
               </div>
-              <h2 className="font-sans font-black uppercase tracking-[-0.03em] leading-[0.8] mb-12 drop-shadow-[0_10px_30px_rgba(0,0,0,0.1)] text-display-md">TARGET <br /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-red-800 drop-shadow-[0_0_30px_rgba(220,38,38,0.4)]">ACQUISITION</span></h2>
+              <h2 className="font-sans font-black uppercase tracking-[-0.03em] leading-[0.8] mb-12 drop-shadow-[0_10px_30px_rgba(0,0,0,0.1)] display-fit" style={{ "--fit": 14 } as React.CSSProperties}>TARGET <br /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-red-800 drop-shadow-[0_0_30px_rgba(220,38,38,0.4)]">ACQUISITION</span></h2>
               <p className="text-xl xl:text-2xl text-editorial-text-muted font-light leading-relaxed drop-shadow-[0_2px_4px_rgba(0,0,0,0.1)] border-l-2 border-red-600 pl-6 bg-gradient-to-r from-red-900/10 to-transparent py-2">
                  Our combat protocols prioritize biomechanical alignment and kinetic energy preservation. Every movement is optimized for speed and structural integrity.
               </p>
@@ -149,7 +150,7 @@ export default function CombatTargetZone() {
                           />
                           <Target className="w-20 h-20 text-zinc-800 drop-shadow-[0_0_20px_rgba(0,0,0,0.1)] relative z-10" />
                        </div>
-                       <span className="font-mono text-[0.75rem] text-zinc-600 tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] uppercase font-bold">Hover_Or_Tap_A_Zone</span>
+                       <span className="font-mono text-[0.75rem] text-zinc-600 tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] uppercase font-bold">{machineText("Hover_Or_Tap_A_Zone")}</span>
                     </motion.div>
                   )}
                </AnimatePresence>

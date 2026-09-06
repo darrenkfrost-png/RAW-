@@ -246,6 +246,41 @@
      container, cqi falls back to the viewport and a heading in a 497px
      column is sized as though it had 1440px — which is how a product name
      came to be set at 153px and broke across three lines. */
+  /* ⚠️ A CARD TITLE MUST BE SIZED BY THE COLUMN IT SITS IN.
+     Measured on the live site: the Logistics cards are three-up, and after
+     their padding each title had a 190px column — while the title was set at
+     57px. "Rapid Deployment" needs about 450px there, so it rendered as
+     RAPID / DEPLO / YMEN / T. Hyphenation cannot save that: the browser will
+     not hyphenate uppercase-transformed text, and even hyphenated a word cut
+     three times is still a fault. The size was simply wrong.
+
+     These clamps read cqi — the width of the nearest ancestor carrying
+     .fits-its-column — so the title is whatever that column can actually hold,
+     large on a wide card and calm on a narrow one. Cap and floor keep it
+     inside the design either way. */
+  /* ⚠️ A DISPLAY WORD THAT DOES NOT FIT ITS COLUMN IS THE OTHER HALF OF THE
+     SAME BUG, AND CSS CANNOT SOLVE IT GENERICALLY. "AMBITION" at 132px wants
+     637px and had 497; "Performance" at 110px wants 828px and had 618. There
+     is no shrink-to-fit for text, and no clamp knows how long the word is — so
+     the coefficient is MEASURED per heading and written on the element:
+
+       --fit is the font size as a percentage of the column, chosen so the
+       LONGEST word in that heading clears the narrowest column it ever gets.
+       Measured at 1440 / 1280 / 1024 / 768 / 500 / 375; the ratio holds at
+       every one of them because both the word and the column scale together.
+
+     Put .fits-its-column on the box the coefficient was measured against —
+     it is that box's width that cqi reads. */
+  .display-fit { font-size: clamp(1.75rem, calc(var(--fit, 12) * 1cqi), 11.25rem); }
+
+  /* ⚠️ THESE rem FLOORS ARE NOT 16px. The root size is fluid and multiplied
+     by --ui-scale, so a 1rem floor rendered at 19-27px and quietly overrode the
+     cqi term in exactly the narrow columns it was meant to protect. The floors
+     are set low and the cqi term does the work. */
+  .title-fit-lg { font-size: clamp(1rem, 0.25rem + 8cqi, 3rem); }
+  .title-fit-md { font-size: clamp(0.875rem, 0.125rem + 5.5cqi, 1.875rem); }
+  .title-fit-sm { font-size: clamp(0.75rem, 0.125rem + 5.5cqi, 1.25rem); }
+
   .fits-its-column {
     container-type: inline-size;
   }
@@ -379,7 +414,7 @@
   }
 
   .button-premium {
-    @apply relative overflow-hidden bg-editorial-text text-editorial-bg font-black uppercase text-[0.6875rem] tracking-[0.3em] px-10 py-5 rounded-[2rem] transition-all duration-500 hover:scale-[1.03] active:scale-[0.97] shadow-depth-2 hover:shadow-glow-intense hover:bg-editorial-accent hover:text-white;
+    @apply relative overflow-hidden text-center bg-editorial-text text-editorial-bg font-black uppercase text-[0.6875rem] tracking-[0.2em] sm:tracking-[0.3em] px-5 sm:px-10 py-5 rounded-[2rem] transition-all duration-500 hover:scale-[1.03] active:scale-[0.97] shadow-depth-2 hover:shadow-glow-intense hover:bg-editorial-accent hover:text-white;
   }
 
   .crystal-glass-panel {
@@ -433,7 +468,7 @@
 
   
   .button-secondary {
-    @apply relative overflow-hidden bg-editorial-surface/80 backdrop-blur-xl border border-editorial-border text-editorial-text font-black uppercase text-[0.6875rem] tracking-[0.3em] px-10 py-5 rounded-[2rem] transition-all duration-500 hover:bg-editorial-text/5 hover:border-editorial-border active:scale-[0.97] shadow-subtle;
+    @apply relative overflow-hidden text-center bg-editorial-surface/80 backdrop-blur-xl border border-editorial-border text-editorial-text font-black uppercase text-[0.6875rem] tracking-[0.2em] sm:tracking-[0.3em] px-5 sm:px-10 py-5 rounded-[2rem] transition-all duration-500 hover:bg-editorial-text/5 hover:border-editorial-border active:scale-[0.97] shadow-subtle;
   }
 
   .glass-header {

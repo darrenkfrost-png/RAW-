@@ -181,8 +181,8 @@ function ProductCardComponent({ product, idx, onQuickView }: ProductCardProps) {
       </div>
 
       {/* ── THE FACTS ──────────────────────────────────────────────────── */}
-      <div className="mt-5 flex flex-1 flex-col">
-        <h3 className="font-sans text-lg font-black uppercase leading-[1.05] tracking-tight transition-colors duration-300 group-hover:text-red-400 sm:text-xl">
+      <div className="fits-its-column mt-5 flex flex-1 flex-col">
+        <h3 className="title-fit-sm font-sans font-black uppercase leading-[1.05] tracking-tight transition-colors duration-300 group-hover:text-red-400">
           {product.name}
         </h3>
 

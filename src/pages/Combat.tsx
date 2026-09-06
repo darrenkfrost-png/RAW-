@@ -61,8 +61,8 @@ export default function Combat() {  const products = allProducts.filter(p => p.
           <Crosshair className="w-[1000px] h-[1000px]" />
         </div>
         <div className="max-w-[var(--content-max-width)] mx-auto grid lg:grid-cols-2 gap-24 xl:gap-32 items-center relative z-10">
-          <div className="space-y-12 xl:space-y-16">
-            <h2 className="font-sans font-black uppercase tracking-tighter leading-[0.85] text-editorial-text drop-shadow-[0_10px_30px_rgba(0,0,0,0.1)] text-display-md">
+          <div className="fits-its-column space-y-12 xl:space-y-16">
+            <h2 className="font-sans font-black uppercase tracking-tighter leading-[0.85] text-editorial-text drop-shadow-[0_10px_30px_rgba(0,0,0,0.1)] display-fit" style={{ "--fit": 13 } as React.CSSProperties}>
                Competitive <br /> Performance, <br /> <span className="text-red-600 drop-shadow-[0_0_30px_rgba(220,38,38,0.4)] block mt-4 pb-4">Without Compromise.</span>
             </h2>
             <div className="prose prose-invert prose-xl xl:prose-2xl text-editorial-text-muted font-light leading-relaxed max-w-2xl drop-shadow-[0_2px_4px_rgba(0,0,0,0.1)]">
@@ -199,8 +199,8 @@ export default function Combat() {  const products = allProducts.filter(p => p.
                 <div className="absolute inset-0 bg-gradient-to-t from-transparent/80 via-transparent to-transparent pointer-events-none mix-blend-multiply opacity-0 group-hover:opacity-100 transition-opacity duration-1000 z-10" />
                 <div className="absolute top-10 left-10 text-[0.6875rem] font-black uppercase tracking-[0.4em] bg-red-600/90 text-white px-5 py-3 border border-red-500/50 rounded-xl shadow-[0_15px_30px_rgba(220,38,38,0.4)] backdrop-blur-md drop-shadow-[0_2px_4px_rgba(0,0,0,0.08)] z-20 group-hover:bg-red-600 transition-colors duration-500">Arena Feed // Alpha 1.0</div>
              </div>
-             <div className="space-y-12 xl:space-y-16">
-                <h2 className="font-sans font-black uppercase tracking-tighter leading-[0.8] text-editorial-text drop-shadow-[0_10px_30px_rgba(0,0,0,0.1)] text-display-md">THE GRIND IS <br /> <span className="text-red-600 drop-shadow-[0_0_30px_rgba(220,38,38,0.4)] block mt-4 pb-4">UNIVERSAL.</span></h2>
+             <div className="fits-its-column space-y-12 xl:space-y-16">
+                <h2 className="font-sans font-black uppercase tracking-tighter leading-[0.8] text-editorial-text drop-shadow-[0_10px_30px_rgba(0,0,0,0.1)] display-fit" style={{ "--fit": 16 } as React.CSSProperties}>THE GRIND IS <br /> <span className="text-red-600 drop-shadow-[0_0_30px_rgba(220,38,38,0.4)] block mt-4 pb-4">UNIVERSAL.</span></h2>
                 <p className="text-2xl xl:text-3xl text-editorial-text-muted font-light leading-relaxed max-w-2xl drop-shadow-[0_2px_4px_rgba(0,0,0,0.1)]">
                   Every training camp is a test of will. RAW Combat provides the infrastructure and the motivation to push past the threshold of performance.
                 </p>
@@ -229,7 +229,7 @@ export default function Combat() {  const products = allProducts.filter(p => p.
           </p>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 xl:gap-16 relative z-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-12 xl:gap-16 relative z-10">
           {products.map((product, idx) => (
             <motion.div 
               key={product.id}

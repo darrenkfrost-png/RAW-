@@ -13,7 +13,10 @@
     "test": "tsx src/tests/test_suite.ts",
     "verify": "node scripts/verify.mjs",
     "test:sw": "node scripts/test-sw.mjs",
-    "weight": "node scripts/weight.mjs"
+    "weight": "node scripts/weight.mjs",
+    "fitcheck": "node scripts/fitcheck.mjs",
+    "clipcheck": "node scripts/clipcheck.mjs",
+    "midword": "node scripts/midword.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",

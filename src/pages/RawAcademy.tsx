@@ -4,6 +4,7 @@ import Breadcrumb from '../components/Breadcrumb';
 import { BookOpen, FileText, ArrowRight, Target, Play, Lock } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Atmosphere } from '../components/common/Atmosphere';
+import { machineText } from "../lib/machineText";
 
 const categories = ['All', 'Training', 'Nutrition', 'Recovery', 'Sleep', 'Hydration'];
 
@@ -61,9 +62,9 @@ export default function RawAcademy() {
                 <div className="h-[1px] flex-1 bg-gradient-to-r from-red-600/50 to-transparent" />
             </div>
 
-            <div className="grid md:grid-cols-3 gap-10">
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-10">
                 {courses.map((course) => (
-                    <div key={course.id} className={`p-10 rounded-[2.5rem] border transition-all duration-700 group/course relative overflow-hidden ${
+                    <div key={course.id} className={`fits-its-column p-6 sm:p-8 xl:p-10 rounded-[2.5rem] border transition-all duration-700 group/course relative overflow-hidden ${
                         course.status === 'Locked' 
                         ? 'bg-editorial-bg border-editorial-border opacity-50 grayscale' 
                         : 'bg-editorial-surface/40 border-editorial-border hover:border-red-600/30 shadow-depth-2'
@@ -75,11 +76,11 @@ export default function RawAcademy() {
                             </div>
                             <div className="space-y-4">
                                 <span className="font-mono text-[0.6875rem] text-zinc-500 uppercase tracking-widest">{course.level}_PROGRAM // {course.modules}_DOCS</span>
-                                <h3 className="text-3xl font-black text-white uppercase tracking-tighter leading-tight group-hover/course:text-red-500 transition-colors">{course.title}</h3>
+                                <h3 className="title-fit-md font-black text-white uppercase tracking-tighter leading-tight group-hover/course:text-red-500 transition-colors">{course.title}</h3>
                             </div>
                             <div className="mt-auto space-y-3">
                                 <button disabled aria-disabled="true" className={`w-full button-${course.status === 'Locked' ? 'secondary' : 'premium'} !py-4 !text-[0.6875rem] relative z-10 opacity-50 cursor-not-allowed`}>
-                                    {course.status === 'Locked' ? 'PREMIUM_LOCKED' : 'LAUNCH_MODULE'}
+                                    {machineText(course.status === 'Locked' ? 'PREMIUM_LOCKED' : 'LAUNCH_MODULE')}
                                 </button>
                                 <span className="block text-center font-mono text-[0.6875rem] font-black uppercase tracking-[0.3em] text-zinc-500">COMING_SOON</span>
                             </div>
@@ -119,7 +120,7 @@ export default function RawAcademy() {
               </motion.div>
             )}
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10 relative z-10">
+            <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-10 relative z-10">
                <AnimatePresence mode="popLayout">
                  {filteredArticles.map((article) => (
                    <motion.div 
@@ -129,7 +130,7 @@ export default function RawAcademy() {
                      animate={{ opacity: 1, y: 0 }}
                      exit={{ opacity: 0, scale: 0.95 }}
                      transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                     className="bg-editorial-bg border border-editorial-border shadow-depth-2 rounded-[2.5rem] p-10 hover:border-red-600/40 hover:bg-editorial-surface/20 transition-all duration-700 group flex flex-col relative"
+                     className="fits-its-column bg-editorial-bg border border-editorial-border shadow-depth-2 rounded-[2.5rem] p-6 sm:p-8 xl:p-10 hover:border-red-600/40 hover:bg-editorial-surface/20 transition-all duration-700 group flex flex-col relative"
                    >
                       <div className="flex items-center justify-between mb-10 relative z-10 font-mono text-[0.6875rem] font-black">
                          <div className="flex items-center gap-4">
@@ -140,7 +141,7 @@ export default function RawAcademy() {
                          </div>
                       </div>
                       
-                      <h3 className="text-3xl font-black text-white uppercase tracking-tighter mb-6 group-hover:text-red-500 transition-colors leading-tight relative z-10 transition-transform duration-700 group-hover:-translate-y-1">{article.title}</h3>
+                      <h3 className="title-fit-md font-black text-white uppercase tracking-tighter mb-6 group-hover:text-red-500 transition-colors leading-tight relative z-10 transition-transform duration-700 group-hover:-translate-y-1">{article.title}</h3>
                       <p className="text-editorial-text-muted font-light leading-relaxed mb-12 flex-1 relative z-10 border-l-[3px] border-red-600/20 pl-8 capitalize">
                          "{article.excerpt}"
                       </p>

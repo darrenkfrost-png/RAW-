@@ -18,6 +18,7 @@ import { useCompare } from "../context/CompareContext";
 import MagneticWrapper from "../components/MagneticWrapper";
 import ProductGallery, { GalleryItem } from "../components/ProductGallery";
 import { REVIEWS_ENABLED } from '../lib/site';
+import { machineText } from "../lib/machineText";
 /* ⚠️ THE "3D INTERACTIVE MODEL" TAB IS GONE. Product3DViewer took no props and
    drew one procedural black cylinder with a red cap — the same bottle was
    announced as "the model" of the T-shirt, the gloves, the sliders and the
@@ -608,7 +609,7 @@ export default function ProductDetail() {
                            "{product.whatItDoes}"
                            <div className="mt-8 flex items-center gap-4 border-t border-white/10 pt-8">
                               <div className="h-1 lg:w-20 bg-red-600" />
-                              <span className="font-mono text-[0.6875rem] uppercase tracking-[0.3em] sm:tracking-[0.6em] [overflow-wrap:anywhere] text-red-500 font-black">CORE_MANTRA_01</span>
+                              <span className="font-mono text-[0.6875rem] uppercase tracking-[0.3em] sm:tracking-[0.6em] [overflow-wrap:anywhere] text-red-500 font-black">{machineText("CORE_MANTRA_01")}</span>
                            </div>
                        </div>
                    )}
@@ -1128,7 +1129,7 @@ export default function ProductDetail() {
                
                {visibleReviews.length === 0 && (
                   <div className="p-20 text-center border-2 border-dashed border-editorial-border rounded-[3rem]">
-                     <span className="font-mono text-zinc-600 uppercase tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] font-black">NO_DEBRIEF_LOGS_ON_FILE</span>
+                     <span className="font-mono text-zinc-600 uppercase tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] font-black">{machineText("NO_DEBRIEF_LOGS_ON_FILE")}</span>
                   </div>
                )}
             </div>
@@ -1146,7 +1147,7 @@ export default function ProductDetail() {
               <h3 className="font-sans font-black text-4xl md:text-6xl uppercase tracking-tighter mb-16 text-editorial-text drop-shadow-[0_5px_15px_rgba(0,0,0,0.1)] text-center">Protocol <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-red-900">Expansion</span></h3>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-10">
                {related.map((p, rIdx) => (
                  <motion.div 
                    key={p.id}
@@ -1156,7 +1157,7 @@ export default function ProductDetail() {
                    viewport={{ once: true }}
                    className="group relative h-full"
                  >
-                   <Link to={`/product/${p.id}`} className="block bg-editorial-bg border border-editorial-border rounded-[3rem] p-8 transition-all duration-[800ms] hover:border-red-500/50 shadow-[0_20px_50px_rgba(0,0,0,0.15)] hover:shadow-[0_30px_80px_rgba(220,38,38,0.2)] h-full overflow-hidden flex flex-col transform-gpu hover:-translate-y-2">
+                   <Link to={`/product/${p.id}`} className="fits-its-column block bg-editorial-bg border border-editorial-border rounded-[3rem] p-5 sm:p-6 2xl:p-8 transition-all duration-[800ms] hover:border-red-500/50 shadow-[0_20px_50px_rgba(0,0,0,0.15)] hover:shadow-[0_30px_80px_rgba(220,38,38,0.2)] h-full overflow-hidden flex flex-col transform-gpu hover:-translate-y-2">
                       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-red-900/5 to-red-900/10 opacity-0 group-hover:opacity-100 transition-opacity duration-[800ms] mix-blend-screen pointer-events-none" />
                       <div className="aspect-[4/5] bg-editorial-bg rounded-[2rem] overflow-hidden mb-8 relative shadow-[inset_0_0_30px_rgba(255,255,255,0.02)]">
                          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-white/5 via-transparent to-transparent pointer-events-none mix-blend-overlay opacity-50" />
@@ -1167,7 +1168,7 @@ export default function ProductDetail() {
                             containerClassName="w-full h-full absolute inset-0 p-8"
                          />
                       </div>
-                      <h4 className="font-sans font-black text-xl uppercase tracking-tight text-editorial-text mb-3 drop-shadow-[0_2px_4px_rgba(0,0,0,0.1)] line-clamp-2">{p.name}</h4>
+                      <h4 className="title-fit-sm font-sans font-black uppercase tracking-tight text-editorial-text mb-3 drop-shadow-[0_2px_4px_rgba(0,0,0,0.1)] line-clamp-2">{p.name}</h4>
                       <div className="flex items-center justify-between mt-auto">
                         <span className="font-mono text-editorial-text-muted text-lg font-bold drop-shadow-[0_2px_4px_rgba(0,0,0,0.1)]">{p.price}</span>
                         <span className="font-mono text-[0.6875rem] uppercase font-bold tracking-[0.3em] text-red-500 bg-red-950/30 px-3 py-1.5 rounded-lg border border-red-900/50">View Struct</span>

@@ -91,12 +91,12 @@ export default function OurStory() {
         <Atmosphere glowOpacity={0.02} gridMode="lines" intensity="low" />
         
         <div className="max-w-[var(--content-max-width)] mx-auto grid lg:grid-cols-2 gap-24 xl:gap-32 items-center relative z-10">
-          <div className="space-y-16">
+          <div className="fits-its-column space-y-16">
             <div className="flex items-center gap-5">
                <div className="w-2.5 h-2.5 bg-red-500 animate-pulse shadow-[0_0_15px_#dc2626] rounded-full" />
                <span className="text-[0.8125rem] font-black tracking-[0.3em] sm:tracking-[0.6em] [overflow-wrap:anywhere] text-red-500 drop-shadow-[0_0_10px_rgba(220,38,38,0.5)] uppercase">DIRECTIVE_ALPHA</span>
             </div>
-            <h2 className="font-sans font-black uppercase tracking-tighter mb-20 leading-[0.8] drop-shadow-[0_10px_30px_rgba(0,0,0,0.1)] text-display-xl">UNFILTERED <br /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-red-900 drop-shadow-[0_0_20px_rgba(220,38,38,0.4)] block mt-4 pb-4">AMBITION</span></h2>
+            <h2 className="font-sans font-black uppercase tracking-tighter mb-20 leading-[0.8] drop-shadow-[0_10px_30px_rgba(0,0,0,0.1)] display-fit" style={{ "--fit": 15 } as React.CSSProperties}>UNFILTERED <br /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-red-900 drop-shadow-[0_0_20px_rgba(220,38,38,0.4)] block mt-4 pb-4">AMBITION</span></h2>
             <div className="pl-12 border-l-4 w-full max-w-3xl border-red-600 shadow-[-5px_0_30px_rgba(220,38,38,0.3)] bg-gradient-to-r from-red-900/10 via-red-900/5 to-transparent py-8 rounded-r-[2rem]">
               <p className="text-3xl md:text-5xl leading-tight mb-12 font-light italic text-editorial-text drop-shadow-[0_2px_4px_rgba(0,0,0,0.1)] pr-8">
                 "We don't build gear for the casual. We build gear for the obsessed. For the ones who wake up while the world is still dreaming and push past the point where others quit."
@@ -164,7 +164,7 @@ export default function OurStory() {
               </motion.div>
               <div className="relative z-10 flex flex-col items-center justify-center h-full w-full">
                  <div className={`font-sans font-black text-6xl md:text-7xl xl:text-8xl mb-8 italic tracking-tighter text-editorial-text group-hover:scale-110 transition-all duration-[800ms] ease-[0.16,1,0.3,1] drop-shadow-[0_5px_15px_rgba(0,0,0,0.1)] ${stat.glow}`}>{stat.value}</div>
-                 <div className={`text-[0.8125rem] font-black uppercase tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] mb-12 drop-shadow-[0_0_10px_currentColor] ${stat.color}`}>{stat.label}</div>
+                 <div className={`text-[0.8125rem] font-black uppercase tracking-[0.18em] sm:tracking-[0.3em] [overflow-wrap:break-word] mb-12 drop-shadow-[0_0_10px_currentColor] ${stat.color}`}>{stat.label}</div>
                  <div className="h-[3px] w-16 bg-zinc-800 mx-auto group-hover:w-full group-hover:bg-current transition-all duration-[800ms] ease-[0.16,1,0.3,1] mb-12 shadow-[0_0_15px_currentColor] rounded-full" style={{ color: stat.accent }} />
                  <div className="bg-editorial-bg/50 border border-editorial-border px-6 py-3 rounded-xl backdrop-blur-md font-mono text-[0.6875rem] font-black text-editorial-text-muted tracking-[0.3em] uppercase group-hover:text-editorial-text group-hover:border-editorial-border-light transition-all duration-500">{stat.detail}</div>
               </div>

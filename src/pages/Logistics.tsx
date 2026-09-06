@@ -102,7 +102,7 @@ export default function Logistics() {
         </div>
       </motion.section>
 
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 xl:gap-12 relative z-10">
+      <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-8 xl:gap-12 relative z-10">
          {[
            { icon: <Globe className="w-10 h-10 text-red-500 group-hover:scale-110 transition-transform duration-[800ms] drop-shadow-[0_0_15px_currentColor]" />, title: "Global Reach", desc: "Operating in 100+ countries with localized fulfillment nodes to dramatically reduce sector deployment times." },
            { icon: <Clock className="w-10 h-10 text-red-500 group-hover:scale-110 transition-transform duration-[800ms] drop-shadow-[0_0_15px_currentColor]" />, title: "Rapid Deployment", desc: "Express protocols active. Priority orders fulfill within 24-48 hours inside core urban sectors." },
@@ -117,7 +117,7 @@ export default function Logistics() {
              whileInView={{ opacity: 1, scale: 1, y: 0 }}
              viewport={{ once: true, margin: "-100px" }}
              transition={{ duration: 1, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
-             className="p-12 xl:p-16 border border-editorial-border bg-editorial-bg rounded-[3rem] hover:border-red-500/40 transition-all duration-[1000ms] ease-[0.16,1,0.3,1] group shadow-[0_20px_50px_rgba(0,0,0,0.1)] hover:shadow-[0_40px_100px_rgba(220,38,38,0.2)] transform-gpu relative overflow-hidden flex flex-col justify-between backdrop-blur-2xl"
+             className="fits-its-column p-6 sm:p-8 xl:p-12 border border-editorial-border bg-editorial-bg rounded-[3rem] hover:border-red-500/40 transition-all duration-[1000ms] ease-[0.16,1,0.3,1] group shadow-[0_20px_50px_rgba(0,0,0,0.1)] hover:shadow-[0_40px_100px_rgba(220,38,38,0.2)] transform-gpu relative overflow-hidden flex flex-col justify-between backdrop-blur-2xl"
            >
               <div className="absolute inset-0 bg-gradient-to-b from-red-600/10 to-transparent opacity-0 group-hover:opacity-100 group-hover:animate-[scan_3s_linear_infinite] transition-opacity duration-1000 pointer-events-none mix-blend-screen" />
               <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-red-950/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000 mix-blend-screen pointer-events-none" />
@@ -125,7 +125,7 @@ export default function Logistics() {
                 <div className="mb-12 bg-editorial-bg p-8 rounded-[2rem] border border-editorial-border w-fit group-hover:border-red-500/40 group-hover:bg-red-950/20 shadow-[0_10px_30px_rgba(0,0,0,0.08)] group-hover:shadow-[0_0_50px_rgba(220,38,38,0.3)] transition-all duration-[1000ms] relative z-10">
                   {card.icon}
                 </div>
-                <h3 className="text-3xl xl:text-5xl font-black uppercase mb-8 tracking-tighter text-editorial-text transition-colors duration-[1000ms] drop-shadow-[0_2px_4px_rgba(0,0,0,0.1)] relative z-10 leading-none group-hover:text-red-100">{card.title}</h3>
+                <h3 className="title-fit-lg font-black uppercase mb-8 tracking-tighter text-editorial-text transition-colors duration-[1000ms] drop-shadow-[0_2px_4px_rgba(0,0,0,0.1)] relative z-10 leading-none group-hover:text-red-100">{card.title}</h3>
                 <p className="text-xl xl:text-2xl text-editorial-text-muted font-light leading-relaxed relative z-10">{card.desc}</p>
               </div>
               <div className="mt-16 w-full h-[4px] bg-editorial-text/5 group-hover:bg-red-500/20 transition-colors duration-[1000ms] relative overflow-hidden rounded-full">

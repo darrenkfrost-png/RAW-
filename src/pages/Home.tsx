@@ -15,6 +15,7 @@ import {
   Heart,
   ChevronRight,
 } from "lucide-react";
+import { machineText } from "../lib/machineText";
 
 
 
@@ -377,8 +378,8 @@ export default function Home() {
              <span className="text-meta-premium">PROJECT_ALPHA // 001</span>
           </div>
           
-          <div className="space-y-12 pt-12">
-            <h2 className="font-display font-black uppercase leading-[0.8] tracking-[-0.03em] text-premium drop-shadow-[0_10px_30px_rgba(0,0,0,0.1)] text-display-xl">
+          <div className="fits-its-column space-y-12 pt-12">
+            <h2 className="font-display font-black uppercase leading-[0.8] tracking-[-0.03em] text-premium drop-shadow-[0_10px_30px_rgba(0,0,0,0.1)] display-fit" style={{ "--fit": 20 } as React.CSSProperties}>
               RAW <br /> IN <br /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-red-800 drop-shadow-[0_0_30px_rgba(220,38,38,0.4)]">MOTION</span>
             </h2>
             
@@ -439,7 +440,7 @@ export default function Home() {
           <div className="mb-40 space-y-12">
              <div className="flex items-center justify-center gap-8">
                 <div className="w-24 h-[1px] bg-red-600 shadow-[0_0_20px_#dc2626]" />
-                <span className="text-meta-premium tracking-[0.3em] sm:tracking-[0.8em] [overflow-wrap:anywhere]">BIO_KINETIC_INTELLIGENCE // PROTOCOL_V4</span>
+                <span className="text-meta-premium tracking-[0.3em] sm:tracking-[0.8em] [overflow-wrap:break-word]">{machineText("BIO_KINETIC_INTELLIGENCE // PROTOCOL_V4")}</span>
                 <div className="w-24 h-[1px] bg-red-600 shadow-[0_0_20px_#dc2626]" />
              </div>
              <h2 className="font-sans font-black uppercase tracking-[-0.05em] leading-[0.75] drop-shadow-[0_15px_40px_rgba(0,0,0,0.15)] text-premium text-display-xl">THE ARCHITECTURE <br /> OF <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-red-800 drop-shadow-[0_0_40px_rgba(220,38,38,0.4)]">OUTPUT</span></h2>
@@ -538,7 +539,7 @@ export default function Home() {
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ delay: i * 0.1 }}
-                  className="group/intel relative aspect-[3/4.5] rounded-[3rem] overflow-hidden border border-editorial-border shadow-depth-3"
+                  className="fits-its-column group/intel relative aspect-[3/4.5] rounded-[3rem] overflow-hidden border border-editorial-border shadow-depth-3"
                 >
                    <div className="absolute inset-0 bg-editorial-surface/40 backdrop-blur-sm z-10 opacity-0 group-hover/intel:opacity-100 transition-all duration-700" />
                    <img src={intel.image} alt="" loading="lazy" className="absolute inset-0 w-full h-full object-cover grayscale group-hover/intel:grayscale-0 group-hover/intel:scale-110 transition-all duration-[2s] ease-fluid opacity-40 group-hover/intel:opacity-60" referrerPolicy="no-referrer" />
@@ -550,7 +551,7 @@ export default function Home() {
                          <span className="font-mono text-[0.6875rem] text-red-500 font-black uppercase tracking-[0.4em] bg-red-600/10 px-4 py-2 rounded-full border border-red-500/30 backdrop-blur-md">{intel.tag}</span>
                          <span className="font-mono text-[0.6875rem] text-zinc-500 uppercase tracking-widest font-black">{intel.date}</span>
                       </div>
-                      <h3 className="font-sans font-black text-3xl uppercase tracking-tight text-white group-hover/intel:text-red-500 transition-colors duration-500 leading-tight">
+                      <h3 className="title-fit-md font-sans font-black uppercase tracking-tight text-white group-hover/intel:text-red-500 transition-colors duration-500 leading-tight">
                         {intel.title}
                       </h3>
                       <p className="text-sm font-light text-editorial-text-muted leading-relaxed opacity-100 translate-y-0 md:opacity-0 md:translate-y-4 md:group-hover/intel:opacity-100 md:group-hover/intel:translate-y-0 transition-all duration-700">

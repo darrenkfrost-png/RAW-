@@ -116,8 +116,8 @@ export default function Manifesto() {
         <div className="absolute bottom-10 right-10 w-[3px] h-[50px] bg-red-600 shadow-[0_0_20px_#dc2626] transition-opacity duration-700 z-20 rounded-full" />
         <div className="absolute bottom-10 right-10 h-[3px] w-[50px] bg-red-600 shadow-[0_0_20px_#dc2626] transition-opacity duration-700 z-20 rounded-full" />
         
-        <p className="relative z-30 text-center leading-[1.05] font-black text-editorial-text drop-shadow-[0_10px_30px_rgba(0,0,0,0.15)] max-w-[1400px] mx-auto uppercase tracking-[-0.03em] mix-blend-screen mt-4 text-display-lg [overflow-wrap:anywhere]">
-            "Purity is our weapon.<br /> <span className="text-transparent bg-clip-text bg-gradient-to-b from-red-400 to-red-600 drop-shadow-[0_10px_40px_rgba(220,38,38,0.8)] block my-16 xl:my-24 hover:scale-105 transition-transform duration-[1500ms] ease-[0.16,1,0.3,1] relative inline-block py-4 z-10 text-display-lg">Performance is our mandate.</span><br /> Only the elite survive the algorithm."
+        <p className="fits-its-column relative z-30 text-center leading-[1.05] font-black text-editorial-text drop-shadow-[0_10px_30px_rgba(0,0,0,0.15)] max-w-[1400px] mx-auto uppercase tracking-[-0.03em] mix-blend-screen mt-4 text-display-lg [overflow-wrap:anywhere]">
+            "Purity is our weapon.<br /> <span className="text-transparent bg-clip-text bg-gradient-to-b from-red-400 to-red-600 drop-shadow-[0_10px_40px_rgba(220,38,38,0.8)] block my-16 xl:my-24 hover:scale-105 transition-transform duration-[1500ms] ease-[0.16,1,0.3,1] relative inline-block py-4 z-10 display-fit" style={{ "--fit": 13 } as React.CSSProperties}>Performance is our mandate.</span><br /> Only the elite survive the algorithm."
         </p>
       </motion.div>
 
