@@ -5,4 +5,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://www.rawprotection.com/sitemap.xml
+Sitemap: https://rawofficial.co/sitemap.xml

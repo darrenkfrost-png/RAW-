@@ -19,7 +19,7 @@ function eolSafeEnd(text) {
 }
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const ORIGIN = "https://www.rawprotection.com";
+const ORIGIN = "https://rawofficial.co";
 
 const app = await fs.readFile(path.join(ROOT, "src", "App.tsx"), "utf8");
 const routes = [...app.matchAll(/<Route path="([^"]+)"/g)]
@@ -41,7 +41,7 @@ const profiles = [...block.slice(0, block.indexOf(eolSafeEnd(block))).matchAll(/
 /**
  * ⚠️ THE INDEX ROUTE IS path="", SO `/${r}` PRODUCED "/" A SECOND TIME AND,
  * where a route already began with a slash, "//" — which the live sitemap was
- * publishing as https://www.rawprotection.com//. A search engine treats that
+ * publishing as https://rawofficial.co//. A search engine treats that
  * as a separate URL from the home page, so the site was advertising a
  * duplicate of its own front door. Normalise every path to exactly one leading
  * slash, drop any trailing slash except on the root, then dedupe.
