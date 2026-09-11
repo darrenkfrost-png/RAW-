@@ -763,12 +763,16 @@ export default function ProductDetail() {
       <section className="mt-32 xl:mt-48 max-w-[var(--content-max-width)] mx-auto relative group/cinematic">
           <div className="absolute inset-0 bg-gradient-to-b from-red-600/10 via-transparent to-red-600/5 opacity-0 group-hover/cinematic:opacity-100 transition-opacity duration-1000" />
           <div className="flex flex-col lg:grid lg:grid-cols-2 gap-16 xl:gap-32 items-center">
-              <div className="space-y-12 relative z-10">
+              {/* ⚠️ w-full IS LOAD-BEARING. container-type makes this column's width
+                  ignore its own contents, and as an item in a centred flex column it
+                  then shrank to almost nothing — "V|alidated" broke after one letter
+                  at 16px on a phone. A container must be given its width. */}
+              <div className="fits-its-column w-full space-y-12 relative z-10">
                   <div className="flex items-center gap-5">
                       <span className="w-12 h-[2px] bg-red-600 shadow-[0_0_10px_#dc2626]" />
                       <span className="font-mono text-[0.6875rem] text-zinc-500 uppercase tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] font-black">Performance_Architecture</span>
                   </div>
-                  <h2 className="font-black uppercase tracking-tighter text-white leading-[0.8] transition-all duration-1000 group-hover/cinematic:drop-shadow-[0_0_30px_rgba(239,68,68,0.2)] text-display-md">
+                  <h2 className="font-black uppercase tracking-tighter text-white leading-[0.8] transition-all duration-1000 group-hover/cinematic:drop-shadow-[0_0_30px_rgba(239,68,68,0.2)] display-fit" style={{ "--fit": 14 } as React.CSSProperties}>
                     Validated <br /> 
                     <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-red-600 to-red-900 italic">Integrity</span>
                   </h2>
@@ -856,8 +860,8 @@ export default function ProductDetail() {
         </div>
         
         <div className="max-w-[var(--content-max-width)] mx-auto px-[var(--shell-padding-mobile)] md:px-[var(--shell-padding)] lg:px-[var(--shell-padding-lg)] relative z-10 flex flex-col gap-20 lg:gap-32 pb-32">
-           <div className="max-w-3xl">
-              <h2 className="font-sans font-black uppercase tracking-[-0.05em] leading-[0.95] mb-12 text-editorial-text drop-shadow-[0_10px_30px_rgba(0,0,0,0.15)] text-display-md">SPECIFICATION <br /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-red-900 drop-shadow-[0_0_20px_rgba(220,38,38,0.4)]">PROTOCOL</span></h2>
+           <div className="fits-its-column max-w-3xl">
+              <h2 className="font-sans font-black uppercase tracking-[-0.05em] leading-[0.95] mb-12 text-editorial-text drop-shadow-[0_10px_30px_rgba(0,0,0,0.15)] display-fit" style={{ "--fit": 10 } as React.CSSProperties}>SPECIFICATION <br /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-red-900 drop-shadow-[0_0_20px_rgba(220,38,38,0.4)]">PROTOCOL</span></h2>
               <p className="text-editorial-text font-light text-xl md:text-2xl leading-relaxed max-w-xl drop-shadow-[0_2px_4px_rgba(0,0,0,0.1)] mb-16">
                  Each unit is batch-tested for molecular integrity and bioavailability. Our laboratory environments maintain a Grade-5 sterile environment ensuring the highest concentration of active compounds.
               </p>

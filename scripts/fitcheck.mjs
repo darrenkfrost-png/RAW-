@@ -12,7 +12,18 @@ const PROBE=()=>{
     const cs=getComputedStyle(e); const size=parseFloat(cs.fontSize);
     const col=e.getBoundingClientRect().width;
     if(col<4) continue;
-    const words=(e.innerText||e.textContent||'').split(/\s+/).filter(Boolean);
+    // A hyphen is a real break point in every browser, so PRE-WORKOUT may
+    // legitimately wrap as PRE- / WORKOUT. An underscore is one only where
+    // machineText() has put a <wbr> after it — so it counts only then.
+    const splitter = e.querySelector('wbr') ? /[\s\-_]+/ : /[\s\-]+/;
+    // ⚠️ ONLY THIS ELEMENT'S OWN WORDS. A fitted heading can contain another
+    // fitted element at a different size (Manifesto's red line sits inside the
+    // quote). Measuring the inner words at the OUTER size reported PERFORMANCE
+    // overflowing by 108px when it rendered comfortably. Nested fitted elements
+    // are measured on their own turn.
+    const own = e.cloneNode(true);
+    own.querySelectorAll('.display-fit, .title-fit-lg, .title-fit-md, .title-fit-sm').forEach((n) => n.remove());
+    const words=(own.textContent||'').split(splitter).filter(Boolean);
     if(!words.length) continue;
     const probe=document.createElement('span');
     probe.style.cssText='position:absolute;visibility:hidden;white-space:nowrap;font:'+cs.font+';letter-spacing:'+cs.letterSpacing+';text-transform:none';

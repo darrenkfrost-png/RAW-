@@ -99,7 +99,7 @@ export default function Manifesto() {
         whileInView={{ opacity: 1, scale: 1 }}
         viewport={{ once: true, margin: "-200px" }}
         transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-        className="relative p-6 sm:p-12 md:p-32 xl:p-48 border border-editorial-border bg-editorial-bg text-red-500 my-24 sm:my-48 xl:my-64 overflow-hidden shadow-[0_40px_120px_rgba(220,38,38,0.2)] group rounded-[2rem] sm:rounded-[4rem]"
+        className="fits-its-column relative p-6 sm:p-12 lg:p-24 xl:p-40 border border-editorial-border bg-editorial-bg text-red-500 my-24 sm:my-48 xl:my-64 overflow-hidden shadow-[0_40px_120px_rgba(220,38,38,0.2)] group rounded-[2rem] sm:rounded-[4rem]"
       >
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-red-900/30 via-[#050505] to-editorial-bg opacity-90 pointer-events-none z-0 mix-blend-screen" />
         <Atmosphere glowOpacity={0.02} gridMode="lines" intensity="low" />
@@ -116,8 +116,8 @@ export default function Manifesto() {
         <div className="absolute bottom-10 right-10 w-[3px] h-[50px] bg-red-600 shadow-[0_0_20px_#dc2626] transition-opacity duration-700 z-20 rounded-full" />
         <div className="absolute bottom-10 right-10 h-[3px] w-[50px] bg-red-600 shadow-[0_0_20px_#dc2626] transition-opacity duration-700 z-20 rounded-full" />
         
-        <p className="fits-its-column relative z-30 text-center leading-[1.05] font-black text-editorial-text drop-shadow-[0_10px_30px_rgba(0,0,0,0.15)] max-w-[1400px] mx-auto uppercase tracking-[-0.03em] mix-blend-screen mt-4 text-display-lg [overflow-wrap:anywhere]">
-            "Purity is our weapon.<br /> <span className="text-transparent bg-clip-text bg-gradient-to-b from-red-400 to-red-600 drop-shadow-[0_10px_40px_rgba(220,38,38,0.8)] block my-16 xl:my-24 hover:scale-105 transition-transform duration-[1500ms] ease-[0.16,1,0.3,1] relative inline-block py-4 z-10 display-fit" style={{ "--fit": 13 } as React.CSSProperties}>Performance is our mandate.</span><br /> Only the elite survive the algorithm."
+        <p className="fits-its-column relative z-30 text-center leading-[1.05] font-black text-editorial-text drop-shadow-[0_10px_30px_rgba(0,0,0,0.15)] max-w-[1400px] mx-auto uppercase tracking-[-0.03em] mix-blend-screen mt-4 display-fit [overflow-wrap:break-word]" style={{ "--fit": 13 } as React.CSSProperties}>
+            "Purity is our weapon.<br /> <span className="text-transparent bg-clip-text bg-gradient-to-b from-red-400 to-red-600 drop-shadow-[0_10px_40px_rgba(220,38,38,0.8)] block my-16 xl:my-24 hover:scale-105 transition-transform duration-[1500ms] ease-[0.16,1,0.3,1] relative py-4 z-10 display-fit" style={{ "--fit": 12 } as React.CSSProperties}>Performance is our mandate.</span><br /> Only the elite survive the algorithm."
         </p>
       </motion.div>
 

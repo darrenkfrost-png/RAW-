@@ -271,7 +271,11 @@
 
      Put .fits-its-column on the box the coefficient was measured against —
      it is that box's width that cqi reads. */
-  .display-fit { font-size: clamp(1.75rem, calc(var(--fit, 12) * 1cqi), 11.25rem); }
+  /* ⚠️ The floor was 1.75rem — which is NOT 28px here (fluid root × --ui-scale)
+     and it beat the cqi term in exactly the narrow columns this exists for:
+     RAW Cares' PERFORMANCE needed 218px in a 155px tablet column. 1rem lets a
+     cramped column win; a wide one never gets near the floor anyway. */
+  .display-fit { font-size: clamp(1rem, calc(var(--fit, 12) * 1cqi), 11.25rem); }
 
   /* ⚠️ THESE rem FLOORS ARE NOT 16px. The root size is fluid and multiplied
      by --ui-scale, so a 1rem floor rendered at 19-27px and quietly overrode the

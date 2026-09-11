@@ -76,11 +76,11 @@ export default function Nutrients() {
            <Database className="w-[1000px] h-[1000px] text-editorial-text" />
         </div>
         <div className="max-w-[var(--content-max-width)] mx-auto relative z-10">
-          <div>
+          <div className="fits-its-column">
             <span className="text-[0.6875rem] font-black uppercase tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] text-blue-500 mb-10 block flex items-center gap-4 drop-shadow-[0_0_8px_rgba(59,130,246,0.5)]">
                <div className="w-2.5 h-2.5 bg-blue-500 rounded-full animate-ping shadow-[0_0_10px_currentColor]" /> Protocol_01 // Nutrients
             </span>
-            <h2 className="font-sans font-black uppercase tracking-[-0.03em] leading-[0.8] mb-12 text-editorial-text drop-shadow-[0_10px_30px_rgba(0,0,0,0.1)] text-display-lg">
+            <h2 className="font-sans font-black uppercase tracking-[-0.03em] leading-[0.8] mb-12 text-editorial-text drop-shadow-[0_10px_30px_rgba(0,0,0,0.1)] display-fit" style={{ "--fit": 11 } as React.CSSProperties}>
                Performance <br /> begins <br /> <span className="relative inline-block"><span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-blue-700 drop-shadow-[0_0_30px_rgba(59,130,246,0.4)] relative z-10">internally.</span><div className="absolute top-1/2 left-0 w-full h-1/2 bg-blue-600/20 blur-[60px] pointer-events-none mix-blend-screen" /></span>
             </h2>
             <p className="text-xl xl:text-3xl text-editorial-text-muted font-light leading-relaxed max-w-3xl mb-16 drop-shadow-[0_2px_4px_rgba(0,0,0,0.1)]">

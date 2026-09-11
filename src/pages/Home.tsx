@@ -437,13 +437,13 @@ export default function Home() {
         </div>
         
         <div className="section-container relative z-10 text-center">
-          <div className="mb-40 space-y-12">
+          <div className="fits-its-column mb-40 space-y-12">
              <div className="flex items-center justify-center gap-8">
                 <div className="w-24 h-[1px] bg-red-600 shadow-[0_0_20px_#dc2626]" />
                 <span className="text-meta-premium tracking-[0.3em] sm:tracking-[0.8em] [overflow-wrap:break-word]">{machineText("BIO_KINETIC_INTELLIGENCE // PROTOCOL_V4")}</span>
                 <div className="w-24 h-[1px] bg-red-600 shadow-[0_0_20px_#dc2626]" />
              </div>
-             <h2 className="font-sans font-black uppercase tracking-[-0.05em] leading-[0.75] drop-shadow-[0_15px_40px_rgba(0,0,0,0.15)] text-premium text-display-xl">THE ARCHITECTURE <br /> OF <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-red-800 drop-shadow-[0_0_40px_rgba(220,38,38,0.4)]">OUTPUT</span></h2>
+             <h2 className="font-sans font-black uppercase tracking-[-0.05em] leading-[0.75] drop-shadow-[0_15px_40px_rgba(0,0,0,0.15)] text-premium display-fit" style={{ "--fit": 10.5 } as React.CSSProperties}>THE ARCHITECTURE <br /> OF <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-red-800 drop-shadow-[0_0_40px_rgba(220,38,38,0.4)]">OUTPUT</span></h2>
           </div>
 
           <div className="flex justify-center max-w-4xl mx-auto">
@@ -510,10 +510,10 @@ export default function Home() {
               </Link>
            </div>
 
-           <div className="grid lg:grid-cols-3 gap-12">
+           <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-12">
               {[
-                { 
-                  tag: "PROTOCOL_V4.2", 
+                {
+                  tag: "PROTOCOL_V4.2",
                   title: "Recovery Protocol V4.2 Released", 
                   date: "24.05.2026",
                   summary: "Technical architectural shift in bio-kinetic feedback loops now active for all active operatives.",
@@ -546,13 +546,15 @@ export default function Home() {
                    
                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent z-20" />
                    
-                   <div className="absolute inset-x-0 bottom-0 p-12 z-30 space-y-6">
+                   {/* The container is THIS padded box, not the card: cqi must read the
+                       width the title actually has, after the padding. */}
+                   <div className="fits-its-column absolute inset-x-0 bottom-0 p-8 2xl:p-12 z-30 space-y-6">
                       <div className="flex items-center gap-4">
                          <span className="font-mono text-[0.6875rem] text-red-500 font-black uppercase tracking-[0.4em] bg-red-600/10 px-4 py-2 rounded-full border border-red-500/30 backdrop-blur-md">{intel.tag}</span>
                          <span className="font-mono text-[0.6875rem] text-zinc-500 uppercase tracking-widest font-black">{intel.date}</span>
                       </div>
                       <h3 className="title-fit-md font-sans font-black uppercase tracking-tight text-white group-hover/intel:text-red-500 transition-colors duration-500 leading-tight">
-                        {intel.title}
+                        {machineText(intel.title)}
                       </h3>
                       <p className="text-sm font-light text-editorial-text-muted leading-relaxed opacity-100 translate-y-0 md:opacity-0 md:translate-y-4 md:group-hover/intel:opacity-100 md:group-hover/intel:translate-y-0 transition-all duration-700">
                         {intel.summary}

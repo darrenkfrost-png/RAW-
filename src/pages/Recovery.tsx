@@ -165,7 +165,7 @@ export default function Recovery() {
                     narrow="play"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-transparent via-editorial-bg/40 to-transparent pointer-events-none z-10 opacity-80 mix-blend-multiply"></div>
-                  <div className="absolute bottom-16 left-12 right-12 z-20 transform-gpu transition-all duration-[1000ms] ease-[0.16,1,0.3,1] group-hover:-translate-y-4">
+                  <div className="fits-its-column absolute bottom-16 left-12 right-12 z-20 transform-gpu transition-all duration-[1000ms] ease-[0.16,1,0.3,1] group-hover:-translate-y-4">
                      <div className="h-[3px] w-full bg-editorial-text/10 mb-10 overflow-hidden rounded-full shadow-[inset_0_0_5px_rgba(0,0,0,0.08)]">
                         <motion.div 
                           initial={{ x: "-100%" }}
@@ -175,7 +175,7 @@ export default function Recovery() {
                         />
                      </div>
                      <span className="text-[0.6875rem] font-black uppercase tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] text-emerald-500 block mb-4 drop-shadow-[0_0_10px_rgba(16,185,129,0.5)]">Technique 0{i+1}</span>
-                     <h3 className="font-sans font-black text-4xl xl:text-5xl uppercase tracking-tighter text-editorial-text drop-shadow-[0_10px_30px_rgba(0,0,0,1)] leading-[0.9]">RECOVERY <br/> PROTOCOL</h3>
+                     <h3 className="font-sans font-black display-fit uppercase tracking-tighter text-editorial-text drop-shadow-[0_10px_30px_rgba(0,0,0,1)] leading-[0.9]" style={{ "--fit": 14 } as React.CSSProperties}>RECOVERY <br/> PROTOCOL</h3>
                   </div>
                </div>
              ))}
