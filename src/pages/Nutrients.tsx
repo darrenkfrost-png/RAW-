@@ -36,7 +36,7 @@ export default function Nutrients() {
         {/* 61MB reel: attached only while on screen, never on a phone. */}
         <LazyVideo
           src={FILM.nutrients.hd}
-          poster="https://rawofficial.co/wp-content/uploads/2026/02/nutrientsIMG-1536x1086.jpg"
+          poster="/media/wp/2026/02/nutrientsIMG-1536x1086.jpg"
           className="absolute inset-0 w-full h-full object-cover opacity-30 grayscale mix-blend-luminosity scale-110"
         />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-blue-900/20 via-editorial-bg/60 to-editorial-bg"></div>
@@ -51,7 +51,7 @@ export default function Nutrients() {
             initial={{ opacity: 0, scale: 0.95, filter: "brightness(0) blur(10px)" }}
             animate={{ opacity: 1, scale: 1, filter: "brightness(1) blur(0px)", y: 0 }}
             transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
-            src="https://rawofficial.co/wp-content/uploads/2026/02/nutrients-1024x173.png" 
+            src="/media/wp/2026/02/nutrients-1024x173.png" 
             alt="Nutrients" 
             className="w-full max-w-5xl mb-16 drop-shadow-[0_0_30px_rgba(255,255,255,0.15)] mix-blend-screen"
             referrerPolicy="no-referrer"
@@ -184,7 +184,7 @@ export default function Nutrients() {
           </div>
           <div className="lg:w-1/2 relative">
              <div className="aspect-video overflow-hidden rounded-[3rem] border border-editorial-border shadow-[0_30px_80px_rgba(0,0,0,0.1)]">
-                <LazyImage src="https://rawofficial.co/wp-content/uploads/2026/04/raw-supplements-1024x1024.jpg" alt="RAW Education" className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000" />
+                <LazyImage src="/media/wp/2026/04/raw-supplements-1024x1024.jpg" alt="RAW Education" className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000" />
              </div>
           </div>
         </div>
@@ -201,10 +201,10 @@ export default function Nutrients() {
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
              {[
-               "https://rawofficial.co/wp-content/uploads/2026/04/DSC06351-768x1152.jpg",
-               "https://rawofficial.co/wp-content/uploads/2026/04/DSC07806-768x1152.jpg",
-               "https://rawofficial.co/wp-content/uploads/2026/04/DSC07082-768x1152.jpg",
-               "https://rawofficial.co/wp-content/uploads/2026/04/DSC07714-768x1152.jpg"
+               "/media/wp/2026/04/DSC06351-768x1152.jpg",
+               "/media/wp/2026/04/DSC07806-768x1152.jpg",
+               "/media/wp/2026/04/DSC07082-768x1152.jpg",
+               "/media/wp/2026/04/DSC07714-768x1152.jpg"
              ].map((img, i) => (
                <div key={i} className="aspect-[3/4] overflow-hidden rounded-[2rem] border border-editorial-border grayscale hover:grayscale-0 transition-all duration-1000 shadow-[0_20px_50px_rgba(0,0,0,0.08)] group/ath">
                  <img src={img} alt={`RAW Official athlete, portrait ${i + 1} of 4`} className="w-full h-full object-cover group-hover/ath:scale-110 transition-transform duration-[1.5s] ease-[0.16,1,0.3,1]" />

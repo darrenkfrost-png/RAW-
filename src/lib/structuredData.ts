@@ -79,7 +79,10 @@ export function productSchema(product: Product, origin: string): Json {
     "@type": "Product",
     name: product.name,
     url: `${origin}/product/${product.id}`,
-    image: getHighResImageUrl(product.image),
+    /* ⚠️ ABSOLUTE, ALWAYS. The catalogue's images are now served from this
+       site ("/media/wp/..."), and structured data with a bare path is an image
+       Google cannot resolve. Anything already absolute passes through. */
+    image: new URL(getHighResImageUrl(product.image), origin).href,
     category: product.category,
     brand: { "@type": "Brand", name: BRAND_NAME },
   };

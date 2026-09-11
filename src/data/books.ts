@@ -20,7 +20,7 @@ export const booksData: Book[] = [
     id: "book-01",
     title: "RAW Tactical Protocols // V1",
     author: "Tactical Command Board",
-    coverImage: "https://rawofficial.co/wp-content/uploads/2026/02/NMN-Capsules-Mockup-scaled.png",
+    coverImage: "/media/wp/2026/02/NMN-Capsules-Mockup-scaled.png",
     description: "The complete operative field handbook covering cardiovascular endurance, functional power, and stress adaptation protocols.",
     category: "Tactical",
     pages: [
@@ -45,7 +45,7 @@ export const booksData: Book[] = [
     id: "book-02",
     title: "Neuro-Restoration and Biological Reset",
     author: "N-Systems Research Panel",
-    coverImage: "https://rawofficial.co/wp-content/uploads/2026/02/Turmeric-Gummies-Mockup-scaled.png",
+    coverImage: "/media/wp/2026/02/Turmeric-Gummies-Mockup-scaled.png",
     description: "A deep clinical review on downregulating the sympathetic nervous system, optimizing biological bio-rhythms, and repairing muscle structures.",
     category: "Recovery",
     pages: [
@@ -68,7 +68,7 @@ export const booksData: Book[] = [
     id: "book-03",
     title: "Combat Nutrition and Energy Systems",
     author: "Dietary Science Division",
-    coverImage: "https://rawofficial.co/wp-content/uploads/2026/02/Turmeric-Gummies-Mockup-scaled.png",
+    coverImage: "/media/wp/2026/02/Turmeric-Gummies-Mockup-scaled.png",
     description: "Nutrition guidelines for fighters, combat athletes, and intense conditioning blocks where stamina, strength, and cognitive clarity must meet.",
     category: "Nutrition",
     pages: [

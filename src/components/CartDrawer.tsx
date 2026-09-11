@@ -296,7 +296,7 @@ export default function CartDrawer() {
                   </Link>
 
                   <div className="flex justify-center gap-8 opacity-50 mix-blend-screen hover:opacity-100 transition-all duration-700 pt-2">
-                     <img src="https://rawofficial.co/wp-content/uploads/2025/03/payment.webp" alt="Accepted payment methods" className="h-6 drop-shadow-sm grayscale hover:grayscale-0 transition-all duration-500" />
+                     <img src="/media/wp/2025/03/payment.webp" alt="Accepted payment methods" className="h-6 drop-shadow-sm grayscale hover:grayscale-0 transition-all duration-500" />
                   </div>
                 </motion.div>
               )}

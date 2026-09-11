@@ -105,7 +105,7 @@ export default function Footer() {
             title="VISIT_OFFICIAL_SITE"
           >
             <img 
-              src="https://rawofficial.co/wp-content/uploads/2025/03/payment.webp" 
+              src="/media/wp/2025/03/payment.webp" 
               alt="Visit Official Registry" 
               className="h-5 xl:h-6 object-contain opacity-40 group-hover:opacity-100 transition-all duration-500 grayscale group-hover:grayscale-0 relative z-10" 
               referrerPolicy="no-referrer"

@@ -51,6 +51,13 @@ Options -Indexes
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteRule ^ - [R=404,L]
 
+  # The same for the site's own image copies (copied off the WordPress shop,
+  # 2026-09-11). A missing picture must be a 404, not index.html served as an
+  # "image" with status 200 — which no checker can tell from a real one.
+  RewriteCond %{REQUEST_URI} ^/media/
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteRule ^ - [R=404,L]
+
   # A real file always wins — assets, images, sw.js, robots.txt, the manifest.
   RewriteCond %{REQUEST_FILENAME} -f
   RewriteRule ^ - [L]

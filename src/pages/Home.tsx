@@ -278,7 +278,7 @@ export default function Home() {
               {/* The wordmark lives in the TOP of the card, the title block at the BOTTOM — they can never meet. Drawn full-card and centred, the logo sat exactly where the title's second line landed once the fluid root grew the bottom block (2026-09-05, seen live). */}
               <div className="relative h-40 md:h-44 shrink-0 pointer-events-none">
               <LazyImage 
-                src="https://rawofficial.co/wp-content/uploads/2026/02/nutrients-1024x173.png" 
+                src="/media/wp/2026/02/nutrients-1024x173.png" 
                 alt="Nutrients" 
                 className="w-full h-full object-contain p-8 opacity-40 group-hover/card:opacity-100 group-hover/card:scale-110 transition-all duration-[2s] ease-fluid" 
                 containerClassName="w-full h-full !bg-transparent"
@@ -306,7 +306,7 @@ export default function Home() {
               {/* The wordmark lives in the TOP of the card, the title block at the BOTTOM — they can never meet. Drawn full-card and centred, the logo sat exactly where the title's second line landed once the fluid root grew the bottom block (2026-09-05, seen live). */}
               <div className="relative h-40 md:h-44 shrink-0 pointer-events-none">
               <LazyImage 
-                src="https://rawofficial.co/wp-content/uploads/2026/02/combat-1024x201.png" 
+                src="/media/wp/2026/02/combat-1024x201.png" 
                 alt="Combat" 
                 className="w-full h-full object-contain p-8 opacity-40 group-hover/card:opacity-100 group-hover/card:scale-110 transition-all duration-[2s] ease-fluid" 
                 containerClassName="w-full h-full !bg-transparent"
@@ -334,7 +334,7 @@ export default function Home() {
               {/* The wordmark lives in the TOP of the card, the title block at the BOTTOM — they can never meet. Drawn full-card and centred, the logo sat exactly where the title's second line landed once the fluid root grew the bottom block (2026-09-05, seen live). */}
               <div className="relative h-40 md:h-44 shrink-0 pointer-events-none">
               <LazyImage 
-                src="https://rawofficial.co/wp-content/uploads/2026/02/recovery-1024x179.png" 
+                src="/media/wp/2026/02/recovery-1024x179.png" 
                 alt="Recovery" 
                 className="w-full h-full object-contain p-8 opacity-40 group-hover/card:opacity-100 group-hover/card:scale-110 transition-all duration-[2s] ease-fluid" 
                 containerClassName="w-full h-full !bg-transparent"
@@ -531,7 +531,7 @@ export default function Home() {
                   title: "Omega_Protocol Supply Chain Resilience", 
                   date: "12.05.2026",
                   summary: "Supply chain re-routed for cross-region fulfilment. Faster transit on every order.",
-                  image: "https://rawofficial.co/wp-content/uploads/2026/02/combat-1024x201.png"
+                  image: "/media/wp/2026/02/combat-1024x201.png"
                 }
               ].map((intel, i) => (
                 <motion.div 
