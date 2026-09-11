@@ -24,10 +24,43 @@ export default function NotFound() {
   const { pathname } = useLocation();
 
   /* The router is the only thing that knows an address did not match, so the
-     404 title is set HERE rather than inferred from a list of known routes
-     elsewhere. Runs after usePageMeta, so it wins. */
+     404 metadata is set HERE rather than inferred from a list of known routes
+     elsewhere.
+
+     ⚠️ "RUNS AFTER usePageMeta, SO IT WINS" WAS WRONG. React runs effects
+     child-first, and usePageMeta lives in the Layout ABOVE this page — so it
+     ran second and overwrote this title with one invented from the address.
+     Measured live: /definitely-not-a-page-xyz was titled "Definitely Not A
+     Page Xyz — RAW Official" in the tab, in history and to a screen reader.
+     Deferring to the next task lets every effect in this commit finish first.
+
+     noindex matters as much as the title: a single-page app answers every
+     address with a 200, so without it Google may index a mistyped link as a
+     real page (a "soft 404"). It is removed again when the visitor leaves. */
   useEffect(() => {
-    document.title = "Page not found — RAW Official";
+    const TITLE = "Page not found — RAW Official";
+    const id = window.setTimeout(() => {
+      document.title = TITLE;
+      for (const sel of ['meta[property="og:title"]', 'meta[name="twitter:title"]']) {
+        document.head.querySelector(sel)?.setAttribute("content", TITLE);
+      }
+    }, 0);
+
+    let robots = document.head.querySelector<HTMLMetaElement>('meta[name="robots"]');
+    const created = !robots;
+    const previous = robots?.getAttribute("content") ?? null;
+    if (!robots) {
+      robots = document.createElement("meta");
+      robots.name = "robots";
+      document.head.appendChild(robots);
+    }
+    robots.content = "noindex";
+
+    return () => {
+      window.clearTimeout(id);
+      if (created) robots?.remove();
+      else if (previous !== null) robots?.setAttribute("content", previous);
+    };
   }, [pathname]);
 
   return (
