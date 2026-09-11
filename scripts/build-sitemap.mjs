@@ -38,16 +38,30 @@ const ct = await fs.readFile(path.join(ROOT, "src", "pages", "CustomerType.tsx")
 const block = ct.slice(ct.indexOf("const customerTypes = {"));
 const profiles = [...block.slice(0, block.indexOf(eolSafeEnd(block))).matchAll(/^  ([a-z]+): \{/gm)].map((m) => m[1]);
 
-const urls = ["/", ...routes.map((r) => `/${r}`), ...ids.map((id) => `/product/${id}`), ...profiles.map((p) => `/target/${p}`)];
+/**
+ * ⚠️ THE INDEX ROUTE IS path="", SO `/${r}` PRODUCED "/" A SECOND TIME AND,
+ * where a route already began with a slash, "//" — which the live sitemap was
+ * publishing as https://www.rawprotection.com//. A search engine treats that
+ * as a separate URL from the home page, so the site was advertising a
+ * duplicate of its own front door. Normalise every path to exactly one leading
+ * slash, drop any trailing slash except on the root, then dedupe.
+ */
+const normalise = (u) => {
+  const clean = ("/" + String(u).replace(/^\/+/, "")).replace(/\/+$/, "");
+  return clean === "" ? "/" : clean;
+};
+const urls = [...new Set(
+  ["/", ...routes, ...ids.map((id) => `/product/${id}`), ...profiles.map((p) => `/target/${p}`)].map(normalise),
+)];
 const today = new Date().toISOString().slice(0, 10);
 
 const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${[...new Set(urls)]
+${urls
   .map((u) => `  <url>\n    <loc>${ORIGIN}${u}</loc>\n    <lastmod>${today}</lastmod>\n  </url>`)
   .join("\n")}
 </urlset>
 `;
 
 await fs.writeFile(path.join(ROOT, "public", "sitemap.xml"), xml, "utf8");
-console.log(`sitemap.xml: ${new Set(urls).size} URLs (${routes.length} pages + ${ids.length} products + ${profiles.length} profiles)`);
+console.log(`sitemap.xml: ${urls.length} URLs (${routes.length} pages + ${ids.length} products + ${profiles.length} profiles)`);

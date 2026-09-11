@@ -54,7 +54,11 @@ export default function Contact() {
 ` +
       `${data.email}
 ` +
-      `Sent from rawprotection.com`;
+      /* ⚠️ NOT A HARDCODED DOMAIN. This line used to read "Sent from
+         rawprotection.com" while addressing the message to admin@rawofficial.co
+         — two different domains in one email, and the wrong one would go stale
+         the moment either changes. The page's own origin is always true. */
+      `Sent from ${typeof window !== "undefined" ? window.location.host : "the RAW site"}`;
 
     setIsSubmitted(true);
     window.location.href =
