@@ -18,7 +18,8 @@
     "clipcheck": "node scripts/clipcheck.mjs",
     "midword": "node scripts/midword.mjs",
     "axeall": "node scripts/axe-all.mjs",
-    "linkcheck": "node scripts/linkcheck.mjs"
+    "linkcheck": "node scripts/linkcheck.mjs",
+    "vitals": "node scripts/vitals.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
