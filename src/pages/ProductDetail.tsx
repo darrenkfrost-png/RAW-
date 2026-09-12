@@ -681,7 +681,10 @@ export default function ProductDetail() {
             <button disabled aria-disabled="true" title="COMING_SOON" className="cursor-not-allowed opacity-50 w-full border border-editorial-border-light bg-editorial-bg/50 backdrop-blur-md py-8 text-meta-premium hover:bg-editorial-text hover:!text-editorial-bg hover:border-white transition-all duration-[800ms] flex items-center justify-center gap-5 rounded-[2rem] group shadow-[0_20px_50px_rgba(0,0,0,0.1)] hover:shadow-[0_30px_80px_rgba(0,0,0,0.06)] transform-gpu hover:-translate-y-1">
               Elite Subscription <ArrowRight className="w-5 h-5 group-hover:translate-x-4 transition-transform duration-[800ms] drop-shadow-[0_0_8px_currentColor]" />
             </button>
-            <span className="block -mt-4 mb-2 text-center font-mono text-[0.6875rem] font-black uppercase tracking-[0.3em] text-zinc-500">COMING_SOON</span>
+            {/* zinc-400, not 500: 11px text at zinc-500 on this ground is ~4.2:1,
+                under WCAG's 4.5:1 — axe flagged it on 9 product pages at 768. The
+                button above is exempt (visibly disabled); its label is not. */}
+            <span className="block -mt-4 mb-2 text-center font-mono text-[0.6875rem] font-black uppercase tracking-[0.3em] text-zinc-400">COMING_SOON</span>
             
             <div className="pt-10 border-t border-editorial-border-light flex flex-col md:flex-row md:items-center justify-between gap-6">
               <span className="font-mono text-[0.6875rem] text-editorial-text-muted uppercase tracking-[0.4em] font-bold drop-shadow-[0_2px_4px_rgba(0,0,0,0.1)]">Transmit Signal:</span>

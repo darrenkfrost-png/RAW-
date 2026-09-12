@@ -23,7 +23,8 @@
     "namecheck": "node scripts/namecheck.mjs",
     "cutoff": "node scripts/cutoff.mjs",
     "structure": "node scripts/structure.mjs",
-    "taps": "node scripts/taps.mjs"
+    "taps": "node scripts/taps.mjs",
+    "errors": "node scripts/errors.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",

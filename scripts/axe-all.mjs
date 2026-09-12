@@ -12,10 +12,15 @@ const axeSource = fs.readFileSync(require.resolve('axe-core/axe.min.js'), 'utf8'
 const sitemap = await fetch(BASE + '/sitemap.xml').then((r) => r.text());
 const routes = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)]
   .map((m) => new URL(m[1]).pathname)
-  .filter((p, i, a) => a.indexOf(p) === i);
+  .filter((p, i, a) => a.indexOf(p) === i)
+  // Optional 4th argument: a regex to check only some routes, e.g. "^/product/".
+  .filter((p) => !process.argv[4] || new RegExp(process.argv[4]).test(p));
 
 const browser = await chromium.launch({ executablePath: 'C:/Program Files/Google/Chrome/Application/chrome.exe', headless: true });
-const ctx = await browser.newContext({ viewport: { width: 375, height: 812 }, isMobile: true, hasTouch: true });
+// Width is the third argument (default 375). Some layouts only exist wider —
+// the laptop sidebar, three-up grids — so phone width alone is not coverage.
+const WIDTH = Number(process.argv[3] || 375);
+const ctx = await browser.newContext({ viewport: { width: WIDTH, height: 900 }, isMobile: WIDTH < 768, hasTouch: WIDTH < 768 });
 const page = await ctx.newPage();
 
 const tally = new Map();
@@ -44,7 +49,7 @@ for (const route of routes) {
 }
 await browser.close();
 
-console.log(`\n${routes.length} routes at 375px — ${clean} clean\n`);
+console.log(`\n${routes.length} routes at ${WIDTH}px — ${clean} clean\n`);
 for (const [id, v] of [...tally].sort((a, b) => b[1].nodes - a[1].nodes)) {
   console.log(`${id} [${v.impact}] — ${v.nodes} nodes on ${v.routes.size} routes`);
   console.log(`   ${v.help}`);
