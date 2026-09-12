@@ -52,7 +52,10 @@ export default function Account() {
       </motion.div>
 
       <div className="grid lg:grid-cols-12 gap-12 xl:gap-16 relative z-10">
-        <div className="lg:col-span-3 space-y-4">
+        {/* min-w-0 on BOTH grid items: a grid item's default minimum is its
+            content, so one wide row in the main panel widened the single phone
+            column past the screen and every button here was clipped by 23px. */}
+        <div className="min-w-0 lg:col-span-3 space-y-4">
           <button 
             onClick={() => setActiveTab('profile')}
             aria-pressed={activeTab === 'profile'}
@@ -95,21 +98,25 @@ export default function Account() {
           </div>
         </div>
 
-        <div className="lg:col-span-9 h-full min-h-[500px]">
+        <div className="min-w-0 lg:col-span-9 h-full min-h-[500px]">
            {activeTab === 'profile' && (
              <motion.div initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }} className="space-y-8 h-full">
-                <div className="bg-editorial-bg/90 p-12 xl:p-16 border border-editorial-border rounded-[2rem] relative overflow-hidden shadow-[0_30px_80px_rgba(0,0,0,0.1)] h-full backdrop-blur-3xl group">
+                <div className="bg-editorial-bg/90 p-8 md:p-12 xl:p-16 border border-editorial-border rounded-[2rem] relative overflow-hidden shadow-[0_30px_80px_rgba(0,0,0,0.1)] h-full backdrop-blur-3xl group">
                    <div className="absolute top-0 right-0 w-full h-px bg-gradient-to-r from-transparent via-red-600/30 to-transparent transform translate-x-full group-hover:translate-x-0 transition-transform duration-1000" />
                    <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-red-900/10 via-transparent to-transparent pointer-events-none mix-blend-screen" />
                    <h2 className="font-sans font-black text-3xl uppercase tracking-tighter border-b border-editorial-border pb-8 mb-12 text-editorial-text drop-shadow-[0_2px_10px_rgba(0,0,0,0.08)]">Operative Details</h2>
-                   <div className="grid md:grid-cols-2 gap-12 relative z-10">
+                   {/* lg:grid-cols-1: at laptop width the sidebar takes 3/12 and two
+                       fields side by side inside two layers of padding left ~140px
+                       for the email — it split as RAWOFFICIAL / .CO. They pair up
+                       again on wide screens. */}
+                   <div className="grid md:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-12 relative z-10">
                      <div className="bg-editorial-bg/60 p-8 rounded-2xl border border-editorial-border shadow-[0_10px_30px_rgba(0,0,0,0.08)]">
                        <span className="text-[0.6875rem] font-black uppercase tracking-[0.4em] text-red-500 mb-4 flex items-center gap-3"><div className="w-1.5 h-1.5 bg-red-500 rounded-full" /> Callsign (Name)</span>
                        <p className="font-mono text-xl xl:text-2xl tracking-widest text-editorial-text drop-shadow-[0_2px_4px_rgba(0,0,0,0.08)]">GUEST_OPERATIVE</p>
                      </div>
                      <div className="bg-editorial-bg/60 p-8 rounded-2xl border border-editorial-border shadow-[0_10px_30px_rgba(0,0,0,0.08)]">
                        <span className="text-[0.6875rem] font-black uppercase tracking-[0.4em] text-red-500 mb-4 flex items-center gap-3"><div className="w-1.5 h-1.5 bg-red-500 rounded-full" /> Comms Link (Email)</span>
-                       <p className="font-mono text-xl xl:text-2xl tracking-widest text-editorial-text drop-shadow-[0_2px_4px_rgba(0,0,0,0.08)] break-all">GUEST@RAWOFFICIAL.CO</p>
+                       <p className="font-mono text-sm md:text-base xl:text-lg tracking-wide text-editorial-text drop-shadow-[0_2px_4px_rgba(0,0,0,0.08)] [overflow-wrap:break-word]">GUEST@<wbr />RAWOFFICIAL.CO</p>
                      </div>
                    </div>
                    <div className="mt-16 pt-10 border-t border-editorial-border flex flex-wrap items-center justify-end gap-4 relative z-10">
@@ -131,7 +138,7 @@ export default function Account() {
            )}
 
            {activeTab === 'orders' && (
-             <motion.div initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }} className="bg-editorial-bg/90 p-12 xl:p-16 border border-editorial-border rounded-[2rem] text-center py-32 xl:py-48 relative overflow-hidden shadow-[0_30px_80px_rgba(0,0,0,0.1)] h-full flex flex-col items-center justify-center backdrop-blur-3xl group">
+             <motion.div initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }} className="bg-editorial-bg/90 p-8 md:p-12 xl:p-16 border border-editorial-border rounded-[2rem] text-center py-32 xl:py-48 relative overflow-hidden shadow-[0_30px_80px_rgba(0,0,0,0.1)] h-full flex flex-col items-center justify-center backdrop-blur-3xl group">
                <div className="absolute top-0 right-0 w-full h-px bg-gradient-to-r from-transparent via-red-600/30 to-transparent transform translate-x-full group-hover:translate-x-0 transition-transform duration-1000" />
                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-red-900/10 via-transparent to-transparent pointer-events-none mix-blend-screen" />
                <Package className="w-20 h-20 text-zinc-600 mx-auto mb-10 relative z-10 drop-shadow-[0_5px_15px_rgba(0,0,0,0.08)]" />
@@ -147,7 +154,7 @@ export default function Account() {
 
            {activeTab === 'settings' && (
              <motion.div initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }} className="space-y-8 h-full">
-                <div className="bg-editorial-bg/90 p-12 xl:p-16 border border-editorial-border rounded-[2rem] relative overflow-hidden shadow-[0_30px_80px_rgba(0,0,0,0.1)] h-full backdrop-blur-3xl group">
+                <div className="bg-editorial-bg/90 p-8 md:p-12 xl:p-16 border border-editorial-border rounded-[2rem] relative overflow-hidden shadow-[0_30px_80px_rgba(0,0,0,0.1)] h-full backdrop-blur-3xl group">
                    <div className="absolute top-0 right-0 w-full h-px bg-gradient-to-r from-transparent via-red-600/30 to-transparent transform translate-x-full group-hover:translate-x-0 transition-transform duration-1000" />
                    <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-red-900/10 via-transparent to-transparent pointer-events-none mix-blend-screen" />
                    <h2 className="font-sans font-black text-3xl uppercase tracking-tighter border-b border-editorial-border pb-8 mb-12 text-editorial-text drop-shadow-[0_2px_10px_rgba(0,0,0,0.08)] flex items-center gap-4">

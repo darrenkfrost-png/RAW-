@@ -549,8 +549,10 @@ export default function Home() {
                    {/* The container is THIS padded box, not the card: cqi must read the
                        width the title actually has, after the padding. */}
                    <div className="fits-its-column absolute inset-x-0 bottom-0 p-8 2xl:p-12 z-30 space-y-6">
-                      <div className="flex items-center gap-4">
-                         <span className="font-mono text-[0.6875rem] text-red-500 font-black uppercase tracking-[0.4em] bg-red-600/10 px-4 py-2 rounded-full border border-red-500/30 backdrop-blur-md">{intel.tag}</span>
+                      {/* flex-wrap: on a tablet the tag pill and the date did not fit one
+                          line, and the page's sideways clip silently cut the date off. */}
+                      <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+                         <span className="font-mono text-[0.6875rem] text-red-500 font-black uppercase tracking-[0.3em] bg-red-600/10 px-4 py-2 rounded-full border border-red-500/30 backdrop-blur-md">{intel.tag}</span>
                          <span className="font-mono text-[0.6875rem] text-zinc-500 uppercase tracking-widest font-black">{intel.date}</span>
                       </div>
                       <h3 className="title-fit-md font-sans font-black uppercase tracking-tight text-white group-hover/intel:text-red-500 transition-colors duration-500 leading-tight">

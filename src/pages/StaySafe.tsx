@@ -263,7 +263,11 @@ export default function StaySafe() {
                     <Play size={16} className="text-white ml-0.5" />
                   </span>
                 </span>
-                <span className="absolute bottom-2 left-3 font-mono text-[0.6875rem] uppercase tracking-[0.3em] text-white/60">{f.label}</span>
+                {/* right-3 bounds the label to its tile; on a phone the tile is ~160px
+                    and "DISTRIBUTION_01" in 0.3em tracking ran past it, clipped. */}
+                <span className="absolute bottom-2 left-3 right-3 font-mono text-[0.6875rem] uppercase tracking-[0.15em] sm:tracking-[0.3em] text-white/60">
+                  {f.label.split("_").flatMap((part, j) => (j ? ["_", <wbr key={j} />, part] : [part]))}
+                </span>
               </button>
             ))}
           </div>
