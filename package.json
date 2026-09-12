@@ -21,7 +21,9 @@
     "linkcheck": "node scripts/linkcheck.mjs",
     "vitals": "node scripts/vitals.mjs",
     "namecheck": "node scripts/namecheck.mjs",
-    "cutoff": "node scripts/cutoff.mjs"
+    "cutoff": "node scripts/cutoff.mjs",
+    "structure": "node scripts/structure.mjs",
+    "taps": "node scripts/taps.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",

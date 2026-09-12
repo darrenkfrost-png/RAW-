@@ -56,16 +56,18 @@ export default function Nutrients() {
             className="w-full max-w-5xl mb-16 drop-shadow-[0_0_30px_rgba(255,255,255,0.15)] mix-blend-screen"
             referrerPolicy="no-referrer"
           />
-          <motion.h2 
+          {/* h1: the page's name is drawn as an image above, so without this the
+              page had no main heading at all — to Google or to a screen reader. */}
+          <motion.h1
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5, duration: 1, ease: [0.16, 1, 0.3, 1] }}
             className="text-xl sm:text-2xl md:text-3xl font-mono font-black uppercase tracking-[0.3em] sm:tracking-[0.8em] text-center text-editorial-text drop-shadow-[0_4px_8px_rgba(0,0,0,0.1)] flex flex-wrap items-center justify-center gap-8"
           >
-            <div className="hidden sm:block w-24 h-[2px] bg-gradient-to-r from-transparent to-blue-600 shadow-[0_0_15px_#2563eb]" /> 
+            <div className="hidden sm:block w-24 h-[2px] bg-gradient-to-r from-transparent to-blue-600 shadow-[0_0_15px_#2563eb]" />
              Fuel with Intent
             <div className="hidden sm:block w-24 h-[2px] bg-gradient-to-l from-transparent to-blue-600 shadow-[0_0_15px_#2563eb]" />
-          </motion.h2>
+          </motion.h1>
         </div>
       </section>
 

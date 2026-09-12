@@ -68,7 +68,9 @@ export default function Checkout() {
            className="text-center py-20 bg-editorial-bg border border-editorial-border rounded-[3rem] shadow-[0_30px_100px_rgba(0,0,0,0.1)] px-10 max-w-xl mx-auto w-full"
         >
            <ShieldCheck className="w-12 h-12 text-zinc-800 mx-auto mb-6" />
-           <span className="font-mono text-xs text-editorial-text-muted uppercase tracking-widest font-bold block mb-2">Cart Empty</span>
+           {/* h1: with payments off, an empty basket is what nearly every visitor
+               to /checkout sees — and this screen had no heading of any kind. */}
+           <h1 className="font-mono text-xs text-editorial-text-muted uppercase tracking-widest font-bold block mb-2">Cart Empty</h1>
            <p className="text-zinc-600 font-light mx-auto mb-8">You have no active hardware or nutrient protocols in your deployment queue.</p>
            <Link to="/shop" className="inline-block bg-red-600 text-white hover:bg-editorial-text hover:text-editorial-bg transition-all px-8 py-4 rounded-xl font-black uppercase text-[0.6875rem] tracking-widest">
              Browse Archive

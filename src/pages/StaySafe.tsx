@@ -194,9 +194,13 @@ export default function StaySafe() {
         {!showPreview ? (
           <div className="min-h-[60svh] flex flex-col items-center justify-center text-center px-6 py-20">
             <span className="font-mono text-[0.6875rem] font-bold uppercase tracking-[0.3em] text-white bg-red-600 px-3 py-1.5 rounded-md mb-6">COMING_SOON</span>
-            <h2 className="font-sans font-black text-3xl md:text-5xl uppercase tracking-tight mb-4">
-              {variant === "landing" ? "Signups are not open yet" : "The feedback form is not open yet"}
-            </h2>
+            {/* The signup page already has its h1 in the hero; the feedback page has
+                no hero, so this status line IS its main heading there. */}
+            {variant === "landing" ? (
+              <h2 className="font-sans font-black text-3xl md:text-5xl uppercase tracking-tight mb-4">Signups are not open yet</h2>
+            ) : (
+              <h1 className="font-sans font-black text-3xl md:text-5xl uppercase tracking-tight mb-4">The feedback form is not open yet</h1>
+            )}
             <p className="max-w-xl text-editorial-text-muted text-sm md:text-base leading-relaxed mb-8">
               {variant === "landing"
                 ? "The claim form is not connected yet, so nothing entered here would be sent or shipped. This is where it opens."

@@ -71,6 +71,14 @@ const STATIC: Record<string, PageMeta> = {
   "/protocol-stacks": { title: `Protocol Stacks — ${SUFFIX}`, description: "Ready-made RAW protocol stacks." },
   "/performance-system": { title: `Performance System — ${SUFFIX}`, description: "How the RAW range fits together." },
   "/analytics": { title: `Analytics — ${SUFFIX}`, description: "System telemetry." },
+  /* The four customer profiles, each in its own words (from CustomerType's
+     subtitle). They used to fall through to the path-derived fallback, so all
+     four shared one description and /target/recovery shared its TITLE with
+     /recovery — two different pages Google could not tell apart. */
+  "/target/athletes": { title: `For Athletes — ${SUFFIX}`, description: "For athletes: strength, hydration, recovery, output." },
+  "/target/fighters": { title: `For Fighters — ${SUFFIX}`, description: "For fighters: combat gear, endurance, impact readiness, recovery." },
+  "/target/everyday": { title: `For Everyday Performance — ${SUFFIX}`, description: "For everyday performance: energy, wellness, sleep, focus, daily discipline." },
+  "/target/recovery": { title: `For Recovery — ${SUFFIX}`, description: "For recovery: cold therapy, magnesium, mobility, nervous system regulation." },
   "/defrost": { title: `DeFrost OS — ${SUFFIX}`, description: "The DeFrost OS desktop." },
 };
 
@@ -84,8 +92,12 @@ export const metaForPath = (path: string): PageMeta => {
   if (product) {
     return {
       title: `${product.name} — ${SUFFIX}`,
-      // The product's own words, never a generated claim.
-      description: product.shortBenefit || `${product.name} from RAW Official.`,
+      // The product's own words, never a generated claim — led by its NAME,
+      // because several products share one benefit line and 23 product pages
+      // were handing Google an identical description.
+      description: product.shortBenefit
+        ? `${product.name}: ${product.shortBenefit}`
+        : `${product.name} from RAW Official.`,
       image: product.image,
     };
   }
