@@ -102,7 +102,7 @@ export default function OurStory() {
               <p className="text-3xl md:text-5xl leading-tight mb-12 font-light italic text-editorial-text drop-shadow-[0_2px_4px_rgba(0,0,0,0.1)] pr-8">
                 "We don't build gear for the casual. We build gear for the obsessed. For the ones who wake up while the world is still dreaming and push past the point where others quit."
               </p>
-              <div className="text-[0.75rem] uppercase tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] font-black text-editorial-text flex items-center gap-5 bg-editorial-bg/80 backdrop-blur-md py-5 px-10 rounded-xl w-fit border border-editorial-border shadow-[0_15px_40px_rgba(0,0,0,0.1)] hover:shadow-[0_15px_40px_rgba(220,38,38,0.2)] hover:border-red-500/30 transition-all duration-500">
+              <div className="text-[0.75rem] uppercase tracking-[0.2em] sm:tracking-[0.3em] xl:tracking-[0.5em] [overflow-wrap:break-word] font-black text-editorial-text flex items-center gap-5 bg-editorial-bg/80 backdrop-blur-md py-5 px-10 rounded-xl w-fit border border-editorial-border shadow-[0_15px_40px_rgba(0,0,0,0.1)] hover:shadow-[0_15px_40px_rgba(220,38,38,0.2)] hover:border-red-500/30 transition-all duration-500">
                  <span className="w-12 h-[3px] bg-red-600 shadow-[0_0_10px_#dc2626]"></span> {machineText("RAW_PERFORMANCE // 001")}
               </div>
             </div>

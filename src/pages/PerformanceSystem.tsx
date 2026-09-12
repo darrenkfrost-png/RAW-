@@ -140,7 +140,7 @@ export default function PerformanceSystem() {
                   {/* Content */}
                   <div className="space-y-8">
                     <div>
-                       <h2 className="text-4xl lg:text-5xl font-black text-editorial-text uppercase tracking-tighter mb-4 transition-colors duration-700 group-hover:text-editorial-text">{sys.title}</h2>
+                       <h2 className="text-4xl xl:text-5xl font-black text-editorial-text uppercase tracking-tighter mb-4 transition-colors duration-700 group-hover:text-editorial-text">{sys.title}</h2>
                        <p className="font-mono text-[0.6875rem] text-editorial-text-muted uppercase tracking-[0.4em] font-black">{sys.subtitle}</p>
                     </div>
 

@@ -212,11 +212,11 @@ export default function Home() {
           />
           <div className="absolute inset-0 bg-gradient-to-r from-black via-black/70 to-transparent pointer-events-none" />
           <div className="section-container relative py-14 md:py-20 flex flex-col md:flex-row md:items-center gap-8 md:gap-12">
-            <div className="flex-1 min-w-0">
+            <div className="fits-its-column flex-1 min-w-0">
               <span className="font-mono text-[0.6875rem] font-bold uppercase tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] text-red-500 block mb-4">
                 LIVE_CAMPAIGN // #STAYSAFEWITHRAW
               </span>
-              <h2 className="font-sans font-black text-4xl md:text-6xl uppercase leading-[0.9] tracking-tight mb-4">
+              <h2 className="font-sans font-black display-fit uppercase leading-[0.9] tracking-tight mb-4" style={{ "--fit": 10 } as React.CSSProperties}>
                 100,000 free<br className="hidden md:block" /> condoms. No catch.
               </h2>
               <p className="text-editorial-text-muted text-sm md:text-base max-w-xl leading-relaxed">
@@ -243,7 +243,7 @@ export default function Home() {
         <div className="section-container relative z-10">
           <div className="mb-32 xl:mb-48 font-sans text-center lg:text-left pt-10">
             <h2 className="leading-[0.85] font-black tracking-[-0.03em] mb-12 drop-shadow-[0_10px_30px_rgba(0,0,0,0.1)] text-premium text-display-lg">PERFORMANCE DOESN'T <br className="hidden xl:block" /> EXIST IN ISOLATION.</h2>
-            <div className="grid md:grid-cols-3 gap-12 pt-10">
+            <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-12 pt-10">
                 {[
                   {
                     title: "Competitive Sport & Athletic Culture",
@@ -258,11 +258,11 @@ export default function Home() {
                     description: "Targeted supplements, hydration, protein, minerals, adaptogens, and performance support formulas designed to complement disciplined training."
                   }
                 ].map((pillar, i) => (
-                  <div key={i} className="bg-editorial-bg p-10 rounded-[2rem] border border-editorial-border shadow-[0_20px_50px_rgba(0,0,0,0.08)]">
+                  <div key={i} className="fits-its-column bg-editorial-bg p-8 xl:p-10 rounded-[2rem] border border-editorial-border shadow-[0_20px_50px_rgba(0,0,0,0.08)]">
                     <div className="w-12 h-12 bg-red-600/10 flex items-center justify-center rounded-2xl mb-8">
                        <div className="w-6 h-6 bg-red-600 rounded" />
                     </div>
-                    <h3 className="text-premium font-black text-xl mb-6 uppercase tracking-wider">{pillar.title}</h3>
+                    <h3 className="title-fit-md text-premium font-black mb-6 uppercase tracking-wide">{pillar.title}</h3>
                     <p className="text-editorial-text-muted leading-relaxed text-sm">{pillar.description}</p>
                   </div>
                 ))}
@@ -270,7 +270,7 @@ export default function Home() {
           </div>
           
           {/* THE CARD IS A COLUMN, NOT A STACK OF LAYERS. Logo box on top, title under it, description + button pinned to the bottom, height from content (the grid keeps the three equal). The old version drew the logo full-card and centred behind a bottom-anchored text block whose hidden hover elements still took up room — once the fluid root grew that block, the title's second line landed on the logo (seen live 2026-09-05). A fixed 3:4 box cannot hold four elements at phone or laptop widths without clipping. */}
-          <div className="grid md:grid-cols-3 gap-12 xl:gap-20">
+          <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-12 xl:gap-20">
             <Link to="/nutrients" className="edge-laser edge-crystal card-premium group/card hover-raise flex flex-col min-h-[26rem]" aria-label="Explore Nutrients Protocols">
               <div className="holographic-glow group-hover/card:opacity-60 transition-opacity duration-1000" />
               <div className="scanner-line top-1/4 group-hover/card:animate-[scan_3s_infinite]" />
@@ -289,7 +289,7 @@ export default function Home() {
                 <div className="mb-5 w-24 h-[1px] bg-editorial-text/20 overflow-hidden relative">
                    <motion.div initial={{ x: "-100%" }} whileInView={{ x: "100%" }} transition={{ duration: 2, repeat: Infinity, ease: "linear" }} className="absolute inset-y-0 w-1/2 bg-red-500 shadow-[0_0_15px_#dc2626]" />
                 </div>
-                <h3 className="font-sans font-black uppercase mb-5 leading-none text-editorial-text transition-transform duration-700 group-hover/card:-translate-y-2 text-[clamp(2.25rem,1.25rem+2.2vw,4rem)]">Fuel <br /> <span className="text-red-500">Intent</span></h3>
+                <h3 className="font-sans font-black uppercase mb-5 leading-none text-editorial-text transition-transform duration-700 group-hover/card:-translate-y-2 display-fit" style={{ "--fit": 12 } as React.CSSProperties}>Fuel <br /> <span className="text-red-500">Intent</span></h3>
                 <div className="mt-auto pt-4">
                 <p className="text-editorial-text-muted font-mono text-[0.6875rem] tracking-widest uppercase mb-8 opacity-100 translate-y-0 md:opacity-0 md:translate-y-4 md:group-hover/card:opacity-100 md:group-hover/card:translate-y-0 transition-all duration-700 delay-100 leading-relaxed">
                   // Precision nutrition and supplementation systems engineered for maximum bio-availability.
@@ -317,7 +317,7 @@ export default function Home() {
                 <div className="mb-5 w-24 h-[1px] bg-editorial-text/20 overflow-hidden relative">
                    <motion.div initial={{ x: "-100%" }} whileInView={{ x: "100%" }} transition={{ duration: 2, repeat: Infinity, ease: "linear" }} className="absolute inset-y-0 w-1/2 bg-red-500 shadow-[0_0_15px_#dc2626]" />
                 </div>
-                <h3 className="font-sans font-black uppercase mb-5 leading-none text-editorial-text transition-transform duration-700 group-hover/card:-translate-y-2 text-[clamp(2.25rem,1.25rem+2.2vw,4rem)]">The <br /> <span className="text-red-500">Arena</span></h3>
+                <h3 className="font-sans font-black uppercase mb-5 leading-none text-editorial-text transition-transform duration-700 group-hover/card:-translate-y-2 display-fit" style={{ "--fit": 12 } as React.CSSProperties}>The <br /> <span className="text-red-500">Arena</span></h3>
                 <div className="mt-auto pt-4">
                 <p className="text-editorial-text-muted font-mono text-[0.6875rem] tracking-widest uppercase mb-8 opacity-100 translate-y-0 md:opacity-0 md:translate-y-4 md:group-hover/card:opacity-100 md:group-hover/card:translate-y-0 transition-all duration-700 delay-100 leading-relaxed">
                   // Combat architecture and tactical fightwear designed for high-intensity environments.
@@ -345,7 +345,7 @@ export default function Home() {
                 <div className="mb-5 w-24 h-[1px] bg-editorial-text/20 overflow-hidden relative">
                    <motion.div initial={{ x: "-100%" }} whileInView={{ x: "100%" }} transition={{ duration: 2, repeat: Infinity, ease: "linear" }} className="absolute inset-y-0 w-1/2 bg-red-500 shadow-[0_0_15px_#dc2626]" />
                 </div>
-                <h3 className="font-sans font-black uppercase mb-5 leading-none text-editorial-text transition-transform duration-700 group-hover/card:-translate-y-2 text-[clamp(2.25rem,1.25rem+2.2vw,4rem)]">Total <br /> <span className="text-red-500">Reset</span></h3>
+                <h3 className="font-sans font-black uppercase mb-5 leading-none text-editorial-text transition-transform duration-700 group-hover/card:-translate-y-2 display-fit" style={{ "--fit": 12 } as React.CSSProperties}>Total <br /> <span className="text-red-500">Reset</span></h3>
                 <div className="mt-auto pt-4">
                 <p className="text-editorial-text-muted font-mono text-[0.6875rem] tracking-widest uppercase mb-8 opacity-100 translate-y-0 md:opacity-0 md:translate-y-4 md:group-hover/card:opacity-100 md:group-hover/card:translate-y-0 transition-all duration-700 delay-100 leading-relaxed">
                   // Rest optimisation and regulation tools built to help the body return stronger.

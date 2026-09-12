@@ -125,7 +125,7 @@ export default function ProtocolStackDetail() {
                  <Layers className="w-5 h-5 text-red-600 animate-pulse" />
                  <span className="font-mono text-[0.6875rem] text-red-500 font-bold uppercase tracking-widest">Protocol Series</span>
                </div>
-               <h1 className="text-4xl md:text-6xl font-black text-editorial-text uppercase tracking-tighter mb-8">{titleParts(stack.title)}</h1>
+               <h1 className="text-4xl xl:text-6xl font-black text-editorial-text uppercase tracking-tighter mb-8">{titleParts(stack.title)}</h1>
                <div className="mb-8 p-5 bg-editorial-bg border border-red-500/20 rounded-xl flex items-start gap-4">
                   <Target className="w-5 h-5 text-red-500 mt-1" />
                   <div>

@@ -281,7 +281,7 @@
      by --ui-scale, so a 1rem floor rendered at 19-27px and quietly overrode the
      cqi term in exactly the narrow columns it was meant to protect. The floors
      are set low and the cqi term does the work. */
-  .title-fit-lg { font-size: clamp(1rem, 0.25rem + 8cqi, 3rem); }
+  .title-fit-lg { font-size: clamp(0.875rem, 0.25rem + 8cqi, 3rem); }
   .title-fit-md { font-size: clamp(0.875rem, 0.125rem + 5.5cqi, 1.875rem); }
   .title-fit-sm { font-size: clamp(0.75rem, 0.125rem + 5.5cqi, 1.25rem); }
 

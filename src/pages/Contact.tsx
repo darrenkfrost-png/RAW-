@@ -73,12 +73,12 @@ export default function Contact() {
           initial={{ opacity: 0, x: -30 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, ease: [0.16,1,0.3,1] }}
-          className="flex flex-col justify-center"
+          className="fits-its-column flex flex-col justify-center"
         >
           <span className="text-[0.75rem] font-black uppercase tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] text-red-500 mb-8 block flex items-center gap-4 drop-shadow-[0_0_8px_rgba(220,38,38,0.5)]">
             <div className="w-2 h-2 bg-red-500 rounded-full animate-ping shadow-[0_0_8px_currentColor]" /> Comm_Link Established
           </span>
-          <h1 className="font-sans font-black uppercase tracking-tighter leading-[0.8] mb-16 text-editorial-text drop-shadow-[0_5px_15px_rgba(0,0,0,0.1)] text-display-md">
+          <h1 className="font-sans font-black uppercase tracking-tighter leading-[0.8] mb-16 text-editorial-text drop-shadow-[0_5px_15px_rgba(0,0,0,0.1)] display-fit" style={{ "--fit": 13 } as React.CSSProperties}>
             CONNECT <br /> WITH THE <br /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-red-800 drop-shadow-[0_0_15px_rgba(220,38,38,0.4)] pb-3 inline-block">PACK</span>
           </h1>
           
@@ -90,7 +90,7 @@ export default function Contact() {
               </div>
               <div className="flex-1 border-b border-editorial-border pb-6 text-left">
                 <h4 className="font-sans font-black text-editorial-text uppercase tracking-tighter text-2xl xl:text-3xl mb-2 group-hover:text-red-500 transition-colors drop-shadow-[0_2px_4px_rgba(0,0,0,0.08)]">Email Us</h4>
-                <p className="text-editorial-text-muted font-light text-xl xl:text-2xl [overflow-wrap:anywhere]">{CONTACT_EMAIL}</p>
+                <p className="text-editorial-text-muted font-light text-xl xl:text-2xl [overflow-wrap:break-word]">{CONTACT_EMAIL.split("@")[0]}@<wbr />{CONTACT_EMAIL.split("@")[1]}</p>
                 <p className="text-red-500/70 text-[0.6875rem] xl:text-[0.6875rem] mt-4 font-black uppercase tracking-[0.3em]">Response within 24 hours</p>
               </div>
             </a>

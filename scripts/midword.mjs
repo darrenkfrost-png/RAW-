@@ -15,6 +15,10 @@ const require = createRequire('C:/Users/darre/OneDrive/Desktop/RAW/package.json'
 const { chromium } = require('playwright-core');
 
 const BASE = process.argv[2] || 'http://localhost:5200';
+// ⚠️ A DEAD SERVER MUST NEVER READ AS "0 breaks" — page failures are swallowed
+// below, so check the server answers before measuring anything.
+{ const alive = await fetch(BASE + '/').then((r) => r.status).catch(() => 0);
+  if (alive !== 200) { console.log(`SERVER NOT ANSWERING (${alive}) — no result`); process.exit(1); } }
 const ROUTES = ['/', '/shop', '/product/29', '/combat', '/recovery', '/nutrients', '/protocol-stacks', '/protocol-stacks/strength', '/protocol-builder', '/compare', '/knowledge-core', '/academy', '/our-story', '/raw-cares', '/checkout', '/logistics', '/performance-system', '/contact', '/manifesto', '/showcase'];
 
 const PROBE = () => {

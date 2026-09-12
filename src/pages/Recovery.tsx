@@ -86,7 +86,7 @@ export default function Recovery() {
             <p className="text-2xl xl:text-3xl text-editorial-text-muted font-light leading-relaxed max-w-3xl drop-shadow-[0_2px_4px_rgba(0,0,0,0.1)] border-l-4 border-emerald-600 pl-8 md:pl-12 bg-gradient-to-r from-emerald-600/10 via-emerald-600/5 to-transparent py-4 rounded-r-[2rem]">
               Performance is earned in effort. Progress is built in restoration. RAW Recover is designed to reset the system, reinforce resilience and sustain long-term output. Train. Recover. Repeat.
             </p>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-10 pt-16 border-t border-editorial-border">
+            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-10 pt-16 border-t border-editorial-border">
                <div className="space-y-8 group">
                   <div className="w-20 h-20 rounded-[1.5rem] bg-editorial-bg border border-editorial-border flex items-center justify-center backdrop-blur-md shadow-[0_10px_30px_rgba(0,0,0,0.1)] text-editorial-text-muted drop-shadow-[0_0_5px_rgba(16,185,129,0.5)] group-hover:bg-emerald-600 group-hover:text-editorial-text group-hover:-translate-y-3 group-hover:border-emerald-500/50 transition-all duration-[800ms] transform-gpu group-hover:shadow-[0_20px_50px_rgba(16,185,129,0.3)]">
                     <Snowflake className="w-10 h-10 group-hover:drop-shadow-[0_0_15px_rgba(0,0,0,0.15)] transition-all duration-500" />
@@ -165,7 +165,7 @@ export default function Recovery() {
                     narrow="play"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-transparent via-editorial-bg/40 to-transparent pointer-events-none z-10 opacity-80 mix-blend-multiply"></div>
-                  <div className="fits-its-column absolute bottom-16 left-12 right-12 z-20 transform-gpu transition-all duration-[1000ms] ease-[0.16,1,0.3,1] group-hover:-translate-y-4">
+                  <div className="fits-its-column absolute bottom-12 left-6 right-6 xl:bottom-16 xl:left-12 xl:right-12 z-20 transform-gpu transition-all duration-[1000ms] ease-[0.16,1,0.3,1] group-hover:-translate-y-4">
                      <div className="h-[3px] w-full bg-editorial-text/10 mb-10 overflow-hidden rounded-full shadow-[inset_0_0_5px_rgba(0,0,0,0.08)]">
                         <motion.div 
                           initial={{ x: "-100%" }}
@@ -174,7 +174,7 @@ export default function Recovery() {
                           className="h-full w-1/3 bg-emerald-500 shadow-[0_0_15px_#10b981]"
                         />
                      </div>
-                     <span className="text-[0.6875rem] font-black uppercase tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] text-emerald-500 block mb-4 drop-shadow-[0_0_10px_rgba(16,185,129,0.5)]">Technique 0{i+1}</span>
+                     <span className="text-[0.6875rem] font-black uppercase tracking-[0.3em] [overflow-wrap:break-word] text-emerald-500 block mb-4 drop-shadow-[0_0_10px_rgba(16,185,129,0.5)]">Technique 0{i+1}</span>
                      <h3 className="font-sans font-black display-fit uppercase tracking-tighter text-editorial-text drop-shadow-[0_10px_30px_rgba(0,0,0,1)] leading-[0.9]" style={{ "--fit": 14 } as React.CSSProperties}>RECOVERY <br/> PROTOCOL</h3>
                   </div>
                </div>

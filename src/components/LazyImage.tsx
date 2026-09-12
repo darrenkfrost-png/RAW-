@@ -36,7 +36,7 @@ export default function LazyImage({ src, alt, className = "", containerClassName
                  className="absolute inset-0 bg-gradient-to-r from-transparent via-red-600/10 to-transparent"
                />
                <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="font-mono text-[0.6875rem] text-zinc-700 tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] uppercase">Syncing_Visual_Buffer...</span>
+                  <span className="font-mono text-[0.6875rem] text-zinc-700 tracking-[0.3em] [overflow-wrap:break-word] uppercase">Syncing_<wbr />Visual_<wbr />Buffer...</span>
                </div>
             </div>
           </motion.div>

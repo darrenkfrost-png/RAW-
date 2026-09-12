@@ -5,6 +5,11 @@ import { createRequire } from 'node:module';
 const require = createRequire('C:/Users/darre/OneDrive/Desktop/RAW/package.json');
 const { chromium } = require('playwright-core');
 const B=process.argv[2];
+// ⚠️ A DEAD SERVER MUST NEVER READ AS "ALL CLEAR". Every page load below is
+// wrapped in try/catch, so against a port with nothing on it this script used
+// to sail through and print "every fitted heading clears its column".
+{ const alive = await fetch(B + '/').then((r) => r.status).catch(() => 0);
+  if (alive !== 200) { console.log(`SERVER NOT ANSWERING (${alive}) — no result`); process.exit(1); } }
 const ROUTES=['/','/shop','/product/29','/combat','/recovery','/nutrients','/protocol-stacks','/compare','/knowledge-core','/academy','/our-story','/raw-cares','/logistics','/performance-system','/contact','/manifesto','/showcase'];
 const PROBE=()=>{
   const out=[];
@@ -21,12 +26,18 @@ const PROBE=()=>{
     // quote). Measuring the inner words at the OUTER size reported PERFORMANCE
     // overflowing by 108px when it rendered comfortably. Nested fitted elements
     // are measured on their own turn.
-    const own = e.cloneNode(true);
-    own.querySelectorAll('.display-fit, .title-fit-lg, .title-fit-md, .title-fit-sm').forEach((n) => n.remove());
-    const words=(own.textContent||'').split(splitter).filter(Boolean);
+    // Precisely: only text printed at THIS element's size. The product name
+    // shares its heading with a small [ TARGET_ASSET_IDENT ] tag set at its own
+    // clamp — measured at the heading's size, that tag is a false overflow.
+    const tw = document.createTreeWalker(e, NodeFilter.SHOW_TEXT);
+    let ownText = '';
+    for (let t = tw.nextNode(); t; t = tw.nextNode()) {
+      if (t.parentElement && getComputedStyle(t.parentElement).fontSize === cs.fontSize) ownText += ' ' + t.textContent;
+    }
+    const words=ownText.split(splitter).filter(Boolean);
     if(!words.length) continue;
     const probe=document.createElement('span');
-    probe.style.cssText='position:absolute;visibility:hidden;white-space:nowrap;font:'+cs.font+';letter-spacing:'+cs.letterSpacing+';text-transform:none';
+    probe.style.cssText='position:absolute;visibility:hidden;white-space:nowrap;font:'+cs.font+';letter-spacing:'+cs.letterSpacing+';text-transform:'+cs.textTransform; // ⚠️ was "none": capitals are wider, so every uppercase heading was under-measured and "UNDERPINNINGS" passed while it broke
     let worst=null;
     for(const w of words){ probe.textContent=w; document.body.appendChild(probe);
       const need=probe.getBoundingClientRect().width; probe.remove();

@@ -118,13 +118,13 @@ export default function ProtocolStacks() {
               transition={{ duration: 1 }}
               className="grid lg:grid-cols-12 gap-20 xl:gap-32 items-start group/section"
             >
-              <div className="lg:col-span-4 lg:sticky lg:top-40 space-y-12">
+              <div className="fits-its-column lg:col-span-4 lg:sticky lg:top-40 space-y-12">
                 <div className="space-y-10">
                   <div className="flex items-center gap-6">
                      <span className="font-mono text-[0.6875rem] text-red-500 font-black uppercase tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] transition-all duration-700 group-hover/section:tracking-[0.8em]">PROTOCOL_{idx < 9 ? '0' : ''}{idx + 1}</span>
                      <div className="h-[1px] flex-1 bg-editorial-text/5 group-hover/section:bg-red-600/30 transition-all duration-700" />
                   </div>
-                  <h2 className="font-black text-editorial-text uppercase tracking-tighter leading-[0.85] group-hover/section:text-red-500 transition-colors duration-700 italic text-display-sm">{titleParts(stack.title)}</h2>
+                  <h2 className="font-black text-editorial-text uppercase tracking-tighter leading-[0.85] group-hover/section:text-red-500 transition-colors duration-700 italic display-fit" style={{ "--fit": 13 } as React.CSSProperties}>{titleParts(stack.title)}</h2>
                 </div>
 
                 <div className="space-y-8">
@@ -168,7 +168,7 @@ export default function ProtocolStacks() {
                     >
                       <Link 
                         to={`/product/${product.id}`}
-                        className="group/card bg-editorial-surface/20 backdrop-blur-3xl border border-editorial-border p-10 rounded-[3rem] hover:border-red-600/30 transition-all duration-[1000ms] flex flex-col h-full shadow-depth-2 hover:bg-black/40 overflow-hidden relative"
+                        className="fits-its-column group/card bg-editorial-surface/20 backdrop-blur-3xl border border-editorial-border p-8 xl:p-10 rounded-[3rem] hover:border-red-600/30 transition-all duration-[1000ms] flex flex-col h-full shadow-depth-2 hover:bg-black/40 overflow-hidden relative"
                       >
                         <div className="absolute inset-0 bg-gradient-to-br from-red-600/[0.03] to-transparent opacity-0 group-hover/card:opacity-100 transition-opacity duration-1000" />
                         
@@ -182,7 +182,7 @@ export default function ProtocolStacks() {
                         
                         <div className="flex-1 space-y-6 relative z-10">
                           <span className="font-mono text-[0.6875rem] text-red-500 uppercase tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] block font-black transition-all duration-700 group-hover/card:tracking-[0.7em]">{product.category}</span>
-                          <h3 className="font-black text-editorial-text uppercase text-3xl lg:text-4xl leading-[0.8] tracking-tighter transition-all duration-1000 group-hover:text-red-500">{product.name}</h3>
+                          <h3 className="font-black text-editorial-text uppercase title-fit-lg leading-[0.9] tracking-tighter transition-all duration-1000 group-hover:text-red-500">{product.name}</h3>
                           <p className="text-editorial-text-muted font-light leading-relaxed group-hover/card:text-editorial-text transition-colors text-base line-clamp-3">
                              {product.description || product.shortBenefit}
                           </p>

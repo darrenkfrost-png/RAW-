@@ -167,11 +167,11 @@ export default function Nutrients() {
       <section className="py-40 bg-editorial-bg border-y border-editorial-border relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_left,_var(--tw-gradient-stops))] from-blue-900/5 via-transparent to-transparent pointer-events-none mix-blend-screen" />
         <div className="max-w-[var(--content-max-width)] mx-auto px-[var(--shell-padding-mobile)] md:px-[var(--shell-padding)] lg:px-[var(--shell-padding-lg)] relative z-10 flex flex-col lg:flex-row gap-20">
-          <div className="lg:w-1/2">
+          <div className="fits-its-column lg:w-1/2">
             <span className="text-[0.6875rem] font-black uppercase tracking-[0.3em] sm:tracking-[0.6em] [overflow-wrap:anywhere] text-blue-500 mb-8 block drop-shadow-[0_0_8px_rgba(59,130,246,0.5)]">
               RAW_EDUCATION // 001
             </span>
-            <h2 className="font-sans font-black uppercase tracking-tighter mb-12 text-editorial-text text-display-md">WHAT IS <span className="text-blue-500">CREATINE?</span></h2>
+            <h2 className="font-sans font-black uppercase tracking-tighter mb-12 text-editorial-text display-fit" style={{ "--fit": 12 } as React.CSSProperties}>WHAT IS <span className="text-blue-500">CREATINE?</span></h2>
             <div className="space-y-8 text-xl text-editorial-text-muted font-light leading-relaxed">
               <p>More than just a body-building aid, creatine has been scientifically proven to enhance mental cognition and stamina too...</p>
               <p>It is one of the most researched supplements in the world, facilitating ATP production for immediate cellular energy during high-intensity output.</p>

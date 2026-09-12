@@ -547,7 +547,7 @@ export default function ProductDetail() {
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.3, duration: 1, ease: [0.16, 1, 0.3, 1] }}
-          className="min-w-0 lg:sticky lg:top-32"
+          className="fits-its-column min-w-0 lg:sticky lg:top-32"
         >
           <motion.span 
             initial={{ opacity: 0 }}
@@ -561,7 +561,7 @@ export default function ProductDetail() {
             initial={{ opacity: 0, scale: 1.1, filter: "blur(20px)", x: -50 }}
             animate={{ opacity: 1, scale: 1, filter: "blur(0px)", x: 0 }}
             transition={{ delay: 0.6, duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
-            className="font-sans font-black uppercase tracking-[-0.08em] leading-[0.75] mb-16 drop-shadow-[0_40px_120px_rgba(0,0,0,1)] relative text-premium text-display-sm"
+            className="font-sans font-black uppercase tracking-[-0.08em] leading-[0.75] mb-16 drop-shadow-[0_40px_120px_rgba(0,0,0,1)] relative text-premium display-fit" style={{ "--fit": 12 } as React.CSSProperties}
           >
             <span className="block italic text-red-600/30 tracking-tight mb-12 drop-shadow-none text-meta-premium !lowercase !tracking-normal text-[clamp(0.875rem,2.2vw,2.5rem)]">
               <span className="opacity-40">[</span> TARGET_ASSET_IDENT <span className="opacity-40">]</span>
@@ -594,7 +594,7 @@ export default function ProductDetail() {
                <div className="flex items-center justify-between mb-10">
                   <h2 className="font-mono text-red-500 text-[0.6875rem] uppercase tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] font-black flex items-center gap-4">
                      <span className="w-2 h-2 rounded-full bg-red-600 animate-pulse shadow-[0_0_8px_currentColor]" />
-                     MISSION_OBJECTIVE
+                     {machineText("MISSION_OBJECTIVE")}
                   </h2>
                   <div className="h-[1px] flex-1 mx-8 bg-gradient-to-r from-red-600/40 to-transparent" />
                </div>
@@ -609,7 +609,7 @@ export default function ProductDetail() {
                            "{product.whatItDoes}"
                            <div className="mt-8 flex items-center gap-4 border-t border-white/10 pt-8">
                               <div className="h-1 lg:w-20 bg-red-600" />
-                              <span className="font-mono text-[0.6875rem] uppercase tracking-[0.3em] sm:tracking-[0.6em] [overflow-wrap:anywhere] text-red-500 font-black">{machineText("CORE_MANTRA_01")}</span>
+                              <span className="font-mono text-[0.6875rem] uppercase tracking-[0.3em] sm:tracking-[0.35em] [overflow-wrap:break-word] text-red-500 font-black">{machineText("CORE_MANTRA_01")}</span>
                            </div>
                        </div>
                    )}
@@ -770,7 +770,7 @@ export default function ProductDetail() {
               <div className="fits-its-column w-full space-y-12 relative z-10">
                   <div className="flex items-center gap-5">
                       <span className="w-12 h-[2px] bg-red-600 shadow-[0_0_10px_#dc2626]" />
-                      <span className="font-mono text-[0.6875rem] text-zinc-500 uppercase tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] font-black">Performance_Architecture</span>
+                      <span className="font-mono text-[0.6875rem] text-zinc-500 uppercase tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] font-black">{machineText("Performance_Architecture")}</span>
                   </div>
                   <h2 className="font-black uppercase tracking-tighter text-white leading-[0.8] transition-all duration-1000 group-hover/cinematic:drop-shadow-[0_0_30px_rgba(239,68,68,0.2)] display-fit" style={{ "--fit": 14 } as React.CSSProperties}>
                     Validated <br /> 
@@ -881,8 +881,8 @@ export default function ProductDetail() {
                    the gloves, the lounger and the shaker bottle no longer carry it;
                    each product's own suggestedUse lives in the accordion above. */}
                {product.responsibleUse && (
-               <div className="card-glass p-12 lg:p-16 border rounded-[2rem] border-editorial-border">
-                  <h3 className="font-sans font-black text-3xl uppercase tracking-tighter text-editorial-text mb-8">Usage Methodology</h3>
+               <div className="card-glass fits-its-column p-8 lg:p-12 xl:p-16 border rounded-[2rem] border-editorial-border">
+                  <h3 className="title-fit-lg font-sans font-black uppercase tracking-tighter text-editorial-text mb-8">Usage Methodology</h3>
                   <p className="text-editorial-text-muted font-light leading-relaxed mb-8">
                      To maximize the efficacy of this protocol, adhere to the recommended daily cadence. Consistent application is critical for establishing the desired bio-response trajectory.
                   </p>
@@ -902,8 +902,8 @@ export default function ProductDetail() {
                )}
 
                {/* Composition & Provenance */}
-               <div className="card-glass p-12 lg:p-16 border rounded-[2rem] border-editorial-border">
-                  <h3 className="font-sans font-black text-3xl uppercase tracking-tighter text-editorial-text mb-8">Composition & Provenance</h3>
+               <div className="card-glass fits-its-column p-8 lg:p-12 xl:p-16 border rounded-[2rem] border-editorial-border">
+                  <h3 className="title-fit-lg font-sans font-black uppercase tracking-tighter text-editorial-text mb-8">Composition & Provenance</h3>
                   <p className="text-editorial-text-muted font-light leading-relaxed mb-8">
                      Engineered with the highest grade precursors, each RAW compound undergoes rigorous batch testing to ensure purity and bioavailability.
                   </p>
@@ -941,8 +941,8 @@ export default function ProductDetail() {
           <div className="max-w-[var(--content-max-width)] mx-auto px-[var(--shell-padding-mobile)] md:px-[var(--shell-padding)] lg:px-[var(--shell-padding-lg)] relative z-10">
              <div className="grid md:grid-cols-2 gap-12">
                  {/* Scientific Underpinnings */}
-                 <div className="bg-gradient-to-br from-editorial-bg to-editorial-bg p-12 lg:p-16 border rounded-[2rem] border-editorial-border">
-                    <h3 className="font-sans font-black text-3xl uppercase tracking-tighter text-editorial-text mb-8">Scientific Underpinnings</h3>
+                 <div className="bg-gradient-to-br from-editorial-bg to-editorial-bg fits-its-column p-8 lg:p-12 xl:p-16 border rounded-[2rem] border-editorial-border">
+                    <h3 className="title-fit-lg font-sans font-black uppercase tracking-tighter text-editorial-text mb-8">Scientific Underpinnings</h3>
                     <p className="text-editorial-text-muted font-light leading-relaxed mb-6">
                         Our mechanics of action are predicated on rapid kinetic absorption. By bypassing standard metabolic bottlenecks, the core compounds facilitate an instantaneous bio-response trajectory.
                     </p>
@@ -952,8 +952,8 @@ export default function ProductDetail() {
                  </div>
 
                  {/* Quality Assurance & Compliance */}
-                 <div className="bg-gradient-to-br from-transparent to-zinc-900 p-12 lg:p-16 border rounded-[2rem] border-editorial-border">
-                    <h3 className="font-sans font-black text-3xl uppercase tracking-tighter text-editorial-text mb-8">Quality Assurance & Compliance</h3>
+                 <div className="bg-gradient-to-br from-transparent to-zinc-900 fits-its-column p-8 lg:p-12 xl:p-16 border rounded-[2rem] border-editorial-border">
+                    <h3 className="title-fit-lg font-sans font-black uppercase tracking-tighter text-editorial-text mb-8">Quality Assurance & Compliance</h3>
                     <p className="text-editorial-text-muted font-light leading-relaxed mb-6">
                         Compliance is not an option; it is the foundation. Every batch undergoes exhaustive spectrographic analysis.
                     </p>

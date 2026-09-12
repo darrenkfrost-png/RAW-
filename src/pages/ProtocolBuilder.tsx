@@ -345,7 +345,7 @@ export default function ProtocolBuilder() {
                  </div>
               </div>
 
-              <h2 className="text-4xl md:text-6xl font-black text-editorial-text uppercase tracking-tighter mb-16 drop-shadow-strong relative z-10 max-w-xl">
+              <h2 className="text-4xl lg:text-6xl font-black text-editorial-text uppercase tracking-tighter mb-16 drop-shadow-strong relative z-10 max-w-xl">
                 {steps[currentStep].title}
               </h2>
 

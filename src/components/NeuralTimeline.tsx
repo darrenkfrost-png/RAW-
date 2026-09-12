@@ -1,4 +1,5 @@
 import { motion } from "motion/react";
+import { machineText } from "../lib/machineText";
 
 const events = [
   { year: "2018", title: "THE_GARAGE_PROTOCOL", detail: "Initial unit production begins in localized testing facility.", color: "bg-zinc-800" },
@@ -40,7 +41,7 @@ export default function NeuralTimeline() {
               <div className="space-y-4">
                 <div className="flex items-center justify-center lg:justify-start gap-4">
                    <div className={`w-2 h-2 ${event.color} rounded-full`} />
-                   <span className="font-mono text-[0.6875rem] tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] text-red-600">{event.title}</span>
+                   <span className="font-mono text-[0.6875rem] tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:break-word] text-red-600">{machineText(event.title)}</span>
                 </div>
                 <p className="font-serif italic text-2xl md:text-3xl text-editorial-text-muted font-light max-w-xl mx-auto lg:mx-0">
                   {event.detail}
