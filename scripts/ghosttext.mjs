@@ -20,17 +20,41 @@
  * passed. Here the text colour is composited over the first opaque ancestor
  * background, alpha and inherited element opacity included, before any ratio is
  * worked out.
+ *
+ * ⚠️ ONE COPY OF THE COLOUR MATH, INSTALLED INTO THE PAGE. Both passes have to
+ * agree about what "invisible" means. When pass two judged by its own rule
+ * instead of re-running this one, it threw away an entire class of finding —
+ * see the warning above pass two.
  */
 import { createRequire } from 'node:module';
 const require = createRequire(new URL('../package.json', import.meta.url));
 const { chromium } = require('playwright-core');
 
 const BASE = (process.argv[2] || 'http://localhost:5332').replace(/\/$/, '');
-const ROUTES = process.argv.slice(3).length ? process.argv.slice(3)
-  : ['/', '/films', '/shop', '/combat', '/recovery', '/nutrients', '/showcase', '/our-story', '/manifesto', '/stay-safe', '/defrost', '/raw-cares'];
+/* ⚠️ A HAND-WRITTEN ROUTE LIST IS A COVERAGE GAP WITH NO WARNING LIGHT.
+   This swept twelve routes it had been given by name while the site served
+   seventy-eight, so two thirds of the pages were never looked at and the
+   summary line said "no invisible text" about all of them. That is the same
+   failure as the viewport hole described further down, one level up: silence
+   from a page nobody measured reads exactly like silence from a clean one.
+   The routes now come from the sitemap, which is itself generated from the
+   router, so a new page is swept the moment it exists. Pass routes as
+   arguments to narrow a run while working on one page. */
+const ROUTES = process.argv.slice(3).length ? process.argv.slice(3) : await (async () => {
+  const xml = await fetch(BASE + '/sitemap.xml').then((r) => r.text());
+  const paths = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => new URL(m[1]).pathname);
+  const unique = [...new Set(paths)];
+  if (!unique.length) {
+    console.error(`no routes: ${BASE}/sitemap.xml listed none — refusing to report a clean sweep of nothing`);
+    process.exit(2);
+  }
+  return unique;
+})();
 const FLOOR = 1.6; // below this, the text is not readable by anyone
 
-const PAGE_FN = (FLOOR) => {
+/* Installed before any page script, on every navigation and reload, so that
+   `window.__ghost` is there for both passes and for the settle helpers. */
+const INSTALL = () => {
   const parse = (c) => {
     const m = String(c).match(/rgba?\(([^)]+)\)/);
     if (!m) return null;
@@ -58,108 +82,150 @@ const PAGE_FN = (FLOOR) => {
     return { r: 0, g: 0, b: 0, a: 1 }; // the site's shell is near-black
   };
 
-  const out = [];
-  const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
-  const seen = new Set();
-  for (let n = walker.nextNode(); n; n = walker.nextNode()) {
-    const text = (n.textContent || '').trim();
-    if (text.length < 8) continue;
-    const el = n.parentElement;
-    if (!el || seen.has(el)) continue;
-    seen.add(el);
-    if (/^(SCRIPT|STYLE|NOSCRIPT|TITLE)$/.test(el.tagName)) continue;
+  const inheritedOpacity = (el) => {
+    let o = 1;
+    for (let a = el; a; a = a.parentElement) o *= parseFloat(getComputedStyle(a).opacity || '1');
+    return o;
+  };
+
+  /* How legible this element's text is, right now: its colour and every
+     inherited opacity composited over whatever actually paints behind it. */
+  const contrast = (el) => {
     const cs = getComputedStyle(el);
-    if (cs.display === 'none' || cs.visibility === 'hidden') continue;
-    const r = el.getBoundingClientRect();
-    if (!r.width && !r.height) continue;
-    // Already excluded from the accessibility tree? Then it is not read.
-    if (el.closest('[aria-hidden="true"]')) continue;
-    // Deliberately offscreen helper text (sr-only) is FOR screen readers.
-    if (r.width <= 1 || r.height <= 1) continue;
-
-    /* ⚠️ TRAP ONE: GRADIENT TEXT HAS NO COLOUR, AND IS NOT INVISIBLE.
-       The house headline style is `text-transparent bg-clip-text
-       bg-gradient-to-*` — the glyphs are painted by the background, so
-       `color` is rgba(0,0,0,0) by design. Reading the colour alone called
-       every display heading on the site invisible. */
-    if ((cs.webkitBackgroundClip === 'text' || cs.backgroundClip === 'text')) continue;
-
-    /* ⚠️ TRAP TWO: NOT-YET-REVEALED IS NOT INVISIBLE.
-       Most of this site fades in on scroll, so anything below the fold sits
-       at opacity 0 until it is reached. Judging the whole document in one
-       pass called every unrevealed paragraph ghost text — 170 "findings", of
-       which two were real.
-       ⚠️ AND THE OBVIOUS FIX WAS ALSO WRONG. Judging only what was in the
-       viewport at a few scroll stops left a hole: a decorative watermark on
-       Our Story sat at the top of its own section and never landed in a
-       sampled screen, so it was never judged at all — reported clean while
-       being exactly what this looks for. Silence from a gap in coverage is
-       indistinguishable from silence from a clean page.
-       So nothing is filtered by position here. Suspects are collected from
-       the whole document, then each one is scrolled to and measured again;
-       only those still invisible with their reveal finished are reported. */
-
     const fg = parse(cs.color);
-    if (!fg) continue;
-    let op = 1;
-    for (let a = el; a; a = a.parentElement) op *= parseFloat(getComputedStyle(a).opacity || '1');
-    const effective = { ...fg, a: fg.a * op };
+    if (!fg) return null;
     const bg = backdrop(el);
-    const c = ratio(over(effective, bg), bg);
-    if (c < FLOOR) {
+    const effective = { ...fg, a: fg.a * inheritedOpacity(el) };
+    return +ratio(over(effective, bg), bg).toFixed(2);
+  };
+
+  const scan = (floor) => {
+    const out = [];
+    const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+    const seen = new Set();
+    for (let n = walker.nextNode(); n; n = walker.nextNode()) {
+      const text = (n.textContent || '').trim();
+      if (text.length < 8) continue;
+      const el = n.parentElement;
+      if (!el || seen.has(el)) continue;
+      seen.add(el);
+      if (/^(SCRIPT|STYLE|NOSCRIPT|TITLE)$/.test(el.tagName)) continue;
+      const cs = getComputedStyle(el);
+      if (cs.display === 'none' || cs.visibility === 'hidden') continue;
+      const r = el.getBoundingClientRect();
+      if (!r.width && !r.height) continue;
+      // Already excluded from the accessibility tree? Then it is not read.
+      if (el.closest('[aria-hidden="true"]')) continue;
+      // Deliberately offscreen helper text (sr-only) is FOR screen readers.
+      if (r.width <= 1 || r.height <= 1) continue;
+
+      /* ⚠️ TRAP ONE: GRADIENT TEXT HAS NO COLOUR, AND IS NOT INVISIBLE.
+         The house headline style is `text-transparent bg-clip-text
+         bg-gradient-to-*` — the glyphs are painted by the background, so
+         `color` is rgba(0,0,0,0) by design. Reading the colour alone called
+         every display heading on the site invisible. */
+      if (cs.webkitBackgroundClip === 'text' || cs.backgroundClip === 'text') continue;
+
+      /* ⚠️ TRAP TWO: NOT-YET-REVEALED IS NOT INVISIBLE.
+         Most of this site fades in on scroll, so anything below the fold sits
+         at opacity 0 until it is reached. Judging the whole document in one
+         pass called every unrevealed paragraph ghost text — 170 "findings", of
+         which two were real.
+         ⚠️ AND THE OBVIOUS FIX WAS ALSO WRONG. Judging only what was in the
+         viewport at a few scroll stops left a hole: a decorative watermark on
+         Our Story sat at the top of its own section and never landed in a
+         sampled screen, so it was never judged at all — reported clean while
+         being exactly what this looks for. Silence from a gap in coverage is
+         indistinguishable from silence from a clean page.
+         So nothing is filtered by position here. Suspects are collected from
+         the whole document, then each one is scrolled to and measured again;
+         only those still invisible with their reveal finished are reported. */
+
+      const c = contrast(el);
+      if (c === null || c >= floor) continue;
       out.push({
         text: text.slice(0, 48),
         chars: text.length,
-        contrast: +c.toFixed(2),
+        contrast: c,
         color: cs.color,
-        opacity: +op.toFixed(2),
+        opacity: +inheritedOpacity(el).toFixed(2),
         cls: String(el.className).slice(0, 44),
       });
     }
-  }
-  return out;
+    return out;
+  };
+
+  window.__ghost = { contrast, scan, inheritedOpacity };
 };
+
+/**
+ * ⚠️ A FIXED WAIT IS A GUESS, AND THIS ONE GUESSED SHORT.
+ *
+ * The sweep waited 1800ms and then judged. The front page's call to action
+ * animates in with `delay: 1, duration: 1.5` — it is not fully opaque until
+ * 2500ms, so it was measured at a fifth of its opacity and reported as text
+ * nobody can read. It is black on white: the highest contrast on the site.
+ * The manifesto paragraph was the same story one scroll down.
+ *
+ * So nothing here waits a chosen number of milliseconds. Both helpers watch
+ * the thing they are about to judge until it stops changing, and only then
+ * allow a verdict — which is also faster on the pages that settle quickly.
+ */
+const settleValue = async (page, read, { cap = 6000, step = 250 } = {}) => {
+  let last = null, stable = 0;
+  for (let waited = 0; waited < cap; waited += step) {
+    await page.waitForTimeout(step);
+    const now = await read();
+    if (now === last) { if (++stable >= 2) return now; } else { stable = 0; }
+    last = now;
+  }
+  return last;
+};
+
+/* The whole document's painted state, cheap enough to sample: how many
+   elements are mid-fade. Zero and holding means every reveal has finished. */
+const settleDocument = (page) =>
+  settleValue(page, () => page.evaluate(() => {
+    if (!document.body || !document.body.firstElementChild) return -1; // React has not mounted
+    let moving = 0;
+    for (const el of document.body.querySelectorAll('*')) {
+      const o = parseFloat(getComputedStyle(el).opacity || '1');
+      if (o > 0 && o < 0.99) moving++;
+    }
+    return moving;
+  }));
 
 const b = await chromium.launch({ executablePath: 'C:/Program Files/Google/Chrome/Application/chrome.exe', headless: true });
 const ctx = await b.newContext({ viewport: { width: 1440, height: 900 } });
+await ctx.addInitScript(INSTALL);
 const p = await ctx.newPage();
 
 /* ⚠️ A PROBE THAT HAS NEVER CAUGHT ANYTHING IS NOT A PASSING PROBE, it is an
-   untested one. Plant text nobody can see and make sure it is found. */
+   untested one. Two faults are planted, because the sweep has two halves and
+   for a long time only the first was ever proven:
+     - one invisible by COLOUR at full opacity, which pass two used to discard,
+     - one invisible by OPACITY, the shape pass two was built around.
+   Both must survive the whole sweep, scroll and hover included, and be
+   reported. If either is swallowed, the probe proves nothing and says so. */
+const PLANTS = [
+  { text: 'planted invisible sentence by colour', css: 'color:rgba(255,255,255,0.04)' },
+  { text: 'planted invisible sentence by opacity', css: 'color:#fff;opacity:0.02' },
+];
 await p.goto(BASE + '/', { waitUntil: 'load' });
 await p.evaluate(() => sessionStorage.setItem('raw_intro_seen', '1'));
 await p.reload({ waitUntil: 'load' });
-await p.evaluate(() => {
-  const d = document.createElement('p');
-  d.textContent = 'planted invisible sentence that is read aloud';
-  d.style.cssText = 'color:rgba(255,255,255,0.04);position:fixed;top:40px;left:40px;z-index:1';
-  document.body.appendChild(d);
-});
-const selfTest = await p.evaluate(PAGE_FN, FLOOR);
-if (!selfTest.some((x) => /planted invisible/.test(x.text))) {
-  console.error('SELF-TEST FAILED: planted invisible text was not caught — this probe proves nothing.');
-  await b.close();
-  process.exit(2);
-}
-console.log('SELF-TEST: planted invisible sentence caught');
+await p.evaluate((plants) => {
+  for (const [i, plant] of plants.entries()) {
+    const d = document.createElement('p');
+    d.textContent = plant.text;
+    d.style.cssText = `${plant.css};position:fixed;top:${40 + i * 40}px;left:40px;z-index:1`;
+    document.body.appendChild(d);
+  }
+}, PLANTS);
 
-let total = 0;
-for (const route of ROUTES) {
-  await p.goto(BASE + route, { waitUntil: 'load' });
-  await p.evaluate(() => sessionStorage.setItem('raw_intro_seen', '1'));
-  await p.reload({ waitUntil: 'load' });
-  /* ⚠️ WAIT FOR THE PAGE TO EXIST BEFORE JUDGING IT. Rewriting the sweep once
-     deleted this line, and pass one then ran against an empty React root:
-     zero suspects on every route, reported as "no invisible text". A probe
-     that measures nothing agrees with a clean site, which is why this is the
-     third blind spot this one file has produced and the reason each is
-     written down rather than quietly patched. */
-  await p.waitForTimeout(1800);
-  // Pass one: every run of text that currently measures invisible, anywhere.
-  const suspects = await p.evaluate(PAGE_FN, FLOOR);
-  if (process.env.GHOST_DEBUG) console.log(`   [debug] ${route}: ${suspects.length} suspect(s): ${suspects.map((x) => JSON.stringify(x.text)).join(', ').slice(0, 300)}`);
-
-  // Pass two: bring each suspect to the screen, let its reveal run, look again.
+/* The plants are judged by the same two-pass pipeline as a real page, so this
+   is defined before the sweep and called for the self-test first. */
+const judge = async (suspects) => {
   const hits = [];
   for (const sus of suspects) {
     const handle = await p.evaluateHandle((t) => {
@@ -172,15 +238,19 @@ for (const route of ROUTES) {
     const el = handle.asElement();
     if (!el) { await handle.dispose(); continue; }
 
-    const opacity = () => el.evaluate((e) => {
-      let o = 1;
-      for (let a = e; a; a = a.parentElement) o *= parseFloat(getComputedStyle(a).opacity || '1');
-      return +o.toFixed(3);
-    });
+    /* ⚠️ PASS TWO MUST ASK THE SAME QUESTION PASS ONE ASKED.
+       It used to re-judge on inherited opacity alone: anything that had
+       settled at opacity >= 0.95 was dropped as a false positive. But text can
+       be unreadable at full opacity — 5% white on black is the very fault this
+       file was written for — so every colour-based finding was silently
+       discarded on its way out. The probe had never reported one, and the
+       self-test only exercised pass one, so nothing showed it. Pass two now
+       re-measures contrast through window.__ghost, exactly as pass one did. */
+    const contrast = () => el.evaluate((e) => window.__ghost.contrast(e));
 
     await el.evaluate((e) => e.scrollIntoView({ block: 'center' }));
-    await p.waitForTimeout(900);
-    if (await opacity() >= 0.95) { await handle.dispose(); continue; }
+    let c = await settleValue(p, contrast);
+    if (c === null || c >= FLOOR) { await handle.dispose(); continue; }
 
     /* ⚠️ HOVER-REVEALED TEXT IS NOT INVISIBLE TEXT, AND ANNOUNCING IT IS RIGHT.
        Several cards keep their description in an `absolute inset-0 opacity-0
@@ -195,13 +265,45 @@ for (const route of ROUTES) {
     if (group) {
       try {
         await group.hover({ timeout: 2000 });
-        await p.waitForTimeout(700);
-        if (await opacity() >= 0.5) { await handle.dispose(); continue; }
+        const hovered = await settleValue(p, contrast);
+        if (hovered !== null && hovered >= FLOOR) { await handle.dispose(); continue; }
+        c = hovered ?? c;
       } catch { /* not hoverable (offscreen, covered) — fall through and report */ }
     }
-    hits.push({ ...sus, opacity: await opacity() });
+    hits.push({ ...sus, contrast: c, opacity: await el.evaluate((e) => +window.__ghost.inheritedOpacity(e).toFixed(2)) });
     await handle.dispose();
   }
+  return hits;
+};
+
+const selfTest = await judge(await p.evaluate((f) => window.__ghost.scan(f), FLOOR));
+const missed = PLANTS.filter((plant) => !selfTest.some((x) => x.text.startsWith(plant.text.slice(0, 30))));
+if (missed.length) {
+  console.error(`SELF-TEST FAILED: the full sweep swallowed ${missed.length} planted fault(s) — this probe proves nothing.`);
+  missed.forEach((m) => console.error(`   never reported: "${m.text}"  [${m.css}]`));
+  await b.close();
+  process.exit(2);
+}
+console.log(`SELF-TEST: both planted faults (colour and opacity) survived the full sweep`);
+
+let total = 0;
+for (const route of ROUTES) {
+  await p.goto(BASE + route, { waitUntil: 'load' });
+  await p.evaluate(() => sessionStorage.setItem('raw_intro_seen', '1'));
+  await p.reload({ waitUntil: 'load' });
+  /* ⚠️ WAIT FOR THE PAGE TO EXIST BEFORE JUDGING IT. Rewriting the sweep once
+     deleted this line, and pass one then ran against an empty React root:
+     zero suspects on every route, reported as "no invisible text". A probe
+     that measures nothing agrees with a clean site, which is why this is the
+     third blind spot this one file has produced and the reason each is
+     written down rather than quietly patched. */
+  await settleDocument(p);
+  // Pass one: every run of text that currently measures invisible, anywhere.
+  const suspects = await p.evaluate((f) => window.__ghost.scan(f), FLOOR);
+  if (process.env.GHOST_DEBUG) console.log(`   [debug] ${route}: ${suspects.length} suspect(s): ${suspects.map((x) => JSON.stringify(x.text)).join(', ').slice(0, 300)}`);
+
+  // Pass two: bring each suspect to the screen, let its reveal run, look again.
+  const hits = await judge(suspects);
 
   if (hits.length) {
     console.log(`\n${route}  (${hits.length})`);
@@ -210,7 +312,12 @@ for (const route of ROUTES) {
   }
 }
 await b.close();
+/* ⚠️ THE SUMMARY STATES ITS OWN SCOPE, so that a clean result can be checked
+   rather than taken on trust. "No invisible text" says nothing useful without
+   the number of pages behind it: a sweep of three routes and a sweep of
+   seventy-eight print the identical sentence, and this file has already shipped
+   three different ways of measuring nothing and calling it clean. */
 console.log(total
-  ? `\n${total} run(s) of text are announced but invisible — make them legible, or aria-hidden them`
-  : `\nno invisible text is announced to assistive technology`);
+  ? `\n${total} run(s) of text are announced but invisible across ${ROUTES.length} route(s) — make them legible, or aria-hidden them`
+  : `\nno invisible text is announced to assistive technology, across ${ROUTES.length} route(s)`);
 process.exit(total ? 1 : 0);
