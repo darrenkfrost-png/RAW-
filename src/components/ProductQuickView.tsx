@@ -115,7 +115,7 @@ export default function ProductQuickView({ product, isOpen, onClose }: { product
                   }}
                   className="w-full bg-red-600 text-white py-6 rounded-[1.5rem] font-sans font-black uppercase tracking-[0.25em] text-[0.6875rem] hover:bg-editorial-text hover:text-editorial-bg transition-all duration-500 flex items-center justify-center gap-4 shadow-[0_20px_50px_rgba(220,38,38,0.3)] hover:shadow-[0_20px_50px_rgba(0,0,0,0.08)] border border-red-600 hover:border-white group"
                  >
-                   AUTHORIZE DEPLOYMENT
+                   ADD TO RESEARCH
                  </button>
                  <Link 
                    to={`/product/${product.id}`} 

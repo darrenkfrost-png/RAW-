@@ -21,6 +21,7 @@
     "linkcheck": "node scripts/linkcheck.mjs",
     "vitals": "node scripts/vitals.mjs",
     "namecheck": "node scripts/namecheck.mjs",
+    "ghosttext": "node scripts/ghosttext.mjs",
     "videoplay": "node scripts/videoplay.mjs",
     "videofit": "node scripts/videofit.mjs",
     "cutoff": "node scripts/cutoff.mjs",

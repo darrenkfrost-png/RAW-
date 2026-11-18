@@ -232,9 +232,15 @@ function ProductCardComponent({ product, idx, onQuickView }: ProductCardProps) {
                 setIsCartOpen(true);
               }}
               className="min-h-11 rounded-xl bg-red-600 py-3 font-mono text-[0.6875rem] font-black uppercase tracking-[0.2em] text-white transition-colors hover:bg-red-500"
-              aria-label={`Add ${product.name} to cart`}
+              aria-label={`Add ${product.name} to your research list`}
             >
-              Add to cart
+              {/* ⚠️ THIS BUTTON DOES NOT SELL ANYTHING, SO IT MUST NOT SAY IT
+                  DOES. Orders are taken by the real shop at rawofficial.co,
+                  through the Store button in the header. Everything here is a
+                  catalogue: adding a product gathers it for comparison, and
+                  calling that "Add to cart" promised a till that is not on
+                  this site. The founder asked for this in as many words. */}
+              Add to research
             </button>
           </div>
         </div>

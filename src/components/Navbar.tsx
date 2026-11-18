@@ -368,15 +368,24 @@ export default function Navbar() {
                   the end of a ten-link row it was off-screen at 1440, 1280,
                   1024 and 768, and not rendered at all on a phone: measured,
                   unreachable on everything but a 1920px monitor. */}
-              <Tooltip content="OFFICIAL STORE — opens rawofficial.co">
+              {/* ⚠️ THE ONLY CONTROL ON THIS SITE THAT CAN TAKE MONEY, SO IT
+                  IS THE ONLY ONE THAT PULSES. Everything else — the catalogue,
+                  the product pages, the research list — gathers and compares;
+                  the order is placed at rawofficial.co, which opens from here.
+                  The founder asked for this door to be unmistakable. The ring
+                  is slow (see @keyframes pulse-ring in index.css): a fast
+                  pulse on a buy button reads as pressure, and reduced-motion
+                  gets a steady ring rather than nothing, so the button keeps
+                  its emphasis either way. */}
+              <Tooltip content="OFFICIAL STORE — buy at rawofficial.co">
                 <MagneticWrapper>
                   <button
                     onClick={() => setIsShopIframeOpen(true)}
                     aria-label="Open the official RAW store"
-                    className="inline-flex items-center justify-center gap-2 min-h-11 rounded-full bg-red-600 px-3 sm:px-5 text-white transition-colors duration-300 hover:bg-red-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-400"
+                    className="inline-flex items-center justify-center gap-2 min-h-11 animate-[pulse-ring_3s_ease-out_infinite] rounded-full bg-red-600 px-3 sm:px-5 text-white transition-colors duration-300 hover:bg-red-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-400"
                   >
                     <Store className="h-4 w-4 shrink-0" />
-                    <span className="hidden font-mono text-[0.6875rem] font-black uppercase tracking-[0.2em] sm:inline">Store</span>
+                    <span className="hidden font-mono text-[0.6875rem] font-black uppercase tracking-[0.2em] sm:inline">Buy</span>
                   </button>
                 </MagneticWrapper>
               </Tooltip>
@@ -690,7 +699,8 @@ export default function Navbar() {
                   label: 'ACCOUNT_SYSTEM', 
                   subItems: [
                     { label: 'OPERATIVE PROFILE', to: '/account' },
-                    { label: 'SECURE CHECKOUT', to: '/checkout' },
+                    // The order is placed at rawofficial.co, not on this site.
+                    { label: 'BUY AT THE STORE', action: () => { setIsMobileMenuOpen(false); setIsShopIframeOpen(true); } },
                     { label: 'LOGISTICS NETWORK', to: '/logistics' },
                     { label: 'COMMS LINK', to: '/contact' },
                     { label: 'RENDER SETTINGS', action: () => { setIsMobileMenuOpen(false); setIsGlobalSettingsOpen(true); } },

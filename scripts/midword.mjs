@@ -44,6 +44,14 @@ const PROBE = () => {
     let op = 1; for (let a = el; a; a = a.parentElement) op *= parseFloat(getComputedStyle(a).opacity);
     if (op < 0.15) continue;
     if (/^(SCRIPT|STYLE|NOSCRIPT)$/.test(el.tagName)) continue;
+    /* ⚠️ break-all IS THE AUTHOR SAYING "BREAK ANYWHERE", so flagging it is
+       flagging a decision, not a defect. The front page's falling-character
+       texture is built out of mid-word breaks on purpose. Reporting it as a
+       fault every run is how a probe trains you to skim its output — and a
+       probe you skim is a probe that is not working. Anything hidden from
+       assistive technology is skipped for the same reason: it is not read. */
+    if (/break-all/.test(String(el.className)) || cs.wordBreak === 'break-all') continue;
+    if (el.closest('[aria-hidden="true"]')) continue;
 
     let prevTop = null;
     for (let i = 0; i < text.length; i++) {

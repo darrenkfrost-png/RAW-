@@ -3,7 +3,6 @@ import { motion, AnimatePresence } from 'motion/react';
 import { useProtocol } from '../context/ProtocolContext';
 import { Layers, X, Trash2, ArrowRight, Zap, Copy, Crosshair, AlertTriangle } from 'lucide-react';
 import { getHighResImageUrl } from '../lib/utils';
-import { useNavigate } from 'react-router-dom';
 import { useUI } from '../context/UIContext';
 import { useCart } from '../context/CartContext';
 import { useToast } from './common/Toast';
@@ -12,8 +11,7 @@ export default function ProtocolDrawer() {
   const { protocolItems, removeFromProtocol, clearProtocol } = useProtocol();
   const [isOpen, setIsOpen] = useState(false);
   const [showAnalysis, setShowAnalysis] = useState(false);
-  const navigate = useNavigate();
-  const { chromeHidden } = useUI();
+  const { chromeHidden, setIsShopIframeOpen } = useUI();
   const { addToast } = useToast();
   const { items: cartItems, addToCart, setIsCartOpen } = useCart();
   const closeButtonRef = useRef<HTMLButtonElement>(null);
@@ -77,13 +75,22 @@ export default function ProtocolDrawer() {
      putting each item in the cart first (once — never doubling a line that is
      already in it), then going to the checkout without popping the cart drawer
      open on the way. */
-  const handleSendToCheckout = () => {
+  /**
+   * ⚠️ A STACK IS A SHORTLIST, NOT AN ORDER. This gathered the stack and then
+   * sent the visitor to the in-app /checkout, whose payments are switched off
+   * — a dead end reached straight after the most committed action on the
+   * site. Orders are taken by the real shop at rawofficial.co, which opens in
+   * a panel here, so that is where the stack hands over to.
+   * The /checkout route and page are untouched; this simply no longer points
+   * at them.
+   */
+  const handleSendToStore = () => {
     protocolItems
       .filter(p => !cartItems.some(c => c.id === p.id))
       .forEach(p => addToCart(p, 1));
     setIsCartOpen(false);
     setIsOpen(false);
-    navigate('/checkout');
+    setIsShopIframeOpen(true);
   };
 
   return (
@@ -274,12 +281,12 @@ export default function ProtocolDrawer() {
               
               <div className="flex gap-4">
                 <button 
-                  onClick={handleSendToCheckout}
+                  onClick={handleSendToStore}
                   disabled={protocolItems.length === 0}
                   aria-disabled={protocolItems.length === 0}
-                  className="w-full bg-red-600 border-b-[3px] border-red-800 hover:border-white text-white hover:bg-editorial-text hover:text-editorial-bg rounded-2xl font-black uppercase tracking-[0.4em] text-[0.6875rem] px-6 py-5 transition-all duration-[600ms] flex items-center justify-center gap-3 relative overflow-hidden group shadow-[0_15px_30px_rgba(220,38,38,0.3)] hover:shadow-[0_20px_50px_rgba(0,0,0,0.08)] transform-gpu active:translate-y-1 active:border-b-0 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-red-600 disabled:hover:text-white"
+                  className="w-full animate-[pulse-ring_3s_ease-out_infinite] bg-red-600 border-b-[3px] border-red-800 hover:border-white text-white hover:bg-editorial-text hover:text-editorial-bg rounded-2xl font-black uppercase tracking-[0.4em] text-[0.6875rem] px-6 py-5 transition-all duration-[600ms] flex items-center justify-center gap-3 relative overflow-hidden group shadow-[0_15px_30px_rgba(220,38,38,0.3)] hover:shadow-[0_20px_50px_rgba(0,0,0,0.08)] transform-gpu active:translate-y-1 active:border-b-0 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-red-600 disabled:hover:text-white"
                 >
-                  <span className="relative z-10 transition-colors">Send Stack to Checkout</span>
+                  <span className="relative z-10 transition-colors">Buy this stack at the store</span>
                   <ArrowRight className="w-4 h-4 relative z-10 group-hover:translate-x-2 transition-transform duration-[600ms]" />
                   <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:animate-[shimmer_1.5s_infinite]" />
                 </button>

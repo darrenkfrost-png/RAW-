@@ -237,7 +237,11 @@ export default function Home() {
       {/* Categories Sections - Styled for Editorial */}
       <section className="py-32 xl:py-64 border-y border-editorial-border bg-editorial-bg relative overflow-hidden">
         <Atmosphere glowOpacity={0.02} glowColor="rgba(244, 44, 75, 1)" gridMode="lines" />
-        <div className="absolute top-0 right-0 py-20 px-10 opacity-[0.02] pointer-events-none mix-blend-screen">
+        {/* ⚠️ THE THIRD WATERMARK OF THE SAME FAMILY (see Combat's INTENSITY
+            and the timeline's H.RITAGE). 2% opacity is 1.03:1 — a texture, not
+            a word. Announced to a screen reader it read as a heading on the
+            front page. scripts/ghosttext.mjs finds these now. */}
+        <div aria-hidden="true" className="absolute top-0 right-0 py-20 px-10 opacity-[0.02] pointer-events-none mix-blend-screen">
            <span className="font-sans font-black text-[clamp(3rem,18vw,30rem)] leading-[0.8] uppercase select-none">PROTOCOLS</span>
         </div>
         <div className="section-container relative z-10">

@@ -45,6 +45,7 @@ export default function LazyVideo({
   onEnded,
   onPlaying,
   aboveGate = false,
+  muted = true,
 }: {
   src: string;
   poster?: string;
@@ -56,6 +57,19 @@ export default function LazyVideo({
   decorative?: boolean;
   /** Player controls, for a film the visitor chose to watch. Off by default. */
   controls?: boolean;
+  /**
+   * ⚠️ SILENT BY DEFAULT, AND THAT DEFAULT IS LOAD-BEARING.
+   *
+   * Nearly every film on this site is texture behind a headline — a page that
+   * starts talking at you on arrival is intolerable, and a browser blocks
+   * unprompted sound anyway, which would stop those films playing at all.
+   *
+   * But `muted` was hard-coded here, so NOTHING on the site could have sound,
+   * and the film library shipped silent films with a volume slider on them.
+   * Pass muted={false} where the visitor pressed play themselves — that is a
+   * user gesture, so the browser allows it.
+   */
+  muted?: boolean;
   /** Fired when a non-looping film reaches its end — used to hand over to the next one. */
   onEnded?: () => void;
   /** Fired on the first frame actually painted. Beats timed from mount drift
@@ -185,7 +199,7 @@ export default function LazyVideo({
          attached, because dropping it would throw away where they were up to. */
       src={live ? src : undefined}
       poster={poster}
-      muted
+      muted={muted}
       loop={loop}
       playsInline
       preload="none"

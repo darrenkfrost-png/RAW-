@@ -1,6 +1,7 @@
 import { motion, AnimatePresence } from "motion/react";
 import { X, Plus, Minus, Trash2, ShoppingBag, ArrowRight } from "lucide-react";
 import { useCart } from "../context/CartContext";
+import { useUI } from "../context/UIContext";
 import { Link } from "react-router-dom";
 import { allProducts } from "../data/products";
 import LazyImage from "./LazyImage";
@@ -11,6 +12,7 @@ const SUGGESTION_COUNT = 3;
 
 export default function CartDrawer() {
   const { items, isCartOpen, setIsCartOpen, removeFromCart, updateQuantity, cartTotal } = useCart();
+  const { setIsShopIframeOpen } = useUI();
   const closeButtonRef = useRef<HTMLButtonElement>(null);
 
   // The pairing shelf is built from the basket lines' own protocolPairings
@@ -102,7 +104,7 @@ export default function CartDrawer() {
                       <div className="w-2 h-6 bg-red-600 shrink-0" />
                       <h2 className="font-sans font-black text-3xl sm:text-4xl xl:text-5xl tracking-tighter uppercase leading-none text-premium">Registry</h2>
                    </div>
-                  <span className="text-meta-premium">YOUR_ORDER</span>
+                  <span className="text-meta-premium">YOUR_RESEARCH</span>
                 </div>
               </div>
               <MagneticWrapper>
@@ -138,7 +140,7 @@ export default function CartDrawer() {
                            <ShoppingBag className="absolute inset-0 m-auto w-12 h-12 text-zinc-800" />
                         </div>
                         <span className="text-meta-premium !text-red-600/40 animate-pulse mb-6 block">NO_DATA_DETECTED</span>
-                        <p className="text-meta-premium opacity-60 leading-relaxed px-12">Your registry is currently empty. <br /> Initialize procurement to begin.</p>
+                        <p className="text-meta-premium opacity-60 leading-relaxed px-12">Nothing gathered yet. <br /> Add products here to compare them, then buy at the official store.</p>
                       </motion.div>
                     ) : (
                       items.map((item, idx) => (
@@ -259,7 +261,7 @@ export default function CartDrawer() {
                   
                   <div className="flex justify-between items-center gap-4 flex-wrap relative z-10">
                     <div className="space-y-4">
-                       <span className="text-meta-premium !text-red-600 block !text-sm">TOTAL_CUMULATIVE_VAL</span>
+                       <span className="text-meta-premium !text-red-600 block !text-sm">RESEARCH_TOTAL // INDICATIVE</span>
                     </div>
                     <motion.div 
                       key={cartTotal}
@@ -272,28 +274,33 @@ export default function CartDrawer() {
                     </motion.div>
                   </div>
                   
-                  <Link 
-                    to="/checkout" 
-                    onClick={() => setIsCartOpen(false)} 
-                    className="button-premium w-full py-8 text-[0.75rem] group relative overflow-hidden"
+                  {/* ⚠️ THE TILL IS NOT ON THIS SITE, SO THIS BUTTON MUST NOT
+                      PRETEND TO BE ONE. This drawer gathers products for
+                      comparison; orders are taken by the real shop at
+                      rawofficial.co, which opens in a panel here. It used to
+                      lead to an in-app /checkout whose payments are switched
+                      off — a visitor who followed it reached a dead end after
+                      choosing what they wanted, which is the worst possible
+                      place to lose someone. The founder asked for exactly
+                      this: the list is for review, the purchase happens
+                      through the store.
+                      The route and page still exist and are untouched; they
+                      are simply no longer where this button sends people. */}
+                  <button
+                    type="button"
+                    onClick={() => { setIsCartOpen(false); setIsShopIframeOpen(true); }}
+                    className="button-premium w-full py-8 text-[0.75rem] group relative overflow-hidden animate-[pulse-ring_2.6s_ease-out_infinite]"
                   >
-                     {/* ⚠️ THIS BUTTON SAID ONLY "Initialize_Execution_Protocol".
-                         The brand's tactical language is right everywhere else,
-                         but this is the single most important control on the
-                         site and nobody arriving from an Instagram post reads
-                         that as "pay for these". The plain word leads and the
-                         brand voice follows underneath — the till should never
-                         need decoding. */}
                      <span className="relative z-20 flex flex-col items-center justify-center gap-1">
                         <span className="flex items-center gap-4">
-                          Checkout <ArrowRight className="w-6 h-6 group-hover:translate-x-3 transition-transform duration-1000" />
+                          Buy at the official store <ArrowRight className="w-6 h-6 group-hover:translate-x-3 transition-transform duration-1000" />
                         </span>
                         <span className="font-mono text-[0.6875rem] uppercase tracking-[0.35em] opacity-45">
-                          Initialize_Execution_Protocol
+                          Opens rawofficial.co
                         </span>
                      </span>
                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-[150%] skew-x-[-25deg] group-hover:animate-[shimmer_2s_infinite] pointer-events-none" />
-                  </Link>
+                  </button>
 
                   <div className="flex justify-center gap-8 opacity-50 mix-blend-screen hover:opacity-100 transition-all duration-700 pt-2">
                      <img src="/media/wp/2025/03/payment.webp" alt="Accepted payment methods" className="h-6 drop-shadow-sm grayscale hover:grayscale-0 transition-all duration-500" />

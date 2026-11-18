@@ -26,7 +26,13 @@ export default function Footer() {
   return (
     <footer className="border-t border-white/[0.05] bg-editorial-bg shadow-sm relative z-30 pt-48 overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-b from-editorial-bg/10 to-transparent pointer-events-none mix-blend-screen" />
-      <div className="max-w-[var(--content-max-width)] mx-auto px-[var(--shell-padding-mobile)] md:px-[var(--shell-padding)] lg:px-[var(--shell-padding-lg)] py-24 grid grid-cols-1 md:grid-cols-4 gap-16 md:gap-12 relative z-10">
+      {/* ⚠️ FOUR COLUMNS DID NOT FIT AT TABLET, AND THE TEXT PAID FOR IT.
+          At 768px md:grid-cols-4 left each link column 85px wide — narrower
+          than the word "Performance" needs (93px, measured), so the browser
+          broke it mid-word: "Performan|ce". The word was never the problem;
+          an 85px column of prose is. Two columns there, four only once there
+          is room for them. scripts/midword.mjs measures this at four widths. */}
+      <div className="max-w-[var(--content-max-width)] mx-auto px-[var(--shell-padding-mobile)] md:px-[var(--shell-padding)] lg:px-[var(--shell-padding-lg)] py-24 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 md:gap-12 relative z-10">
         <div className="absolute top-0 right-10 w-[800px] h-[800px] bg-red-600/[0.03] blur-[250px] pointer-events-none rounded-full mix-blend-screen" />
         <div className="absolute bottom-0 left-10 w-[1000px] h-[1000px] bg-editorial-surface/[0.05] blur-[250px] pointer-events-none rounded-full" />
 

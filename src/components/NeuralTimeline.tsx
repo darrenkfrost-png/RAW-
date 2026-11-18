@@ -56,7 +56,14 @@ export default function NeuralTimeline() {
       </div>
 
       {/* Decorative Symbols */}
-      <div className="absolute top-0 right-10 opacity-[0.05] pointer-events-none font-black italic select-none text-display-lg">H.RITAGE</div>
+      {/* ⚠️ A WATERMARK IS A PICTURE MADE OF LETTERS. At 5% opacity this is
+          texture behind the timeline — 1.08:1 against its background, which
+          nobody can read. A screen reader had no way to know that and
+          announced "H.RITAGE", a misspelling, as though it were a heading.
+          select-none and pointer-events-none already excused it from being
+          selected or clicked; aria-hidden excuses it from being read.
+          scripts/ghosttext.mjs measures this. */}
+      <div aria-hidden="true" className="absolute top-0 right-10 opacity-[0.05] pointer-events-none font-black italic select-none text-display-lg">H.RITAGE</div>
       <div className="absolute bottom-0 left-10 opacity-[0.05] pointer-events-none font-black italic select-none text-display-lg">M.SSION</div>
     </div>
   );

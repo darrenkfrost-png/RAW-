@@ -33,7 +33,8 @@ export function CommandProvider({ children }: { children: ReactNode }) {
     setIsWallpaperSettingsOpen,
     setIsGlobalSettingsOpen,
     isSidebarCollapsed,
-    setIsSidebarCollapsed
+    setIsSidebarCollapsed,
+    setIsShopIframeOpen
   } = useUI();
   const { setIsCartOpen } = useCart();
   const { addToast } = useToast();
@@ -111,10 +112,10 @@ export function CommandProvider({ children }: { children: ReactNode }) {
       handler: () => setIsCartOpen(false)
     },
     {
-      id: "navigate_checkout",
-      label: "Go to Checkout",
-      category: "Navigation",
-      handler: () => navigate("/checkout")
+      id: "open_store",
+      label: "Buy at the official store",
+      category: "Shopping",
+      handler: () => setIsShopIframeOpen(true)
     },
     {
       id: "toggle_sidebar",

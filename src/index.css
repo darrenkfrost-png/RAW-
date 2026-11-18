@@ -776,3 +776,38 @@ body.motion-enhanced .group:hover {
   from { transform: translateX(0); }
   to { transform: translateX(-50%); }
 }
+
+/* ─────────────────────────────────────────────────────────────────────────
+   THE BUY SIGNAL — a slow ring that breathes out of the one control that
+   takes money.
+
+   ⚠️ NOTHING ON THIS SITE CAN TAKE A PAYMENT. The catalogue, the product
+   pages and the research list are all for choosing; the order is placed at
+   rawofficial.co, which opens from the Store button in the header. The
+   founder asked for that door to be unmistakable, so it pulses: a ring that
+   grows and fades out of the button roughly every three seconds.
+
+   ⚠️ AN ANIMATION NAME WITH NO @keyframes SITS PERFECTLY STILL AND REPORTS
+   NO ERROR. That already happened once in this file — see the marquee above,
+   which was declared on the home page and never moved. Declared here, next
+   to the only two places that use it.
+
+   Slow on purpose: three seconds, not a blink. A fast pulse on a commercial
+   button reads as pressure, and at speed it approaches the flicker range
+   that this codebase has deliberately removed elsewhere. */
+@keyframes pulse-ring {
+  0%   { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.55); }
+  70%  { box-shadow: 0 0 0 14px rgba(220, 38, 38, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0); }
+}
+
+/* ⚠️ A PULSE IS MOTION, AND SOME PEOPLE HAVE ASKED FOR NONE. The button must
+   still read as the important one, so it keeps a steady ring instead of
+   losing its emphasis entirely. */
+@media (prefers-reduced-motion: reduce) {
+  .animate-\[pulse-ring_2\.6s_ease-out_infinite\],
+  .animate-\[pulse-ring_3s_ease-out_infinite\] {
+    animation: none !important;
+    box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.35) !important;
+  }
+}

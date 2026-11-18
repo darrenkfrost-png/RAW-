@@ -7,7 +7,17 @@ interface CascadingBackgroundProps {
 
 export const CascadingBackground: React.FC<CascadingBackgroundProps> = ({ text }) => {
   return (
-    <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none mix-blend-overlay [mask-image:linear-gradient(to_bottom,transparent,black_10%,black_90%,transparent)]">
+    /* ⚠️ DECORATION THAT TALKS. This is a texture — 5% opacity, behind the
+       front page, deliberately broken mid-word by break-all so it reads as
+       falling characters rather than words. To a screen reader it was none of
+       those things: it was 514 characters of real text, "RAW_..." forty times
+       over, announced on arrival before anything that means something.
+       pointer-events-none already told a mouse to ignore it; aria-hidden is
+       the same instruction to everyone else. */
+    <div
+      aria-hidden="true"
+      className="absolute inset-0 z-0 overflow-hidden pointer-events-none mix-blend-overlay [mask-image:linear-gradient(to_bottom,transparent,black_10%,black_90%,transparent)]"
+    >
       <motion.div
         animate={{ y: ['-50%', '0%'] }}
         transition={{ duration: 40, repeat: Infinity, ease: 'linear' }}

@@ -657,7 +657,7 @@ export default function ProductDetail() {
                     className="w-full xl:w-auto xl:flex-1 h-[100px] bg-red-600 border-b-[6px] border-red-900 hover:border-white text-white font-black uppercase tracking-[0.4em] text-[0.875rem] hover:bg-editorial-text hover:text-editorial-bg transition-all duration-[800ms] ease-[0.16,1,0.3,1] outline-none relative overflow-hidden group rounded-[2.5rem] shadow-[0_40px_100px_rgba(220,38,38,0.4)] hover:shadow-glow-intense whitespace-nowrap px-6 md:px-14 flex items-center justify-center transform-gpu active:border-b-0 active:translate-y-[6px]"
                   >
                     <span className="relative z-10 transition-colors drop-shadow-[0_4px_8px_rgba(0,0,0,0.4)] group-hover:drop-shadow-none flex items-center gap-6">
-                       PROCURE_PROTOCOL <ArrowRight className="w-6 h-6 opacity-0 -ml-6 group-hover:opacity-100 group-hover:ml-0 transition-all duration-[800ms]" />
+                       ADD TO RESEARCH <ArrowRight className="w-6 h-6 opacity-0 -ml-6 group-hover:opacity-100 group-hover:ml-0 transition-all duration-[800ms]" />
                     </span>
                     <div className="absolute inset-x-0 bottom-0 h-1 bg-editorial-text/20 group-hover:bg-editorial-bg/10" />
                     <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:animate-[shimmer_2s_infinite]" />
@@ -1229,7 +1229,7 @@ export default function ProductDetail() {
                      }}
                      className="bg-red-600 text-white font-black uppercase tracking-[0.4em] text-[0.6875rem] px-12 py-6 rounded-[1.5rem] hover:bg-editorial-text hover:text-editorial-bg transition-all duration-700 shadow-glow group whitespace-nowrap"
                    >
-                     EXECUTE_ORDER <ArrowRight className="w-4 h-4 inline ml-3 group-hover:translate-x-2 transition-transform" />
+                     ADD TO RESEARCH <ArrowRight className="w-4 h-4 inline ml-3 group-hover:translate-x-2 transition-transform" />
                    </button>
                 </div>
               </div>

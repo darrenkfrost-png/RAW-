@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { motion } from "motion/react";
 import { Play, Clock, Maximize2, AlertTriangle } from "lucide-react";
 import LazyVideo from "../components/common/LazyVideo";
@@ -51,9 +51,36 @@ const shelfLayout = (shape: string, count: number) => {
   return "grid gap-10 md:grid-cols-2";
 };
 
-function FilmCard({ film }: { film: VideoAsset }) {
-  const [playing, setPlaying] = useState(false);
+function FilmCard({
+  film,
+  playing,
+  onPlay,
+}: {
+  film: VideoAsset;
+  playing: boolean;
+  onPlay: () => void;
+}) {
   const shape = orientationOf(film);
+
+  /**
+   * ⚠️ PRESSING PLAY DESTROYED THE THING THAT WAS FOCUSED.
+   *
+   * The poster is a <button>; starting a film unmounts it and mounts a
+   * <video> in its place. For anyone driving the page from the keyboard that
+   * meant focus fell back to the top of the document mid-action: the film was
+   * running, and the controls for it — pause, seek, volume — were now a full
+   * tab-cycle away, with no indication anything had happened.
+   *
+   * The player it replaced the button with is focusable (it has controls), so
+   * focus is handed to it. The next Tab continues from the film, and space
+   * pauses the thing that just started.
+   */
+  const frame = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (!playing) return;
+    const video = frame.current?.querySelector("video");
+    if (video) video.focus({ preventScroll: true });
+  }, [playing]);
 
   return (
     <motion.figure
@@ -64,6 +91,7 @@ function FilmCard({ film }: { film: VideoAsset }) {
       className="group min-w-0"
     >
       <div
+        ref={frame}
         /* ⚠️ The shape comes from the film, never from a utility class. */
         style={{ aspectRatio: aspectOf(film) }}
         className="relative w-full overflow-hidden rounded-[2rem] border border-editorial-border bg-editorial-bg shadow-[0_30px_80px_rgba(0,0,0,0.12)] transition-all duration-700 group-hover:border-red-500/30"
@@ -73,6 +101,12 @@ function FilmCard({ film }: { film: VideoAsset }) {
             src={film.src1080 || film.src}
             poster={film.poster}
             controls
+            /* ⚠️ SOUND ON, BECAUSE THE VISITOR PRESSED PLAY. Everywhere else on
+               this site a film is texture behind a headline and must be silent.
+               Here it is the thing itself — and the press is a user gesture, so
+               the browser allows audio. Shipping a library of silent films with
+               a volume slider on them is worse than shipping no library. */
+            muted={false}
             narrow="play"
             /* object-contain, not cover: the box is already the film's own
                shape, so there is nothing to crop — but if a film is ever
@@ -83,7 +117,7 @@ function FilmCard({ film }: { film: VideoAsset }) {
         ) : (
           <button
             type="button"
-            onClick={() => setPlaying(true)}
+            onClick={onPlay}
             aria-label={`Play ${film.label} — ${runtime(film.durationMs)}`}
             className="absolute inset-0 flex items-center justify-center focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500"
           >
@@ -138,6 +172,17 @@ function FilmCard({ film }: { film: VideoAsset }) {
 }
 
 export default function Films() {
+  /**
+   * ⚠️ ONE FILM AT A TIME, AND THIS IS WHY IT HAS TO LIVE UP HERE.
+   *
+   * While every film was silent it did not matter that pressing four posters
+   * started four films. With sound it matters immediately: four soundtracks
+   * at once, and no way to tell which control belongs to which. Holding the
+   * playing id on the page rather than a flag inside each card means starting
+   * one film is the same act as stopping the others.
+   */
+  const [playingId, setPlayingId] = useState<string | null>(null);
+
   return (
     <div className="mx-auto min-h-svh max-w-[var(--content-max-width)] px-[var(--shell-padding-mobile)] pb-32 pt-32 md:px-[var(--shell-padding)] lg:px-[var(--shell-padding-lg)]">
       <header className="fits-its-column mb-24 max-w-4xl">
@@ -194,7 +239,12 @@ export default function Films() {
 
               <div className={shelfLayout(shape, films.length)}>
                 {films.map((f) => (
-                  <FilmCard key={f.id} film={f} />
+                  <FilmCard
+                    key={f.id}
+                    film={f}
+                    playing={playingId === f.id}
+                    onPlay={() => setPlayingId(f.id)}
+                  />
                 ))}
               </div>
             </section>

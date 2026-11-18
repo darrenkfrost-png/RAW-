@@ -183,7 +183,13 @@ export default function Combat() {  const products = allProducts.filter(p => p.
 
       {/* Intensity Feed - Embedded Video */}
       <section className="py-40 xl:py-64 bg-editorial-bg relative overflow-hidden">
-        <div className="absolute top-0 right-0 p-10 opacity-[0.03] pointer-events-none mix-blend-screen">
+        {/* ⚠️ A WATERMARK IS A PICTURE MADE OF LETTERS. 3% opacity is 1.05:1
+            against the background — texture, not a word anyone can read. A
+            screen reader had no way to know and announced "INTENSITY" as
+            though it led the section. pointer-events-none and select-none
+            already excused it from the mouse; aria-hidden does the same for
+            everyone else. Measured by scripts/ghosttext.mjs. */}
+        <div aria-hidden="true" className="absolute top-0 right-0 p-10 opacity-[0.03] pointer-events-none mix-blend-screen">
            <span className="font-sans font-black text-[clamp(3rem,25vw,30rem)] leading-none uppercase select-none drop-shadow-[0_0_100px_rgba(255,255,255,1)]">INTENSITY</span>
         </div>
         <div className="max-w-[var(--content-max-width)] mx-auto px-[var(--shell-padding-mobile)] md:px-[var(--shell-padding)] lg:px-[var(--shell-padding-lg)] relative z-10">

@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, CheckCircle, ShieldCheck } from "lucide-react";
 import { PAYMENTS_ENABLED } from "../lib/site";
+import { useUI } from "../context/UIContext";
 
 /**
  * ⚠️ THE ONE SWITCH THAT MAKES THIS SHOP REAL.
@@ -16,6 +17,7 @@ import { PAYMENTS_ENABLED } from "../lib/site";
 
 export default function Checkout() {
   const { items, cartTotal, removeFromCart } = useCart();
+  const { setIsShopIframeOpen } = useUI();
   const [isProcessing, setIsProcessing] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [notLive, setNotLive] = useState(false);
@@ -133,15 +135,27 @@ export default function Checkout() {
         <div>
           {!PAYMENTS_ENABLED && (
             <div className="mb-10 rounded-2xl border border-amber-500/40 bg-amber-500/[0.07] p-6">
+              {/* ⚠️ "NOT OPEN YET" WAS TRUE AND IS NOW WRONG. Ordering IS
+                  open — at rawofficial.co, which takes real orders today.
+                  What is shut is this form. Telling a visitor who has picked
+                  their products that they cannot buy, when they can, is the
+                  most expensive sentence on the site. */}
               <p className="font-mono text-[0.6875rem] font-black uppercase tracking-[0.3em] text-amber-400">
-                Ordering is not open yet
+                Orders are placed at the official store
               </p>
               <p className="mt-3 text-sm leading-relaxed text-editorial-text-muted">
-                This checkout is not connected to a payment provider, so no order
-                can be placed and no card is taken. The form is disabled for
-                that reason — please don&rsquo;t enter card details anywhere on
-                this page. Your basket is kept as it is.
+                This page is not connected to a payment provider, so no order can
+                be placed and no card is taken here — the form is disabled for
+                that reason, and you should not enter card details on it. Your
+                research list is kept exactly as it is.
               </p>
+              <button
+                type="button"
+                onClick={() => setIsShopIframeOpen(true)}
+                className="mt-6 inline-flex animate-[pulse-ring_3s_ease-out_infinite] items-center gap-3 rounded-full bg-red-600 px-7 py-4 font-mono text-[0.6875rem] font-black uppercase tracking-[0.25em] text-white transition-colors hover:bg-red-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-400"
+              >
+                Buy at the official store <ArrowRight className="h-4 w-4" />
+              </button>
             </div>
           )}
 
