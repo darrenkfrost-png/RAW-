@@ -41,6 +41,8 @@ export default function CinemaFilm({
   narrow = "poster",
   loop = true,
   onEnded,
+  onPlaying,
+  aboveGate = false,
   className = "absolute inset-0 z-0 overflow-hidden pointer-events-none",
   stageChildren,
   children,
@@ -55,6 +57,9 @@ export default function CinemaFilm({
   /** Off when the caller wants to move on to the next film instead of repeating. */
   loop?: boolean;
   onEnded?: () => void;
+  onPlaying?: () => void;
+  /** True only for the intro's own film; see LazyVideo. */
+  aboveGate?: boolean;
   className?: string;
   /** Painted inside the film's own frame — edge fades that belong to the band. */
   stageChildren?: React.ReactNode;
@@ -139,7 +144,7 @@ export default function CinemaFilm({
 
       {/* The screen itself. */}
       <div className={stage}>
-        <LazyVideo src={src} poster={poster} share={setVideo} narrow={narrow} loop={loop} onEnded={onEnded} className={bandClassName} />
+        <LazyVideo src={src} poster={poster} share={setVideo} narrow={narrow} loop={loop} onEnded={onEnded} onPlaying={onPlaying} aboveGate={aboveGate} className={bandClassName} />
         {stageChildren}
       </div>
 

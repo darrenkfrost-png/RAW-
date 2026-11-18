@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useSettings } from "../context/SettingsContext";
+import { useUI } from "../context/UIContext";
 import { videoById, nextVideo, ambientVideos } from "../data/videoLibrary";
 
 /**
@@ -26,6 +27,7 @@ import { videoById, nextVideo, ambientVideos } from "../data/videoLibrary";
  */
 export default function VideoWallpaper() {
   const { settings } = useSettings();
+  const { hasCompletedIntro } = useUI();
   const ref = useRef<HTMLVideoElement>(null);
 
   /* ⚠️ THE ROTATION NOW DRAWS FROM THE WHOLE LIBRARY.
@@ -96,7 +98,10 @@ export default function VideoWallpaper() {
   }, [enabled, still, asset.src]);
 
   // Nothing at all until the film is settled: painting one to replace it costs a download.
-  if (!enabled || !chosen) return null;
+  /* ⚠️ AND NOTHING BEHIND THE INTRO GATE. This is a raw <video autoPlay>, so
+     while the door was shut it still fetched its whole reel for frames nobody
+     could see — 2.3MB of the 12.2MB a first visit was wasting. */
+  if (!enabled || !chosen || !hasCompletedIntro) return null;
 
   return (
     <div

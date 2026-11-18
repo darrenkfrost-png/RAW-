@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
+import { useUI } from "../../context/UIContext";
 
 /**
  * A BACKGROUND FILM THAT COSTS WHAT IT IS WORTH.
@@ -42,6 +43,8 @@ export default function LazyVideo({
   controls = false,
   share,
   onEnded,
+  onPlaying,
+  aboveGate = false,
 }: {
   src: string;
   poster?: string;
@@ -55,6 +58,15 @@ export default function LazyVideo({
   controls?: boolean;
   /** Fired when a non-looping film reaches its end — used to hand over to the next one. */
   onEnded?: () => void;
+  /** Fired on the first frame actually painted. Beats timed from mount drift
+      away from the picture whenever the film is slow to arrive; timed from
+      here they land on the shot they were written for. */
+  onPlaying?: () => void;
+  /**
+   * ⚠️ TRUE ONLY FOR A FILM THAT IS ITSELF THE INTRO. Everything else waits
+   * for the gate: see the attach rule below.
+   */
+  aboveGate?: boolean;
   /**
    * Hands the mounted <video> to the parent. For effects that need the frames
    * that are already being downloaded — the hero's mirrored blur paints itself
@@ -62,6 +74,16 @@ export default function LazyVideo({
    */
   share?: (el: HTMLVideoElement | null) => void;
 }) {
+  /* ⚠️ "ON SCREEN" IS NOT THE SAME AS "VISIBLE", AND THE DIFFERENCE COST 12MB.
+     An IntersectionObserver reports a film in view whenever the page has laid
+     it out — it knows nothing about a full-screen gate painted over the top.
+     So while the intro played, the home page behind it fetched its hero reel
+     and its wallpaper in full: measured on a first visit, 16.3MB in ten
+     seconds, of which 12.2MB was film for frames nobody could see. Waiting for
+     the door costs those visitors nothing, because they were not being shown
+     any of it. */
+  const { hasCompletedIntro } = useUI();
+  const gateOpen = aboveGate || hasCompletedIntro;
   const ref = useRef<HTMLVideoElement>(null);
   const [attach, setAttach] = useState(false);
   const [everAttached, setEverAttached] = useState(false);
@@ -102,6 +124,9 @@ export default function LazyVideo({
       if (saveData || reduced || narrowScreen) return; // poster only, and that is correct
     }
 
+    /* Nothing is visible behind the gate, so nothing behind it is "in view". */
+    if (!gateOpen) return;
+
     const io = new IntersectionObserver(
       ([entry]) => setAttach(entry.isIntersecting && !document.hidden),
       { rootMargin: "300px" },
@@ -117,7 +142,7 @@ export default function LazyVideo({
       io.disconnect();
       document.removeEventListener("visibilitychange", onVisibility);
     };
-  }, [narrow]);
+  }, [narrow, gateOpen]);
 
   /* Content keeps its src once attached, so a scroll past does not throw away
      where they were up to. Decoration is dropped again the moment it leaves. */
@@ -165,6 +190,7 @@ export default function LazyVideo({
       playsInline
       preload="none"
       onEnded={onEnded}
+      onPlaying={onPlaying}
       controls={controls || undefined}
       aria-hidden={decorative || undefined}
       /* ⚠️ SPREAD, NOT AN ATTRIBUTE. React's VideoHTMLAttributes has no

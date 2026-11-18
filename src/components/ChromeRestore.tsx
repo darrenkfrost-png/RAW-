@@ -35,7 +35,7 @@ const LABELS: Record<ChromePart, { label: string; icon: typeof PanelTop }> = {
 };
 
 export default function ChromeRestore() {
-  const { chromeHidden, toggleChrome, restoreChrome, enterFocusMode } = useUI();
+  const { chromeHidden, toggleChrome, restoreChrome, enterFocusMode, hasCompletedIntro } = useUI();
   const [open, setOpen] = useState(false);
   const root = useRef<HTMLDivElement>(null);
 
@@ -54,7 +54,12 @@ export default function ChromeRestore() {
 
   // The dock only exists once something is hidden; otherwise it would be one
   // more permanent floating thing on a screen this feature exists to clear.
-  if (!anythingHidden) return null;
+  /* ⚠️ AND NOT OVER THE DOOR. This dock sits at z-1150 so it stays reachable
+     when every other panel is hidden — which also put it ON TOP of the intro
+     gate at z-1100, where the mark and its badge floated over the opening
+     film. Nothing is hidden during the gate anyway, so there is nothing for it
+     to restore: it waits until the visitor is inside. */
+  if (!anythingHidden || !hasCompletedIntro) return null;
 
   return (
     <div
