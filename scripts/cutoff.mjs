@@ -50,7 +50,9 @@ const PROBE = () => {
   };
   const out = [];
   const CONTENT = 'p, h1, h2, h3, h4, h5, h6, li, a, button, img, input, select, textarea, label, span, video';
-  for (const el of document.querySelectorAll('main ' + CONTENT.split(', ').join(', main '))) {
+  const scopes = ['main', 'header', 'nav', 'footer'];
+  const sel = scopes.flatMap((sc) => CONTENT.split(', ').map((c) => sc + ' ' + c)).join(', ');
+  for (const el of document.querySelectorAll(sel)) {
     const r = el.getBoundingClientRect();
     if (r.width < 4 || r.height < 4) continue;
     if (r.bottom < -2000) continue;
@@ -77,7 +79,7 @@ const PROBE = () => {
     }
     // report only the outermost cut element in a branch
     let parentCut = false;
-    for (let a = el.parentElement; a && a.tagName !== 'MAIN'; a = a.parentElement) {
+    for (let a = el.parentElement; a && !/^(MAIN|HEADER|NAV|FOOTER|BODY)$/.test(a.tagName); a = a.parentElement) {
       if (a.matches && a.matches(CONTENT)) { const ar = a.getBoundingClientRect(); if (ar.right > clipRight(a) + 2 && !isDecor(a)) { parentCut = true; break; } }
     }
     if (parentCut) continue;

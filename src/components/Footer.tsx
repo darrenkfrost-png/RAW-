@@ -7,7 +7,14 @@ import {
 import { Link } from "react-router-dom";
 import { motion } from "motion/react";
 import MagneticWrapper from "./MagneticWrapper";
+import { machineText } from "../lib/machineText";
 
+/* ⚠️ w-fit WITHOUT max-w-full CANNOT WRAP, SO IT CANNOT BE CUT SHORTER.
+   width: fit-content sizes to max-content, which means the browser ignores
+   every break opportunity in the text — the <wbr> machineText() inserts after
+   each underscore did nothing, and "Everyday_Performance" ran 63px past its
+   column on EVERY page at 768px. w-fit is wanted (the hover underline should
+   only span the words), so it is capped rather than removed. */
 export default function Footer() {
   const socialLinks = [
     { icon: Instagram, name: "Instagram", href: "https://www.instagram.com/rawofficial_co" },
@@ -50,25 +57,25 @@ export default function Footer() {
         <div className="col-span-1 lg:col-start-3 relative z-10 pt-4 px-2">
            <h4 className="text-meta-premium mb-8 pb-4 border-b border-white/[0.05] opacity-60">Company</h4>
            <nav aria-label="Company links" className="flex flex-col gap-6">
-              <Link to="/manifesto" className="link-premium w-fit font-mono text-[0.6875rem] uppercase tracking-[0.25em] px-1 font-bold text-editorial-text-muted hover:text-editorial-text transition-all duration-300">Manifesto</Link>
-              <Link to="/raw-cares" className="link-premium w-fit font-mono text-[0.6875rem] uppercase tracking-[0.25em] px-1 font-bold text-editorial-text-muted hover:text-editorial-text transition-all duration-300">Raw Cares</Link>
-              <Link to="/terms-of-use" className="link-premium w-fit font-mono text-[0.6875rem] uppercase tracking-[0.25em] px-1 font-bold text-editorial-text-muted hover:text-editorial-text transition-all duration-300">Terms Of Use</Link>
-              <Link to="/privacy-policy" className="link-premium w-fit font-mono text-[0.6875rem] uppercase tracking-[0.25em] px-1 font-bold text-editorial-text-muted hover:text-editorial-text transition-all duration-300">Privacy Policy</Link>
-              <Link to="/contact" className="link-premium w-fit font-mono text-[0.6875rem] uppercase tracking-[0.25em] px-1 font-bold text-editorial-text-muted hover:text-editorial-text transition-all duration-300">Contact</Link>
+              <Link to="/manifesto" className="link-premium w-fit max-w-full font-mono text-[0.6875rem] uppercase tracking-[0.12em] xl:tracking-[0.25em] [overflow-wrap:break-word] px-1 font-bold text-editorial-text-muted hover:text-editorial-text transition-all duration-300">Manifesto</Link>
+              <Link to="/raw-cares" className="link-premium w-fit max-w-full font-mono text-[0.6875rem] uppercase tracking-[0.12em] xl:tracking-[0.25em] [overflow-wrap:break-word] px-1 font-bold text-editorial-text-muted hover:text-editorial-text transition-all duration-300">Raw Cares</Link>
+              <Link to="/terms-of-use" className="link-premium w-fit max-w-full font-mono text-[0.6875rem] uppercase tracking-[0.12em] xl:tracking-[0.25em] [overflow-wrap:break-word] px-1 font-bold text-editorial-text-muted hover:text-editorial-text transition-all duration-300">Terms Of Use</Link>
+              <Link to="/privacy-policy" className="link-premium w-fit max-w-full font-mono text-[0.6875rem] uppercase tracking-[0.12em] xl:tracking-[0.25em] [overflow-wrap:break-word] px-1 font-bold text-editorial-text-muted hover:text-editorial-text transition-all duration-300">Privacy Policy</Link>
+              <Link to="/contact" className="link-premium w-fit max-w-full font-mono text-[0.6875rem] uppercase tracking-[0.12em] xl:tracking-[0.25em] [overflow-wrap:break-word] px-1 font-bold text-editorial-text-muted hover:text-editorial-text transition-all duration-300">Contact</Link>
            </nav>
         </div>
 
         <div className="col-span-1 relative z-10 pt-4 px-2">
            <h4 className="text-meta-premium mb-8 pb-4 border-b border-white/[0.05] opacity-60">Protocol</h4>
            <nav aria-label="Protocol category links" className="flex flex-col gap-6">
-              <Link to="/nutrients" className="link-premium w-fit font-mono text-[0.6875rem] uppercase tracking-[0.25em] px-1 font-bold text-editorial-text-muted hover:text-editorial-text transition-all duration-300">Nutrients</Link>
-              <Link to="/recovery" className="link-premium w-fit font-mono text-[0.6875rem] uppercase tracking-[0.25em] px-1 font-bold text-editorial-text-muted hover:text-editorial-text transition-all duration-300">Recovery</Link>
-              <Link to="/combat" className="link-premium w-fit font-mono text-[0.6875rem] uppercase tracking-[0.25em] px-1 font-bold text-editorial-text-muted hover:text-editorial-text transition-all duration-300">Combat</Link>
+              <Link to="/nutrients" className="link-premium w-fit max-w-full font-mono text-[0.6875rem] uppercase tracking-[0.12em] xl:tracking-[0.25em] [overflow-wrap:break-word] px-1 font-bold text-editorial-text-muted hover:text-editorial-text transition-all duration-300">Nutrients</Link>
+              <Link to="/recovery" className="link-premium w-fit max-w-full font-mono text-[0.6875rem] uppercase tracking-[0.12em] xl:tracking-[0.25em] [overflow-wrap:break-word] px-1 font-bold text-editorial-text-muted hover:text-editorial-text transition-all duration-300">Recovery</Link>
+              <Link to="/combat" className="link-premium w-fit max-w-full font-mono text-[0.6875rem] uppercase tracking-[0.12em] xl:tracking-[0.25em] [overflow-wrap:break-word] px-1 font-bold text-editorial-text-muted hover:text-editorial-text transition-all duration-300">Combat</Link>
               <span className="mt-2 mb-1 h-px w-10 bg-white/[0.08]" aria-hidden="true" />
-              <Link to="/target/athletes" className="link-premium w-fit font-mono text-[0.6875rem] uppercase tracking-[0.25em] px-1 font-bold text-editorial-text-muted hover:text-editorial-text transition-all duration-300">For_Athletes</Link>
-              <Link to="/target/fighters" className="link-premium w-fit font-mono text-[0.6875rem] uppercase tracking-[0.25em] px-1 font-bold text-editorial-text-muted hover:text-editorial-text transition-all duration-300">For_Fighters</Link>
-              <Link to="/target/everyday" className="link-premium w-fit font-mono text-[0.6875rem] uppercase tracking-[0.25em] px-1 font-bold text-editorial-text-muted hover:text-editorial-text transition-all duration-300">Everyday_Performance</Link>
-              <Link to="/target/recovery" className="link-premium w-fit font-mono text-[0.6875rem] uppercase tracking-[0.25em] px-1 font-bold text-editorial-text-muted hover:text-editorial-text transition-all duration-300">For_Recovery</Link>
+              <Link to="/target/athletes" className="link-premium w-fit max-w-full font-mono text-[0.6875rem] uppercase tracking-[0.12em] xl:tracking-[0.25em] [overflow-wrap:break-word] px-1 font-bold text-editorial-text-muted hover:text-editorial-text transition-all duration-300">{machineText("For_Athletes")}</Link>
+              <Link to="/target/fighters" className="link-premium w-fit max-w-full font-mono text-[0.6875rem] uppercase tracking-[0.12em] xl:tracking-[0.25em] [overflow-wrap:break-word] px-1 font-bold text-editorial-text-muted hover:text-editorial-text transition-all duration-300">{machineText("For_Fighters")}</Link>
+              <Link to="/target/everyday" className="link-premium w-fit max-w-full font-mono text-[0.6875rem] uppercase tracking-[0.12em] xl:tracking-[0.25em] [overflow-wrap:break-word] px-1 font-bold text-editorial-text-muted hover:text-editorial-text transition-all duration-300">{machineText("Everyday_Performance")}</Link>
+              <Link to="/target/recovery" className="link-premium w-fit max-w-full font-mono text-[0.6875rem] uppercase tracking-[0.12em] xl:tracking-[0.25em] [overflow-wrap:break-word] px-1 font-bold text-editorial-text-muted hover:text-editorial-text transition-all duration-300">{machineText("For_Recovery")}</Link>
            </nav>
         </div>
       </div>
@@ -103,10 +110,17 @@ export default function Footer() {
             rel="noopener noreferrer" 
             className="group relative transition-all duration-500 hover:scale-105 active:scale-95 block focus:outline-none focus:ring-2 focus:ring-red-500 rounded p-1"
             title="VISIT_OFFICIAL_SITE"
+            aria-label="Visit the official RAW store at rawofficial.co"
           >
+            {/* ⚠️ THE ALT SAID WHERE THE LINK GOES, NOT WHAT THE PICTURE IS. A
+                screen reader announced this row of card logos (Amex, Klarna,
+                Cirrus, Mastercard, Western Union, Visa, PayPal) as "Visit
+                Official Registry", so the one place the footer says which
+                payments are accepted was invisible to anyone not looking at
+                it. The link's purpose now lives on the <a>, where it belongs. */}
             <img 
               src="/media/wp/2025/03/payment.webp" 
-              alt="Visit Official Registry" 
+              alt="Payments accepted: American Express, Klarna, Cirrus, Mastercard, Western Union, Visa and PayPal" 
               className="h-5 xl:h-6 object-contain opacity-40 group-hover:opacity-100 transition-all duration-500 grayscale group-hover:grayscale-0 relative z-10" 
               referrerPolicy="no-referrer"
             />

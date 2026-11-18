@@ -1,5 +1,6 @@
 import { 
   ShoppingCart, 
+  Store,
   Menu,
   User,
   X,
@@ -12,7 +13,7 @@ import {
   ChevronUp
 } from "lucide-react";
 import Fuse from 'fuse.js';
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useRef, useLayoutEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import { useUI } from "../context/UIContext";
@@ -27,6 +28,11 @@ const fuse = new Fuse(allProducts, {
   keys: ['name', 'category'],
   threshold: 0.3,
 });
+
+/** Start with every link shown so the first layout pass can measure them all.
+    Deliberately higher than the number of links: a count that fell SHORT would
+    leave the extra links permanently hidden and never measured. */
+const NAV_LINK_COUNT = 99;
 
 export default function Navbar() {
   const { setIsCartOpen, items } = useCart();
@@ -96,6 +102,51 @@ export default function Navbar() {
   const linkOpacity = useSpring(linkOpacityTransform, { stiffness: 100, damping: 30 });
 
   const [isMegaMenuOpen, setIsMegaMenuOpen] = useState(false);
+
+  /* ⚠️ THE HEADER LINKS FIT THEMSELVES — DO NOT GO BACK TO BREAKPOINTS.
+     Hiding links at hand-picked widths (min-[1700px] and friends) was guessed
+     three times and wrong three times: how much room the strip really has
+     depends on the action buttons beside it, which change with sign-in state,
+     cart contents and the root font size. The result was a row of links sliced
+     through the middle at 1440, 1512, 1700 and 2560 — and, before that, the
+     whole right-hand side of the header off-screen from 768 to 1680.
+     So the strip claims the leftover space (flex-1), and this measures what
+     actually fits: each link's natural width is cached the first time it is
+     seen, then only the leading links that fit are shown. The rest live in the
+     Explore menu, which is always there. Nothing is ever half-drawn. */
+  const stripRef = useRef<HTMLDivElement>(null);
+  const naturalRef = useRef<number[]>([]);
+  const [fitCount, setFitCount] = useState(NAV_LINK_COUNT);
+
+  useLayoutEffect(() => {
+    const el = stripRef.current;
+    if (!el) return;
+    const measure = () => {
+      const kids = Array.from(el.children) as HTMLElement[];
+      /* A hidden child measures 0, so keep the first real width we ever see. */
+      kids.forEach((k, i) => {
+        const w = k.getBoundingClientRect().width;
+        if (w > 0) naturalRef.current[i] = w;
+      });
+      const widths = naturalRef.current;
+      if (widths.length < kids.length || widths.some((w) => !w)) return;
+      const gap = parseFloat(getComputedStyle(el).columnGap) || 0;
+      const room = el.clientWidth;
+      let used = 0;
+      let n = 0;
+      for (let i = 0; i < widths.length; i++) {
+        const add = widths[i] + (n ? gap : 0);
+        if (used + add > room) break;
+        used += add;
+        n++;
+      }
+      setFitCount(n);
+    };
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
 
   const borderAlpha = useTransform(scrollYProgress, [0.1, 0.2], [0, 0.5]);
   const smoothedBorderAlpha = useSpring(borderAlpha, { stiffness: 100, damping: 20 });
@@ -270,14 +321,14 @@ export default function Navbar() {
               </motion.div>
             </motion.div>
           </Link>
-          <div className="flex gap-4 items-center">
+          <div className="flex min-w-0 flex-1 items-center justify-end gap-4">
             <motion.div 
               style={{ scale: linkScale, opacity: linkOpacity }}
-              className="hidden md:flex gap-6 text-[0.6875rem] font-bold uppercase tracking-[0.2em]" 
+              ref={stripRef}
+              className="hidden min-w-0 flex-1 justify-end overflow-hidden min-[1400px]:flex gap-4 xl:gap-6 text-[0.6875rem] font-bold uppercase tracking-[0.2em]" 
             >
               {[
                 { label: 'Explore', action: () => setIsMegaMenuOpen(!isMegaMenuOpen) },
-                { label: 'Visual Gallery', to: '/gallery' },
                 { label: 'Shop', to: '/shop' },
                 { label: 'Nutrients', to: '/nutrients' },
                 { label: 'Recovery', to: '/recovery' },
@@ -285,10 +336,12 @@ export default function Navbar() {
                 { label: 'Compare', to: '/compare' },
                 { label: 'Story', to: '/our-story' },
                 { label: 'Showcase', to: '/showcase' },
+                { label: 'Visual Gallery', to: '/gallery' },
                 { label: 'Stay Safe', to: '/stay-safe' },
               ].map((link, i) => (
-                <MagneticWrapper key={i}>
-                  <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="relative group flex items-center justify-center">
+                <div key={i} className="flex shrink-0" style={{ display: i < fitCount ? undefined : 'none' }}>
+                <MagneticWrapper>
+                  <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="relative group flex shrink-0 items-center justify-center">
                     {link.to ? (
                       <Link to={link.to} className="block px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/5 group-hover:border-red-500/30 backdrop-blur-md rounded-lg transition-all duration-300 shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)] text-meta-premium !opacity-100 !tracking-[0.15em] !text-[0.6875rem] !xl:text-[0.6875rem] group-hover:text-white relative z-10">
                         {link.label}
@@ -302,17 +355,30 @@ export default function Navbar() {
                     <div className="absolute inset-0 bg-red-600/0 blur-[15px] pointer-events-none group-hover:bg-red-600/30 rounded-lg transition-all duration-500 opacity-0 group-hover:opacity-100 mix-blend-screen" />
                   </motion.div>
                 </MagneticWrapper>
+                </div>
               ))}
-              <MagneticWrapper>
-                <button 
-                  onClick={() => setIsShopIframeOpen(true)}
-                  className="bg-white/5 hover:bg-red-600 border border-white/10 text-zinc-300 hover:text-white px-6 py-2 rounded-lg transition-all text-meta-premium !opacity-100 !tracking-[0.15em] !text-[0.6875rem] !xl:text-[0.6875rem]"
-                >
-                  Uplink
-                </button>
-              </MagneticWrapper>
+
             </motion.div>
-            <div className="flex gap-2 sm:gap-4 lg:gap-8 items-center border-l border-editorial-border pl-4 sm:pl-8 lg:pl-10">
+            <div className="flex shrink-0 gap-2 sm:gap-3 lg:gap-5 items-center border-l border-editorial-border pl-3 sm:pl-5 lg:pl-8">
+              {/* ⚠️ THE ONLY DOOR TO A CHECKOUT THAT WORKS, SO IT LIVES WHERE IT
+                  CAN ALWAYS BE REACHED. This app's own /shop is a catalogue —
+                  payments are off, and it says so. Orders are taken by the real
+                  WooCommerce site, which opens in a panel here. As "Uplink" at
+                  the end of a ten-link row it was off-screen at 1440, 1280,
+                  1024 and 768, and not rendered at all on a phone: measured,
+                  unreachable on everything but a 1920px monitor. */}
+              <Tooltip content="OFFICIAL STORE — opens rawofficial.co">
+                <MagneticWrapper>
+                  <button
+                    onClick={() => setIsShopIframeOpen(true)}
+                    aria-label="Open the official RAW store"
+                    className="inline-flex items-center justify-center gap-2 min-h-11 rounded-full bg-red-600 px-3 sm:px-5 text-white transition-colors duration-300 hover:bg-red-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-400"
+                  >
+                    <Store className="h-4 w-4 shrink-0" />
+                    <span className="hidden font-mono text-[0.6875rem] font-black uppercase tracking-[0.2em] sm:inline">Store</span>
+                  </button>
+                </MagneticWrapper>
+              </Tooltip>
               <Tooltip content="SEARCH [⌘K]">
                 <MagneticWrapper>
                   <button 
@@ -423,7 +489,7 @@ export default function Navbar() {
                   aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
                   aria-expanded={isMobileMenuOpen}
                   onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                  className="md:hidden text-editorial-text-muted hover:text-editorial-text transition-colors duration-500 p-3.5 bg-transparent hover:bg-editorial-text/5 rounded-full"
+                  className="min-[1400px]:hidden text-editorial-text-muted hover:text-editorial-text transition-colors duration-500 p-3.5 bg-transparent hover:bg-editorial-text/5 rounded-full"
                 >
                   {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
                 </button>
