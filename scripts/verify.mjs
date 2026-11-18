@@ -159,11 +159,20 @@ const routes = ['/', ...[...app.matchAll(/<Route path="([^"]+)"/g)].map((m) => m
     /webSizedImage\(p\.image\)/.test(catalogue)
       ? pass('the catalogue hands out web-sized images')
       : fail('the catalogue hands out web-sized images', 'allProducts no longer maps image through webSizedImage; the -scaled originals are 1.3-1.7MB each');
-    /* The structured data must never advertise a price the checkout refuses. */
-    const paymentsOn = /export const PAYMENTS_ENABLED = true/.test(fs.readFileSync(path.join(ROOT, 'src', 'lib', 'site.ts'), 'utf8'));
-    if (!paymentsOn && /"offers"/.test(all)) fail('no offer is published while the checkout is shut', 'search results would show a price nobody can pay');
-    else pass('no offer is published while the checkout is shut', paymentsOn ? 'payments are live, offers allowed' : 'payments off, offers withheld');
-    if (/aggregateRating|ratingValue/.test(all)) fail('no invented rating is published', 'there are no reviews'); else pass('no invented rating is published');
+    /* ⚠️ TWO CHECKS USED TO LIVE HERE AND NEITHER COULD FAIL. They grepped the
+       minified bundle for `"offers"` and for a rating key, to prove the
+       structured data never advertises a price the checkout refuses.
+         · `schema.offers = offer` minifies to `.offers=`, so the quoted form
+           was never going to be there whatever the code did.
+         · PAYMENTS_ENABLED is a compile-time false, so the whole offer block
+           is eliminated from the build — the only state in which the check
+           ran was the state where its target cannot exist. With payments on,
+           the first half of the condition made it pass instead.
+       A guaranteed PASS in both states: two of fourteen green checks that said
+       nothing at all. The invariant is worth guarding, so it moved to the
+       browser section below, which reads the JSON-LD the app really injects
+       instead of the source text it was compiled from — the same mistake, and
+       the same correction, as the `-scaled` note above. */
   }
 }
 
@@ -182,14 +191,17 @@ try {
   chromium = createRequire(path.join(ROOT, 'package.json'))('playwright-core').chromium;
 } catch { /* not installed: reported as skipped below, never as a pass */ }
 
+const SEO_CHECKS = ['no offer is published while the checkout is shut', 'no invented rating is published'];
 if (!chromium) {
   skip('no page renders source comments', 'playwright-core not installed');
   skip('no page has an accessibility violation', 'playwright-core not installed');
+  SEO_CHECKS.forEach((n) => skip(n, 'playwright-core not installed'));
 } else {
   const exe = ['C:/Program Files/Google/Chrome/Application/chrome.exe', '/usr/bin/google-chrome', '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'].find((p) => fs.existsSync(p));
   if (!exe) {
     skip('no page renders source comments', 'no Chrome found');
     skip('no page has an accessibility violation', 'no Chrome found');
+    SEO_CHECKS.forEach((n) => skip(n, 'no Chrome found'));
   } else {
     const browser = await chromium.launch({ executablePath: exe, headless: true });
     const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
@@ -225,6 +237,64 @@ if (!chromium) {
       }
       bad.length ? fail('no page has an accessibility violation', bad.join(' | ')) : pass('no page has an accessibility violation', `${sample.length} routes, WCAG 2.1 AA`);
     }
+
+    /* ── what the structured data really says ──────────────────────────────
+       Google reads the JSON-LD the app injects at runtime, so that is what
+       gets read here: parsed, walked to any depth, and judged on its keys.
+       ⚠️ IT MUST FIND SOMETHING BEFORE IT IS ALLOWED TO APPROVE ANYTHING.
+       A page with no JSON-LD at all has no offer and no rating either, so a
+       check that only looks for bad keys would call a site that had lost its
+       structured data entirely the cleanest site it had ever seen. If the
+       blocks are missing, or do not parse, that is the failure. */
+    /* ⚠️ ONLY THE ROUTES THAT ARE MEANT TO CARRY IT. usePageMeta writes JSON-LD
+       for the home page and for /product/:id, and deliberately for nothing
+       else. A first draft of this check also demanded it on /shop and failed a
+       site that was behaving exactly as designed — a check that invents a
+       requirement is no better than one that cannot fail. Whether the
+       catalogue should describe itself to Google is a question for the owner,
+       not something a gate should decide by failing. */
+    const LD_ROUTES = ['/', '/product/29'];
+    const readLd = () => page.evaluate(() => {
+      const out = { blocks: 0, keys: [], broken: [] };
+      for (const s of document.querySelectorAll('script[type="application/ld+json"]')) {
+        let parsed;
+        try { parsed = JSON.parse(s.textContent || ''); } catch (e) { out.broken.push(String(e.message).slice(0, 60)); continue; }
+        out.blocks++;
+        const walk = (v) => {
+          if (Array.isArray(v)) return v.forEach(walk);
+          if (v && typeof v === 'object') for (const [k, val] of Object.entries(v)) { out.keys.push(k); walk(val); }
+        };
+        walk(parsed);
+      }
+      return out;
+    });
+
+    const paymentsOn = /export const PAYMENTS_ENABLED = true/.test(fs.readFileSync(path.join(ROOT, 'src', 'lib', 'site.ts'), 'utf8'));
+    const priced = [], rated = [], empty = [], unparsed = [];
+    for (const r of LD_ROUTES) {
+      await page.goto(BASE + r, { waitUntil: 'load' });
+      await page.waitForTimeout(800);
+      await page.keyboard.press('Enter').catch(() => {});
+      /* The blocks are written by a hook after mount, so they are not in the
+         served HTML — wait for the first one rather than for a chosen delay. */
+      await page.waitForFunction(() => document.querySelector('script[type="application/ld+json"]'), null, { timeout: 8000 }).catch(() => {});
+      const ld = await readLd();
+      if (ld.broken.length) unparsed.push(`${r} (${ld.broken[0]})`);
+      if (!ld.blocks) { empty.push(r); continue; }
+      if (ld.keys.some((k) => /^offers?$/i.test(k))) priced.push(r);
+      if (ld.keys.some((k) => /aggregateRating|ratingValue|reviewCount/i.test(k))) rated.push(r);
+    }
+
+    if (empty.length || unparsed.length) {
+      const why = [empty.length && `no JSON-LD on ${empty.join(', ')}`, unparsed.length && `will not parse: ${unparsed.join(', ')}`].filter(Boolean).join('; ');
+      fail('no offer is published while the checkout is shut', `${why} — nothing to judge, so this is not a pass`);
+      fail('no invented rating is published', why);
+    } else {
+      if (!paymentsOn && priced.length) fail('no offer is published while the checkout is shut', `an Offer is published on ${priced.join(', ')} — search results would show a price nobody can pay`);
+      else pass('no offer is published while the checkout is shut', paymentsOn ? `payments are live, offers allowed (${LD_ROUTES.length} routes read)` : `payments off, no offer in the published data (${LD_ROUTES.length} routes read)`);
+      rated.length ? fail('no invented rating is published', `a rating is published on ${rated.join(', ')}; there are no reviews`) : pass('no invented rating is published', `${LD_ROUTES.length} routes read`);
+    }
+
     await browser.close();
   }
 }
