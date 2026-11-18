@@ -16,6 +16,7 @@ const Combat = lazy(() => import("./pages/Combat"));
 const Analytics = lazy(() => import("./pages/Analytics"));
 const ProductDetail = lazy(() => import("./pages/ProductDetail"));
 const ProductGallery = lazy(() => import("./pages/ProductGallery"));
+const Films = lazy(() => import("./pages/Films"));
 const Contact = lazy(() => import("./pages/Contact"));
 const Logistics = lazy(() => import("./pages/Logistics"));
 const Manifesto = lazy(() => import("./pages/Manifesto"));
@@ -104,6 +105,7 @@ function AppContent() {
               <Route index element={<Home />} />
               <Route path="shop" element={<Shop />} />
               <Route path="gallery" element={<ProductGallery />} />
+              <Route path="films" element={<Films />} />
               <Route path="our-story" element={<OurStory />} />
               <Route path="raw-cares" element={<RawCares />} />
               <Route path="showcase" element={<Showcase />} />

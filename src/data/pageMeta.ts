@@ -55,6 +55,11 @@ const STATIC: Record<string, PageMeta> = {
   "/recovery": { title: `Recovery — ${SUFFIX}`, description: "Rest, restore, return stronger. RAW recovery equipment." },
   "/combat": { title: `Combat — ${SUFFIX}`, description: "Combat gear and apparel built for real contact." },
   "/gallery": { title: `Visual Gallery — ${SUFFIX}`, description: "The RAW range, photographed." },
+  "/films": {
+    title: `The Film Library — ${SUFFIX}`,
+    description:
+      "Every RAW film in one place: the brand film, the three protocol reels, the Discipline series and the Stay Safe campaign. Each one in its own shape, at its full size.",
+  },
   "/compare": { title: `Compare — ${SUFFIX}`, description: "Put RAW products side by side." },
   "/our-story": { title: `Our Story — ${SUFFIX}`, description: "How RAW started, and what it is for." },
   "/manifesto": { title: `Manifesto — ${SUFFIX}`, description: "What RAW stands for." },

@@ -208,10 +208,23 @@ export default function Recovery() {
            <div className="relative aspect-video border border-editorial-border bg-editorial-bg group overflow-hidden rounded-[3rem] shadow-[0_40px_100px_rgba(0,0,0,0.1)] transform-gpu hover:-translate-y-4 transition-all duration-[1000ms] ease-[0.16,1,0.3,1]">
               <div className="absolute inset-0 bg-emerald-900/20 opacity-0 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none mix-blend-screen z-10" />
               <div className="absolute inset-0 bg-gradient-to-t from-transparent/80 via-transparent to-transparent pointer-events-none z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-700 mix-blend-multiply" />
+              {/* ⚠️ THIS CLIP IS UPRIGHT (720x1280) AND THIS BAND IS WIDE.
+                  object-cover showed 32% of it — the middle third of a tall
+                  frame, measured by scripts/videofit.mjs. Rather than crop the
+                  film or swap it for one that happens to be landscape, the
+                  band is filled the way the home hero fills the screen: the
+                  clip's own footage, blurred, behind the whole clip shown
+                  sharp and complete down the centre. */}
               {/* 2.9MB clip (same film as the first technique tile): attached only while on screen; plays on a phone because it is the content. */}
               <LazyVideo
                 src="https://videos.files.wordpress.com/lUvR2d1e/this-isnt-comfort.its-commitment.cold-exposure-doesnt-care-who-you-are-it-only-reveals-how-.mp4"
-                className="w-full h-full object-cover opacity-60 grayscale group-hover:grayscale-[20%] group-hover:scale-105 group-hover:opacity-100 transition-all duration-[2000ms] ease-[0.16,1,0.3,1]"
+                decorative
+                className="absolute inset-0 w-full h-full object-cover scale-110 blur-2xl opacity-40 grayscale"
+                narrow="play"
+              />
+              <LazyVideo
+                src="https://videos.files.wordpress.com/lUvR2d1e/this-isnt-comfort.its-commitment.cold-exposure-doesnt-care-who-you-are-it-only-reveals-how-.mp4"
+                className="relative z-[5] w-full h-full object-contain opacity-80 grayscale group-hover:grayscale-[20%] group-hover:opacity-100 transition-all duration-[2000ms] ease-[0.16,1,0.3,1]"
                 narrow="play"
               />
            </div>

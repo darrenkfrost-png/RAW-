@@ -57,6 +57,7 @@ export default function Footer() {
         <div className="col-span-1 lg:col-start-3 relative z-10 pt-4 px-2">
            <h4 className="text-meta-premium mb-8 pb-4 border-b border-white/[0.05] opacity-60">Company</h4>
            <nav aria-label="Company links" className="flex flex-col gap-6">
+              <Link to="/films" className="link-premium w-fit max-w-full font-mono text-[0.6875rem] uppercase tracking-[0.12em] xl:tracking-[0.25em] [overflow-wrap:break-word] px-1 font-bold text-editorial-text-muted hover:text-editorial-text transition-all duration-300">Film Library</Link>
               <Link to="/manifesto" className="link-premium w-fit max-w-full font-mono text-[0.6875rem] uppercase tracking-[0.12em] xl:tracking-[0.25em] [overflow-wrap:break-word] px-1 font-bold text-editorial-text-muted hover:text-editorial-text transition-all duration-300">Manifesto</Link>
               <Link to="/raw-cares" className="link-premium w-fit max-w-full font-mono text-[0.6875rem] uppercase tracking-[0.12em] xl:tracking-[0.25em] [overflow-wrap:break-word] px-1 font-bold text-editorial-text-muted hover:text-editorial-text transition-all duration-300">Raw Cares</Link>
               <Link to="/terms-of-use" className="link-premium w-fit max-w-full font-mono text-[0.6875rem] uppercase tracking-[0.12em] xl:tracking-[0.25em] [overflow-wrap:break-word] px-1 font-bold text-editorial-text-muted hover:text-editorial-text transition-all duration-300">Terms Of Use</Link>

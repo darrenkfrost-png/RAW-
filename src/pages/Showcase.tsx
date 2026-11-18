@@ -69,9 +69,14 @@ function Tile({ item, onOpen, index }: { item: ShowcaseItem; onOpen: () => void;
       viewport={{ once: true, margin: "-40px" }}
       transition={{ duration: 0.7, delay: Math.min(index, 8) * 0.045, ease: [0.16, 1, 0.3, 1] }}
       aria-label={`${item.kind === "video" ? "Play" : "Open"} ${item.caption || item.credit}`}
+      /* ⚠️ THE TILE TAKES ITS SHAPE FROM WHAT IS IN IT. Photographs are 4:3,
+         and the campaign films were being poured into that same 4:3 tile —
+         they are 1920x1080, so a quarter of every film was cut off. Measured
+         by scripts/videofit.mjs, which fails the build when a film shows less
+         than 80% of its frame. */
       className={`edge-laser edge-crystal group relative block w-full overflow-hidden rounded-2xl border border-editorial-border bg-black text-left
         focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500
-        ${item.tall ? "aspect-[3/4]" : "aspect-[4/3]"}`}
+        ${item.tall ? "aspect-[3/4]" : item.kind === "video" ? "aspect-video" : "aspect-[4/3]"}`}
     >
       {item.kind === "video" ? (
         <video

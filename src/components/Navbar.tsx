@@ -330,6 +330,7 @@ export default function Navbar() {
               {[
                 { label: 'Explore', action: () => setIsMegaMenuOpen(!isMegaMenuOpen) },
                 { label: 'Shop', to: '/shop' },
+                { label: 'Films', to: '/films' },
                 { label: 'Nutrients', to: '/nutrients' },
                 { label: 'Recovery', to: '/recovery' },
                 { label: 'Combat', to: '/combat' },

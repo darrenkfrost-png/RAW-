@@ -188,7 +188,12 @@ export default function Combat() {  const products = allProducts.filter(p => p.
         </div>
         <div className="max-w-[var(--content-max-width)] mx-auto px-[var(--shell-padding-mobile)] md:px-[var(--shell-padding)] lg:px-[var(--shell-padding-lg)] relative z-10">
           <div className="grid lg:grid-cols-2 gap-24 xl:gap-32 items-center">
-             <div className="relative aspect-video bg-editorial-bg rounded-[3rem] overflow-hidden border border-editorial-border group shadow-[0_40px_100px_rgba(0,0,0,0.1)] hover:border-red-500/30 transition-all duration-[1000ms] hover:-translate-y-4">
+             {/* ⚠️ aspect-square, NOT aspect-video: this reel is 2160x2160.
+                 In a 16:9 box object-cover kept 56% of the picture and threw
+                 the top and bottom away — invisible in review, because the
+                 box's shape and the film's shape live in different files.
+                 scripts/videofit.mjs now measures it. */}
+             <div className="relative aspect-square bg-editorial-bg rounded-[3rem] overflow-hidden border border-editorial-border group shadow-[0_40px_100px_rgba(0,0,0,0.1)] hover:border-red-500/30 transition-all duration-[1000ms] hover:-translate-y-4">
                  {/* The SAME 102MB reel again, second copy on one page: attached only while on screen, never on a phone. */}
                  <LazyVideo
                   src={FILM.combat.hd}
