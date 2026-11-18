@@ -19,7 +19,8 @@ function eolSafeEnd(text) {
 }
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const ORIGIN = "https://rawofficial.co";
+import { SITE_ORIGIN } from "./site-origin.mjs";
+const ORIGIN = SITE_ORIGIN;
 
 const app = await fs.readFile(path.join(ROOT, "src", "App.tsx"), "utf8");
 const routes = [...app.matchAll(/<Route path="([^"]+)"/g)]
@@ -64,4 +65,15 @@ ${urls
 `;
 
 await fs.writeFile(path.join(ROOT, "public", "sitemap.xml"), xml, "utf8");
+
+/* ⚠️ robots.txt NAMES THE SITEMAP, SO IT HAS TO MOVE WITH IT. Kept by hand it
+   drifted: the file pointed at a sitemap on a domain this app is not served
+   from. Rewritten from the same constant, the two can never disagree. */
+const robotsPath = path.join(ROOT, "public", "robots.txt");
+const robots = await fs.readFile(robotsPath, "utf8");
+const fixed = robots.replace(/^Sitemap: .*$/m, `Sitemap: ${ORIGIN}/sitemap.xml`);
+if (fixed !== robots) {
+  await fs.writeFile(robotsPath, fixed, "utf8");
+  console.log(`robots.txt: Sitemap -> ${ORIGIN}/sitemap.xml`);
+}
 console.log(`sitemap.xml: ${urls.length} URLs (${routes.length} pages + ${ids.length} products + ${profiles.length} profiles)`);

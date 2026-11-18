@@ -101,6 +101,28 @@ const routes = ['/', ...[...app.matchAll(/<Route path="([^"]+)"/g)].map((m) => m
       if (r.status !== 200) bad.push(`${p} (${r.status})`);
     }
     bad.length ? fail('every sitemap URL resolves', bad.slice(0, 5).join(', ')) : pass('every sitemap URL resolves', `${paths.length} URLs`);
+
+    /* ⚠️ THE CHECK ABOVE TOOK ONLY THE PATH, AND THAT IS HOW A WHOLE SITEMAP
+       WENT WRONG UNNOTICED. It proved "/showcase works on the site I am
+       checking" — never "the address we actually published to Google works".
+       The sitemap named rawofficial.co, the founder's separate WooCommerce
+       shop, where /showcase, /our-story, /gallery and most of the other 77
+       pages 404: a sitemap of dead links, and thirteen green checks over it.
+       This fetches the published URLs exactly as written. */
+    const origins = [...new Set(locs.map((l) => new URL(l).origin))];
+    if (origins.length !== 1) {
+      fail('the sitemap speaks for one site', `${origins.length} origins: ${origins.join(', ')}`);
+    } else {
+      const sample = locs.filter((l) => new URL(l).pathname !== '/').slice(0, 6);
+      const dead = [];
+      for (const u of sample) {
+        const r = await get(u);
+        if (r.status !== 200) dead.push(`${u} (${r.status})`);
+      }
+      dead.length
+        ? fail('the addresses the sitemap publishes are real', `${origins[0]} does not serve these: ${dead.slice(0, 3).join(', ')}`)
+        : pass('the addresses the sitemap publishes are real', origins[0]);
+    }
   }
 }
 

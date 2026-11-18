@@ -5,4 +5,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://rawofficial.co/sitemap.xml
+Sitemap: https://skyblue-reindeer-199095.hostingersite.com/sitemap.xml
