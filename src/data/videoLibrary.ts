@@ -101,6 +101,14 @@ export interface VideoAsset {
   src1080?: string;
   /** The film's own words, as they were written when it was posted. */
   caption?: string;
+  /**
+   * ⚠️ IN THE LIBRARY, BUT NOT IN THE ROTATION. The opening film is a
+   * deliberate sequence with beats timed to it; behind a page as wallpaper, or
+   * full-screen on the screensaver, it is just a box being opened with no
+   * reason given. It belongs on the shelf so a visitor can watch it again —
+   * and nowhere the site chooses on a visitor's behalf.
+   */
+  libraryOnly?: boolean;
   /** ⚠️ The caption above survives only as the file's slug, and the host cuts
       a slug short. Where that happened the ending is GONE — it is shown with
       an ellipsis rather than completed, because inventing the rest of the
@@ -108,10 +116,11 @@ export interface VideoAsset {
   captionTruncated?: boolean;
 }
 
-export type VideoCategory = "brand" | "protocol" | "discipline" | "campaign";
+export type VideoCategory = "opening" | "brand" | "protocol" | "discipline" | "campaign";
 
 /** The shelves, in the order a visitor should meet them. */
 export const VIDEO_CATEGORIES: { id: VideoCategory; title: string; blurb: string }[] = [
+  { id: "opening",    title: "The Opening",        blurb: "The film that plays when you first arrive. Here so you can watch it again." },
   { id: "brand",      title: "The Brand Film",     blurb: "The wide one. What RAW is, in a minute and twelve." },
   { id: "protocol",   title: "The Protocols",      blurb: "One reel for each arm of the system — combat, nutrients, recovery." },
   { id: "discipline", title: "The Discipline Series", blurb: "Shot upright, written in the moment. Three short pieces on doing the thing anyway." },
@@ -126,6 +135,18 @@ export const VIDEO_CATEGORIES: { id: VideoCategory; title: string; blurb: string
  * 14-60KB each, so a shelf of eleven costs less than a quarter of one film.
  */
 export const VIDEO_LIBRARY: VideoAsset[] = [
+  // ── The opening sequence (local) ───────────────────────────────────────
+  {
+    id: "opening", megabytes: 3, wallpaperMegabytes: 1,
+    label: "The RAW Box",
+    src: "/media/intro/raw-box.mp4",
+    wallpaperSrc: "/media/intro/raw-box-sm.mp4",
+    poster: "/media/intro/raw-box-poster.jpg",
+    light: true,
+    libraryOnly: true,
+    category: "opening", durationMs: 29967, width: 576, height: 1024,
+  },
+
   // ── Campaign films (local, in this repository) ─────────────────────────
   // ⚠️ These four carry their own headline burned into the footage, which is
   //    why the wallpaper blurs as hard as it does. The brand reels below do not.
@@ -298,7 +319,8 @@ export const lightVideos = () => VIDEO_LIBRARY.filter((v) => v.light);
  * the picture. This is what the wallpaper and the screensaver rotate. Anyone
  * who wants a campaign film can still pick one in the panel.
  */
-export const ambientVideos = () => VIDEO_LIBRARY.filter((v) => v.light && !v.hasBurnedInText);
+export const ambientVideos = () =>
+  VIDEO_LIBRARY.filter((v) => v.light && !v.hasBurnedInText && !v.libraryOnly);
 
 
 /** The films on one shelf, in the order they are listed. */
