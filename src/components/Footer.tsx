@@ -88,7 +88,7 @@ export default function Footer() {
       </div>
       <div className="border-t border-white/[0.05] bg-editorial-bg/50 backdrop-blur-3xl py-12 px-10 flex flex-col md:flex-row items-center justify-between gap-8 relative z-10 shadow-sm">
         <div className="flex flex-col md:flex-row items-center gap-6 md:gap-10">
-          <div className="text-meta-premium opacity-40">
+          <div className="text-meta-premium ">
             © {new Date().getFullYear()} RAW OFFICIAL. ALL RIGHTS RESERVED.
           </div>
           <MagneticWrapper>
@@ -110,7 +110,7 @@ export default function Footer() {
         </div>
         
         <div className="flex items-center gap-8">
-          <span className="text-meta-premium opacity-40 hidden sm:block">Gateway_Access:</span>
+          <span className="text-meta-premium hidden sm:block">Gateway_Access:</span>
           <a 
             href="https://rawofficial.co" 
             target="_blank" 

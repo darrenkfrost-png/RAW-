@@ -159,7 +159,7 @@ export default function ShopFilters({ isOpen, onClose, filters, setFilters, tota
                   </div>
                   <div>
                     <h2 className="text-premium font-sans text-2xl font-black mb-1 drop-shadow-[0_2px_4px_rgba(0,0,0,0.1)]">FILTER_MATRIX</h2>
-                    <span className="text-meta-premium opacity-40">SYSTEM_INVENTORY_CONTROL</span>
+                    <span className="text-meta-premium ">SYSTEM_INVENTORY_CONTROL</span>
                   </div>
                 </div>
                 <button 

@@ -140,7 +140,7 @@ export const ToastProvider: React.FC<{ children: ReactNode }> = ({ children }) =
                   className="absolute top-4 right-4 p-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity hover:bg-white/5 active:scale-90"
                   aria-label="Dismiss"
                 >
-                  <X className="w-4 h-4 text-zinc-600 hover:text-editorial-text transition-colors" />
+                  <X className="w-4 h-4 text-label-dim hover:text-editorial-text transition-colors" />
                 </button>
                 
                 {/* Visual pulse for important ones */}

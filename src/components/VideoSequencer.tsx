@@ -185,7 +185,7 @@ const VideoSequencer = React.memo(function VideoSequencer() {
       <header className="px-6 py-4 border-b border-editorial-border/30 bg-[#0e0e12] flex flex-col md:flex-row md:items-center justify-between gap-4 shrink-0">
         <div>
           <div className="flex items-center gap-2">
-            <span className="font-mono text-[0.6875rem] text-zinc-500 uppercase tracking-[0.4em] font-bold">
+            <span className="font-mono text-[0.6875rem] text-label-dim uppercase tracking-[0.4em] font-bold">
               STORYBOARD_STUDIO // {ACTIVE_PROJECT}
             </span>
           </div>
@@ -226,7 +226,7 @@ const VideoSequencer = React.memo(function VideoSequencer() {
                 aria-label="Character name"
                 value={newCharName}
                 onChange={(e) => setNewCharName(e.target.value)}
-                className="w-full bg-[#07070a] border border-editorial-border rounded-lg px-3 py-1.5 font-mono text-[0.6875rem] text-white focus:outline-none focus:border-red-500 uppercase placeholder:text-zinc-700 font-bold"
+                className="w-full bg-[#07070a] border border-editorial-border rounded-lg px-3 py-1.5 font-mono text-[0.6875rem] text-white focus:outline-none focus:border-red-500 uppercase placeholder:text-label-dim font-bold"
               />
               <input
                 type="text"
@@ -234,7 +234,7 @@ const VideoSequencer = React.memo(function VideoSequencer() {
                 aria-label="Character role"
                 value={newCharRole}
                 onChange={(e) => setNewCharRole(e.target.value)}
-                className="w-full bg-[#07070a] border border-editorial-border rounded-lg px-3 py-1.5 font-mono text-[0.6875rem] text-white focus:outline-none focus:border-red-500 uppercase placeholder:text-zinc-700"
+                className="w-full bg-[#07070a] border border-editorial-border rounded-lg px-3 py-1.5 font-mono text-[0.6875rem] text-white focus:outline-none focus:border-red-500 uppercase placeholder:text-label-dim"
               />
               <button
                 type="submit"
@@ -260,7 +260,7 @@ const VideoSequencer = React.memo(function VideoSequencer() {
                   </div>
                   <button
                     onClick={() => handleDeleteChar(c.id)}
-                    className="shrink-0 min-h-11 min-w-11 -m-2 flex items-center justify-center text-zinc-500 hover:text-red-500 opacity-100 md:opacity-0 md:group-hover:opacity-100 md:focus-visible:opacity-100 transition-opacity"
+                    className="shrink-0 min-h-11 min-w-11 -m-2 flex items-center justify-center text-label-dim hover:text-red-500 opacity-100 md:opacity-0 md:group-hover:opacity-100 md:focus-visible:opacity-100 transition-opacity"
                     title="Remove Character"
                     aria-label={`Remove character ${c.name}`}
                   >
@@ -282,14 +282,14 @@ const VideoSequencer = React.memo(function VideoSequencer() {
 
             <div className="space-y-3">
               <div>
-                <label htmlFor="sequencer-style-notes" className="block font-mono text-[0.6875rem] text-zinc-500 uppercase tracking-widest mb-1.5">
+                <label htmlFor="sequencer-style-notes" className="block font-mono text-[0.6875rem] text-label-dim uppercase tracking-widest mb-1.5">
                   AVOID IN EVERY SCENE
                 </label>
                 <textarea
                   id="sequencer-style-notes"
                   value={negativePrompt}
                   onChange={(e) => setNegativePrompt(e.target.value)}
-                  className="w-full bg-[#07070a] border border-editorial-border/60 rounded-xl p-3 font-mono text-[0.6875rem] text-zinc-400 focus:outline-none focus:border-red-500 h-24 placeholder:text-zinc-700 resize-none uppercase"
+                  className="w-full bg-[#07070a] border border-editorial-border/60 rounded-xl p-3 font-mono text-[0.6875rem] text-zinc-400 focus:outline-none focus:border-red-500 h-24 placeholder:text-label-dim resize-none uppercase"
                 />
               </div>
             </div>
@@ -305,7 +305,7 @@ const VideoSequencer = React.memo(function VideoSequencer() {
             </div>
 
             <div className="space-y-2">
-              <span className="block font-mono text-[0.6875rem] text-zinc-500 uppercase tracking-widest">
+              <span className="block font-mono text-[0.6875rem] text-label-dim uppercase tracking-widest">
                 STORED REELS
               </span>
 
@@ -359,16 +359,16 @@ const VideoSequencer = React.memo(function VideoSequencer() {
                 >
                   <div className="space-y-3">
                     <div className="flex items-center justify-between">
-                      <span className="font-mono text-[0.6875rem] text-zinc-500 uppercase tracking-widest font-black">
+                      <span className="font-mono text-[0.6875rem] text-label-dim uppercase tracking-widest font-black">
                         SCENE #{sh.sceneNo.toString().padStart(2, '0')}
                       </span>
-                      <span className="font-mono text-[0.6875rem] uppercase tracking-widest px-2 py-0.5 rounded border bg-zinc-900 border-zinc-800 text-zinc-500">
+                      <span className="font-mono text-[0.6875rem] uppercase tracking-widest px-2 py-0.5 rounded border bg-zinc-900 border-zinc-800 text-label-dim">
                         {sh.motionPreset}
                       </span>
                     </div>
 
                     <p className={`text-xs font-light tracking-tight transition-colors capitalize leading-relaxed h-12 overflow-hidden text-ellipsis line-clamp-2 ${
-                      sh.prompt.trim() ? "text-zinc-300 group-hover:text-white" : "text-zinc-600 italic"
+                      sh.prompt.trim() ? "text-zinc-300 group-hover:text-white" : "text-label-dim italic"
                     }`}>
                       {sh.prompt.trim() || "No scene description yet. Open FORGE to write one."}
                     </p>
@@ -389,7 +389,7 @@ const VideoSequencer = React.memo(function VideoSequencer() {
                     </button>
                     <button
                       onClick={() => handleDeleteShot(sh.id)}
-                      className="min-h-11 min-w-11 ml-auto flex items-center justify-center text-zinc-500 hover:text-red-500 opacity-100 md:opacity-0 md:group-hover:opacity-100 md:focus-visible:opacity-100 transition-opacity"
+                      className="min-h-11 min-w-11 ml-auto flex items-center justify-center text-label-dim hover:text-red-500 opacity-100 md:opacity-0 md:group-hover:opacity-100 md:focus-visible:opacity-100 transition-opacity"
                       title="Delete card"
                       aria-label={`Delete scene ${sh.sceneNo}`}
                     >
@@ -418,7 +418,7 @@ const VideoSequencer = React.memo(function VideoSequencer() {
                 <div className="flex-1 min-w-0 overflow-x-auto custom-scrollbar">
                   <div className="flex gap-2 h-8 min-w-max">
                     {shots.length === 0 ? (
-                      <span className="text-[0.6875rem] font-mono text-zinc-600 italic flex items-center">No scenes on the track yet.</span>
+                      <span className="text-[0.6875rem] font-mono text-label-dim italic flex items-center">No scenes on the track yet.</span>
                     ) : shots.map(sh => (
                       <div key={sh.id} className="w-28 shrink-0 bg-red-950/20 border border-red-500/25 rounded-md flex items-center justify-center text-[0.6875rem] font-mono text-pink-400 uppercase">
                         SCENE_{sh.sceneNo.toString().padStart(2, '0')}
@@ -504,7 +504,7 @@ const VideoSequencer = React.memo(function VideoSequencer() {
                 <Eye className="w-5 h-5 text-pink-500" />
                 <span className="font-mono text-[0.6875rem] font-black uppercase tracking-widest">LOAD_CLIP</span>
                 {reviewClipSize && (
-                  <span className="font-mono text-[0.6875rem] text-zinc-500 uppercase tracking-widest">{reviewClipSize}MB</span>
+                  <span className="font-mono text-[0.6875rem] text-label-dim uppercase tracking-widest">{reviewClipSize}MB</span>
                 )}
               </button>
             )}
@@ -516,7 +516,7 @@ const VideoSequencer = React.memo(function VideoSequencer() {
 
         {/* Reel Selector */}
         <div className="w-full md:w-80 flex flex-col justify-between p-4 bg-zinc-950 border border-editorial-border rounded-[1.5rem] md:shrink-0 gap-3">
-          <span className="block font-mono text-[0.6875rem] text-zinc-500 uppercase tracking-widest font-black">
+          <span className="block font-mono text-[0.6875rem] text-label-dim uppercase tracking-widest font-black">
             REEL SELECTOR
           </span>
           <div className="flex gap-2">
@@ -566,7 +566,7 @@ const VideoSequencer = React.memo(function VideoSequencer() {
               <div className="flex items-center gap-3 border-b border-white/[0.04] pb-4">
                 <Camera className="w-5 h-5 text-red-500" />
                 <div>
-                  <span className="block font-mono text-[0.6875rem] text-zinc-500 uppercase tracking-widest">
+                  <span className="block font-mono text-[0.6875rem] text-label-dim uppercase tracking-widest">
                     SHOT_FORGE // SCENE_{editingShot.sceneNo.toString().padStart(2, '0')}
                   </span>
                   <h3 id="shot-forge-title" className="font-sans font-black text-lg text-white uppercase tracking-wider mt-0.5">
@@ -577,7 +577,7 @@ const VideoSequencer = React.memo(function VideoSequencer() {
 
               <div className="space-y-4">
                 <div className="space-y-1.5">
-                  <label htmlFor="shot-forge-prompt" className="block font-mono text-[0.6875rem] text-zinc-500 uppercase tracking-widest">
+                  <label htmlFor="shot-forge-prompt" className="block font-mono text-[0.6875rem] text-label-dim uppercase tracking-widest">
                     SCENE DESCRIPTION
                   </label>
                   <textarea
@@ -586,13 +586,13 @@ const VideoSequencer = React.memo(function VideoSequencer() {
                     value={forgePrompt}
                     onChange={(e) => setForgePrompt(e.target.value)}
                     placeholder="DESCRIBE THE SCENE..."
-                    className="w-full bg-black border border-editorial-border rounded-xl p-3 font-mono text-[0.6875rem] text-white focus:outline-none focus:border-red-500 h-24 placeholder:text-zinc-700 resize-none uppercase"
+                    className="w-full bg-black border border-editorial-border rounded-xl p-3 font-mono text-[0.6875rem] text-white focus:outline-none focus:border-red-500 h-24 placeholder:text-label-dim resize-none uppercase"
                   />
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-1.5">
-                    <label htmlFor="shot-forge-lens" className="block font-mono text-[0.6875rem] text-zinc-500 uppercase tracking-widest">
+                    <label htmlFor="shot-forge-lens" className="block font-mono text-[0.6875rem] text-label-dim uppercase tracking-widest">
                       LENS_PRESET
                     </label>
                     <select
@@ -609,7 +609,7 @@ const VideoSequencer = React.memo(function VideoSequencer() {
                   </div>
 
                   <div className="space-y-1.5">
-                    <label htmlFor="shot-forge-motion" className="block font-mono text-[0.6875rem] text-zinc-500 uppercase tracking-widest">
+                    <label htmlFor="shot-forge-motion" className="block font-mono text-[0.6875rem] text-label-dim uppercase tracking-widest">
                       CAMERA_MOTION
                     </label>
                     <select

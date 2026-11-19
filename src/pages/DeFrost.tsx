@@ -128,7 +128,7 @@ export default function DeFrost() {
         {/* Floating Clocks & Calendar */}
         <div className="flex items-center gap-6">
           <div className="text-right">
-            <span className="block font-mono text-[0.6875rem] text-zinc-500 uppercase tracking-widest">{dateStr}</span>
+            <span className="block font-mono text-[0.6875rem] text-label-dim uppercase tracking-widest">{dateStr}</span>
             <span className="font-mono text-xs font-black text-white mt-1 block tracking-wider uppercase">{timeStr}</span>
           </div>
         </div>
@@ -156,7 +156,7 @@ export default function DeFrost() {
                 <h4 className="font-sans font-extrabold text-xs text-white uppercase tracking-wider group-hover:text-red-500 transition-colors leading-none">
                   {app.label}
                 </h4>
-                <p className="font-mono text-[0.6875rem] text-zinc-500 uppercase tracking-tight mt-1">
+                <p className="font-mono text-[0.6875rem] text-label-dim uppercase tracking-tight mt-1">
                   {app.desc}
                 </p>
                 {openApps[app.id] && (
@@ -171,26 +171,26 @@ export default function DeFrost() {
         <div className="flex-1 relative border border-white/[0.02] bg-[#ffffff]/[0.005] rounded-[3rem] p-8 overflow-hidden hidden md:flex flex-col justify-end">
 
           <div className="absolute top-8 left-8 p-6 bg-black/30 border border-white/[0.03] backdrop-blur-3xl rounded-[2rem] max-w-sm pointer-events-none select-none">
-            <span className="block font-mono text-[0.6875rem] text-zinc-500 uppercase tracking-widest mb-2 font-black leading-none">
+            <span className="block font-mono text-[0.6875rem] text-label-dim uppercase tracking-widest mb-2 font-black leading-none">
               ACTIVE_DESKTOP_WIDGET
             </span>
             <div className="grid grid-cols-2 gap-4 pt-2">
               <div>
-                <span className="block font-mono text-[0.6875rem] text-zinc-500 leading-none uppercase">UI_SCALE</span>
+                <span className="block font-mono text-[0.6875rem] text-label-dim leading-none uppercase">UI_SCALE</span>
                 <span className="font-mono text-[0.6875rem] text-white font-bold block mt-1">{(uiScale * 100).toFixed(0)}% SCALE</span>
               </div>
               <div>
-                <span className="block font-mono text-[0.6875rem] text-zinc-500 leading-none uppercase">FIDELITY</span>
+                <span className="block font-mono text-[0.6875rem] text-label-dim leading-none uppercase">FIDELITY</span>
                 <span className="font-mono text-[0.6875rem] text-white font-bold block mt-1">{visualFidelity}% RESOLUTION</span>
               </div>
             </div>
           </div>
 
           <div className="text-right pointer-events-none select-none space-y-2 max-w-md ml-auto">
-            <span className="font-serif text-3xl md:text-4xl text-zinc-700/60 font-medium block uppercase tracking-tight italic">
+            <span className="font-serif text-3xl md:text-4xl text-label-dim/60 font-medium block uppercase tracking-tight italic">
               "The discipline is the system."
             </span>
-            <span className="font-mono text-[0.6875rem] text-zinc-500/80 uppercase tracking-[0.25em] block pt-1 leading-none">
+            <span className="font-mono text-[0.6875rem] text-label-dim/80 uppercase tracking-[0.25em] block pt-1 leading-none">
               SECURE DEPLOYMENT ENGINE // GLOBAL CORE
             </span>
           </div>

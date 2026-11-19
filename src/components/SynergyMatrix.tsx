@@ -26,8 +26,8 @@ export default function SynergyMatrix({ products }: SynergyMatrixProps) {
 
   if (products.length < 2) {
     return (
-      <div className="bg-zinc-950/30 border border-zinc-900 border-dashed rounded-[2.5rem] p-8 sm:p-12 text-center text-zinc-500">
-        <HelpCircle className="w-10 h-10 mx-auto text-zinc-600 mb-4 animate-bounce" />
+      <div className="bg-zinc-950/30 border border-zinc-900 border-dashed rounded-[2.5rem] p-8 sm:p-12 text-center text-label-dim">
+        <HelpCircle className="w-10 h-10 mx-auto text-label-dim mb-4 animate-bounce" />
         <span className="font-mono text-[0.6875rem] uppercase font-black tracking-widest block mb-2">STACK_NOTES</span>
         <p className="text-xs leading-relaxed max-w-sm mx-auto font-light">Select at least two products to see how they combine.</p>
       </div>
@@ -59,7 +59,7 @@ export default function SynergyMatrix({ products }: SynergyMatrixProps) {
           {rows.map(({ product, inStack, elsewhere }) => (
             <div key={product.id} className="bg-zinc-950/50 border border-zinc-900 rounded-2xl p-6 min-w-0 space-y-5">
               <div className="min-w-0">
-                <span className="block font-mono text-[0.6875rem] text-zinc-500 uppercase tracking-widest">{product.category}</span>
+                <span className="block font-mono text-[0.6875rem] text-label-dim uppercase tracking-widest">{product.category}</span>
                 <h4 className="font-sans font-black uppercase text-white tracking-tight leading-tight break-words">{product.name}</h4>
               </div>
 
@@ -74,13 +74,13 @@ export default function SynergyMatrix({ products }: SynergyMatrixProps) {
                     ))}
                   </ul>
                 ) : (
-                  <p className="text-[0.75rem] text-zinc-500 font-light">Does not list any of the other selected products.</p>
+                  <p className="text-[0.75rem] text-label-dim font-light">Does not list any of the other selected products.</p>
                 )}
               </div>
 
               {elsewhere.length > 0 && (
                 <div className="space-y-2">
-                  <span className="block text-[0.6875rem] font-mono font-bold text-zinc-500 uppercase tracking-[0.3em]">ALSO LISTED WITH</span>
+                  <span className="block text-[0.6875rem] font-mono font-bold text-label-dim uppercase tracking-[0.3em]">ALSO LISTED WITH</span>
                   <ul className="flex flex-wrap gap-2">
                     {elsewhere.map(name => (
                       <li key={name} className="px-3 py-1.5 rounded-lg border border-zinc-800 bg-zinc-900 text-[0.6875rem] font-mono text-zinc-400 break-words">{name}</li>

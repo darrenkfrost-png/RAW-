@@ -431,7 +431,7 @@ export default function Navbar() {
                     className="relative p-3.5 text-editorial-text-muted opacity-40 cursor-not-allowed bg-transparent rounded-full block focus:outline-none"
                   >
                     <Image className="w-5 h-5" />
-                    <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 font-mono text-[0.5rem] font-black tracking-[0.1em] leading-none whitespace-nowrap text-zinc-500">COMING_SOON</span>
+                    <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 font-mono text-[0.5rem] font-black tracking-[0.1em] leading-none whitespace-nowrap text-label-dim">COMING_SOON</span>
                   </button>
                 </MagneticWrapper>
               </Tooltip>
@@ -530,7 +530,7 @@ export default function Navbar() {
                       <Command className="w-5 h-5 text-red-600 drop-shadow-[0_0_8px_#dc2626]" />
                       <span className="text-meta-premium">Inventory_Search // PROTOCOL_SRCH</span>
                       <div className="w-2.5 h-2.5 bg-red-500 rounded-full animate-ping ml-4 shadow-[0_0_10px_#dc2626]" />
-                      <div className="hidden lg:flex items-center gap-3 ml-6 pl-6 border-l border-white/10 uppercase font-mono text-[0.6875rem] text-zinc-500 tracking-[0.2em]">
+                      <div className="hidden lg:flex items-center gap-3 ml-6 pl-6 border-l border-white/10 uppercase font-mono text-[0.6875rem] text-label-dim tracking-[0.2em]">
                          Shortcut: <kbd className="px-2 py-1 bg-white/5 border border-white/10 rounded font-sans text-white">⌘K</kbd>
                       </div>
                    </div>
@@ -594,7 +594,7 @@ export default function Navbar() {
                                  <div className="flex-1 flex flex-col relative z-10">
                                     <h4 className="text-3xl xl:text-4xl font-sans font-black uppercase tracking-tight text-premium mb-4 drop-shadow-[0_2px_4px_rgba(0,0,0,0.1)] line-clamp-2">{product.name}</h4>
                                     <div className="flex items-center justify-between mt-auto pt-6 border-t border-editorial-border">
-                                       <span className="text-meta-premium opacity-40">{product.category}</span>
+                                       <span className="text-meta-premium ">{product.category}</span>
                                        <span className="text-meta-premium text-xl text-editorial-text">{product.price}</span>
                                     </div>
                                  </div>
@@ -606,7 +606,7 @@ export default function Navbar() {
                              <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-red-900/5 via-transparent to-transparent pointer-events-none mix-blend-screen opacity-50" />
                              <div className="w-1.5 h-20 bg-red-600 mx-auto mb-12 shadow-[0_0_20px_#dc2626]" />
                              <p className="font-mono text-xl text-editorial-text-muted uppercase tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] font-bold drop-shadow-[0_2px_4px_rgba(0,0,0,0.1)]">ZERO_NODES_IDENTIFIED_FOR: <br /><span className="text-editorial-text text-3xl mt-4 block">{searchQuery}</span></p>
-                             <p className="font-mono text-[0.75rem] text-zinc-600 uppercase mt-8 tracking-widest font-bold">CHECK_PROTOCOL_INDEX_AND_RETRY</p>
+                             <p className="font-mono text-[0.75rem] text-label-dim uppercase mt-8 tracking-widest font-bold">CHECK_PROTOCOL_INDEX_AND_RETRY</p>
                           </div>
                         )}
                         {!searchQuery && (

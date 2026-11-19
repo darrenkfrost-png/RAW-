@@ -77,7 +77,7 @@ export default function DiscoveryHub({ isOpen, onClose }: DiscoveryHubProps) {
 
               <button
                 onClick={onClose}
-                className="p-3 hover:bg-white/5 rounded-xl border border-editorial-border hover:border-white/20 transition-all text-zinc-500 hover:text-white"
+                className="p-3 hover:bg-white/5 rounded-xl border border-editorial-border hover:border-white/20 transition-all text-label-dim hover:text-white"
                 aria-label="Close Discovery Hub"
               >
                 <X className="w-5 h-5" />
@@ -125,7 +125,7 @@ export default function DiscoveryHub({ isOpen, onClose }: DiscoveryHubProps) {
             </div>
 
             {/* Footer */}
-            <div className="mt-8 pt-6 border-t border-editorial-border shrink-0 text-center relative z-10 flex flex-col md:flex-row items-center justify-between gap-4 font-mono text-[0.6875rem] text-zinc-600 tracking-widest uppercase">
+            <div className="mt-8 pt-6 border-t border-editorial-border shrink-0 text-center relative z-10 flex flex-col md:flex-row items-center justify-between gap-4 font-mono text-[0.6875rem] text-label-dim tracking-widest uppercase">
               <span>RAW_OFFICIAL // KEYBOARD_SHORTCUTS</span>
               <span>ESC_CLOSES_THIS_PANEL</span>
             </div>

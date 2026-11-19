@@ -114,7 +114,7 @@ export default function CartDrawer() {
                   className="p-4 sm:p-6 bg-editorial-text/5 hover:bg-red-600/10 rounded-[2rem] transition-all duration-700 border border-editorial-border hover:border-red-600/40 group/close"
                   aria-label="Close Registry"
                 >
-                  <X className="w-6 h-6 sm:w-7 sm:h-7 text-zinc-600 group-hover/close:text-editorial-text group-hover/close:rotate-90 transition-all duration-700" />
+                  <X className="w-6 h-6 sm:w-7 sm:h-7 text-label-dim group-hover/close:text-editorial-text group-hover/close:rotate-90 transition-all duration-700" />
                 </button>
               </MagneticWrapper>
             </div>
@@ -168,14 +168,14 @@ export default function CartDrawer() {
                                   <h3 className="text-2xl lg:text-3xl font-black tracking-tighter uppercase leading-[0.9] text-premium min-w-0 [overflow-wrap:anywhere] group-hover:text-red-500 transition-colors duration-700">{item.name}</h3>
                                   <button 
                                     onClick={() => removeFromCart(item.id)} 
-                                    className="shrink-0 text-zinc-600 hover:text-red-600 bg-editorial-text/5 p-4 rounded-2xl transition-all duration-700 border border-transparent hover:border-red-600/20 hover:scale-110"
+                                    className="shrink-0 text-label-dim hover:text-red-600 bg-editorial-text/5 p-4 rounded-2xl transition-all duration-700 border border-transparent hover:border-red-600/20 hover:scale-110"
                                     aria-label="Remove item"
                                   >
                                     <Trash2 className="w-5 h-5" />
                                   </button>
                                </div>
                                <div className="flex items-center gap-4">
-                                  <span className="text-meta-premium opacity-40">UNIT_VALUE:</span>
+                                  <span className="text-meta-premium ">UNIT_VALUE:</span>
                                   <p className="text-2xl font-black tracking-tight text-premium">{item.price}</p>
                                </div>
                             </div>
@@ -184,7 +184,7 @@ export default function CartDrawer() {
                               <button 
                                 onClick={() => updateQuantity(item.id, -1)} 
                                 disabled={item.quantity <= 1}
-                                className="p-4 sm:p-5 text-zinc-600 hover:text-editorial-text hover:bg-red-600/20 disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-transparent transition-all duration-500 border-r border-editorial-border"
+                                className="p-4 sm:p-5 text-label-dim hover:text-editorial-text hover:bg-red-600/20 disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-transparent transition-all duration-500 border-r border-editorial-border"
                                 aria-label="Decrease quantity"
                               >
                                 <Minus className="w-5 h-5" />
@@ -194,7 +194,7 @@ export default function CartDrawer() {
                               </span>
                               <button 
                                 onClick={() => updateQuantity(item.id, 1)} 
-                                className="p-4 sm:p-5 text-zinc-600 hover:text-editorial-text hover:bg-red-600/20 transition-all duration-500 border-l border-editorial-border"
+                                className="p-4 sm:p-5 text-label-dim hover:text-editorial-text hover:bg-red-600/20 transition-all duration-500 border-l border-editorial-border"
                                 aria-label="Increase quantity"
                               >
                                 <Plus className="w-5 h-5" />
@@ -235,10 +235,10 @@ export default function CartDrawer() {
                               </div>
                               <div className="flex-1 space-y-2 min-w-0">
                                  <h4 className="text-lg sm:text-xl font-black uppercase tracking-tighter line-clamp-2 text-editorial-text group-hover/sug:text-editorial-text transition-colors duration-700">{sug.name}</h4>
-                                 <p className="text-[0.6875rem] font-mono tracking-widest text-zinc-600 uppercase font-black">{sug.price} // {sug.category}</p>
+                                 <p className="text-[0.6875rem] font-mono tracking-widest text-label-dim uppercase font-black">{sug.price} // {sug.category}</p>
                               </div>
                               <div className="w-11 h-11 sm:w-14 sm:h-14 rounded-full bg-editorial-text/5 border border-editorial-border-light flex items-center justify-center group-hover/sug:bg-red-600 group-hover/sug:border-red-600 transition-all duration-700 group-hover/sug:shadow-depth-2 shrink-0">
-                                <ArrowRight className="w-5 h-5 sm:w-6 sm:h-6 text-zinc-600 group-hover/sug:text-editorial-text transition-all transform group-hover/sug:translate-x-1" />
+                                <ArrowRight className="w-5 h-5 sm:w-6 sm:h-6 text-label-dim group-hover/sug:text-editorial-text transition-all transform group-hover/sug:translate-x-1" />
                               </div>
                            </Link>
                         </motion.div>

@@ -322,7 +322,7 @@ export default function ProtocolBuilder() {
               {/* Stepper HUD */}
               <div className="flex items-center gap-4 sm:gap-10 mb-20 relative z-10">
                  <div className="flex flex-col">
-                   <span className="text-meta-premium opacity-40 mb-1">Step_Index</span>
+                   <span className="text-meta-premium mb-1">Step_Index</span>
                    <span className="text-meta-premium text-2xl !text-editorial-text">0{currentStep + 1}</span>
                  </div>
                  <div className="flex-1 h-[1px] bg-editorial-text/5 relative">
@@ -340,7 +340,7 @@ export default function ProtocolBuilder() {
                     </div>
                  </div>
                  <div className="flex flex-col text-right">
-                   <span className="text-meta-premium opacity-40 mb-1">Final_Unit</span>
+                   <span className="text-meta-premium mb-1">Final_Unit</span>
                    <span className="text-meta-premium text-2xl">0{steps.length}</span>
                  </div>
               </div>
@@ -405,7 +405,7 @@ export default function ProtocolBuilder() {
                       <div className="flex-1 text-center xl:text-left space-y-6">
                         <div className="flex flex-col xl:flex-row xl:items-center gap-4">
                            <h4 className="font-black uppercase tracking-tighter text-3xl md:text-4xl drop-shadow-strong text-premium">{product.name}</h4>
-                           <span className="text-meta-premium opacity-40">{product.category}</span>
+                           <span className="text-meta-premium ">{product.category}</span>
                         </div>
                         <div className="bg-red-600/5 border-l-2 border-red-600 p-6 rounded-r-2xl transform-gpu group-hover:translate-x-2 transition-transform duration-700">
                            <p className="text-sm md:text-base text-editorial-text font-light leading-relaxed flex items-start gap-4 italic font-sans">
@@ -416,7 +416,7 @@ export default function ProtocolBuilder() {
                       </div>
                       <div className="xl:text-right shrink-0 space-y-4">
                         <span className="font-sans font-black text-4xl tracking-tighter text-premium block drop-shadow-strong">{product.price}</span>
-                        <Link to={`/product/${product.id}`} className="inline-flex text-meta-premium opacity-40 hover:opacity-100 transition-opacity border-b border-editorial-border hover:border-red-500/50 pb-1">Technical_Spec</Link>
+                        <Link to={`/product/${product.id}`} className="inline-flex text-meta-premium hover:opacity-100 transition-opacity border-b border-editorial-border hover:border-red-500/50 pb-1">Technical_Spec</Link>
                       </div>
                     </motion.div>
                   ))}
@@ -424,7 +424,7 @@ export default function ProtocolBuilder() {
 
                 <div className="flex flex-col xl:flex-row items-center justify-between gap-12 pt-16 border-t border-editorial-border relative z-10">
                   <div className="text-center xl:text-left">
-                    <span className="text-meta-premium opacity-40 block mb-2">Cumulative_Total</span>
+                    <span className="text-meta-premium block mb-2">Cumulative_Total</span>
                     <span className="text-5xl md:text-6xl font-black tracking-tighter drop-shadow-strong text-premium">
                       £{resultStack?.reduce((acc, p) => acc + Number(p.price.toString().replace('£', '')), 0).toFixed(2)}
                     </span>

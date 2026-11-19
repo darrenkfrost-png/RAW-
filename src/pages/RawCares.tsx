@@ -127,7 +127,7 @@ export default function RawCares() {
             <button disabled aria-disabled="true" title="COMING_SOON" className="cursor-not-allowed opacity-50 bg-red-600 text-white px-20 py-10 rounded-2xl font-black uppercase tracking-[0.4em] text-[0.9375rem] hover:bg-editorial-text hover:text-editorial-bg transition-all duration-500 shadow-[0_20px_50px_rgba(220,38,38,0.4)] hover:shadow-[0_20px_50px_rgba(0,0,0,0.08)] transform-gpu hover:-translate-y-2 border-b-[4px] border-red-800 active:border-b-0 active:translate-y-[2px]">
               Deploy Resources
             </button>
-            <span className="block mt-6 font-mono text-[0.6875rem] font-black uppercase tracking-[0.3em] text-zinc-500">COMING_SOON</span>
+            <span className="block mt-6 font-mono text-[0.6875rem] font-black uppercase tracking-[0.3em] text-label-dim">COMING_SOON</span>
           </MagneticWrapper>
         </div>
       </section>

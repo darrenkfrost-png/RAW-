@@ -153,7 +153,7 @@ export default function ShopIframePanel() {
                 <span className="font-mono text-[0.6875rem] text-editorial-text-muted uppercase tracking-widest truncate">Opens rawofficial.co in a frame</span>
               </div>
               <div className="text-right">
-                <span className="font-mono text-[0.6875rem] text-zinc-700 tracking-[0.2em]">© RAW_OFFICIAL // PROCUREMENT_NODE_01</span>
+                <span className="font-mono text-[0.6875rem] text-label-dim tracking-[0.2em]">© RAW_OFFICIAL // PROCUREMENT_NODE_01</span>
               </div>
             </div>
           </motion.div>

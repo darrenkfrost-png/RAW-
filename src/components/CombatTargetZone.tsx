@@ -150,7 +150,7 @@ export default function CombatTargetZone() {
                           />
                           <Target className="w-20 h-20 text-zinc-800 drop-shadow-[0_0_20px_rgba(0,0,0,0.1)] relative z-10" />
                        </div>
-                       <span className="font-mono text-[0.75rem] text-zinc-600 tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] uppercase font-bold">{machineText("Hover_Or_Tap_A_Zone")}</span>
+                       <span className="font-mono text-[0.75rem] text-label-dim tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] uppercase font-bold">{machineText("Hover_Or_Tap_A_Zone")}</span>
                     </motion.div>
                   )}
                </AnimatePresence>

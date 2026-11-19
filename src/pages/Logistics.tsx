@@ -143,17 +143,17 @@ export default function Logistics() {
             <div className="space-y-6">
                 <div className="flex items-center gap-4">
                     <span className="w-12 h-[2px] bg-red-600" />
-                    <span className="font-mono text-[0.6875rem] text-zinc-500 uppercase tracking-[0.4em] font-black">Infrastructure_Allocation</span>
+                    <span className="font-mono text-[0.6875rem] text-label-dim uppercase tracking-[0.4em] font-black">Infrastructure_Allocation</span>
                 </div>
                 <h2 className="font-black uppercase tracking-tighter text-editorial-text text-display-sm">Sector Fulfillment <span className="text-red-600 italic">Matrix</span></h2>
             </div>
             <div className="flex flex-wrap gap-4 p-4 bg-editorial-bg/60 border border-editorial-border rounded-2xl backdrop-blur-xl max-w-full">
                  <div className="flex flex-col gap-1 pr-6 border-r border-editorial-border">
-                    <span className="text-[0.6875rem] font-mono text-zinc-600 uppercase tracking-widest">ACTIVE_HUBS</span>
+                    <span className="text-[0.6875rem] font-mono text-label-dim uppercase tracking-widest">ACTIVE_HUBS</span>
                     <span className="text-2xl font-black text-white">24</span>
                  </div>
                  <div className="flex flex-col gap-1 px-6">
-                    <span className="text-[0.6875rem] font-mono text-zinc-600 uppercase tracking-widest">AVG_TRANSIT</span>
+                    <span className="text-[0.6875rem] font-mono text-label-dim uppercase tracking-widest">AVG_TRANSIT</span>
                     <span className="text-2xl font-black text-red-500">2.4d</span>
                  </div>
             </div>

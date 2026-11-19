@@ -130,7 +130,7 @@ export default function Home() {
             >
               <div className="relative inline-block">
                 <h1 className="block text-premium text-[clamp(1.625rem,7vw,8rem)] leading-[0.7] font-black uppercase tracking-[-0.08em] drop-shadow-2xl">
-                <span className="text-zinc-500 transition-colors duration-1000 block font-light tracking-[-0.05em] mt-8">RECOVER_<wbr />INTENT</span>
+                <span className="text-label-dim transition-colors duration-1000 block font-light tracking-[-0.05em] mt-8">RECOVER_<wbr />INTENT</span>
                 <motion.span 
                   animate={{ 
                     opacity: [0.85, 1, 0.85],
@@ -491,7 +491,7 @@ export default function Home() {
                  
                  <div className="text-center space-y-8 w-full max-w-xs">
                     <div className="h-[4px] w-24 bg-zinc-800 mx-auto group-hover:w-full group-hover:bg-red-600 transition-all duration-[1500ms] ease-[0.16,1,0.3,1] shadow-[0_0_20px_rgba(220,38,38,0)] group-hover:shadow-[0_0_20px_#dc2626] rounded-full" />
-                    <p className="font-mono text-[0.6875rem] font-black text-zinc-500 tracking-[0.4em] uppercase opacity-40 group-hover:opacity-100 transition-opacity duration-1000">{gauge.detail}</p>
+                    <p className="font-mono text-[0.6875rem] font-black text-label-dim tracking-[0.4em] uppercase opacity-40 group-hover:opacity-100 transition-opacity duration-1000">{gauge.detail}</p>
                  </div>
                </motion.div>
              ))}
@@ -557,7 +557,7 @@ export default function Home() {
                           line, and the page's sideways clip silently cut the date off. */}
                       <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
                          <span className="font-mono text-[0.6875rem] text-red-500 font-black uppercase tracking-[0.3em] bg-red-600/10 px-4 py-2 rounded-full border border-red-500/30 backdrop-blur-md">{intel.tag}</span>
-                         <span className="font-mono text-[0.6875rem] text-zinc-500 uppercase tracking-widest font-black">{intel.date}</span>
+                         <span className="font-mono text-[0.6875rem] text-label-dim uppercase tracking-widest font-black">{intel.date}</span>
                       </div>
                       <h3 className="title-fit-md font-sans font-black uppercase tracking-tight text-white group-hover/intel:text-red-500 transition-colors duration-500 leading-tight">
                         {machineText(intel.title)}

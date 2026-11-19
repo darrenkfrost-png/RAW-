@@ -268,12 +268,12 @@ export default function BreathingSimulator() {
           <div className="space-y-4">
             <span className="text-[0.6875rem] font-mono font-black text-emerald-500 uppercase tracking-[0.4em] block">PROTOCOL // 04 RESET</span>
             <h3 className="text-3xl font-sans font-black uppercase text-white tracking-tight">AUTONOMIC DOWN-REGULATOR</h3>
-            <p className="text-xs text-zinc-500 leading-relaxed font-light">Optimize heart rate variability (HRV) and balance CNS activity through isometric respiratory synchronization.</p>
+            <p className="text-xs text-label-dim leading-relaxed font-light">Optimize heart rate variability (HRV) and balance CNS activity through isometric respiratory synchronization.</p>
           </div>
 
           {/* Technique selectors */}
           <div className="space-y-4">
-            <span className="text-[0.6875rem] font-mono font-black text-zinc-500 tracking-widest uppercase block">SELECT RESPIRATORY VECTOR</span>
+            <span className="text-[0.6875rem] font-mono font-black text-label-dim tracking-widest uppercase block">SELECT RESPIRATORY VECTOR</span>
             <div className="space-y-3">
               {TECHNIQUES.map((tech, idx) => (
                 <button
@@ -284,9 +284,9 @@ export default function BreathingSimulator() {
                 >
                   <div className="space-y-1 max-w-[80%]">
                     <span className={`block text-[0.6875rem] font-mono font-black tracking-widest ${techIndex === idx ? tech.color : 'text-zinc-400 group-hover:text-white'}`}>{tech.name}</span>
-                    <span className="block text-[0.6875rem] text-zinc-500 font-light">{tech.description}</span>
+                    <span className="block text-[0.6875rem] text-label-dim font-light">{tech.description}</span>
                   </div>
-                  <span className="text-[0.6875rem] font-mono font-black text-zinc-600 bg-zinc-900 border border-zinc-800 px-3 py-1.5 rounded-lg group-hover:text-zinc-300">
+                  <span className="text-[0.6875rem] font-mono font-black text-label-dim bg-zinc-900 border border-zinc-800 px-3 py-1.5 rounded-lg group-hover:text-zinc-300">
                     {tech.inhale}-{tech.hold1}-{tech.exhale}-{tech.hold2}
                   </span>
                 </button>
@@ -297,8 +297,8 @@ export default function BreathingSimulator() {
           {/* Session counters */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 border-t border-zinc-900 pt-8">
             <div className="bg-zinc-950/40 border border-zinc-900/60 rounded-xl p-4 text-center">
-              <span className="text-[0.6875rem] font-mono font-bold text-zinc-500 uppercase block tracking-wider mb-1">COMPLETED</span>
-              <span className="text-lg font-mono font-black text-white">{completedCycles} <span className="text-[0.6875rem] text-zinc-600">SETS</span></span>
+              <span className="text-[0.6875rem] font-mono font-bold text-label-dim uppercase block tracking-wider mb-1">COMPLETED</span>
+              <span className="text-lg font-mono font-black text-white">{completedCycles} <span className="text-[0.6875rem] text-label-dim">SETS</span></span>
             </div>
           </div>
         </div>
@@ -341,7 +341,7 @@ export default function BreathingSimulator() {
                     initial={{ opacity: 0, y: 5 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -5 }}
-                    className={`font-sans font-black text-[0.8125rem] tracking-[0.25em] block ${isActive ? currentTech.color : 'text-zinc-500'}`}
+                    className={`font-sans font-black text-[0.8125rem] tracking-[0.25em] block ${isActive ? currentTech.color : 'text-label-dim'}`}
                   >
                     {isActive ? stepName : 'IDLE_OFF'}
                   </motion.span>
@@ -358,7 +358,7 @@ export default function BreathingSimulator() {
           <div className="flex items-center gap-6">
             <button
               onClick={() => setIsActive(!isActive)}
-              className={`flex items-center gap-3 py-4 px-8 rounded-full border text-[0.6875rem] font-mono font-black uppercase tracking-widest cursor-pointer transition-all duration-300 ${isActive ? 'bg-red-700/10 border-red-500/30 text-red-500 hover:bg-red-600 hover:text-white' : 'bg-emerald-600 border-emerald-500 text-white hover:bg-emerald-500 hover:shadow-[0_4px_20px_rgba(16,185,129,0.4)]'}`}
+              className={`flex items-center gap-3 py-4 px-8 rounded-full border text-[0.6875rem] font-mono font-black uppercase tracking-widest cursor-pointer transition-all duration-300 ${isActive ? 'bg-red-700/10 border-red-500/30 text-red-500 hover:bg-red-600 hover:text-white' : 'bg-emerald-700 border-emerald-500 text-white hover:bg-emerald-500 hover:shadow-[0_4px_20px_rgba(16,185,129,0.4)]'}`}
             >
               {isActive ? (
                 <>
@@ -373,7 +373,7 @@ export default function BreathingSimulator() {
 
             <button
               onClick={handleReset}
-              className="p-4 bg-zinc-950 border border-zinc-900 hover:border-zinc-800 text-zinc-500 hover:text-white rounded-full transition-all cursor-pointer"
+              className="p-4 bg-zinc-950 border border-zinc-900 hover:border-zinc-800 text-label-dim hover:text-white rounded-full transition-all cursor-pointer"
               title="Reset parameters"
             >
               <RotateCcw className="w-4 h-4" />

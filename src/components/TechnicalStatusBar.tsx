@@ -103,7 +103,7 @@ export default function TechnicalStatusBar() {
                     />
                   </div>
                   
-                  <div className="flex justify-between mt-4 text-[0.6875rem] font-mono font-bold text-zinc-600 uppercase">
+                  <div className="flex justify-between mt-4 text-[0.6875rem] font-mono font-bold text-label-dim uppercase">
                     <span>50%</span>
                     <span className="text-white">100%</span>
                     <span>150%</span>
@@ -133,7 +133,7 @@ export default function TechnicalStatusBar() {
                         type="button"
                         aria-pressed={settings.visualFidelity === level}
                         onClick={() => updateSettings({ visualFidelity: level })}
-                        className={`py-3 px-2 rounded-xl text-[0.6875rem] font-black tracking-widest uppercase transition-all duration-300 border ${settings.visualFidelity === level ? 'bg-red-600/10 border-red-600 text-red-500 shadow-[0_0_15px_rgba(220,38,38,0.2)]' : 'bg-zinc-950 border-white/5 text-zinc-500 hover:border-white/20 hover:text-white'}`}
+                        className={`py-3 px-2 rounded-xl text-[0.6875rem] font-black tracking-widest uppercase transition-all duration-300 border ${settings.visualFidelity === level ? 'bg-red-600/10 border-red-600 text-red-500 shadow-[0_0_15px_rgba(220,38,38,0.2)]' : 'bg-zinc-950 border-white/5 text-label-dim hover:border-white/20 hover:text-white'}`}
                       >
                         {level}
                       </button>

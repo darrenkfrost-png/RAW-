@@ -311,7 +311,7 @@ export default function ProductDetail() {
         
         <div className="flex items-center gap-6">
            <div className="flex flex-col items-end">
-              <span className="font-mono text-[0.6875rem] text-zinc-600 uppercase tracking-[0.4em] font-black mb-1">REGISTRY_STATUS</span>
+              <span className="font-mono text-[0.6875rem] text-label-dim uppercase tracking-[0.4em] font-black mb-1">REGISTRY_STATUS</span>
               <div className={`flex items-center gap-3 px-5 py-2 rounded-full border ${currentStatus.color} backdrop-blur-3xl shadow-depth-1`}>
                 {currentStatus.icon}
                 <span className="font-mono text-[0.6875rem] uppercase font-black tracking-[0.3em]">{currentStatus.label}</span>
@@ -563,7 +563,11 @@ export default function ProductDetail() {
             transition={{ delay: 0.6, duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
             className="font-sans font-black uppercase tracking-[-0.08em] leading-[0.75] mb-16 drop-shadow-[0_40px_120px_rgba(0,0,0,1)] relative text-premium display-fit" style={{ "--fit": 12 } as React.CSSProperties}
           >
-            <span className="block italic text-red-600/30 tracking-tight mb-12 drop-shadow-none text-meta-premium !lowercase !tracking-normal text-[clamp(0.875rem,2.2vw,2.5rem)]">
+            {/* Decoration, and it sits INSIDE the h1: a screen reader was
+                announcing the heading as "TARGET_ASSET_IDENT <product name>".
+                aria-hidden gives the heading back its real text and takes this
+                garnish out of the contrast rule it could never pass at 1.23:1. */}
+            <span aria-hidden="true" className="block italic text-red-600/30 tracking-tight mb-12 drop-shadow-none text-meta-premium !lowercase !tracking-normal text-[clamp(0.875rem,2.2vw,2.5rem)]">
               <span className="opacity-40">[</span> TARGET_ASSET_IDENT <span className="opacity-40">]</span>
             </span>
             {product.name}
@@ -575,7 +579,7 @@ export default function ProductDetail() {
             className="flex items-center gap-10 mb-20"
           >
              <div className="flex flex-col">
-                <span className="text-meta-premium opacity-40 mb-2">PROCUREMENT_VAL</span>
+                <span className="text-meta-premium mb-2">PROCUREMENT_VAL</span>
                 <div className="font-sans font-black drop-shadow-[0_0_30px_rgba(0,0,0,0.04)] flex items-start text-premium text-display-lg">
                   <span className="text-4xl text-red-600 mr-4 drop-shadow-[0_0_15px_#dc2626] mt-6 font-mono">£</span>{product.price.replace('£', '')}
                 </div>
@@ -637,7 +641,7 @@ export default function ProductDetail() {
               <div className="flex items-center border border-editorial-border bg-editorial-bg/80 backdrop-blur-3xl px-8 py-4 w-full xl:w-auto justify-between rounded-[2.5rem] shadow-premium h-[100px] hover:border-editorial-border-light transition-all duration-700">
                 <button aria-label="Decrease quantity" onClick={() => setQuantity(q => Math.max(1, q - 1))} className="p-5 text-editorial-text-muted hover:text-red-500 hover:bg-editorial-bg rounded-2xl transition-all duration-500 group/btn"><Minus className="w-6 h-6 drop-shadow-[0_0_8px_currentColor]" /></button>
                 <div className="flex flex-col items-center">
-                   <span className="text-meta-premium opacity-40 mb-1">UNITS</span>
+                   <span className="text-meta-premium mb-1">UNITS</span>
                    <span className="w-24 text-center font-sans font-black text-4xl tracking-tighter text-editorial-text">{quantity}</span>
                 </div>
                 <button aria-label="Increase quantity" onClick={() => setQuantity(q => q + 1)} className="p-5 text-editorial-text-muted hover:text-emerald-500 hover:bg-editorial-bg rounded-2xl transition-all duration-500 group/btn"><Plus className="w-6 h-6 drop-shadow-[0_0_8px_currentColor]" /></button>
@@ -773,7 +777,7 @@ export default function ProductDetail() {
               <div className="fits-its-column w-full space-y-12 relative z-10">
                   <div className="flex items-center gap-5">
                       <span className="w-12 h-[2px] bg-red-600 shadow-[0_0_10px_#dc2626]" />
-                      <span className="font-mono text-[0.6875rem] text-zinc-500 uppercase tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] font-black">{machineText("Performance_Architecture")}</span>
+                      <span className="font-mono text-[0.6875rem] text-label-dim uppercase tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] font-black">{machineText("Performance_Architecture")}</span>
                   </div>
                   <h2 className="font-black uppercase tracking-tighter text-white leading-[0.8] transition-all duration-1000 group-hover/cinematic:drop-shadow-[0_0_30px_rgba(239,68,68,0.2)] display-fit" style={{ "--fit": 14 } as React.CSSProperties}>
                     Validated <br /> 
@@ -996,7 +1000,7 @@ export default function ProductDetail() {
                          ))}
                       </div>
                    </div>
-                   <span className="font-mono text-[0.6875rem] text-zinc-600 uppercase tracking-widest font-black">
+                   <span className="font-mono text-[0.6875rem] text-label-dim uppercase tracking-widest font-black">
                      BASED_ON_{visibleReviews.length}_REPORTS
                    </span>
                  </>
@@ -1007,7 +1011,7 @@ export default function ProductDetail() {
                          <Star key={i} className="w-8 h-8 text-zinc-800" />
                       ))}
                    </div>
-                   <span className="font-mono text-[0.6875rem] text-zinc-600 uppercase tracking-widest font-black">
+                   <span className="font-mono text-[0.6875rem] text-label-dim uppercase tracking-widest font-black">
                      No reviews yet
                    </span>
                  </>
@@ -1025,9 +1029,9 @@ export default function ProductDetail() {
                <div className="bg-editorial-surface/40 p-10 rounded-[2.5rem] border border-editorial-border backdrop-blur-3xl" aria-disabled="true">
                   <h4 className="font-mono text-[0.6875rem] font-black uppercase tracking-[0.4em] text-red-500 mb-6 flex flex-wrap items-center gap-3">
                      <Plus className="w-4 h-4" /> SUBMIT_REPORT
-                     <span className="font-mono text-[0.6875rem] font-black uppercase tracking-[0.3em] text-zinc-500 border border-zinc-700 rounded-full px-3 py-1">COMING_SOON</span>
+                     <span className="font-mono text-[0.6875rem] font-black uppercase tracking-[0.3em] text-label-dim border border-zinc-700 rounded-full px-3 py-1">COMING_SOON</span>
                   </h4>
-                  <p className="font-mono text-[0.6875rem] uppercase tracking-widest text-zinc-500 leading-relaxed">
+                  <p className="font-mono text-[0.6875rem] uppercase tracking-widest text-label-dim leading-relaxed">
                      Field reports are not open yet. Debrief logs will be accepted here once there is somewhere to keep them.
                   </p>
                </div>
@@ -1038,7 +1042,7 @@ export default function ProductDetail() {
                   </h4>
                   <form onSubmit={handleReviewSubmit} className="space-y-8">
                      <div>
-                        <label htmlFor="review-author" className="font-mono text-[0.6875rem] uppercase tracking-widest text-zinc-500 mb-4 block">IDENTIFIER</label>
+                        <label htmlFor="review-author" className="font-mono text-[0.6875rem] uppercase tracking-widest text-label-dim mb-4 block">IDENTIFIER</label>
                         <input
                            id="review-author"
                            type="text"
@@ -1049,7 +1053,7 @@ export default function ProductDetail() {
                         />
                      </div>
                      <div>
-                        <label className="font-mono text-[0.6875rem] uppercase tracking-widest text-zinc-500 mb-4 block">EFFICIENCY_RATING</label>
+                        <label className="font-mono text-[0.6875rem] uppercase tracking-widest text-label-dim mb-4 block">EFFICIENCY_RATING</label>
                         <div className="flex gap-4">
                            {[1,2,3,4,5].map(i => (
                               <button
@@ -1074,7 +1078,7 @@ export default function ProductDetail() {
                         </div>
                      </div>
                      <div>
-                        <label htmlFor="review-content" className="font-mono text-[0.6875rem] uppercase tracking-widest text-zinc-500 mb-4 block">DEBRIEF_LOG</label>
+                        <label htmlFor="review-content" className="font-mono text-[0.6875rem] uppercase tracking-widest text-label-dim mb-4 block">DEBRIEF_LOG</label>
                         <textarea
                            id="review-content"
                            placeholder="FIELD_NOTES..."
@@ -1107,7 +1111,7 @@ export default function ProductDetail() {
                               ))}
                            </div>
                            <div className="w-[1px] h-4 bg-editorial-border-light mx-2" />
-                           <span className="font-mono text-[0.6875rem] text-zinc-600 uppercase tracking-widest font-black">{review.date}</span>
+                           <span className="font-mono text-[0.6875rem] text-label-dim uppercase tracking-widest font-black">{review.date}</span>
                         </div>
                         <div className="flex items-start gap-8">
                            <div className="w-14 h-14 bg-editorial-surface border border-editorial-border rounded-2xl flex items-center justify-center font-mono font-black text-red-500 text-lg shadow-depth-1 group-hover/review:scale-110 transition-transform duration-700">
@@ -1121,12 +1125,12 @@ export default function ProductDetail() {
                               <div className="flex items-center gap-6">
                                  <button 
                                     onClick={() => toggleReportStatus(review.id)}
-                                    className={`font-mono text-[0.6875rem] uppercase tracking-widest font-black transition-colors ${review.reported ? 'text-red-500' : 'text-zinc-700 hover:text-white'}`}
+                                    className={`font-mono text-[0.6875rem] uppercase tracking-widest font-black transition-colors ${review.reported ? 'text-red-500' : 'text-label-dim hover:text-white'}`}
                                  >
                                     {review.reported ? '[ REPORTED ]' : '[ FLAG_FOR_REVISION ]'}
                                  </button>
                                  <div className="h-1.5 w-1.5 rounded-full bg-zinc-800" />
-                                 <span className="font-mono text-[0.6875rem] text-zinc-700 uppercase tracking-widest font-black">ENCRYPTED_SIG: {review.id.slice(0, 8)}</span>
+                                 <span className="font-mono text-[0.6875rem] text-label-dim uppercase tracking-widest font-black">ENCRYPTED_SIG: {review.id.slice(0, 8)}</span>
                               </div>
                            </div>
                         </div>
@@ -1136,7 +1140,7 @@ export default function ProductDetail() {
                
                {visibleReviews.length === 0 && (
                   <div className="p-20 text-center border-2 border-dashed border-editorial-border rounded-[3rem]">
-                     <span className="font-mono text-zinc-600 uppercase tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] font-black">{machineText("NO_DEBRIEF_LOGS_ON_FILE")}</span>
+                     <span className="font-mono text-label-dim uppercase tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] font-black">{machineText("NO_DEBRIEF_LOGS_ON_FILE")}</span>
                   </div>
                )}
             </div>

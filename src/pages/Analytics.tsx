@@ -93,7 +93,7 @@ export default function Analytics() {
             >
               <div className="flex justify-between items-start w-full relative z-10 mb-10">
                 <span className={`font-mono text-[0.6875rem] xl:text-[0.75rem] uppercase tracking-[0.4em] ${textSubClass} drop-shadow-[0_2px_4px_rgba(0,0,0,0.08)]`}>{card.title}</span>
-                <card.icon className={`w-6 h-6 xl:w-8 xl:h-8 ${is110Percent ? 'text-emerald-500 group-hover:animate-spin drop-shadow-[0_0_8px_rgba(16,185,129,0.5)]' : 'text-zinc-600 group-hover:text-red-500 transition-colors duration-500'}`} />
+                <card.icon className={`w-6 h-6 xl:w-8 xl:h-8 ${is110Percent ? 'text-emerald-500 group-hover:animate-spin drop-shadow-[0_0_8px_rgba(16,185,129,0.5)]' : 'text-label-dim group-hover:text-red-500 transition-colors duration-500'}`} />
               </div>
               <div className="relative z-10">
                 <div className={`text-5xl xl:text-7xl font-black tracking-tighter ${is110Percent ? 'text-emerald-500' : 'text-premium'} ${is110Percent && i === 2 ? 'animate-pulse drop-shadow-[0_0_15px_rgba(16,185,129,0.8)]' : ''}`}>{card.value}</div>
@@ -117,11 +117,11 @@ export default function Analytics() {
                 <div className="flex gap-4">
                     <div className="flex items-center gap-2">
                         <div className="w-2 h-2 rounded-full bg-emerald-500" />
-                        <span className="font-mono text-[0.6875rem] text-zinc-500 uppercase tracking-widest">ACTIVE</span>
+                        <span className="font-mono text-[0.6875rem] text-label-dim uppercase tracking-widest">ACTIVE</span>
                     </div>
                     <div className="flex items-center gap-2">
                         <div className="w-2 h-2 rounded-full bg-red-600 animate-pulse" />
-                        <span className="font-mono text-[0.6875rem] text-zinc-500 uppercase tracking-widest">CRITICAL</span>
+                        <span className="font-mono text-[0.6875rem] text-label-dim uppercase tracking-widest">CRITICAL</span>
                     </div>
                 </div>
             </div>
@@ -243,7 +243,7 @@ export default function Analytics() {
         {/* Neural Timeline */}
         <div className="pt-32">
            <div className="flex flex-col items-center mb-32">
-              <span className="text-red-600 font-mono text-[0.75rem] font-black tracking-[0.3em] sm:tracking-[0.8em] [overflow-wrap:anywhere] mb-8 uppercase">EVOLUTIONARY_LOGS</span>
+              <span className="text-red-500 font-mono text-[0.75rem] font-black tracking-[0.3em] sm:tracking-[0.8em] [overflow-wrap:anywhere] mb-8 uppercase">EVOLUTIONARY_LOGS</span>
               <h2 className="font-black text-editorial-text uppercase tracking-tighter text-center text-display-md">THE_RAW_PROTOCOL <br/><span className="text-transparent bg-clip-text bg-gradient-to-r from-red-600 to-red-900">TIMELINE</span></h2>
            </div>
            <NeuralTimeline />

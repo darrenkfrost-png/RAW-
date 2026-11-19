@@ -52,7 +52,16 @@ const defaultSettings: Settings = {
   screensaverShowTagline: true,
   videoWallpaperShuffle: true,
   activeWallpaper: 'polyrhythm',
-  wallpaperColor: '#dc2626',
+  /* ⚠️ THIS IS THE BRAND ACCENT, AND IT DISAGREED WITH THE STYLESHEET.
+     index.css declares --color-editorial-accent: #ff1d48, and this default
+     overwrote it at runtime with #dc2626 — so the colour the site actually
+     shipped was never the one the design system declared. The shipped one also
+     failed contrast: #dc2626 on the page background is 4.22:1, under the 4.5:1
+     small text needs, which is why accent labels were being flagged. #ff1d48
+     is the declared value and clears it at 5.36:1, so the two now agree and
+     the agreement is the one that passes. A colour the visitor chooses here can
+     still fail; that is theirs to pick, and only the default is ours. */
+  wallpaperColor: '#ff1d48',
   wallpaperSpeed: 1,
   wallpaperBrightness: 1,
   voiceRate: 1,

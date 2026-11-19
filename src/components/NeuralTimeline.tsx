@@ -64,7 +64,8 @@ export default function NeuralTimeline() {
           selected or clicked; aria-hidden excuses it from being read.
           scripts/ghosttext.mjs measures this. */}
       <div aria-hidden="true" className="absolute top-0 right-10 opacity-[0.05] pointer-events-none font-black italic select-none text-display-lg">H.RITAGE</div>
-      <div className="absolute bottom-0 left-10 opacity-[0.05] pointer-events-none font-black italic select-none text-display-lg">M.SSION</div>
+      {/* Its twin above has been aria-hidden since the ghost-text sweep; this one was missed. Same texture, same treatment. */}
+      <div aria-hidden="true" className="absolute bottom-0 left-10 opacity-[0.05] pointer-events-none font-black italic select-none text-display-lg">M.SSION</div>
     </div>
   );
 }

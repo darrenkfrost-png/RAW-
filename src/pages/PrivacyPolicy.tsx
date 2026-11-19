@@ -10,7 +10,7 @@ export default function PrivacyPolicy() {
       
       <div className="space-y-16 relative z-10">
         <section className="bg-editorial-bg/80 p-10 xl:p-14 rounded-[2rem] border border-editorial-border shadow-[0_20px_50px_rgba(0,0,0,0.1)] backdrop-blur-3xl hover:border-red-500/30 transition-colors duration-[800ms] group">
-          <h2 className="font-mono font-black text-[0.8125rem] uppercase tracking-[0.4em] mb-8 text-red-500 flex items-center gap-4"><span className="text-zinc-600 font-bold">01</span> Introduction</h2>
+          <h2 className="font-mono font-black text-[0.8125rem] uppercase tracking-[0.4em] mb-8 text-red-500 flex items-center gap-4"><span className="text-label-dim font-bold">01</span> Introduction</h2>
           <p className="font-light leading-relaxed text-lg xl:text-xl text-editorial-text-muted group-hover:text-editorial-text transition-colors duration-[800ms]">This policy explains what RAW Official collects when you use this site, and what happens to it.</p>
 
           {/* ⚠️ TWO INVENTED SECURITY CLAIMS WERE REMOVED FROM THIS PAGE.
@@ -42,7 +42,7 @@ export default function PrivacyPolicy() {
         </section>
 
         <section className="bg-editorial-bg/80 p-10 xl:p-14 rounded-[2rem] border border-editorial-border shadow-[0_20px_50px_rgba(0,0,0,0.1)] backdrop-blur-3xl hover:border-red-500/30 transition-colors duration-[800ms] group">
-          <h2 className="font-mono font-black text-[0.8125rem] uppercase tracking-[0.4em] mb-8 text-red-500 flex items-center gap-4"><span className="text-zinc-600 font-bold">02</span> Information We Collect</h2>
+          <h2 className="font-mono font-black text-[0.8125rem] uppercase tracking-[0.4em] mb-8 text-red-500 flex items-center gap-4"><span className="text-label-dim font-bold">02</span> Information We Collect</h2>
           <ul className="space-y-6 font-light leading-relaxed text-lg xl:text-xl text-editorial-text-muted list-none max-w-3xl group-hover:text-editorial-text transition-colors duration-[800ms]">
             <li className="flex gap-5 items-start"><div className="w-2 h-2 bg-red-600 rounded-full mt-2.5 shrink-0 shadow-[0_0_8px_#dc2626]" /><strong>Identity Data:</strong> Call-sign, comms link, coordinates, and priority deployment metrics.</li>
             <li className="flex gap-5 items-start"><div className="w-2 h-2 bg-red-600 rounded-full mt-2.5 shrink-0 shadow-[0_0_8px_#dc2626]" /><strong>Payment information:</strong> none is collected. The site is not connected to a payment provider, so no card details are taken or stored anywhere.</li>
@@ -51,7 +51,7 @@ export default function PrivacyPolicy() {
         </section>
 
         <section className="bg-editorial-bg/80 p-10 xl:p-14 rounded-[2rem] border border-editorial-border shadow-[0_20px_50px_rgba(0,0,0,0.1)] backdrop-blur-3xl hover:border-red-500/30 transition-colors duration-[800ms] group">
-          <h2 className="font-mono font-black text-[0.8125rem] uppercase tracking-[0.4em] mb-8 text-red-500 flex items-center gap-4"><span className="text-zinc-600 font-bold">03</span> Data Utilization</h2>
+          <h2 className="font-mono font-black text-[0.8125rem] uppercase tracking-[0.4em] mb-8 text-red-500 flex items-center gap-4"><span className="text-label-dim font-bold">03</span> Data Utilization</h2>
           <ul className="space-y-6 font-light leading-relaxed text-lg xl:text-xl text-editorial-text-muted list-none max-w-3xl group-hover:text-editorial-text transition-colors duration-[800ms]">
             <li className="flex gap-5 items-start"><div className="w-2 h-2 bg-red-600 rounded-full mt-2.5 shrink-0 shadow-[0_0_8px_#dc2626]" />To coordinate drops.</li>
             <li className="flex gap-5 items-start"><div className="w-2 h-2 bg-red-600 rounded-full mt-2.5 shrink-0 shadow-[0_0_8px_#dc2626]" />To broadcast vital system updates and operational adjustments.</li>

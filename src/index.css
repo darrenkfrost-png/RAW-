@@ -38,6 +38,25 @@
   --color-editorial-text-muted: #d1d1d6;
   --color-editorial-text-meta: #a1a1aa;
 
+  /* ⚠️ THE DIMMEST LABEL GREY THAT A PERSON CAN ACTUALLY READ.
+     The site's small mono labels were set in zinc-700, zinc-600 and zinc-500 —
+     #3f3f46, #52525c and #71717b. On the page background (#050505) those come
+     out at 1.95:1, 2.64:1 and 4.22:1, against the 4.5:1 that 13px bold text
+     needs. 307 runs of text on 58 of 78 routes failed, measured at phone width,
+     and the accessibility sweep had been reporting zero because it judged the
+     page 1.8s in, while the text was still fading up and could not be scored.
+
+     This is the darkest grey that clears 4.5:1 on BOTH the page (#050505,
+     5.96:1) and the card (#18181b, 5.18:1), computed rather than picked:
+     Tailwind's next step up, zinc-400, would have been 7.95:1 and visibly
+     brighter than the design wants. Everything dim and informational points
+     here, so there is one dial to turn if it reads too light.
+
+     Decoration is NOT this colour's problem. The huge faint watermark words are
+     meant to be barely there; they are marked aria-hidden instead, because they
+     are texture rather than text. */
+  --color-label-dim: #8a8a93;
+
   /* Premium Layout Token System */
   --header-height: 100px;
   --header-height-mobile: 80px;
@@ -179,7 +198,7 @@
   }
   
   body {
-    @apply bg-[#0a0a0c] text-editorial-text font-sans antialiased leading-[1.65] text-base overflow-x-hidden;
+    @apply bg-[#0a0a0c] text-editorial-text font-sans antialiased leading-[1.65] text-base overflow-x-clip;
     letter-spacing: -0.012em;
     background-image: url("/media/wp/2026/02/RAW-TM-Logo-RED.png");
     background-size: 600px 600px;

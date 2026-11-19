@@ -100,7 +100,7 @@ function Sidebar() {
           {links.map((link) => {
             const isActive = link.path !== '#' && pathname === link.path;
             
-            const itemClass = `relative z-10 flex items-center rounded-2xl transition-all duration-500 font-mono text-[0.6875rem] uppercase tracking-[0.2em] font-black whitespace-nowrap focus:outline-none focus:ring-2 focus:ring-red-500/50 group-hover:px-6 ${isSidebarCollapsed ? 'flex-col justify-center gap-1.5 px-1 py-2.5 mx-auto w-[88px] group-hover:px-1' : 'gap-4 px-5 py-4'} ${isActive ? 'bg-red-600 text-white shadow-[0_10px_30px_rgba(220,38,38,0.4)]' : 'text-zinc-500 hover:bg-white/5 hover:text-white'}`;
+            const itemClass = `relative z-10 flex items-center rounded-2xl transition-all duration-500 font-mono text-[0.6875rem] uppercase tracking-[0.2em] font-black whitespace-nowrap focus:outline-none focus:ring-2 focus:ring-red-500/50 group-hover:px-6 ${isSidebarCollapsed ? 'flex-col justify-center gap-1.5 px-1 py-2.5 mx-auto w-[88px] group-hover:px-1' : 'gap-4 px-5 py-4'} ${isActive ? 'bg-red-600 text-white shadow-[0_10px_30px_rgba(220,38,38,0.4)]' : 'text-label-dim hover:bg-white/5 hover:text-white'}`;
 
             const itemInner = (
               <>

@@ -57,8 +57,8 @@ export class ErrorBoundary extends React.Component<Props, State> {
                 </div>
                 <p>Reloading usually fixes it. If it keeps happening, the details below will help us put it right.</p>
                 <div className="h-px w-20 bg-red-600/20 mx-auto my-4" />
-                <p className="text-[0.6875rem] text-zinc-600 font-bold overflow-auto max-h-32 text-red-400">ERROR: {this.state.error?.message}</p>
-                <p className="text-[0.6875rem] text-zinc-600 font-bold overflow-auto max-h-32 text-red-500">{this.state.errorInfo?.componentStack}</p>
+                <p className="text-[0.6875rem] text-label-dim font-bold overflow-auto max-h-32 text-red-400">ERROR: {this.state.error?.message}</p>
+                <p className="text-[0.6875rem] text-label-dim font-bold overflow-auto max-h-32 text-red-500">{this.state.errorInfo?.componentStack}</p>
             </div>
             
             <motion.button 

@@ -197,7 +197,7 @@ export default function Shop() {
         <div className="flex flex-col gap-6 w-full xl:w-auto relative z-20">
             {/* Search Box - Refined */}
             <div className="relative group/search w-full lg:w-[520px]">
-                <Search className="absolute left-7 top-1/2 -translate-y-1/2 w-6 h-6 text-zinc-600 group-focus-within/search:text-red-500 transition-all duration-500 drop-shadow-sm" />
+                <Search className="absolute left-7 top-1/2 -translate-y-1/2 w-6 h-6 text-label-dim group-focus-within/search:text-red-500 transition-all duration-500 drop-shadow-sm" />
                 <input 
                     type="text"
                     value={filters.searchQuery}
@@ -217,7 +217,7 @@ export default function Shop() {
                  onClick={() => setIsFilterOpen(true)}
                  aria-expanded={isFilterOpen}
                  aria-label="Toggle structural filters"
-                 className={`flex-1 lg:flex-none flex items-center justify-center gap-6 p-6 px-10 border rounded-[1.5rem] transition-all duration-[600ms] group/filter relative overflow-hidden ${activeFilterCount > 0 ? 'border-red-500 text-editorial-text shadow-[0_0_30px_rgba(220,38,38,0.3)] bg-red-950/20' : 'border-editorial-border text-zinc-600 hover:text-editorial-text hover:border-editorial-border-light bg-editorial-bg'}`}
+                 className={`flex-1 lg:flex-none flex items-center justify-center gap-6 p-6 px-10 border rounded-[1.5rem] transition-all duration-[600ms] group/filter relative overflow-hidden ${activeFilterCount > 0 ? 'border-red-500 text-editorial-text shadow-[0_0_30px_rgba(220,38,38,0.3)] bg-red-950/20' : 'border-editorial-border text-label-dim hover:text-editorial-text hover:border-editorial-border-light bg-editorial-bg'}`}
                >
                  <Filter className="w-5 h-5 drop-shadow-[0_2px_4px_currentColor]" />
                  <span className="text-[0.75rem] font-mono uppercase tracking-[0.4em] font-black">
@@ -285,7 +285,7 @@ export default function Shop() {
             
             <h3 className="font-sans font-black uppercase tracking-tight text-editorial-text mb-6 text-display-sm">
                 <span className="block text-editorial-accent mb-2 drop-shadow-[0_0_15px_rgba(220,38,38,0.5)]">SYSTEM_NULL</span>
-                <span className="block text-xl md:text-3xl font-light text-zinc-600">NO_MATCHING_UNITS</span>
+                <span className="block text-xl md:text-3xl font-light text-label-dim">NO_MATCHING_UNITS</span>
             </h3>
             
             <p className="text-editorial-text-muted font-mono text-[0.6875rem] xl:text-[0.75rem] uppercase tracking-[0.4em] font-medium max-w-lg mx-auto leading-relaxed mb-16">

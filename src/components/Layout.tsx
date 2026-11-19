@@ -75,8 +75,21 @@ export default function Layout() {
   // One call here gives every route its own title and share preview.
   usePageMeta();
 
+  /* ⚠️ overflow-x-hidden ON THE WRAPPER BELOW DISABLED EVERY STICKY ELEMENT IN
+     THE APP. Setting ONE axis to `hidden` makes the browser compute the other
+     as `auto`, so this wrapper became a scroll container — and a sticky element
+     cannot stick inside one. Every `position: sticky` on the site was therefore
+     dead: the protocol-stack sidebars and the product page's buy panel simply
+     scrolled away, with nothing in the console and nothing that looked wrong.
+     Measured on /protocol-stacks: a sidebar that should pin at 190px rode up to
+     -210px instead. The same rule was on `body` in index.css and is changed
+     there too.
+     `overflow-x-clip` does the job this was here for — containing the
+     decorative full-bleed glows so nothing scrolls sideways — WITHOUT creating
+     a scroll container. scripts/stickycheck.mjs scrolls each sticky element
+     into its own range and fails if it comes loose. */
   return (
-    <div className="bg-editorial-bg text-editorial-text font-sans min-h-svh relative selection:bg-editorial-accent/30 overflow-x-hidden">
+    <div className="bg-editorial-bg text-editorial-text font-sans min-h-svh relative selection:bg-editorial-accent/30 overflow-x-clip">
       {/* Background Layer - Deep & Immersive */}
       <div className="fixed inset-0 z-[var(--z-background)] bg-editorial-bg" aria-hidden="true" />
       

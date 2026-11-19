@@ -123,7 +123,7 @@ export default function PwaOfflineConsole() {
       {/* Header Block */}
       <div className="flex flex-col md:flex-row items-start md:items-center justify-between border-b border-editorial-border/40 pb-5 gap-3">
         <div>
-          <span className="font-mono text-[0.6875rem] text-zinc-500 uppercase tracking-[0.4em] font-black">
+          <span className="font-mono text-[0.6875rem] text-label-dim uppercase tracking-[0.4em] font-black">
             PWA_FOUNDATORY // OFFLINE_CONSOLE
           </span>
           <h2 className="text-2xl font-black text-white tracking-tight uppercase mt-1">

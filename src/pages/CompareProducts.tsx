@@ -67,7 +67,7 @@ export default function CompareProducts() {
             </span>
             <div className="flex items-center gap-4 relative z-10">
                <div className={`w-2 h-2 rounded-full transition-all duration-500 ${selectedItems.length === 3 ? 'bg-red-600 animate-ping shadow-[0_0_10px_#dc2626]' : 'bg-zinc-800'}`} />
-               <ChevronDown className={`w-6 h-6 text-zinc-600 transition-transform duration-700 ease-[0.16,1,0.3,1] ${isSelectorOpen ? 'rotate-180 text-red-500' : ''}`} />
+               <ChevronDown className={`w-6 h-6 text-label-dim transition-transform duration-700 ease-[0.16,1,0.3,1] ${isSelectorOpen ? 'rotate-180 text-red-500' : ''}`} />
             </div>
           </button>
           
@@ -102,7 +102,7 @@ export default function CompareProducts() {
                         </div>
                         <div className="flex-1 min-w-0 space-y-1">
                            <span className={`block font-sans font-black text-sm uppercase tracking-tight truncate transition-colors duration-500 ${isSelected ? 'text-editorial-text' : 'text-editorial-text-muted group-hover/item:text-editorial-text'}`}>{product.name}</span>
-                           <span className="block font-mono text-[0.6875rem] text-zinc-600 uppercase tracking-widest">{product.category}</span>
+                           <span className="block font-mono text-[0.6875rem] text-label-dim uppercase tracking-widest">{product.category}</span>
                         </div>
                         {isSelected && (
                            <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} className="shrink-0 bg-red-600 rounded-full p-1.5 shadow-[0_0_15px_#dc2626]">
@@ -140,7 +140,7 @@ export default function CompareProducts() {
                   <button 
                     onClick={() => removeProduct(item.id)}
                     aria-label={`Remove ${item.name}`}
-                    className="absolute top-10 right-10 p-4 bg-editorial-bg border border-editorial-border hover:border-red-600 hover:bg-red-600 hover:text-white text-zinc-600 rounded-full transition-all duration-700 z-20 shadow-depth-1 group/remove"
+                    className="absolute top-10 right-10 p-4 bg-editorial-bg border border-editorial-border hover:border-red-600 hover:bg-red-600 hover:text-white text-label-dim rounded-full transition-all duration-700 z-20 shadow-depth-1 group/remove"
                   >
                     <X className="w-5 h-5 group-hover:rotate-90 transition-transform duration-700" />
                   </button>
@@ -197,7 +197,7 @@ export default function CompareProducts() {
                  </div>
                  <div className="space-y-4">
                     <span className="font-mono text-[0.8125rem] text-red-600 uppercase tracking-[0.3em] sm:tracking-[0.8em] [overflow-wrap:anywhere] font-black block animate-pulse">AWAITING_INPUT_PARAMETERS</span>
-                    <p className="text-zinc-600 font-mono max-w-md mx-auto text-xs leading-[2.5] tracking-widest uppercase px-12">Select up to three units from the matrix registry to compare them side by side.</p>
+                    <p className="text-label-dim font-mono max-w-md mx-auto text-xs leading-[2.5] tracking-widest uppercase px-12">Select up to three units from the matrix registry to compare them side by side.</p>
                  </div>
                </div>
             </motion.div>

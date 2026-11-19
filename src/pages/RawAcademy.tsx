@@ -72,17 +72,17 @@ export default function RawAcademy() {
                         <div className="absolute top-0 right-0 p-8 font-mono text-[0.6875rem] font-black italic text-zinc-800 opacity-20 uppercase tracking-widest">{course.instructor}</div>
                         <div className="flex flex-col h-full gap-8 relative z-10">
                             <div className={`w-14 h-14 rounded-2xl flex items-center justify-center ${course.status === 'Locked' ? 'bg-zinc-800/20' : 'bg-red-600/10'}`}>
-                                {course.status === 'Locked' ? <Lock className="w-6 h-6 text-zinc-600" /> : <Play className="w-6 h-6 text-red-500" />}
+                                {course.status === 'Locked' ? <Lock className="w-6 h-6 text-label-dim" /> : <Play className="w-6 h-6 text-red-500" />}
                             </div>
                             <div className="space-y-4">
-                                <span className="font-mono text-[0.6875rem] text-zinc-500 uppercase tracking-widest">{course.level}_PROGRAM // {course.modules}_DOCS</span>
+                                <span className="font-mono text-[0.6875rem] text-label-dim uppercase tracking-widest">{course.level}_PROGRAM // {course.modules}_DOCS</span>
                                 <h3 className="title-fit-md font-black text-white uppercase tracking-tighter leading-tight group-hover/course:text-red-500 transition-colors">{course.title}</h3>
                             </div>
                             <div className="mt-auto space-y-3">
                                 <button disabled aria-disabled="true" className={`w-full button-${course.status === 'Locked' ? 'secondary' : 'premium'} !py-4 !text-[0.6875rem] relative z-10 opacity-50 cursor-not-allowed`}>
                                     {machineText(course.status === 'Locked' ? 'PREMIUM_LOCKED' : 'LAUNCH_MODULE')}
                                 </button>
-                                <span className="block text-center font-mono text-[0.6875rem] font-black uppercase tracking-[0.3em] text-zinc-500">COMING_SOON</span>
+                                <span className="block text-center font-mono text-[0.6875rem] font-black uppercase tracking-[0.3em] text-label-dim">COMING_SOON</span>
                             </div>
                         </div>
                         {course.status !== 'Locked' && (
@@ -104,7 +104,7 @@ export default function RawAcademy() {
                    className={`px-8 py-3 rounded-full font-mono text-[0.6875rem] uppercase font-black tracking-[0.2em] transition-all active:scale-95 ${
                      filter === c 
                      ? 'bg-red-600 text-white shadow-[0_0_20px_rgba(220,38,38,0.4)]' 
-                     : 'text-zinc-500 hover:text-white hover:bg-white/5'
+                     : 'text-label-dim hover:text-white hover:bg-white/5'
                    }`}
                  >
                     {c}
@@ -117,7 +117,7 @@ export default function RawAcademy() {
                  initial={{ opacity: 0 }} animate={{ opacity: 1 }}
                  className="text-center py-32 bg-editorial-bg border border-editorial-border rounded-[3rem] border-dashed"
               >
-                 <span className="font-mono text-[0.6875rem] text-zinc-600 uppercase tracking-widest font-black italic">NO_INTEL_NODES_ALLOCATED_TO_PARAMETER</span>
+                 <span className="font-mono text-[0.6875rem] text-label-dim uppercase tracking-widest font-black italic">NO_INTEL_NODES_ALLOCATED_TO_PARAMETER</span>
               </motion.div>
             )}
 
@@ -138,7 +138,7 @@ export default function RawAcademy() {
                            <span className="w-10 h-10 rounded-xl bg-red-900/20 border border-red-500/20 flex items-center justify-center">
                              <FileText className="w-4 h-4 text-red-500" />
                            </span>
-                           <span className="text-zinc-500 uppercase tracking-widest">{article.type}</span>
+                           <span className="text-label-dim uppercase tracking-widest">{article.type}</span>
                          </div>
                       </div>
                       
@@ -157,7 +157,7 @@ export default function RawAcademy() {
                          </Link>
 
                          <div className="flex flex-wrap gap-2 pt-6 border-t border-editorial-border border-dashed">
-                            <span className="w-full text-[0.6875rem] font-mono text-zinc-700 uppercase tracking-[0.4em] mb-2 font-black italic">PROTOCOL_SYSLINK:</span>
+                            <span className="w-full text-[0.6875rem] font-mono text-label-dim uppercase tracking-[0.4em] mb-2 font-black italic">PROTOCOL_SYSLINK:</span>
                             {article.products.map(pid => (
                                <Link key={pid} to={`/knowledge-core?id=${pid}`} className="px-4 py-1.5 bg-white/5 hover:bg-red-600/20 border border-editorial-border-light hover:border-red-500/50 rounded-xl text-[0.6875rem] font-mono uppercase tracking-widest text-zinc-400 hover:text-white transition-all flex items-center gap-2 group/tag">
                                  <Target className="w-3 h-3 group-hover/tag:scale-125 transition-transform" /> {pid}

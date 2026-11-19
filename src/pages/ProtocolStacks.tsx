@@ -82,8 +82,19 @@ const titleParts = (title: string) => {
 };
 
 export default function ProtocolStacks() {
+  /* ⚠️ overflow-hidden HERE SILENTLY DISABLED THE STICKY SIDEBAR BELOW.
+        `overflow: hidden` makes this a scroll container, and a sticky element
+        cannot stick inside one — so the sidebar that is meant to stay beside
+        the stack list just scrolled away with the page. Measured: it should pin
+        at 190px and instead travelled the full 1200px, from 1343px to 43px.
+        Nothing errors, nothing looks broken, it simply stops working.
+        `overflow-x-clip` still contains the decorative glow this was here for,
+        but does NOT create a scroll container, so sticky survives. Note that
+        `overflow-x-hidden` would NOT do — setting one axis to hidden makes the
+        browser compute the other as auto, and the sidebar would die again.
+        scripts/stickycheck.mjs scrolls the page and fails if it comes loose. */
   return (
-    <div className="min-h-svh bg-editorial-bg pt-32 pb-24 px-[var(--shell-padding-mobile)] md:px-[var(--shell-padding)] lg:px-[var(--shell-padding-lg)] font-sans relative overflow-hidden">
+    <div className="min-h-svh bg-editorial-bg pt-32 pb-24 px-[var(--shell-padding-mobile)] md:px-[var(--shell-padding)] lg:px-[var(--shell-padding-lg)] font-sans relative overflow-x-clip">
       <Atmosphere glowOpacity={0.05} gridMode="lines" intensity="medium" />
       
       <div className="max-w-[var(--content-max-width)] mx-auto relative z-10">
@@ -97,7 +108,7 @@ export default function ProtocolStacks() {
                 <div className="flex gap-2">
                   {[1,2,3].map(i => <div key={i} className="w-1.5 h-8 bg-red-600 shadow-[0_0_15px_#dc2626]" style={{ animation: `pulse 2s infinite ${i * 0.2}s` }} />)}
                 </div>
-                <span className="font-mono text-[0.6875rem] text-zinc-500 uppercase tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] font-black">Curated_Records</span>
+                <span className="font-mono text-[0.6875rem] text-label-dim uppercase tracking-[0.3em] sm:tracking-[0.5em] [overflow-wrap:anywhere] font-black">Curated_Records</span>
               </motion.div>
               <h1 className="font-black text-white uppercase tracking-tighter leading-[0.8] drop-shadow-[0_10px_30px_rgba(0,0,0,0.2)] text-display-xl">
                 Performance <br/> <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-red-900 italic">Stacks</span>
@@ -129,17 +140,17 @@ export default function ProtocolStacks() {
 
                 <div className="space-y-8">
                     <div className="p-10 bg-editorial-surface/40 backdrop-blur-3xl border border-editorial-border rounded-[2.5rem] border-l-4 border-l-red-600 shadow-depth-2 hover:shadow-depth-3 transition-all">
-                      <span className="font-mono text-[0.6875rem] text-zinc-600 uppercase tracking-widest font-black block mb-4">Target_Objective</span>
+                      <span className="font-mono text-[0.6875rem] text-label-dim uppercase tracking-widest font-black block mb-4">Target_Objective</span>
                       <p className="font-sans text-xl text-white uppercase leading-tight font-black">{stack.target}</p>
                     </div>
 
                     <div className="grid grid-cols-2 gap-4">
                         <div className="p-6 bg-black/20 border border-white/5 rounded-2xl">
-                           <span className="text-[0.6875rem] font-mono text-zinc-600 uppercase tracking-widest block mb-2">Intensity</span>
+                           <span className="text-[0.6875rem] font-mono text-label-dim uppercase tracking-widest block mb-2">Intensity</span>
                            <span className="text-sm font-black text-white">{stack.intensity}</span>
                         </div>
                         <div className="p-6 bg-black/20 border border-white/5 rounded-2xl">
-                           <span className="text-[0.6875rem] font-mono text-zinc-600 uppercase tracking-widest block mb-2">Synergy</span>
+                           <span className="text-[0.6875rem] font-mono text-label-dim uppercase tracking-widest block mb-2">Synergy</span>
                            <span className="text-sm font-black text-white">{stack.synergy}</span>
                         </div>
                     </div>
@@ -190,7 +201,7 @@ export default function ProtocolStacks() {
                         
                         <div className="flex items-center justify-between mt-16 pt-10 border-t border-editorial-border/30 relative z-10 group/foo">
                           <span className="font-sans font-black text-3xl text-white group-hover/card:text-red-500 transition-colors">{product.price}</span>
-                          <div className="flex items-center gap-4 text-[0.6875rem] font-mono text-zinc-500 uppercase tracking-[0.4em] font-black group-hover/foo:text-white transition-all transform-gpu group-hover/foo:translate-x-[-8px]">
+                          <div className="flex items-center gap-4 text-[0.6875rem] font-mono text-label-dim uppercase tracking-[0.4em] font-black group-hover/foo:text-white transition-all transform-gpu group-hover/foo:translate-x-[-8px]">
                              View_Spec <div className="w-12 h-[1px] bg-red-600/20 group-hover/foo:w-24 group-hover/foo:bg-red-600 transition-all duration-1000" />
                           </div>
                         </div>

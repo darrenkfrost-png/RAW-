@@ -156,7 +156,13 @@ export default function OurStory() {
           ].map((stat, i) => (
             <div key={i} className="py-24 px-10 bg-editorial-bg group hover:bg-editorial-surface/80 transition-all duration-[800ms] relative overflow-hidden flex flex-col items-center justify-center">
                <div className="absolute inset-0 bg-gradient-to-b from-white/[0.02] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
-              <motion.div 
+              {/* Texture, not text: the first three letters of the stat's label,
+                  blurred and pulsing at 3-8% behind the number. It was being
+                  read out to screen readers as a meaningless fragment -- "PRO",
+                  "GLO" -- so it is aria-hidden. Brightening it is not an option;
+                  being barely there is the entire point of it. */}
+              <motion.div
+                 aria-hidden="true"
                  animate={{ opacity: [0.03, 0.08, 0.03] }}
                  transition={{ duration: 5, repeat: Infinity, delay: i * 0.7 }}
                  className="absolute -right-10 -bottom-10 font-sans font-black text-editorial-text pointer-events-none uppercase leading-none mix-blend-overlay blur-[2px] text-display-xl"

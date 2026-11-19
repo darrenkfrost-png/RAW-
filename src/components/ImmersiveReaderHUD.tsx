@@ -269,7 +269,7 @@ export default function ImmersiveReaderHUD() {
               <BookOpen className="w-5 h-5" />
             </div>
             <div className="min-w-0">
-              <span className="block font-mono text-[0.6875rem] text-zinc-500 uppercase tracking-[0.4em] font-black">
+              <span className="block font-mono text-[0.6875rem] text-label-dim uppercase tracking-[0.4em] font-black">
                 RAW_IMMERSIVE_DOC_READER
               </span>
               <h2 className="text-xl font-bold uppercase tracking-tight text-white truncate">
@@ -369,7 +369,7 @@ export default function ImmersiveReaderHUD() {
                 />
               ))
             ) : (
-              <div className="text-[0.6875rem] font-mono text-zinc-600 tracking-widest uppercase">
+              <div className="text-[0.6875rem] font-mono text-label-dim tracking-widest uppercase">
                 READING_PAUSED
               </div>
             )}
@@ -379,7 +379,7 @@ export default function ImmersiveReaderHUD() {
         {/* HUD Controls Bottom Dock */}
         <footer className="px-4 sm:px-8 py-4 sm:py-6 border-t border-editorial-border/40 flex flex-col md:flex-row items-center justify-between gap-6 shrink-0 bg-editorial-surface/40 backdrop-blur-md">
           <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 min-w-0 max-w-full">
-            <div className="font-mono text-[0.6875rem] text-zinc-500">
+            <div className="font-mono text-[0.6875rem] text-label-dim">
               SECTION {activeSectionIdx + 1} OF {sections.length}
             </div>
 
@@ -387,7 +387,7 @@ export default function ImmersiveReaderHUD() {
             <div className="flex flex-wrap items-center gap-4 sm:gap-6 bg-zinc-950/85 border border-editorial-border/40 rounded-xl px-4 py-2 shadow-inner hover:border-zinc-800 transition-all max-w-full">
               {/* Rate Slider */}
               <div className="flex items-center gap-3">
-                <label htmlFor="reader-rate" className="font-mono text-[0.6875rem] text-zinc-500 uppercase tracking-widest leading-none">
+                <label htmlFor="reader-rate" className="font-mono text-[0.6875rem] text-label-dim uppercase tracking-widest leading-none">
                   RATE
                 </label>
                 <input
@@ -408,7 +408,7 @@ export default function ImmersiveReaderHUD() {
                   onClick={() => setSpeechRate(1.0)}
                   className={`font-mono text-[0.6875rem] transition-all px-1 rounded-sm min-h-11 ${
                     Math.abs(speechRate - 1.0) < 0.01
-                      ? "text-zinc-600 pointer-events-none cursor-default font-normal"
+                      ? "text-label-dim pointer-events-none cursor-default font-normal"
                       : "text-red-500 hover:text-red-400 cursor-pointer font-bold"
                   }`}
                   title="Reset voice rate to 1.0x"
@@ -422,7 +422,7 @@ export default function ImmersiveReaderHUD() {
 
               {/* Pitch Slider */}
               <div className="flex items-center gap-3">
-                <label htmlFor="reader-pitch" className="font-mono text-[0.6875rem] text-zinc-500 uppercase tracking-widest leading-none">
+                <label htmlFor="reader-pitch" className="font-mono text-[0.6875rem] text-label-dim uppercase tracking-widest leading-none">
                   PITCH
                 </label>
                 <input
@@ -443,7 +443,7 @@ export default function ImmersiveReaderHUD() {
                   onClick={() => setSpeechPitch(1.0)}
                   className={`font-mono text-[0.6875rem] transition-all px-1 rounded-sm min-h-11 ${
                     Math.abs(speechPitch - 1.0) < 0.01
-                      ? "text-zinc-600 pointer-events-none cursor-default font-normal"
+                      ? "text-label-dim pointer-events-none cursor-default font-normal"
                       : "text-red-500 hover:text-red-400 cursor-pointer font-bold"
                   }`}
                   title="Reset voice pitch to 1.0x"
@@ -456,7 +456,7 @@ export default function ImmersiveReaderHUD() {
             {/* Voice select Dropdown */}
             {availableVoices.length > 0 && (
               <div className="flex items-center gap-3 animate-fade-in">
-                <label htmlFor="reader-voice" className="font-mono text-[0.6875rem] text-zinc-600 uppercase tracking-widest">
+                <label htmlFor="reader-voice" className="font-mono text-[0.6875rem] text-label-dim uppercase tracking-widest">
                   VOICE:
                 </label>
                 <select
@@ -492,7 +492,7 @@ export default function ImmersiveReaderHUD() {
             <button
               onClick={handlePrev}
               disabled={activeSectionIdx === 0}
-              className="p-3.5 min-h-11 min-w-11 bg-zinc-900/60 border border-editorial-border rounded-xl text-zinc-500 hover:text-white hover:border-zinc-700 disabled:opacity-30 disabled:pointer-events-none transition-all outline-none"
+              className="p-3.5 min-h-11 min-w-11 bg-zinc-900/60 border border-editorial-border rounded-xl text-label-dim hover:text-white hover:border-zinc-700 disabled:opacity-30 disabled:pointer-events-none transition-all outline-none"
               title="Previous Paragraph (Left Arrow)"
               aria-label="Previous section"
             >
@@ -516,7 +516,7 @@ export default function ImmersiveReaderHUD() {
             <button
               onClick={handleNext}
               disabled={activeSectionIdx === sections.length - 1}
-              className="p-3.5 min-h-11 min-w-11 bg-zinc-900/60 border border-editorial-border rounded-xl text-zinc-500 hover:text-white hover:border-zinc-700 disabled:opacity-30 disabled:pointer-events-none transition-all outline-none"
+              className="p-3.5 min-h-11 min-w-11 bg-zinc-900/60 border border-editorial-border rounded-xl text-label-dim hover:text-white hover:border-zinc-700 disabled:opacity-30 disabled:pointer-events-none transition-all outline-none"
               title="Next Paragraph (Right Arrow)"
               aria-label="Next section"
             >

@@ -166,7 +166,7 @@ export default function PerformanceSystem() {
         <div className="mt-32 pt-20 border-t border-editorial-border text-center relative overflow-hidden">
            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[80%] h-[1px] bg-gradient-to-r from-transparent via-red-600/50 to-transparent shadow-[0_0_20px_rgba(220,38,38,0.3)]" />
            <div className="flex flex-col items-center gap-8">
-              <p className="font-mono text-[0.6875rem] text-zinc-600 uppercase tracking-[0.3em] sm:tracking-[0.8em] [overflow-wrap:anywhere] font-black">CONTINUOUS_SYSTEM_UPGRADE</p>
+              <p className="font-mono text-[0.6875rem] text-label-dim uppercase tracking-[0.3em] sm:tracking-[0.8em] [overflow-wrap:anywhere] font-black">CONTINUOUS_SYSTEM_UPGRADE</p>
               <div className="flex gap-4">
                  {[1,2,3,4,5].map(i => <div key={i} className="w-1 h-6 bg-red-600/20 border border-editorial-border" />)}
               </div>

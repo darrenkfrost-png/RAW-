@@ -88,7 +88,7 @@ export default function Account() {
               onClick={() => navigate("/")}
               disabled={!ACCOUNTS_ENABLED}
               aria-disabled={!ACCOUNTS_ENABLED}
-              className="flex-1 min-w-0 text-left p-6 font-black uppercase text-[0.75rem] tracking-[0.2em] flex items-center gap-5 transition-all duration-500 rounded-2xl group bg-transparent text-zinc-600 hover:text-red-500 hover:bg-red-950/30 border border-transparent hover:border-red-900/50 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:text-zinc-600 disabled:hover:bg-transparent disabled:hover:border-transparent"
+              className="flex-1 min-w-0 text-left p-6 font-black uppercase text-[0.75rem] tracking-[0.2em] flex items-center gap-5 transition-all duration-500 rounded-2xl group bg-transparent text-label-dim hover:text-red-500 hover:bg-red-950/30 border border-transparent hover:border-red-900/50 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:text-label-dim disabled:hover:bg-transparent disabled:hover:border-transparent"
             >
               <LogOut className="w-6 h-6 group-hover:-translate-x-2 group-disabled:translate-x-0 transition-transform duration-500" /> Disconnect Node
             </button>
@@ -141,7 +141,7 @@ export default function Account() {
              <motion.div initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }} className="bg-editorial-bg/90 p-8 md:p-12 xl:p-16 border border-editorial-border rounded-[2rem] text-center py-32 xl:py-48 relative overflow-hidden shadow-[0_30px_80px_rgba(0,0,0,0.1)] h-full flex flex-col items-center justify-center backdrop-blur-3xl group">
                <div className="absolute top-0 right-0 w-full h-px bg-gradient-to-r from-transparent via-red-600/30 to-transparent transform translate-x-full group-hover:translate-x-0 transition-transform duration-1000" />
                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-red-900/10 via-transparent to-transparent pointer-events-none mix-blend-screen" />
-               <Package className="w-20 h-20 text-zinc-600 mx-auto mb-10 relative z-10 drop-shadow-[0_5px_15px_rgba(0,0,0,0.08)]" />
+               <Package className="w-20 h-20 text-label-dim mx-auto mb-10 relative z-10 drop-shadow-[0_5px_15px_rgba(0,0,0,0.08)]" />
                <h3 className="font-black uppercase tracking-[0.2em] text-3xl mb-6 text-editorial-text relative z-10 drop-shadow-[0_2px_4px_rgba(0,0,0,0.08)]">No Active Deployments</h3>
                <p className="text-editorial-text-muted font-mono text-[0.75rem] uppercase tracking-[0.4em] relative z-10 font-bold">Your logistics history is empty.</p>
                <MagneticWrapper>

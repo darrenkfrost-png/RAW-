@@ -29,17 +29,17 @@ export default function TermsOfUse() {
             
             <div className="space-y-16 relative z-10">
               <section className="bg-editorial-bg/80 p-10 xl:p-14 rounded-[2rem] border border-editorial-border shadow-[0_20px_50px_rgba(0,0,0,0.1)] backdrop-blur-3xl hover:border-red-500/30 transition-colors duration-[800ms] group">
-                <h2 className="font-mono font-black text-[0.8125rem] uppercase tracking-[0.4em] mb-8 text-red-500 flex items-center gap-4"><span className="text-zinc-600 font-bold">01</span> System Access</h2>
+                <h2 className="font-mono font-black text-[0.8125rem] uppercase tracking-[0.4em] mb-8 text-red-500 flex items-center gap-4"><span className="text-label-dim font-bold">01</span> System Access</h2>
                 <p className="font-light leading-relaxed text-lg xl:text-xl text-editorial-text-muted group-hover:text-editorial-text transition-colors duration-[800ms]">By accessing or extracting payload resources from our terminals, you acknowledge alignment with RAW Official operational directives.</p>
               </section>
       
               <section className="bg-editorial-bg/80 p-10 xl:p-14 rounded-[2rem] border border-editorial-border shadow-[0_20px_50px_rgba(0,0,0,0.1)] backdrop-blur-3xl hover:border-red-500/30 transition-colors duration-[800ms] group">
-                <h2 className="font-mono font-black text-[0.8125rem] uppercase tracking-[0.4em] mb-8 text-red-500 flex items-center gap-4"><span className="text-zinc-600 font-bold">02</span> Inventory & Archival States</h2>
+                <h2 className="font-mono font-black text-[0.8125rem] uppercase tracking-[0.4em] mb-8 text-red-500 flex items-center gap-4"><span className="text-label-dim font-bold">02</span> Inventory & Archival States</h2>
                 <p className="font-light leading-relaxed text-lg xl:text-xl text-editorial-text-muted group-hover:text-editorial-text transition-colors duration-[800ms] mb-4">All protocols and hardware are subject to availability. The system reserves the right to rotate archive states without notification.</p>
               </section>
       
               <section className="bg-editorial-bg/80 p-10 xl:p-14 rounded-[2rem] border border-editorial-border shadow-[0_20px_50px_rgba(0,0,0,0.1)] backdrop-blur-3xl hover:border-red-500/30 transition-colors duration-[800ms] group">
-                <h2 className="font-mono font-black text-[0.8125rem] uppercase tracking-[0.4em] mb-8 text-red-500 flex items-center gap-4"><span className="text-zinc-600 font-bold">03</span> Value Exchange</h2>
+                <h2 className="font-mono font-black text-[0.8125rem] uppercase tracking-[0.4em] mb-8 text-red-500 flex items-center gap-4"><span className="text-label-dim font-bold">03</span> Value Exchange</h2>
                 <ul className="space-y-6 font-light leading-relaxed text-lg xl:text-xl text-editorial-text-muted list-none max-w-3xl group-hover:text-editorial-text transition-colors duration-[800ms]">
                   <li className="flex gap-5 items-start"><div className="w-2 h-2 bg-red-600 rounded-full mt-2.5 shrink-0 shadow-[0_0_8px_#dc2626]" />Prices are shown in pounds sterling. Any delivery charge is shown before an order is confirmed.</li>
                   <li className="flex gap-5 items-start"><div className="w-2 h-2 bg-red-600 rounded-full mt-2.5 shrink-0 shadow-[0_0_8px_#dc2626]" />No payments are taken through this site at present, so no payment details are collected or processed.</li>
@@ -48,7 +48,7 @@ export default function TermsOfUse() {
               </section>
       
               <section className="bg-editorial-bg/80 p-10 xl:p-14 rounded-[2rem] border border-editorial-border shadow-[0_20px_50px_rgba(0,0,0,0.1)] backdrop-blur-3xl hover:border-red-500/30 transition-colors duration-[800ms] group">
-                <h2 className="font-mono font-black text-[0.8125rem] uppercase tracking-[0.4em] mb-8 text-red-500 flex items-center gap-4"><span className="text-zinc-600 font-bold">04</span> Fulfillment & Deployment</h2>
+                <h2 className="font-mono font-black text-[0.8125rem] uppercase tracking-[0.4em] mb-8 text-red-500 flex items-center gap-4"><span className="text-label-dim font-bold">04</span> Fulfillment & Deployment</h2>
                 <ul className="space-y-6 font-light leading-relaxed text-lg xl:text-xl text-editorial-text-muted list-none max-w-3xl group-hover:text-editorial-text transition-colors duration-[800ms]">
                   <li className="flex gap-5 items-start"><div className="w-2 h-2 bg-red-600 rounded-full mt-2.5 shrink-0 shadow-[0_0_8px_#dc2626]" />Once an order has shipped you will be sent tracking details by the courier.</li>
                   <li className="flex gap-5 items-start"><div className="w-2 h-2 bg-red-600 rounded-full mt-2.5 shrink-0 shadow-[0_0_8px_#dc2626]" />Deployment speeds are dependent on sector proximity to core hubs.</li>

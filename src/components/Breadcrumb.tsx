@@ -16,7 +16,7 @@ export default function Breadcrumb({ items }: BreadcrumbProps) {
     <nav className="flex flex-wrap items-center gap-x-4 gap-y-2 mb-12 relative z-50">
       <Link 
         to="/" 
-        className="flex items-center gap-2 text-meta-premium opacity-40 hover:opacity-100 transition-opacity group"
+        className="flex items-center gap-2 text-meta-premium hover:opacity-100 transition-opacity group"
         aria-label="Home"
       >
         <Home className="w-3.5 h-3.5 group-hover:scale-110 transition-transform" />
@@ -28,7 +28,7 @@ export default function Breadcrumb({ items }: BreadcrumbProps) {
           {item.path && !item.active ? (
             <Link 
               to={item.path}
-              className="font-mono text-[0.6875rem] text-meta-premium opacity-40 hover:opacity-100 transition-opacity uppercase tracking-[0.2em]"
+              className="font-mono text-[0.6875rem] text-meta-premium hover:opacity-100 transition-opacity uppercase tracking-[0.2em]"
             >
               {item.label}
             </Link>

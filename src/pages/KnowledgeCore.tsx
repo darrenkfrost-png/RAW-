@@ -42,7 +42,7 @@ export default function KnowledgeCore() {
   
   const { setActiveReaderItem } = useUI();
   const { addToast } = useToast();
-  const navigate = useNavigate();
+  const navigate = useNavigate();
   const categories = ['All', 'Nutrients', 'Recovery', 'Accessories', 'Apparel', 'Combat'];
 
   const filteredContent = useMemo(() => {
@@ -103,7 +103,7 @@ export default function KnowledgeCore() {
         {/* Filters & Search - Premium HUD Style */}
         <div className="mb-16 flex flex-col xl:flex-row gap-6 justify-between items-center bg-editorial-bg/60 backdrop-blur-3xl p-6 rounded-[2rem] border border-editorial-border-light relative z-20 shadow-premium">
            <div className="flex items-center gap-6 flex-1 w-full relative group/search">
-             <Search className="w-6 h-6 text-zinc-600 group-focus-within/search:text-red-500 transition-colors absolute left-6" />
+             <Search className="w-6 h-6 text-label-dim group-focus-within/search:text-red-500 transition-colors absolute left-6" />
              <input 
                type="text" 
                placeholder="INITIALIZE_SEARCH_PROTOCOL..." 
@@ -212,7 +212,7 @@ export default function KnowledgeCore() {
           
           {filteredContent.length === 0 && (
              <div className="text-center py-20 bg-editorial-bg rounded-2xl border border-editorial-border">
-                <Database className="w-10 h-10 text-zinc-600 mx-auto mb-4" />
+                <Database className="w-10 h-10 text-label-dim mx-auto mb-4" />
                 <h4 className="font-black text-editorial-text uppercase tracking-tight text-xl mb-2">NO_MATCHING_UNITS_FOUND</h4>
                 <p className="text-editorial-text-muted font-light text-sm">Try another product name, category, protocol, or benefit keyword.</p>
              </div>

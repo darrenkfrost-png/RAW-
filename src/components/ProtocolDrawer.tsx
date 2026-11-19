@@ -257,7 +257,7 @@ export default function ProtocolDrawer() {
                          <span className="font-mono text-[0.75rem] font-bold text-red-500 drop-shadow-[0_2px_4px_rgba(0,0,0,0.1)]">{item.price}</span>
                          <button 
                            onClick={() => removeFromProtocol(item.id)} aria-label="Remove item"
-                           className="text-zinc-600 hover:text-red-500 transition-colors"
+                           className="text-label-dim hover:text-red-500 transition-colors"
                          >
                            <Trash2 className="w-4 h-4" />
                          </button>
