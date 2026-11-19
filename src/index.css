@@ -231,9 +231,30 @@
     @apply bg-editorial-accent/60 text-editorial-text;
   }
 
-  /* Custom Focus Ring */
+  /* ⚠️ THE KEYBOARD FOCUS RING. MEASURED, 2026-11-19: the previous version of
+     this rule — `outline-none ring-2 ring-editorial-accent ring-offset-4` —
+     painted NOTHING, on every element, on all 78 routes. 865 focus stops had no
+     visible indicator at all, and the declaration looked perfectly correct,
+     which is why it survived so long.
+     Two reasons it failed, and two reasons not to go back to a ring:
+       · A ring IS a box-shadow. It lives in `@layer base`, so any element
+         carrying its own `shadow-*` utility overrode it outright — and the
+         ring's var() slots still land in the computed value as
+         `rgba(0,0,0,0) 0px 0px 0px 0px`, so the style string CHANGES on focus
+         while nothing appears. An invisible ring looks like a working one to
+         anything comparing computed styles.
+       · `outline-none` in the same breath removed the browser's own ring, so
+         the failure had no fallback.
+     An `outline` cannot be clobbered by a box-shadow, paints above everything,
+     and follows border-radius in current browsers.
+     The `!important` is deliberate and is the one place it is warranted: there
+     are ~70 `outline-none` / `focus:outline-none` utilities across the
+     components, each of which would otherwise silently delete the only focus
+     indicator a keyboard user has. This is the accessibility floor, not a
+     style preference — it has to win. Guarded by `npm run keycheck`. */
   :focus-visible {
-    @apply outline-none ring-2 ring-editorial-accent ring-offset-4 ring-offset-editorial-bg transition-all duration-300;
+    outline: 2px solid var(--color-editorial-accent) !important;
+    outline-offset: 3px;
   }
 
 

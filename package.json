@@ -30,7 +30,8 @@
     "errors": "node scripts/errors.mjs",
     "fixedtrap": "node scripts/fixedtrap.mjs",
     "readerlock": "node scripts/readerlock.mjs",
-    "stickycheck": "node scripts/stickycheck.mjs"
+    "stickycheck": "node scripts/stickycheck.mjs",
+    "keycheck": "node scripts/keycheck.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
