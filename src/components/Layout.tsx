@@ -17,6 +17,58 @@ import { usePageMeta } from "../hooks/usePageMeta";
 import { motion, AnimatePresence } from "motion/react";
 import SelectionReader from "./common/SelectionReader";
 
+/**
+ * THE PAGE ARRIVAL ANIMATION.
+ *
+ * ⚠️ A FINISHED BLUR IS STILL A FILTER, AND IT BROKE 50 OF 78 PAGES.
+ *
+ * This used to animate `filter: blur(10px)` to `blur(0px)` inline and leave it
+ * there. `blur(0px)` paints identically to no filter, so it looked finished and
+ * nothing on screen suggested otherwise — but a filtered element becomes the
+ * containing block for every `position: fixed` descendant, and a stacking
+ * context besides. Every page's content therefore sat inside a box that quietly
+ * redefined what "fixed to the viewport" meant:
+ *
+ *   · /defrost asks for a full-screen desktop with `fixed inset-0`. It was
+ *     given a 171px strip, with the rest overflowing behind the page. All
+ *     SEVEN of its controls were unclickable on the live site — the ebook
+ *     reader, Storyboard Studio, Video Sequencer, PWA Sync and the wallpaper
+ *     switch. Nothing inside them was broken; they could not be opened.
+ *   · The product pages' fixed backdrop was being stretched to the full
+ *     document instead of the viewport — 11,600px tall and scrolling with the
+ *     content rather than staying put.
+ *
+ * And it defeated the obvious fix: raising the desktop's z-index did nothing,
+ * because the filtered wrapper had already trapped it in its own stacking
+ * context. The z-index was not the fault and changing it was not the cure.
+ *
+ * ⚠️ AND CLEARING IT AFTERWARDS DOES NOT WORK — I TRIED THAT FIRST.
+ * Setting `filter: none` from `onAnimationComplete`, via the style prop, leaves
+ * the wrapper still reporting `filter: blur(0px)` once the dust settles: the
+ * animation library owns that inline property and wins. Measured, not assumed —
+ * all seven /defrost controls were still unreachable after that "fix", which is
+ * the second wrong fix this one bug has attracted.
+ *
+ * So the blur is gone, and the arrival is a fade and a rise. That is a real if
+ * small loss of polish, and it is deliberate: a flourish nobody can see the end
+ * of is not worth fifty broken pages, and no version of keeping it could be
+ * verified to stay fixed. If it is wanted back it has to go somewhere that is
+ * not an ancestor of page content. scripts/fixedtrap.mjs fails the build if a
+ * trapped `position: fixed` element ever reappears.
+ */
+function PageTransition({ children }: { children: React.ReactNode }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 15 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -15 }}
+      transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
 export default function Layout() {
   const location = useLocation();
 
@@ -106,15 +158,9 @@ export default function Layout() {
               </div>
 
               <AnimatePresence mode="wait">
-                <motion.div 
-                  key={location.pathname}
-                  initial={{ opacity: 0, y: 15, filter: "blur(10px)" }}
-                  animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                  exit={{ opacity: 0, y: -15, filter: "blur(10px)" }}
-                  transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                >
+                <PageTransition key={location.pathname}>
                   <Outlet />
-                </motion.div>
+                </PageTransition>
               </AnimatePresence>
           </main>
 

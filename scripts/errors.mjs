@@ -34,9 +34,38 @@ await p.goto(B + '/contact', { waitUntil: 'load' }); await p.waitForTimeout(800)
 await p.evaluate(() => { console.error('PLANTED_CONSOLE_ERROR'); fetch('/definitely-missing-file-xyz.png').catch(() => {}); });
 await p.waitForTimeout(1500);
 const st = [...found.keys()];
-const ok = st.some((k) => k.includes('PLANTED_CONSOLE_ERROR')) && st.some((k) => k.includes('definitely-missing-file-xyz'));
-console.log(`SELF-TEST: planted error + missing file ${ok ? 'both caught' : 'NOT BOTH CAUGHT — results void'}`);
-if (!ok) { await b.close(); process.exit(1); }
+
+/* ⚠️ THE TWO HALVES OF THIS SELF-TEST FAIL FOR DIFFERENT REASONS, AND ONE OF
+   THEM IS NOT A FAULT. They used to be one boolean with one message — "NOT BOTH
+   CAUGHT — results void" — so a genuinely broken probe and a server that simply
+   has no 404s looked identical, and the whole sweep exited 1 either way.
+
+   The console half is the probe itself: if a planted console error is not seen,
+   nothing this script reports can be trusted and it must stop.
+
+   The missing-file half depends on the SERVER. `vite preview` answers every
+   unknown path with index.html at 200 — correct SPA behaviour — so there is no
+   404 to catch and never was. That is not a broken probe; it is an environment
+   in which HTTP-error detection cannot be exercised. It is reported as
+   unverified, by name, and the route sweep still runs: JS errors, console
+   errors and failed requests are all still being watched. Run it against
+   `npm run start` or the deployed site to exercise the HTTP half too. */
+const sawPlantedError = st.some((k) => k.includes('PLANTED_CONSOLE_ERROR'));
+const sawMissingFile = st.some((k) => k.includes('definitely-missing-file-xyz'));
+
+if (!sawPlantedError) {
+  console.error('SELF-TEST FAILED: a planted console error was not caught — this probe proves nothing.');
+  await b.close();
+  process.exit(2);
+}
+console.log('SELF-TEST: a planted console error was caught');
+if (sawMissingFile) {
+  console.log('SELF-TEST: a request for a missing file was caught');
+} else {
+  console.log('SELF-TEST: HTTP-error detection UNVERIFIED here — this server answers unknown paths');
+  console.log('           with the app instead of a 404 (normal for `vite preview`). Everything else');
+  console.log('           below is still being watched; run against `npm run start` to cover it.');
+}
 found.clear();
 
 let first = true;

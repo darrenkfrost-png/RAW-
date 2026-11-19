@@ -27,7 +27,9 @@
     "cutoff": "node scripts/cutoff.mjs",
     "structure": "node scripts/structure.mjs",
     "taps": "node scripts/taps.mjs",
-    "errors": "node scripts/errors.mjs"
+    "errors": "node scripts/errors.mjs",
+    "fixedtrap": "node scripts/fixedtrap.mjs",
+    "readerlock": "node scripts/readerlock.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",

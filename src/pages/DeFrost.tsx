@@ -72,8 +72,31 @@ export default function DeFrost() {
 
   const activeWallpaper = wallpapersList[activeWallpaperIdx];
 
+  /* ⚠️ THIS PAGE WAS A PICTURE OF AN OPERATING SYSTEM, NOT ONE — AND IT TOOK
+     TWO SEPARATE FAULTS TO MAKE IT ONE. All seven controls were unclickable on
+     the live site: the ebook reader, Storyboard Studio, Video Sequencer, PWA
+     Sync and the wallpaper switch. Nothing inside them was broken.
+
+     FIRST, and the reason it was so hard to see: the shell's page-transition
+     wrapper left a finished `filter: blur(0px)` on itself, which makes it the
+     containing block for every `position: fixed` descendant. `fixed inset-0`
+     here was measured against that wrapper instead of the viewport, so this
+     desktop was handed a 171px strip with the rest overflowing behind the
+     page. Fixed in src/components/Layout.tsx (PageTransition).
+
+     SECOND, only visible once the first was fixed and the desktop filled the
+     viewport properly: at z-0 it sits under #content-wrapper's own footer,
+     which is z-30 with an opaque background, so the footer painted across the
+     middle of the desktop and swallowed the clicks aimed at it. z-40 clears
+     that while staying far below the sidebar (80) and header (100), so the
+     chrome a visitor needs in order to leave still sits on top.
+
+     Raising this z-index was my first guess at the whole problem and it fixed
+     nothing on its own, because the filter had already trapped the stacking
+     context too. Both were needed; neither was sufficient. Measured at every
+     step — scripts/fixedtrap.mjs now guards the first. */
   return (
-    <div className={`fixed inset-0 pt-20 pb-16 z-0 flex flex-col font-sans select-none overflow-hidden bg-gradient-to-br ${activeWallpaper.class} transition-all duration-[1200ms] ease-out`}>
+    <div className={`fixed inset-0 pt-20 pb-16 z-40 flex flex-col font-sans select-none overflow-hidden bg-gradient-to-br ${activeWallpaper.class} transition-all duration-[1200ms] ease-out`}>
 
       {/* Absolute background matrix grid overlay */}
       <div className="absolute inset-0 bg-[#ffffff]/[0.01] bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:24px_24px] pointer-events-none mix-blend-color-dodge z-0" />

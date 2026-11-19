@@ -6,8 +6,18 @@ import {
 } from "lucide-react";
 import { booksData, Book, BookPage } from "../data/books";
 import { useToast } from "./common/Toast";
-
-const FREE_PREVIEW_PAGE_LIMIT = 10; // Zero-based indices: 0-9 public, 10+ premium locked.
+/* The paywall's rules live in one place so the tests can call the same ones the
+   reader calls. See the warning at the top of src/lib/bookPreview.ts for what
+   happened when they only lived here. */
+import {
+  FREE_PREVIEW_PAGE_LIMIT,
+  isPremiumPage,
+  lastFreeIndex,
+  exportablePages,
+  searchablePages,
+  canAnnotatePage,
+  canCopyPage,
+} from "../lib/bookPreview";
 
 export default function LivingBookEngine() {
   const { addToast } = useToast();
@@ -37,7 +47,7 @@ export default function LivingBookEngine() {
 
   // Check if current page is premium locked
   const isPageLocked = useMemo(() => {
-    return currentPageIdx >= FREE_PREVIEW_PAGE_LIMIT;
+    return isPremiumPage(currentPageIdx);
   }, [currentPageIdx]);
 
   // Current page data
@@ -93,7 +103,7 @@ export default function LivingBookEngine() {
 
   // Restore back to Safe Public Preview
   const handleReturnToSafePreview = useCallback(() => {
-    setCurrentPageIdx(FREE_PREVIEW_PAGE_LIMIT - 1); // Select exactly 10th page (Index 9)
+    setCurrentPageIdx(lastFreeIndex());
     setZoomScale(1);
     setPanOffset({ x: 0, y: 0 });
     addToast("Returned safely to public preview limits.", "info");
@@ -192,7 +202,7 @@ export default function LivingBookEngine() {
 
   // Copy the page text to the clipboard (public pages only)
   const copyPageText = () => {
-    if (isPageLocked) {
+    if (!canCopyPage(currentPageIdx)) {
       addToast("Premium pages cannot be copied.", "error");
       return;
     }
@@ -213,7 +223,7 @@ export default function LivingBookEngine() {
     e.preventDefault();
     if (!newNoteText.trim() || !selectedBook) return;
 
-    if (isPageLocked) {
+    if (!canAnnotatePage(currentPageIdx)) {
       addToast("Notes cannot be added to premium pages.", "error");
       return;
     }
@@ -249,7 +259,7 @@ export default function LivingBookEngine() {
     if (!selectedBook) return;
     addToast("Exporting pages 1-10 as JSON...", "info");
 
-    const exportedPages = selectedBook.pages.slice(0, FREE_PREVIEW_PAGE_LIMIT);
+    const exportedPages = exportablePages(selectedBook);
     const contentToSave = {
       bookTitle: selectedBook.title,
       author: selectedBook.author,
@@ -274,9 +284,9 @@ export default function LivingBookEngine() {
     if (!selectedBook || !searchQuery.trim()) return [];
     
     // Fail-closed block: NEVER search locked premium index 10+ pages
-    const searchablePages = selectedBook.pages.slice(0, FREE_PREVIEW_PAGE_LIMIT);
+    const pagesToSearch = searchablePages(selectedBook);
     
-    return searchablePages.filter(pg => 
+    return pagesToSearch.filter(pg =>
       pg.content.toLowerCase().includes(searchQuery.toLowerCase()) ||
       (pg.title && pg.title.toLowerCase().includes(searchQuery.toLowerCase()))
     );
@@ -505,7 +515,7 @@ export default function LivingBookEngine() {
                 </span>
                 
                 {selectedBook.pages.map((pg, idx) => {
-                  const isThumbLocked = idx >= FREE_PREVIEW_PAGE_LIMIT;
+                  const isThumbLocked = isPremiumPage(idx);
                   const isActive = idx === currentPageIdx;
                   
                   return (
