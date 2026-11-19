@@ -17,11 +17,16 @@ const routes = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)]
   .filter((p) => !process.argv[4] || new RegExp(process.argv[4]).test(p));
 
 const browser = await chromium.launch({ executablePath: 'C:/Program Files/Google/Chrome/Application/chrome.exe', headless: true });
-// Width is the third argument (default 375). Some layouts only exist wider —
-// the laptop sidebar, three-up grids — so phone width alone is not coverage.
-const WIDTH = Number(process.argv[3] || 375);
-const ctx = await browser.newContext({ viewport: { width: WIDTH, height: 900 }, isMobile: WIDTH < 768, hasTouch: WIDTH < 768 });
-const page = await ctx.newPage();
+/* ⚠️ ONE WIDTH IS NOT COVERAGE, AND THIS FILE SAID SO WHILE SWEEPING ONE.
+   The note here already warned that layouts exist only at wider sizes, then
+   defaulted to 375px and checked nothing else. The repo gate runs its own
+   five-route axe check at 1440px, so between them the two tools covered both --
+   until they disagreed: this swept 78 routes at 375px and called them all clean
+   while /contact carried two real contrast failures that only appear at desktop
+   width. Neither tool was lying; neither was looking.
+   Both widths now run by default. Pass a width as the third argument to narrow
+   it while working on one breakpoint. */
+const WIDTHS = process.argv[3] ? [Number(process.argv[3])] : [375, 1440];
 
 /* How many elements are part-way through a fade. Zero, twice running, means
    every reveal on the page has finished and what is on screen is what a
@@ -87,8 +92,14 @@ const DECORATION = [
 const exempted = new Map(DECORATION.map((d) => [d.why, 0]));
 
 const tally = new Map();
+const cleanByWidth = new Map();
 const routesWithRealFindings = new Set();
 let clean = 0;
+for (const WIDTH of WIDTHS) {
+const ctx = await browser.newContext({ viewport: { width: WIDTH, height: 900 }, isMobile: WIDTH < 768, hasTouch: WIDTH < 768 });
+const page = await ctx.newPage();
+clean = 0;
+routesWithRealFindings.clear();
 for (const route of routes) {
   try {
     await page.goto(BASE + route, { waitUntil: 'domcontentloaded', timeout: 30000 });
@@ -140,7 +151,7 @@ for (const route of routes) {
       }
       if (!nodes.length) continue;
       const cur = tally.get(v.id) || { impact: v.impact, help: v.help, routes: new Set(), nodes: 0, sample: '' };
-      cur.routes.add(route);
+      cur.routes.add(`${route}@${WIDTH}px`);
       cur.nodes += nodes.length;
       if (!cur.sample) cur.sample = (nodes[0]?.html || '').slice(0, 150);
       tally.set(v.id, cur);
@@ -152,12 +163,18 @@ for (const route of routes) {
        headline number understated the site. */
     if (!routesWithRealFindings.has(route)) clean++;
   } catch (e) {
-    console.log(`  !! ${route}: ${String(e).slice(0, 80)}`);
+    console.log(`  !! ${route} @${WIDTH}px: ${String(e).slice(0, 80)}`);
   }
+}
+cleanByWidth.set(WIDTH, clean);
+await ctx.close();
 }
 await browser.close();
 
-console.log(`\n${routes.length} routes at ${WIDTH}px — ${clean} clean\n`);
+/* One line per width, because a result that does not say which sizes it looked
+   at is the gap this sweep was just caught in. */
+for (const [w, c] of cleanByWidth) console.log(`\n${routes.length} routes at ${w}px — ${c} clean`);
+console.log('');
 for (const [id, v] of [...tally].sort((a, b) => b[1].nodes - a[1].nodes)) {
   console.log(`${id} [${v.impact}] — ${v.nodes} nodes on ${v.routes.size} routes`);
   console.log(`   ${v.help}`);

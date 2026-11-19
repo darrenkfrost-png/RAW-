@@ -91,7 +91,7 @@ export default function Contact() {
               <div className="flex-1 border-b border-editorial-border pb-6 text-left">
                 <h4 className="font-sans font-black text-editorial-text uppercase tracking-tighter text-2xl xl:text-3xl mb-2 group-hover:text-red-500 transition-colors drop-shadow-[0_2px_4px_rgba(0,0,0,0.08)]">Email Us</h4>
                 <p className="text-editorial-text-muted font-light text-xl xl:text-2xl [overflow-wrap:break-word]">{CONTACT_EMAIL.split("@")[0]}@<wbr />{CONTACT_EMAIL.split("@")[1]}</p>
-                <p className="text-red-500/70 text-[0.6875rem] xl:text-[0.6875rem] mt-4 font-black uppercase tracking-[0.3em]">Response within 24 hours</p>
+                <p className="text-red-500 text-[0.6875rem] xl:text-[0.6875rem] mt-4 font-black uppercase tracking-[0.3em]">Response within 24 hours</p>
               </div>
             </a>
 
@@ -103,7 +103,7 @@ export default function Contact() {
               <div className="flex-1 border-b border-editorial-border pb-6 text-left">
                 <h4 className="font-sans font-black text-editorial-text uppercase tracking-tighter text-2xl xl:text-3xl mb-2 group-hover:text-red-500 transition-colors drop-shadow-[0_2px_4px_rgba(0,0,0,0.08)]">Speak to Us</h4>
                 <p className="text-editorial-text-muted font-light text-xl xl:text-2xl">{CONTACT_PHONE_DISPLAY}</p>
-                <p className="text-red-500/70 text-[0.6875rem] xl:text-[0.6875rem] mt-4 font-black uppercase tracking-[0.3em]">Mon - Fri, 9am - 6pm GMT</p>
+                <p className="text-red-500 text-[0.6875rem] xl:text-[0.6875rem] mt-4 font-black uppercase tracking-[0.3em]">Mon - Fri, 9am - 6pm GMT</p>
               </div>
             </a>
 
