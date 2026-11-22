@@ -6,6 +6,7 @@ import { Layers, X, Trash2, ArrowRight, Zap, Copy, Crosshair, AlertTriangle } fr
 import { getHighResImageUrl } from '../lib/utils';
 import { useUI } from '../context/UIContext';
 import { useFocusTrap } from '../hooks/useFocusTrap';
+import { insideDefrost } from '../lib/defrost';
 import { useCart } from '../context/CartContext';
 import { useToast } from './common/Toast';
 
@@ -287,7 +288,16 @@ export default function ProtocolDrawer() {
              </div>
 
             {/* Footer */}
-            <div className="p-8 border-t border-editorial-border bg-editorial-bg shrink-0">
+            <div className="p-6 sm:p-8 border-t border-editorial-border bg-editorial-bg shrink-0">
+              {/* ⚠️ INSIDE DEFROST, STORAGE LASTS ONLY THE VISIT. The frame is
+                  an opaque origin, so localStorage is a temporary stand-in and
+                  a stack built here is gone tomorrow. One honest line beats
+                  finding that out later. */}
+              {insideDefrost() && (
+                <p className="mb-5 font-mono text-[0.6875rem] uppercase leading-relaxed tracking-[0.12em] text-editorial-text-meta/70">
+                  You are viewing RAW inside DEFROST.WORLD — this stack is kept for this visit only. Orders are placed on our own website.
+                </p>
+              )}
               <div className="flex justify-between items-end mb-8">
                 <span className="font-mono text-[0.6875rem] text-editorial-text-muted uppercase tracking-[0.3em] font-bold">Estimated Cost</span>
                 <span className="font-mono text-2xl font-black text-editorial-text flex items-start">

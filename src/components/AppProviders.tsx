@@ -1,5 +1,6 @@
 import { ReactNode } from "react";
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter, HashRouter } from "react-router-dom";
+import { insideDefrost } from "../lib/defrost";
 import { UIProvider } from "../context/UIContext";
 import { SettingsProvider } from "../context/SettingsContext";
 import { CompareProvider } from "../context/CompareContext";
@@ -15,9 +16,26 @@ import { CommandProvider } from "../context/CommandContext";
  * with them. If anything below ever needs to reach for an advisor or a
  * spoken command again, it is a new decision, not a restoration.
  */
+/**
+ * ⚠️ WHICH ROUTER, AND WHY IT IS NOT ALWAYS THE SAME ONE.
+ *
+ * On our own domain this is a BrowserRouter and the address bar reads
+ * rawofficial.co/shop, exactly as it always has — the URL-truth rule stands.
+ *
+ * Inside DEFROST.WORLD the site is STATIC FILES in a sandboxed frame mounted
+ * at defrost-world.com/sites/<slug>/. There is no server there to answer a
+ * deep link, so a path-routed address typed or shared from inside the frame
+ * would 404 on the host. Hash routing needs no server: every address resolves
+ * from index.html. So that is what runs inside, and only inside.
+ *
+ * Decided ONCE, at module level, before anything mounts — a router swapped
+ * after the first render would throw away the visitor's history.
+ */
+const Router = insideDefrost() ? HashRouter : BrowserRouter;
+
 export function AppProviders({ children }: { children: ReactNode }) {
   return (
-    <BrowserRouter>
+    <Router>
       <UIProvider>
         <SettingsProvider>
           <CompareProvider>
@@ -35,6 +53,6 @@ export function AppProviders({ children }: { children: ReactNode }) {
           </CompareProvider>
         </SettingsProvider>
       </UIProvider>
-    </BrowserRouter>
+    </Router>
   );
 }

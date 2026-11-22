@@ -1,6 +1,7 @@
 import { motion, AnimatePresence } from "motion/react";
 import { X, Plus, Minus, Trash2, ShoppingBag, ArrowRight } from "lucide-react";
 import { useFocusTrap } from "../hooks/useFocusTrap";
+import { insideDefrost } from "../lib/defrost";
 import { useCart } from "../context/CartContext";
 import { useUI } from "../context/UIContext";
 import { Link } from "react-router-dom";
@@ -265,6 +266,16 @@ export default function CartDrawer() {
                 >
                   <div className="absolute top-0 left-0 w-full h-[2px] bg-red-600 shadow-[0_0_30px_#dc2626]" />
                   
+                  {/* ⚠️ INSIDE DEFROST, STORAGE LASTS ONLY THE VISIT. The
+                      frame is an opaque origin, so localStorage is a temporary
+                      stand-in — a basket built here is gone tomorrow. Saying so
+                      costs one line; letting someone discover it is a basket
+                      they thought was saved. */}
+                  {insideDefrost() && (
+                    <p className="relative z-10 mb-4 font-mono text-[0.6875rem] uppercase leading-relaxed tracking-[0.12em] text-editorial-text-meta/70">
+                      You are viewing RAW inside DEFROST.WORLD — this list is kept for this visit only. Orders are placed on our own website.
+                    </p>
+                  )}
                   <div className="flex justify-between items-center gap-4 flex-wrap relative z-10">
                     <div className="space-y-4">
                        <span className="text-meta-premium !text-red-600 block !text-sm">RESEARCH_TOTAL // INDICATIVE</span>

@@ -39,8 +39,15 @@ window.addEventListener('vite:preloadError', (event) => {
  * for bandwidth, and every failure is swallowed: a site must not break because
  * an optional offline layer would not install.
  */
+/* ⚠️ `'serviceWorker' in navigator` IS NOT ENOUGH INSIDE A SANDBOXED FRAME.
+   DEFROST.WORLD serves this site from an opaque origin, where the property
+   still exists but register() throws synchronously — outside the promise, so
+   the .catch below would never see it and the whole module would die before
+   React mounted. The try/catch is the difference between "no offline support
+   here", which is fine, and a blank page. */
 if (import.meta.env.PROD && 'serviceWorker' in navigator) {
   window.addEventListener('load', () => {
+    try {
     navigator.serviceWorker.register('/sw.js').then((reg) => {
       // A new build is waiting: take over on the next navigation rather than
       // swapping the page out from under someone mid-read.
@@ -54,6 +61,7 @@ if (import.meta.env.PROD && 'serviceWorker' in navigator) {
         });
       });
     }).catch(() => { /* offline support is a bonus, never a requirement */ });
+    } catch { /* opaque origin: no service workers here, and that is fine */ }
   });
 }
 

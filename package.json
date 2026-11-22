@@ -33,6 +33,7 @@
     "keycheck": "node scripts/keycheck.mjs",
     "watchcheck": "node scripts/watchcheck.mjs",
     "trapcheck": "node scripts/trapcheck.mjs",
+    "mountcheck": "node scripts/mountcheck.mjs",
     "archive": "node scripts/build-archive.mjs"
   },
   "dependencies": {

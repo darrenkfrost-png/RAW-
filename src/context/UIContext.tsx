@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, useMemo, useCallback } from "react";
+import { insideDefrost, ownerWebsite, OWN_SITE } from "../lib/defrost";
 
 export type ChromePart = 'header' | 'statusBar';
 
@@ -139,7 +140,29 @@ export function UIProvider({ children }: { children: React.ReactNode }) {
   const restoreChrome = useCallback(() => persistChrome([]), [persistChrome]);
 
   const [isWallpaperMode, setIsWallpaperMode] = useState(false);
-  const [isShopIframeOpen, setIsShopIframeOpen] = useState(false);
+  const [isShopIframeOpen, setIsShopIframeOpenState] = useState(false);
+
+  /**
+   * ⚠️ THE STORE DOOR OBEYS ONE RULE, IN ONE PLACE. Six different controls open
+   * the official store — the top bar's Buy button, the basket, the stack
+   * drawer, the command palette, the checkout page and the directory. Putting
+   * the DEFROST rule at each of them would be six chances to forget it, which
+   * is exactly how this app once ended up with four navigation menus that
+   * disagreed. The rule lives on the setter instead, so every door obeys it
+   * and none of them has to know.
+   *
+   * DEFROST.WORLD never takes payments, and the panel this opens is a frame —
+   * a frame inside DEFROST's own sandboxed frame, which the store's headers
+   * refuse anyway. Inside DEFROST the visitor gets a new tab on the real shop.
+   * On our own domain nothing changes.
+   */
+  const setIsShopIframeOpen = useCallback((open: boolean) => {
+    if (open && insideDefrost()) {
+      window.open(ownerWebsite() || OWN_SITE, '_blank', 'noopener,noreferrer');
+      return;
+    }
+    setIsShopIframeOpenState(open);
+  }, []);
   const [is110Percent, setIs110Percent] = useState(false);
   const [isWallpaperSettingsOpen, setIsWallpaperSettingsOpen] = useState(false);
   const [isGlobalSettingsOpen, setIsGlobalSettingsOpen] = useState(false);
@@ -236,7 +259,7 @@ export function UIProvider({ children }: { children: React.ReactNode }) {
     setInitialAction,
     activeReaderItem,
     setActiveReaderItem,
-  }), [chromeHidden, toggleChrome, persistChrome, enterFocusMode, restoreChrome, uiScale, isStatusBarVisible, hasCompletedIntro, visualFidelity, isWallpaperMode, isShopIframeOpen, is110Percent, isWallpaperSettingsOpen, isGlobalSettingsOpen, isSearchOpen, isCommandPaletteOpen, focusedProduct, initialAction, activeReaderItem, isDiscoveryOpen, isProtocolOpen, updateScale, updateStatusBarVisible, setIntroCompletedWrapper, updateVisualFidelity]);
+  }), [chromeHidden, toggleChrome, persistChrome, enterFocusMode, restoreChrome, uiScale, isStatusBarVisible, hasCompletedIntro, visualFidelity, isWallpaperMode, isShopIframeOpen, is110Percent, isWallpaperSettingsOpen, isGlobalSettingsOpen, setIsShopIframeOpen, isSearchOpen, isCommandPaletteOpen, focusedProduct, initialAction, activeReaderItem, isDiscoveryOpen, isProtocolOpen, updateScale, updateStatusBarVisible, setIntroCompletedWrapper, updateVisualFidelity]);
 
   return (
     <UIContext.Provider value={value}>
