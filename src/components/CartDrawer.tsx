@@ -1,5 +1,6 @@
 import { motion, AnimatePresence } from "motion/react";
 import { X, Plus, Minus, Trash2, ShoppingBag, ArrowRight } from "lucide-react";
+import { useFocusTrap } from "../hooks/useFocusTrap";
 import { useCart } from "../context/CartContext";
 import { useUI } from "../context/UIContext";
 import { Link } from "react-router-dom";
@@ -14,6 +15,10 @@ export default function CartDrawer() {
   const { items, isCartOpen, setIsCartOpen, removeFromCart, updateQuantity, cartTotal } = useCart();
   const { setIsShopIframeOpen } = useUI();
   const closeButtonRef = useRef<HTMLButtonElement>(null);
+  /* ⚠️ FOCUSING THE CLOSE BUTTON ON OPEN IS ONLY THE FIRST STEP. It says where
+     the keyboard STARTS; nothing stopped it leaving at the end of the panel and
+     walking the page behind. See useFocusTrap. */
+  const trapRef = useFocusTrap<HTMLDivElement>(isCartOpen);
 
   // The pairing shelf is built from the basket lines' own protocolPairings
   // (matched by name), never shows a product already in the basket, and is
@@ -74,6 +79,7 @@ export default function CartDrawer() {
             transition={{ type: "spring", damping: 35, stiffness: 250 }}
             className="fixed right-0 top-0 h-full w-full max-w-[600px] bg-editorial-bg/98 backdrop-blur-3xl border-l border-editorial-border-light z-[101] flex flex-col shadow-[-50px_0_150px_rgba(0,0,0,0.95)]"
             data-lenis-prevent="true"
+            ref={trapRef}
             role="dialog"
             aria-modal="true"
             aria-label="Your order"

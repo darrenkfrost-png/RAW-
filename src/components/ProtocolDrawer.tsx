@@ -5,6 +5,7 @@ import { useProtocol } from '../context/ProtocolContext';
 import { Layers, X, Trash2, ArrowRight, Zap, Copy, Crosshair, AlertTriangle } from 'lucide-react';
 import { getHighResImageUrl } from '../lib/utils';
 import { useUI } from '../context/UIContext';
+import { useFocusTrap } from '../hooks/useFocusTrap';
 import { useCart } from '../context/CartContext';
 import { useToast } from './common/Toast';
 
@@ -19,6 +20,9 @@ export default function ProtocolDrawer() {
   const { addToast } = useToast();
   const { items: cartItems, addToCart, setIsCartOpen } = useCart();
   const closeButtonRef = useRef<HTMLButtonElement>(null);
+  /* Keeps Tab inside the drawer and puts the keyboard back on the top bar's
+     stack button when it closes. See useFocusTrap. */
+  const trapRef = useFocusTrap<HTMLDivElement>(isOpen);
 
   /* Escape closes the drawer. The listener exists only while it is open, so
      it cannot fire from another overlay after this one has gone. */
@@ -116,6 +120,7 @@ export default function ProtocolDrawer() {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: '100%' }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            ref={trapRef}
             role="dialog"
             aria-modal="true"
             aria-labelledby="protocol-drawer-title"

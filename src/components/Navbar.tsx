@@ -21,6 +21,7 @@ import { openScreensaver } from './Screensaver';
 import LazyImage from "./LazyImage";
 import { allProducts } from "../data/products";
 import { PRIMARY, DIRECTORY, type NavItem } from "../data/navigation";
+import { useFocusTrap } from "../hooks/useFocusTrap";
 
 const fuse = new Fuse(allProducts, {
   keys: ['name', 'category'],
@@ -73,6 +74,14 @@ export default function Navbar() {
   const location = useLocation();
   const itemCount = items.reduce((acc, item) => acc + item.quantity, 0);
   const stackCount = protocolItems.length;
+
+  /* ⚠️ THE DIRECTORY COVERS THE WHOLE SCREEN, SO THE KEYBOARD MUST STAY IN
+     IT. Measured on the live site before this: with the directory open, the
+     next Tab after the button that opened it landed on a breadcrumb link on
+     the page UNDERNEATH — so a keyboard visitor tabbed invisibly through the
+     page behind the panel they had just opened. See useFocusTrap. */
+  const directoryRef = useFocusTrap<HTMLDivElement>(isDirectoryOpen);
+  const searchRef = useFocusTrap<HTMLDivElement>(isSearchOpen);
 
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 30, restDelta: 0.001 });
@@ -213,6 +222,10 @@ export default function Navbar() {
         {isDirectoryOpen && (
           <motion.div
             key="directory"
+            ref={directoryRef}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Everything on this site"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -458,6 +471,10 @@ export default function Navbar() {
         {isSearchOpen && (
           <motion.div
             key="search-modal"
+            ref={searchRef}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Search products"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -491,7 +508,7 @@ export default function Navbar() {
                 </label>
                 <input
                   id="product-search"
-                  autoFocus
+                  data-autofocus
                   placeholder="PROTEIN, PRE-WORKOUT, GLOVES…"
                   className="w-full border-b-[3px] border-editorial-border-light bg-transparent py-6 font-sans text-display-sm font-black uppercase leading-none tracking-tighter text-editorial-text transition-all duration-500 placeholder:text-editorial-text/10 focus:border-red-600 focus:outline-none md:text-[3.75rem]"
                   value={searchQuery}

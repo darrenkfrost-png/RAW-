@@ -32,6 +32,7 @@
     "stickycheck": "node scripts/stickycheck.mjs",
     "keycheck": "node scripts/keycheck.mjs",
     "watchcheck": "node scripts/watchcheck.mjs",
+    "trapcheck": "node scripts/trapcheck.mjs",
     "archive": "node scripts/build-archive.mjs"
   },
   "dependencies": {

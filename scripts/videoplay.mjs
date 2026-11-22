@@ -16,8 +16,14 @@ const require = createRequire(new URL('../package.json', import.meta.url));
 const { chromium } = require('playwright-core');
 
 const BASE = (process.argv[2] || 'http://localhost:5331').replace(/\/$/, '');
+/* ⚠️ '/defrost' WAS IN THIS LIST AFTER THE PAGE WAS REMOVED, AND THE PROBE
+   DID NOT NOTICE. The app answers an unknown address with the shell, and the
+   shell carries the site-wide background film — so the probe measured the
+   wallpaper on a "page not found" screen and reported a healthy film at
+   /defrost. A route that no longer exists cannot fail a check; it can only
+   pad the count. It is '/watch' now, which is a real page with real films. */
 const ROUTES = process.argv.slice(3).length ? process.argv.slice(3)
-  : ['/', '/combat', '/recovery', '/nutrients', '/showcase', '/our-story', '/stay-safe', '/defrost', '/films'];
+  : ['/', '/combat', '/recovery', '/nutrients', '/showcase', '/our-story', '/stay-safe', '/watch', '/films'];
 
 const MEDIA_ERR = ['', 'ABORTED', 'NETWORK', 'DECODE', 'SRC_NOT_SUPPORTED'];
 

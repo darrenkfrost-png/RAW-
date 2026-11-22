@@ -166,7 +166,12 @@ export default function Layout() {
                    <span className="text-red-500 font-bold group-hover/breadcrumb:scale-110 transition-transform duration-500" aria-hidden="true">RAW://</span>
                    <span className="sr-only">You are here:</span>
                    <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
-                      {['SYSTEM', ...location.pathname.split('/').filter(x => x)].map((raw, i, arr) => {
+                      {/* ⚠️ THE ONE LINE WHOSE JOB IS TO SAY WHERE YOU ARE CALLED HOME
+                          "SYSTEM". The trail exists to orient someone, and its
+                          first word was jargon; the same instinct named the
+                          shop "Arsenal" and the home page "Terminal" in the
+                          old left rail. It says HOME. */}
+                      {['HOME', ...location.pathname.split('/').filter(x => x)].map((raw, i, arr) => {
                         /* ⚠️ A FILM'S ADDRESS IS NOT ITS NAME. The 116 film
                            pages are /watch/yt-KCQaKmrl0XA, so the trail read
                            "YT_KCQAKMRL0XA" — an id shown to a human. Where the
