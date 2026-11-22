@@ -1,6 +1,5 @@
 import { useState, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import Breadcrumb from '../components/Breadcrumb';
 import { Database, Search, ArrowRight, ShieldCheck, Copy, Plus, Activity, BookOpen } from 'lucide-react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { rawProductContentBank as part1 } from '../data/rawProductContent';
@@ -64,7 +63,6 @@ export default function KnowledgeCore() {
   return (
     <div className="min-h-svh bg-editorial-bg pt-32 pb-24 font-sans px-[var(--shell-padding-mobile)] md:px-[var(--shell-padding)] lg:px-[var(--shell-padding-lg)]">
       <div className="max-w-[var(--content-max-width)] mx-auto">
-        <Breadcrumb items={[{ label: 'System', path: '/performance-system' }, { label: 'Knowledge Core', active: true }]} />
         
         {/* Header */}
         <div className="text-center mb-24 relative z-10 space-y-8">

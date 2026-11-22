@@ -56,7 +56,7 @@ const VideoSequencer = React.memo(function VideoSequencer() {
   const [shots, setShots] = useState<Shot[]>([
     { id: "shot-1", sceneNo: 1, prompt: "Operative Jax executing heavy rucking up steep volcanic mountain slope, cinematic lens, moody dramatic clouds, sunset high contrast", lensType: "Anamorphic 35mm", motionPreset: "Low Speed Pan" },
     { id: "shot-2", sceneNo: 2, prompt: "Extreme close up of hand pouring mineralized saline into black thermal shaker, carbon fiber pattern, water splash macro details", lensType: "Macro 100mm", motionPreset: "Slow Dolly In" },
-    { id: "shot-3", sceneNo: 3, prompt: "A room styled like the DeFrost cybernetic tactical laboratory, pulsing red ambient glowing lights, diagnostics telemetry overlay", lensType: "Wide-Angle 18mm", motionPreset: "Camera Roll Zoom" }
+    { id: "shot-3", sceneNo: 3, prompt: "A room styled like a cybernetic tactical laboratory, pulsing red ambient glowing lights, diagnostics telemetry overlay", lensType: "Wide-Angle 18mm", motionPreset: "Camera Roll Zoom" }
   ]);
 
   // Shot Forge Editor states (Popup builder)

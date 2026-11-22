@@ -1,5 +1,4 @@
 import { Atmosphere } from '../components/common/Atmosphere';
-import Breadcrumb from '../components/Breadcrumb';
 import { motion } from "motion/react";
 import { allProducts } from "../data/products";
 import { Wind, Snowflake, RefreshCcw } from "lucide-react";
@@ -40,7 +39,6 @@ export default function Recovery() {
         <Atmosphere glowOpacity={0.02} gridMode="lines" intensity="low" />
         
         <div className="relative z-50 max-w-[var(--content-max-width)] mx-auto px-[var(--shell-padding-mobile)] md:px-[var(--shell-padding)] lg:px-[var(--shell-padding-lg)] mb-10 w-full flex justify-start">
-            <Breadcrumb items={[{ label: 'System', path: '/performance-system' }, { label: 'Recovery', active: true }]} />
         </div>
 
         <div className="relative z-10 text-center space-y-8 px-[var(--shell-padding-mobile)] md:px-[var(--shell-padding)] lg:px-[var(--shell-padding-lg)] max-w-[var(--content-max-width)] w-full flex flex-col items-center">

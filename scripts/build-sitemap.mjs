@@ -66,12 +66,44 @@ ${urls
 
 await fs.writeFile(path.join(ROOT, "public", "sitemap.xml"), xml, "utf8");
 
+/* ⚠️ THE FILM PAGES GET THEIR OWN SITEMAP, AND HERE IS WHY.
+   /watch/:id is one real page per film — 116 of them, each with its own title
+   and, for most, a full transcript. That is the richest text this site has and
+   it should all be indexed. But every probe in scripts/ reads sitemap.xml and
+   sweeps every URL in it, so folding 116 more in would multiply the cost of an
+   accessibility or keyboard sweep by three for pages that are all the same
+   component with different data.
+   So they live in a second sitemap, and robots.txt names BOTH — which is the
+   standard way to publish more than one and is read by every search engine.
+   They are not unchecked: scripts/watchcheck.mjs walks all of them. */
+const archive = await fs.readFile(path.join(ROOT, "src", "data", "videoArchive.ts"), "utf8");
+const filmIds = [...archive.matchAll(/"id":"((?:yt|tt)-[^"]+)"/g)].map((m) => m[1]);
+if (filmIds.length) {
+  const videoXml = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${filmIds.map((id) => `  <url>
+    <loc>${ORIGIN}/watch/${id}</loc>
+    <lastmod>${today}</lastmod>
+  </url>`).join("\n")}
+</urlset>
+`;
+  await fs.writeFile(path.join(ROOT, "public", "sitemap-videos.xml"), videoXml, "utf8");
+  console.log(`sitemap-videos.xml: ${filmIds.length} film pages`);
+}
+
 /* ⚠️ robots.txt NAMES THE SITEMAP, SO IT HAS TO MOVE WITH IT. Kept by hand it
    drifted: the file pointed at a sitemap on a domain this app is not served
    from. Rewritten from the same constant, the two can never disagree. */
 const robotsPath = path.join(ROOT, "public", "robots.txt");
 const robots = await fs.readFile(robotsPath, "utf8");
-const fixed = robots.replace(/^Sitemap: .*$/m, `Sitemap: ${ORIGIN}/sitemap.xml`);
+const fixed = robots
+  .replace(/^Sitemap: .*$/gm, "")
+  .replace(/\n{3,}/g, "\n\n")
+  .trimEnd() + `
+
+Sitemap: ${ORIGIN}/sitemap.xml
+Sitemap: ${ORIGIN}/sitemap-videos.xml
+`;
 if (fixed !== robots) {
   await fs.writeFile(robotsPath, fixed, "utf8");
   console.log(`robots.txt: Sitemap -> ${ORIGIN}/sitemap.xml`);

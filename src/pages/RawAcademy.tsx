@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import Breadcrumb from '../components/Breadcrumb';
 import { BookOpen, FileText, ArrowRight, Target, Play, Lock } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Atmosphere } from '../components/common/Atmosphere';
@@ -35,7 +34,6 @@ export default function RawAcademy() {
       <Atmosphere glowOpacity={0.04} gridMode="dots" intensity="medium" />
       
       <div className="max-w-[var(--content-max-width)] mx-auto px-[var(--shell-padding-mobile)] md:px-[var(--shell-padding)] lg:px-[var(--shell-padding-lg)] relative z-10">
-        <Breadcrumb items={[{ label: 'System', path: '/performance-system' }, { label: 'Academy', active: true }]} />
         
         {/* Cinematic Header Block */}
         <section className="mb-32">

@@ -422,20 +422,14 @@ export default function Navbar() {
                 </MagneticWrapper>
               </Tooltip>
 
-              <Tooltip content="WALLPAPER_MODE // COMING_SOON">
-                <MagneticWrapper className="hidden lg:block">
-                  <button
-                    aria-label="Wallpaper mode (coming soon)"
-                    aria-disabled="true"
-                    disabled
-                    className="relative p-3.5 text-editorial-text-muted opacity-40 cursor-not-allowed bg-transparent rounded-full block focus:outline-none"
-                  >
-                    <Image className="w-5 h-5" />
-                    <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 font-mono text-[0.5rem] font-black tracking-[0.1em] leading-none whitespace-nowrap text-label-dim">COMING_SOON</span>
-                  </button>
-                </MagneticWrapper>
-              </Tooltip>
-
+              {/* ⚠️ A DEAD CONTROL WAS HOLDING A SLOT IN THE MAIN HEADER.
+                  "WALLPAPER_MODE // COMING_SOON" was a permanently disabled
+                  button with a tiny COMING_SOON caption hanging below it — the
+                  one element breaking the icon row's baseline, and an
+                  announcement of an unfinished feature sitting in the primary
+                  navigation of a site about to launch. Nothing was lost by
+                  removing it: it could not be pressed. The display-settings
+                  control beside it, which does work, is untouched. */}
               <Tooltip content="ACCOUNT">
                 <MagneticWrapper className="hidden sm:block">
                   <Link to="/account" aria-label="Account" className="inline-flex items-center justify-center min-h-11 min-w-11 p-2 sm:p-3.5 text-editorial-text-muted hover:text-editorial-text transition-colors duration-500 group bg-transparent hover:bg-editorial-text/5 rounded-full block focus:outline-none focus:ring-2 focus:ring-white">

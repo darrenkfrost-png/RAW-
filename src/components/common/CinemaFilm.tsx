@@ -123,9 +123,18 @@ export default function CinemaFilm({
     };
   }, [video]);
 
+  /* ⚠️ THE BAND ENDED IN TWO HARD VERTICAL SEAMS. The framing is deliberate —
+     a sharp film down the middle with its own light washed out either side —
+     but the band plays at 80% opacity through mix-blend-screen while the wash
+     beside it sits at 33%, and a 128px gradient of 6% white cannot bridge that
+     gap. On a bright frame the result was a milky stripe with a visible edge
+     down each side of the headline.
+     The band now fades out along its own edges, so it dissolves into the wash
+     instead of stopping dead. Only from md up: below that the band IS the full
+     width, and masking its edges would just dim the screen. */
   const stage =
     fit === "band"
-      ? "absolute inset-y-0 left-1/2 w-full -translate-x-1/2 md:w-[45%] lg:w-[33%]"
+      ? "absolute inset-y-0 left-1/2 w-full -translate-x-1/2 md:w-[45%] lg:w-[33%] md:[mask-image:linear-gradient(to_right,transparent_0%,black_18%,black_82%,transparent_100%)]"
       : "absolute inset-0";
 
   return (

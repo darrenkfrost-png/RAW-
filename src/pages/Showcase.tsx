@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { useEffect, useMemo, useRef, useState, useCallback } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import { Play, Camera, Film, LayoutGrid, Youtube, Music2 } from "lucide-react";
@@ -195,6 +196,16 @@ export default function Showcase() {
             Campaign films, photography, and the brand in the wild. Not a product
             catalogue — the work itself, credited to whoever made it.
           </p>
+          {/* ⚠️ TWO WALLS OF THE SAME FILMS IS ONE TOO MANY. This page and The
+              Vault both show the YouTube and TikTok posts. Rather than hide
+              either, the page says which is which: this is the brand wall, and
+              the Vault is the one that can be searched by what was said. */}
+          <Link
+            to="/watch"
+            className="mt-6 inline-flex items-center gap-2 rounded-full border border-editorial-border px-5 py-3 font-mono text-[0.6875rem] uppercase tracking-[0.2em] text-label-dim transition-colors hover:border-red-500/50 hover:text-white"
+          >
+            Looking for a particular moment? Search every film in The Vault →
+          </Link>
         </div>
 
         {/* Filters */}

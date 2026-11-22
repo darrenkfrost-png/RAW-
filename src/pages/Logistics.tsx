@@ -1,5 +1,4 @@
 import { Atmosphere } from '../components/common/Atmosphere';
-import Breadcrumb from '../components/Breadcrumb';
 import { motion } from "motion/react";
 import { Truck, Globe, ShieldCheck, Clock, MapPin, Package } from "lucide-react";
 import MagneticWrapper from "../components/MagneticWrapper";
@@ -31,7 +30,6 @@ export default function Logistics() {
       <div className="absolute bottom-0 left-0 w-[800px] h-[800px] bg-red-900/10 blur-[200px] pointer-events-none rounded-full mix-blend-screen" />
       <Atmosphere glowOpacity={0.02} gridMode="lines" intensity="low" />
       
-      <Breadcrumb items={[{ label: 'Company', path: '/manifesto' }, { label: 'Logistics', active: true }]} />
 
       <motion.div
         initial={{ opacity: 0, y: 50 }}

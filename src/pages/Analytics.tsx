@@ -1,5 +1,4 @@
 import { motion, useAnimationFrame, AnimatePresence } from "motion/react";
-import Breadcrumb from '../components/Breadcrumb';
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, BarChart, Bar, Cell, ReferenceLine, CartesianGrid } from "recharts";
 import { Users, Activity, ShieldCheck, Zap, Server, Terminal, Radio, Bot, Sparkles, AlertTriangle, Cpu, Network } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
@@ -59,7 +58,6 @@ export default function Analytics() {
       {is110Percent && <div className="absolute inset-0 pointer-events-none mix-blend-overlay opacity-20 bg-gradient-to-br from-white/5 via-transparent to-white/5" />}
       
       <div className="max-w-[var(--content-max-width)] mx-auto space-y-16 relative z-10">
-        <Breadcrumb items={[{ label: 'System', path: '/performance-system' }, { label: 'Analytics', active: true }]} />
         {/* Header */}
         <div className={`border-b pb-12 transition-colors duration-500 mb-20 relative ${is110Percent ? 'border-emerald-500/40' : 'border-red-900/40'}`}>
           <div className="absolute top-0 right-0 w-32 h-[1px] bg-editorial-text opacity-20 hidden md:block" />

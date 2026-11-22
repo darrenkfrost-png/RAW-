@@ -1,5 +1,4 @@
 import { motion } from "motion/react";
-import Breadcrumb from '../components/Breadcrumb';
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { allProducts } from "../data/products";
@@ -43,7 +42,6 @@ export default function Nutrients() {
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-transparent via-transparent to-editorial-bg pointer-events-none" />
         
         <div className="relative z-50 max-w-[var(--content-max-width)] mx-auto px-[var(--shell-padding-mobile)] md:px-[var(--shell-padding)] lg:px-[var(--shell-padding-lg)] mb-10 w-full flex justify-start">
-            <Breadcrumb items={[{ label: 'System', path: '/performance-system' }, { label: 'Nutrients', active: true }]} />
         </div>
 
         <div className="relative z-10 text-center px-6 max-w-6xl w-full flex flex-col items-center">

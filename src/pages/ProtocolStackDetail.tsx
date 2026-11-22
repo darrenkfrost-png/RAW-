@@ -6,7 +6,6 @@ import { useProtocol } from '../context/ProtocolContext';
 import { useCart } from '../context/CartContext';
 import { useToast } from '../components/common/Toast';
 import NotFound from './NotFound';
-import Breadcrumb from '../components/Breadcrumb';
 
 const stacks = [
   {
@@ -112,7 +111,6 @@ export default function ProtocolStackDetail() {
        <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-red-900/10 blur-[200px] rounded-full pointer-events-none" />
 
        <div className="max-w-[var(--content-max-width)] mx-auto relative z-10">
-         <Breadcrumb items={[{ label: "Protocol Stacks", path: "/protocol-stacks" }, { label: stack.title }]} />
          
           {/* ⚠️ min-w-0 ON BOTH COLUMNS. Hiding the module list collapsed this grid's single
               phone track from 576px to the container width: every module row is a flex line

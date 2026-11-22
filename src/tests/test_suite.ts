@@ -36,7 +36,10 @@
  * This is NOT the whole paywall story, and saying so is the point of the
  * closing summary: these are unit tests over the rules. That the reader really
  * renders a lock screen at page 11, with no premium text in the page source, is
- * checked in the browser — see scripts/readerlock.mjs.
+ * was checked in the browser by scripts/readerlock.mjs — RETIRED 2026-11-22,
+ * because the only page that mounted the reader (/defrost) was removed at the
+ * founder's request. These rules still hold and are still tested; nothing on
+ * the site renders them at present. See the note at the top of that probe.
  */
 import { booksData } from "../data/books";
 import {
@@ -185,7 +188,8 @@ console.log(
   failed
     ? "DO NOT PUSH.\n"
     : `The reader's paywall rules hold for all ${everyBook.length} books. This covers the RULES only —\n` +
-        "that the reader renders a lock screen at page 11 with no premium text in the page\n" +
-        "source is proven in the browser by scripts/readerlock.mjs.\n",
+        "that a reader renders a lock screen at page 11 was proven in the browser by\n" +
+        "scripts/readerlock.mjs, now retired: /defrost, the only page that mounted the\n" +
+        "reader, was removed on 2026-11-22. No page renders the reader today.\n",
 );
 process.exit(failed ? 1 : 0);

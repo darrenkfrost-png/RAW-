@@ -1,5 +1,4 @@
 import { Atmosphere } from '../components/common/Atmosphere';
-import Breadcrumb from '../components/Breadcrumb';
 import { motion } from "motion/react";
 import { Globe, Users, Crosshair } from "lucide-react";
 import LazyImage from "../components/LazyImage";
@@ -12,7 +11,6 @@ export default function RawCares() {
       <Atmosphere glowOpacity={0.02} gridMode="lines" intensity="low" />
       
       <div className="max-w-[var(--content-max-width)] mx-auto relative z-10 px-[calc(var(--shell-padding-mobile)/2)] md:px-0">
-        <Breadcrumb items={[{ label: 'Company', path: '/manifesto' }, { label: 'Raw Cares', active: true }]} />
       </div>
 
       <section className="max-w-[var(--content-max-width)] mx-auto text-center mb-32 relative z-10">

@@ -24,7 +24,7 @@ export default function Footer() {
   ];
 
   return (
-    <footer className="border-t border-white/[0.05] bg-editorial-bg shadow-sm relative z-30 pt-48 overflow-hidden">
+    <footer className="border-t border-white/[0.05] bg-editorial-bg shadow-sm relative z-30 pt-20 overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-b from-editorial-bg/10 to-transparent pointer-events-none mix-blend-screen" />
       {/* ⚠️ FOUR COLUMNS DID NOT FIT AT TABLET, AND THE TEXT PAID FOR IT.
           At 768px md:grid-cols-4 left each link column 85px wide — narrower
@@ -36,7 +36,12 @@ export default function Footer() {
         <div className="absolute top-0 right-10 w-[800px] h-[800px] bg-red-600/[0.03] blur-[250px] pointer-events-none rounded-full mix-blend-screen" />
         <div className="absolute bottom-0 left-10 w-[1000px] h-[1000px] bg-editorial-surface/[0.05] blur-[250px] pointer-events-none rounded-full" />
 
-        <div className="col-span-1 md:col-span-2 lg:col-span-1 flex flex-col items-start relative z-10">
+        {/* ⚠️ COLUMN TWO WAS EMPTY. The brand block sat in column 1 and the two
+            link columns start at column 3, so a quarter of the footer was a
+            void with the links crowded into the right-hand edge. The brand
+            block — which carries the quote and the social row — now spans the
+            two columns it was always wide enough for. */}
+        <div className="col-span-1 md:col-span-2 lg:col-span-2 flex flex-col items-start relative z-10">
           <Link to="/" aria-label="RAW Official Home" className="mb-12 block transform-gpu hover:scale-105 transition-all duration-700">
             <img src="/brand/raw-logo-red.png" alt="RAW Official Logo" className="h-8 xl:h-10 object-contain drop-shadow-[0_0_20px_rgba(244,63,94,0.4)] transition-all duration-700" referrerPolicy="no-referrer" />
           </Link>
@@ -63,6 +68,7 @@ export default function Footer() {
         <div className="col-span-1 lg:col-start-3 relative z-10 pt-4 px-2">
            <h4 className="text-meta-premium mb-8 pb-4 border-b border-white/[0.05] opacity-60">Company</h4>
            <nav aria-label="Company links" className="flex flex-col gap-6">
+              <Link to="/watch" className="link-premium w-fit max-w-full font-mono text-[0.6875rem] uppercase tracking-[0.12em] xl:tracking-[0.25em] [overflow-wrap:break-word] px-1 font-bold text-editorial-text-muted hover:text-editorial-text transition-all duration-300">The Vault</Link>
               <Link to="/films" className="link-premium w-fit max-w-full font-mono text-[0.6875rem] uppercase tracking-[0.12em] xl:tracking-[0.25em] [overflow-wrap:break-word] px-1 font-bold text-editorial-text-muted hover:text-editorial-text transition-all duration-300">Film Library</Link>
               <Link to="/manifesto" className="link-premium w-fit max-w-full font-mono text-[0.6875rem] uppercase tracking-[0.12em] xl:tracking-[0.25em] [overflow-wrap:break-word] px-1 font-bold text-editorial-text-muted hover:text-editorial-text transition-all duration-300">Manifesto</Link>
               <Link to="/raw-cares" className="link-premium w-fit max-w-full font-mono text-[0.6875rem] uppercase tracking-[0.12em] xl:tracking-[0.25em] [overflow-wrap:break-word] px-1 font-bold text-editorial-text-muted hover:text-editorial-text transition-all duration-300">Raw Cares</Link>
@@ -74,11 +80,15 @@ export default function Footer() {
 
         <div className="col-span-1 relative z-10 pt-4 px-2">
            <h4 className="text-meta-premium mb-8 pb-4 border-b border-white/[0.05] opacity-60">Protocol</h4>
-           <nav aria-label="Protocol category links" className="flex flex-col gap-6">
+           <nav aria-label="Protocol and audience links" className="flex flex-col gap-6">
               <Link to="/nutrients" className="link-premium w-fit max-w-full font-mono text-[0.6875rem] uppercase tracking-[0.12em] xl:tracking-[0.25em] [overflow-wrap:break-word] px-1 font-bold text-editorial-text-muted hover:text-editorial-text transition-all duration-300">Nutrients</Link>
               <Link to="/recovery" className="link-premium w-fit max-w-full font-mono text-[0.6875rem] uppercase tracking-[0.12em] xl:tracking-[0.25em] [overflow-wrap:break-word] px-1 font-bold text-editorial-text-muted hover:text-editorial-text transition-all duration-300">Recovery</Link>
               <Link to="/combat" className="link-premium w-fit max-w-full font-mono text-[0.6875rem] uppercase tracking-[0.12em] xl:tracking-[0.25em] [overflow-wrap:break-word] px-1 font-bold text-editorial-text-muted hover:text-editorial-text transition-all duration-300">Combat</Link>
-              <span className="mt-2 mb-1 h-px w-10 bg-white/[0.08]" aria-hidden="true" />
+              {/* ⚠️ A GROUP WITH A RULE BUT NO NAME. These four are audience
+                  pages, not protocols, and were separated from the list above
+                  by a bare 40px line — a heading's job done by a decoration,
+                  and nothing at all for a screen reader. */}
+              <span className="mt-4 mb-1 block font-mono text-[0.625rem] uppercase tracking-[0.3em] text-label-dim" id="footer-audience">Who it is for</span>
               <Link to="/target/athletes" className="link-premium w-fit max-w-full font-mono text-[0.6875rem] uppercase tracking-[0.12em] xl:tracking-[0.25em] [overflow-wrap:break-word] px-1 font-bold text-editorial-text-muted hover:text-editorial-text transition-all duration-300">{machineText("For_Athletes")}</Link>
               <Link to="/target/fighters" className="link-premium w-fit max-w-full font-mono text-[0.6875rem] uppercase tracking-[0.12em] xl:tracking-[0.25em] [overflow-wrap:break-word] px-1 font-bold text-editorial-text-muted hover:text-editorial-text transition-all duration-300">{machineText("For_Fighters")}</Link>
               <Link to="/target/everyday" className="link-premium w-fit max-w-full font-mono text-[0.6875rem] uppercase tracking-[0.12em] xl:tracking-[0.25em] [overflow-wrap:break-word] px-1 font-bold text-editorial-text-muted hover:text-editorial-text transition-all duration-300">{machineText("Everyday_Performance")}</Link>
@@ -88,7 +98,7 @@ export default function Footer() {
       </div>
       <div className="border-t border-white/[0.05] bg-editorial-bg/50 backdrop-blur-3xl py-12 px-10 flex flex-col md:flex-row items-center justify-between gap-8 relative z-10 shadow-sm">
         <div className="flex flex-col md:flex-row items-center gap-6 md:gap-10">
-          <div className="text-meta-premium ">
+          <div className="text-meta-premium md:whitespace-nowrap">
             © {new Date().getFullYear()} RAW OFFICIAL. ALL RIGHTS RESERVED.
           </div>
           <MagneticWrapper>

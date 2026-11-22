@@ -1,5 +1,4 @@
 import { Atmosphere } from '../components/common/Atmosphere';
-import Breadcrumb from '../components/Breadcrumb';
 import { motion } from "motion/react";
 import { useUI } from '../context/UIContext';
 import { Volume2 } from 'lucide-react';
@@ -38,7 +37,6 @@ export default function Manifesto() {
       <Atmosphere glowOpacity={0.02} gridMode="lines" intensity="low" />
       
       <div className="relative z-50 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-10">
-        <Breadcrumb items={[{ label: 'System', path: '/performance-system' }, { label: 'Manifesto', active: true }]} />
         
         <motion.button
           initial={{ opacity: 0, scale: 0.9 }}

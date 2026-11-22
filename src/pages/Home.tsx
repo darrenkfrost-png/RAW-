@@ -52,6 +52,21 @@ export default function Home() {
         <LazyHeroVideo />
         <CascadingBackground text="RAW_..." />
         <Atmosphere glowOpacity={0.06} gridMode="dots" intensity="medium" />
+
+        {/* ⚠️ A LEGIBILITY FLOOR, BECAUSE THE BACKGROUND IS A FILM.
+            The headline sits over a playing reel, so its contrast is whatever
+            frame happens to be on screen — and this reel contains a bright
+            beach shot that turns the whole hero pale and leaves
+            RECOVER_INTENT as grey type on near-white. No contrast checker can
+            catch that: axe measures CSS colours, and the thing behind the text
+            is a video it cannot see. The scrim is the guarantee that the type
+            has something dark underneath it no matter which frame is playing.
+            It is darkest at the left, where the words are, and clears to
+            nothing on the right so the film is still the film. */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 z-[5] bg-[linear-gradient(to_right,rgba(5,5,5,0.88)_0%,rgba(5,5,5,0.72)_38%,rgba(5,5,5,0.35)_62%,rgba(5,5,5,0.15)_100%)]"
+        />
         
         {/* Animated Accent Plate */}
         <motion.div 

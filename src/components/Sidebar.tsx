@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useUI } from "../context/UIContext";
 import { motion, AnimatePresence } from "motion/react";
-import { Home, ShoppingBag, BookOpen, Layers, Menu, ChevronLeft, Activity, Database, FileText, Monitor, PanelLeftClose } from "lucide-react";
+import { Home, ShoppingBag, BookOpen, Layers, Menu, ChevronLeft, Activity, Database, FileText, PanelLeftClose, Clapperboard } from "lucide-react";
 import { Tooltip } from "./common/Tooltip";
 
 /* --layout-transition-duration (index.css) is a constant; read it once on the
@@ -26,12 +26,12 @@ function Sidebar() {
 
   const links = [
     { name: "Terminal", path: "/", icon: <Home className="w-5 h-5" /> },
-    { name: "DeFrost OS", path: "/defrost", icon: <Monitor className="w-5 h-5" /> },
     { name: "Arsenal", path: "/shop", icon: <ShoppingBag className="w-5 h-5" /> },
     { name: "Protocols", path: "/protocol-stacks", icon: <Layers className="w-5 h-5" /> },
     { name: "Academy", path: "/academy", icon: <BookOpen className="w-5 h-5" /> },
     { name: "Performance", path: "/performance-system", icon: <Activity className="w-5 h-5" /> },
     { name: "Database", path: "/knowledge-core", icon: <Database className="w-5 h-5" /> },
+    { name: "The Vault", path: "/watch", icon: <Clapperboard className="w-5 h-5" /> },
     { name: "Manual", path: "#", icon: <FileText className="w-5 h-5" />, action: () => setIsDiscoveryOpen(!isDiscoveryOpen) },
   ];
 

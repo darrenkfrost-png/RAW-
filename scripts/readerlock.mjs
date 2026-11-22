@@ -1,26 +1,19 @@
 /**
- * THE READER'S PAYWALL, IN A REAL BROWSER.
+ * ⚠️ RETIRED 2026-11-22, AND NOT DELETED, FOR ONE REASON.
  *
- * src/tests/test_suite.ts proves the RULES. This proves the READER: that a
- * visitor who walks to page 11 is shown a lock screen, and that the premium
- * text is not merely hidden but absent from the page source.
+ * This probe proved the ebook paywall in a real browser by walking to page 11
+ * of a book and checking that no premium text reached the page source. The only
+ * door to that reader was /defrost — the "DeFrost OS" desktop — and that page
+ * was removed at the founder's instruction (it belongs to a different brand).
  *
- * ⚠️ WHY BOTH ARE NEEDED. The rules were correct all along and the reader could
- * not be opened at all — /defrost's desktop was squashed into a 171px strip by
- * a leftover `filter: blur(0px)` in the shell, so every one of its controls was
- * unclickable on the live site. A unit test over the rules cannot see that, and
- * the suite that claimed to verify this feature printed "ALL FAIL-CLOSED
- * SECURITY CRITERIA PROGRAMMATICALLY VERIFIED" throughout. This walks the
- * actual interface, which is the only thing a visitor has.
+ * With no page mounting the reader there is nothing for this to walk, so it is
+ * out of package.json rather than left in place quietly passing: a probe whose
+ * subject no longer exists reports a clean sheet for a thing it never looked at,
+ * which is the exact failure mode scripts here are written to avoid.
  *
- * ⚠️ HIDDEN IS NOT ABSENT. The verdict reads innerHTML, not the visible text.
- * Premium prose parked in the DOM under `opacity: 0` or behind an overlay is a
- * leak — it is in View Source, in the accessibility tree, and in anything that
- * scrapes the page. Only the visible text being clean is not the test.
- *
- * USAGE
- *   npm run readerlock                  # against a local build
- *   npm run readerlock -- https://…     # against the deployed site
+ * The reader itself (src/components/LivingBookEngine.tsx, src/lib/bookPreview.ts
+ * and src/data/books.ts) is still in the repository, untouched. Give it a page
+ * again and this probe works as written — nothing below needs changing.
  */
 import { createRequire } from 'node:module';
 const require = createRequire(new URL('../package.json', import.meta.url));

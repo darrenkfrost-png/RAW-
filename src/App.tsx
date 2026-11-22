@@ -17,6 +17,8 @@ const Analytics = lazy(() => import("./pages/Analytics"));
 const ProductDetail = lazy(() => import("./pages/ProductDetail"));
 const ProductGallery = lazy(() => import("./pages/ProductGallery"));
 const Films = lazy(() => import("./pages/Films"));
+const VideoArchive = lazy(() => import("./pages/VideoArchive"));
+const VideoArchiveItem = lazy(() => import("./pages/VideoArchiveItem"));
 const Contact = lazy(() => import("./pages/Contact"));
 const Logistics = lazy(() => import("./pages/Logistics"));
 const Manifesto = lazy(() => import("./pages/Manifesto"));
@@ -30,7 +32,6 @@ const CompareProducts = lazy(() => import("./pages/CompareProducts"));
 const RawAcademy = lazy(() => import("./pages/RawAcademy"));
 const CustomerType = lazy(() => import("./pages/CustomerType"));
 const KnowledgeCore = lazy(() => import("./pages/KnowledgeCore"));
-const DeFrost = lazy(() => import("./pages/DeFrost"));
 /* ⚠️ TEN OVERLAY PANELS WERE STATIC IMPORTS, so every visitor downloaded all
    of them — the AI drawer with its charting library, two terminals, the
    diagnostics dashboards — on first paint, to render nothing, because they are
@@ -106,6 +107,8 @@ function AppContent() {
               <Route path="shop" element={<Shop />} />
               <Route path="gallery" element={<ProductGallery />} />
               <Route path="films" element={<Films />} />
+              <Route path="watch" element={<VideoArchive />} />
+              <Route path="watch/:id" element={<VideoArchiveItem />} />
               <Route path="our-story" element={<OurStory />} />
               <Route path="raw-cares" element={<RawCares />} />
               <Route path="showcase" element={<Showcase />} />
@@ -130,7 +133,6 @@ function AppContent() {
               <Route path="compare" element={<CompareProducts />} />
               <Route path="academy" element={<RawAcademy />} />
               <Route path="knowledge-core" element={<KnowledgeCore />} />
-              <Route path="defrost" element={<DeFrost />} />
               <Route path="target/:type" element={<CustomerType />} />
               <Route path="category/:slug" element={<Shop />} />
               {/* ⚠️ MUST STAY LAST. Without this any unknown address rendered the

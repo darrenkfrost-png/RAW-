@@ -1,4 +1,5 @@
 import { allProducts } from "./products";
+import { ARCHIVE } from "./videoArchive";
 
 /**
  * PER-PAGE TITLES AND SHARE PREVIEWS.
@@ -34,6 +35,11 @@ const STATIC: Record<string, PageMeta> = {
     title: `The Archive — ${SUFFIX}`,
     description:
       "Every RAW product in one place: nutrition, recovery, combat and apparel.",
+  },
+  "/watch": {
+    title: `The Vault — every RAW film, searchable by what was said`,
+    description:
+      "RAW's full video library from YouTube and TikTok, with the published caption tracks indexed so you can search the spoken word and jump straight to the moment.",
   },
   "/showcase": {
     title: `Showcase — ${SUFFIX}`,
@@ -84,7 +90,6 @@ const STATIC: Record<string, PageMeta> = {
   "/target/fighters": { title: `For Fighters — ${SUFFIX}`, description: "For fighters: combat gear, endurance, impact readiness, recovery." },
   "/target/everyday": { title: `For Everyday Performance — ${SUFFIX}`, description: "For everyday performance: energy, wellness, sleep, focus, daily discipline." },
   "/target/recovery": { title: `For Recovery — ${SUFFIX}`, description: "For recovery: cold therapy, magnesium, mobility, nervous system regulation." },
-  "/defrost": { title: `DeFrost OS — ${SUFFIX}`, description: "The DeFrost OS desktop." },
 };
 
 export const metaForPath = (path: string): PageMeta => {
@@ -107,6 +112,21 @@ export const metaForPath = (path: string): PageMeta => {
     };
   }
 
+  /* A film's own title, never an invented one. Unknown ids fall through to
+     the generic builder below rather than claiming a 404. */
+  if (path.startsWith("/watch/")) {
+    const film = ARCHIVE.find((v) => v.id === path.split("/")[2]);
+    if (film) {
+      return {
+        title: `${film.title} — ${SUFFIX}`,
+        description: film.transcript
+          ? `${film.title}. Watch it with the full transcript, and jump to any moment.`
+          : `${film.title}. From RAW Official's ${film.platform === "youtube" ? "YouTube" : "TikTok"} channel.`,
+        image: film.thumb || undefined,
+      };
+    }
+  }
+
   if (path.startsWith("/category/")) {
     const name = decodeURIComponent(path.split("/")[2] || "").replace(/-/g, " ");
     return { title: `${name} — ${SUFFIX}`, description: `RAW ${name} products.` };
@@ -114,7 +134,7 @@ export const metaForPath = (path: string): PageMeta => {
 
   /* ⚠️ AN UNLISTED ROUTE IS NOT A MISSING PAGE.
      This used to return the not-found title for anything absent from the map
-     above — so /defrost, a page that renders perfectly, announced itself as
+     above — so a page that renders perfectly announced itself as
      "Page not found" in the browser tab, in history and to a screen reader.
      A hand-kept list will always fall behind the router, so the fallback now
      builds a decent title from the address instead of asserting a 404. The

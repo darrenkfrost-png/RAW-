@@ -1,6 +1,5 @@
 import { motion } from 'motion/react';
 import { Link } from 'react-router-dom';
-import Breadcrumb from '../components/Breadcrumb';
 import { Activity, Zap, RefreshCw, Layers } from 'lucide-react';
 
 const systems = [
@@ -56,7 +55,6 @@ export default function PerformanceSystem() {
       </div>
 
       <div className="max-w-[var(--content-max-width)] mx-auto px-[var(--shell-padding-mobile)] md:px-[var(--shell-padding)] lg:px-[var(--shell-padding-lg)] relative z-10">
-        <Breadcrumb items={[{ label: 'System', active: true }]} />
         
         {/* Hero: Neural Architecture */}
         <div className="text-center mb-40 relative">

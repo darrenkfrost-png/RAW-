@@ -6,7 +6,6 @@ import { allProducts } from "../data/products";
 import React, { useState, useMemo, useEffect } from "react";
 import ProductCard from "../components/common/ProductCard";
 import ProductQuickView from "../components/ProductQuickView";
-import Breadcrumb from "../components/Breadcrumb";
 import { Search, Filter, LayoutGrid } from "lucide-react";
 import ShopFilters, { FilterState } from "../components/ShopFilters";
 
@@ -118,14 +117,6 @@ export default function Shop() {
     }
   }, [filters]);
 
-  const breadcrumbItems: { label: string; href?: string }[] = [
-    { label: "Home", href: "/" },
-    { label: "Archive", href: "/shop" }
-  ];
-  if (slug) {
-    breadcrumbItems.push({ label: slug.replace("-", " ").toUpperCase() });
-  }
-
   const activeFilterCount = (filters.price ? 1 : 0) + 
                             filters.categories.length + 
                             filters.goals.length + 
@@ -151,7 +142,6 @@ export default function Shop() {
          />
       </div>
 
-      <Breadcrumb items={breadcrumbItems} />
       
       <ShopFilters 
         isOpen={isFilterOpen} 

@@ -75,10 +75,22 @@ export default function ChromeRestore() {
       /* Bottom-left: clear of the cart and the stack badge, both of which live
          bottom-right. Inset uses safe-area so it clears the home indicator on a
          phone. */
-      className="fixed z-[1150] flex flex-col items-start gap-2"
+      /* ⚠️ THE RAIL ONLY EXISTS AT md AND UP. Offsetting by the sidebar
+         variable at every width would push the dock 104px into the middle of a
+         phone screen, so the offset is applied only where the rail is. */
+      className="fixed z-[1150] flex flex-col items-start gap-2 left-[max(1rem,env(safe-area-inset-left))] md:left-[calc(var(--sidebar-current-width,0px)+1rem)]"
+      /* ⚠️ THE DOCK WAS SITTING ON TOP OF THE PAGE. At bottom/left 1rem it
+         overlapped the filter row on a phone and the bottom of the side rail
+         on a desktop — a floating control covering the content it is meant to
+         serve. It now clears both: it starts after the side rail where there
+         is one (the same variable the header and the page body use, so it
+         follows the rail when it collapses or hides), and it sits above the
+         status bar rather than on it. When the status bar is hidden the dock
+         drops back down to the corner, because then there is nothing there. */
       style={{
-        left: "max(1rem, env(safe-area-inset-left))",
-        bottom: "max(1rem, env(safe-area-inset-bottom))",
+        bottom: chromeHidden.includes("statusBar")
+          ? "max(1rem, env(safe-area-inset-bottom))"
+          : "calc(2.75rem + 1rem + env(safe-area-inset-bottom))",
       }}
     >
       <AnimatePresence>

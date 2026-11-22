@@ -10,7 +10,6 @@ import { useCart } from "../context/CartContext";
 import { allProducts } from "../data/products";
 import LazyImage from "../components/LazyImage";
 import LazyVideo from "../components/common/LazyVideo";
-import Breadcrumb from "../components/Breadcrumb";
 import NotFound from "./NotFound";
 import { getHighResImageUrl } from "../lib/utils";
 import { useProtocol } from "../context/ProtocolContext";
@@ -302,13 +301,6 @@ export default function ProductDetail() {
       </div>
 
       <div className="relative z-10 flex flex-col lg:flex-row justify-between items-start lg:items-center mb-16 gap-8">
-        <Breadcrumb items={[
-          { label: "Home", path: "/" },
-          { label: "Archive", path: "/shop" },
-          { label: product.category, path: `/category/${product.category.toLowerCase()}` },
-          { label: product.name }
-        ]} />
-        
         <div className="flex items-center gap-6">
            <div className="flex flex-col items-end">
               <span className="font-mono text-[0.6875rem] text-label-dim uppercase tracking-[0.4em] font-black mb-1">REGISTRY_STATUS</span>

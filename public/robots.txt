@@ -6,3 +6,4 @@ User-agent: *
 Allow: /
 
 Sitemap: https://skyblue-reindeer-199095.hostingersite.com/sitemap.xml
+Sitemap: https://skyblue-reindeer-199095.hostingersite.com/sitemap-videos.xml

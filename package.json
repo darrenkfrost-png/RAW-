@@ -29,9 +29,10 @@
     "taps": "node scripts/taps.mjs",
     "errors": "node scripts/errors.mjs",
     "fixedtrap": "node scripts/fixedtrap.mjs",
-    "readerlock": "node scripts/readerlock.mjs",
     "stickycheck": "node scripts/stickycheck.mjs",
-    "keycheck": "node scripts/keycheck.mjs"
+    "keycheck": "node scripts/keycheck.mjs",
+    "watchcheck": "node scripts/watchcheck.mjs",
+    "archive": "node scripts/build-archive.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",

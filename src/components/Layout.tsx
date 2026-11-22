@@ -1,4 +1,6 @@
-import { Outlet, useLocation } from "react-router-dom";
+import { Link, Outlet, useLocation } from "react-router-dom";
+import { ARCHIVE } from "../data/videoArchive";
+import { allProducts } from "../data/products";
 import React from "react";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
@@ -152,19 +154,57 @@ export default function Layout() {
                   with every navigation. Same family as the stranded image
                   viewer: anything that must stay current cannot live inside an
                   exiting subtree. */}
-              <div className="section-container py-12">
-                <nav className="text-[0.6875rem] uppercase tracking-[0.4em] text-editorial-text-meta/40 mb-20 font-mono flex items-center gap-6 group/breadcrumb" aria-label="Breadcrumb">
+              {/* ⚠️ MEASURED: 176px OF NOTHING AT THE TOP OF EVERY PAGE.
+                  py-12 on this wrapper plus mb-20 on the trail came to 11rem
+                  of empty band between the header and the first thing anyone
+                  came to read — on all 78 pages, at every width. On a phone
+                  that is a quarter of the screen spent on a void. The trail is
+                  one small line of chrome and is now spaced like one. */}
+              <div className="section-container pt-6 pb-2">
+                <nav className="text-[0.6875rem] uppercase tracking-[0.4em] text-editorial-text-meta/40 mb-6 font-mono flex items-center gap-6 group/breadcrumb" aria-label="Breadcrumb">
                    <span className="text-red-500 font-bold group-hover/breadcrumb:scale-110 transition-transform duration-500" aria-hidden="true">RAW://</span>
                    <span className="sr-only">You are here:</span>
                    <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
-                      {['SYSTEM', ...location.pathname.split('/').filter(x => x)].map((part, i, arr) => (
-                        <React.Fragment key={i}>
-                          <span className={i === arr.length - 1 ? 'text-editorial-text' : ''}>
-                            {part.toUpperCase().replace(/-/g, '_')}
+                      {['SYSTEM', ...location.pathname.split('/').filter(x => x)].map((raw, i, arr) => {
+                        /* ⚠️ A FILM'S ADDRESS IS NOT ITS NAME. The 116 film
+                           pages are /watch/yt-KCQaKmrl0XA, so the trail read
+                           "YT_KCQAKMRL0XA" — an id shown to a human. Where the
+                           segment is a film, the trail says what the film is
+                           called instead. */
+                        /* ⚠️ AN ADDRESS IS NOT A NAME. The 116 film pages are
+                           /watch/yt-KCQaKmrl0XA and every product is
+                           /product/29, so the trail read "YT_KCQAKMRL0XA" and
+                           "29" — raw ids shown to a human. Where a segment is a
+                           real thing, the trail says what that thing is called.
+                           This is also what let the 13 per-page breadcrumbs go:
+                           they existed because this one could not name anything. */
+                        const film = ARCHIVE.find((v) => v.id === raw);
+                        const product = arr[i - 1] === 'product'
+                          ? allProducts.find((pr) => String(pr.id) === raw)
+                          : null;
+                        const named = film?.title || product?.name;
+                        const part = named || raw.toUpperCase().replace(/-/g, '_');
+                        const last = i === arr.length - 1;
+                        /* ⚠️ THE TRAIL WAS A LABEL, NOT A TRAIL. Every segment
+                           was plain text, so the one thing a breadcrumb is for
+                           — stepping back up — did not work. The segments now
+                           link to their own level; "SYSTEM" is the home page,
+                           and the page you are on stays text, as it should. */
+                        const href = i === 0 ? '/' : '/' + arr.slice(1, i + 1).join('/');
+                        const label = (
+                          <span className={`${last ? 'text-editorial-text' : ''} ${named ? 'max-w-[32ch] truncate normal-case tracking-[0.2em]' : ''}`}>
+                            {part}
                           </span>
-                          {i < arr.length - 1 && <span className="opacity-20">/</span>}
+                        );
+                        return (
+                        <React.Fragment key={i}>
+                          {last
+                            ? <span aria-current="page">{label}</span>
+                            : <Link to={href} className="transition-colors hover:text-editorial-text">{label}</Link>}
+                          {!last && <span className="opacity-20">/</span>}
                         </React.Fragment>
-                      ))}
+                        );
+                      })}
                    </div>
                    <div className="flex-1 h-[1px] bg-white/[0.03]" aria-hidden="true" />
                 </nav>
