@@ -303,7 +303,7 @@ export default function VideoArchiveItem() {
                   value={find}
                   onChange={(e) => setFind(e.target.value)}
                   placeholder="Find a word in this film"
-                  className="w-full rounded-full border border-editorial-border bg-black/50 py-2.5 pl-10 pr-4 font-sans text-sm text-white placeholder:text-label-dim"
+                  className="w-full [&::-webkit-search-cancel-button]:appearance-none rounded-full border border-editorial-border bg-black/50 py-2.5 pl-10 pr-4 font-sans text-sm text-white placeholder:text-label-dim"
                 />
               </div>
 

@@ -207,7 +207,12 @@ export default function VideoArchive() {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search titles, descriptions and spoken words — try “recovery”, “Thailand”, “ice bath”"
-            className="w-full rounded-full border border-editorial-border bg-black/50 py-3.5 pl-11 pr-11 font-sans text-base text-white placeholder:text-label-dim"
+            /* ⚠️ TWO CLEAR BUTTONS. Chrome draws its own ✕ inside every
+               type="search" field, so beside the page's own clear control the
+               box showed a pair of them — one blue, one not. The native one is
+               removed rather than ours, because ours is the one with a label a
+               screen reader can read. */
+            className="w-full [&::-webkit-search-cancel-button]:appearance-none rounded-full border border-editorial-border bg-black/50 py-3.5 pl-11 pr-11 font-sans text-base text-white placeholder:text-label-dim"
           />
           {query && (
             <button
