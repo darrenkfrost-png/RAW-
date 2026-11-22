@@ -69,18 +69,22 @@ export default function SystemVisualizer() {
            className="absolute top-0 bottom-0 w-1/4 bg-gradient-to-r from-transparent via-white/5 to-transparent skew-x-[-20deg] z-10 pointer-events-none"
         />
 
-        <div className="flex justify-between items-start mb-20 relative z-10">
-          <div className="space-y-4">
-            <div className="flex items-center gap-6">
+        {/* ⚠️ TWO COLUMNS OF LONG UNBREAKABLE WORDS SIDE BY SIDE, IN A ROW
+            THAT COULD NOT WRAP. Measured: PROTOCOL_NEURAL_PULSE cut by 204px
+            at 375px and SYNC_COEFFICIENT by 138px at 768px. The row wraps now
+            and the words are allowed to break where they must. */}
+        <div className="flex flex-wrap justify-between items-start gap-6 mb-12 md:mb-20 relative z-10">
+          <div className="min-w-0 space-y-4">
+            <div className="flex items-center gap-3 sm:gap-6">
                 <div className="w-2.5 h-2.5 bg-red-600 rounded-full animate-pulse shadow-[0_0_15px_#dc2626]" />
-                <span className="text-meta-premium">Global_System_Heartbeat</span>
+                <span className="text-meta-premium [overflow-wrap:anywhere]">Global_System_Heartbeat</span>
             </div>
-            <h3 className="text-4xl text-premium">PROTOCOL_NEURAL_PULSE</h3>
+            <h3 className="text-2xl sm:text-3xl md:text-4xl text-premium [overflow-wrap:anywhere]">PROTOCOL_NEURAL_PULSE</h3>
           </div>
-          <div className="text-right space-y-4">
-            <span className="text-[0.6875rem] text-label-dim font-black uppercase block tracking-[0.4em]">SYNC_COEFFICIENT</span>
-            <div className="flex items-baseline gap-4 justify-end">
-                <span className="text-5xl font-mono font-black text-editorial-text tracking-tight drop-shadow-[0_0_20px_rgba(0,0,0,0.06)]">0.9998</span>
+          <div className="min-w-0 text-left sm:text-right space-y-4">
+            <span className="text-[0.6875rem] text-label-dim font-black uppercase block tracking-[0.2em] xl:tracking-[0.4em] [overflow-wrap:anywhere]">SYNC_COEFFICIENT</span>
+            <div className="flex flex-wrap items-baseline gap-4 sm:justify-end">
+                <span className="text-4xl sm:text-5xl font-mono font-black text-editorial-text tracking-tight drop-shadow-[0_0_20px_rgba(0,0,0,0.06)]">0.9998</span>
                 <span className="text-red-500 font-mono text-xs font-bold font-black tracking-widest">INDEX</span>
             </div>
           </div>

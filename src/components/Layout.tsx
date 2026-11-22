@@ -1,6 +1,7 @@
 import { Link, Outlet, useLocation } from "react-router-dom";
 import { ARCHIVE } from "../data/videoArchive";
 import { allProducts } from "../data/products";
+import { REAL_PATHS } from "../data/navigation";
 import React from "react";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
@@ -191,6 +192,13 @@ export default function Layout() {
                            link to their own level; "SYSTEM" is the home page,
                            and the page you are on stays text, as it should. */
                         const href = i === 0 ? '/' : '/' + arr.slice(1, i + 1).join('/');
+                        /* ⚠️ NOT EVERY LEVEL IS A PAGE. /product/29 and
+                           /target/fighters have no /product or /target route,
+                           so linking the middle segment sent people to "page
+                           not found" — on six pages, with nothing on screen
+                           to warn them. A level that is not a real address
+                           stays plain text. */
+                        const linkable = REAL_PATHS.has(href);
                         const label = (
                           <span className={`${last ? 'text-editorial-text' : ''} ${named ? 'max-w-[32ch] truncate normal-case tracking-[0.2em]' : ''}`}>
                             {part}
@@ -200,7 +208,9 @@ export default function Layout() {
                         <React.Fragment key={i}>
                           {last
                             ? <span aria-current="page">{label}</span>
-                            : <Link to={href} className="transition-colors hover:text-editorial-text">{label}</Link>}
+                            : linkable
+                              ? <Link to={href} className="transition-colors hover:text-editorial-text">{label}</Link>
+                              : <span>{label}</span>}
                           {!last && <span className="opacity-20">/</span>}
                         </React.Fragment>
                         );

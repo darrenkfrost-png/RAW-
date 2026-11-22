@@ -32,8 +32,7 @@ export function CommandProvider({ children }: { children: ReactNode }) {
     setIsWallpaperMode,
     setIsWallpaperSettingsOpen,
     setIsGlobalSettingsOpen,
-    isSidebarCollapsed,
-    setIsSidebarCollapsed,
+    toggleChrome,
     setIsShopIframeOpen
   } = useUI();
   const { setIsCartOpen } = useCart();
@@ -118,10 +117,12 @@ export function CommandProvider({ children }: { children: ReactNode }) {
       handler: () => setIsShopIframeOpen(true)
     },
     {
-      id: "toggle_sidebar",
-      label: "Toggle Sidebar",
+      /* The left rail is gone; this clears the top bar instead, which is what
+         the shortcut it shares (⌘B) now does. */
+      id: "toggle_top_bar",
+      label: "Hide or show the top bar",
       category: "System",
-      handler: () => setIsSidebarCollapsed(!isSidebarCollapsed)
+      handler: () => toggleChrome('header')
     },
     {
       id: "toggle_wallpaper",

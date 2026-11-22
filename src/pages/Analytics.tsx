@@ -75,7 +75,11 @@ export default function Analytics() {
         </div>
 
         {/* Top Cards */}
-        <div className="grid md:grid-cols-4 gap-8 xl:gap-10">
+        {/* ⚠️ MEASURED AT 768px: four columns left each label cut by up to
+            138px. These are long unbreakable machine words at 0.4em tracking —
+            the widest kind of text there is — so the grid goes two-up until
+            there is room for four, and the tracking steps up with it. */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-8 xl:gap-10">
           {[
             { title: "ACTIVE_SESSIONS", value: is110Percent ? "ERR_OVFL" : "2,481", icon: Users, sub: "+14.2%" },
             { title: "NETWORK_LOAD", value: is110Percent ? "999.9" : "124.5", icon: Network, sub: "STABLE" },
@@ -90,11 +94,11 @@ export default function Analytics() {
               className={`flex flex-col justify-between ${bgCardClass} group transition-all duration-700 ${is110Percent ? 'hover:shadow-[0_15px_40px_rgba(16,185,129,0.3)] hover:border-emerald-500/60 hover:-translate-y-1' : 'hover:border-red-500/30 hover:shadow-[0_30px_80px_rgba(220,38,38,0.1)] hover:-translate-y-1'}`}
             >
               <div className="flex justify-between items-start w-full relative z-10 mb-10">
-                <span className={`font-mono text-[0.6875rem] xl:text-[0.75rem] uppercase tracking-[0.4em] ${textSubClass} drop-shadow-[0_2px_4px_rgba(0,0,0,0.08)]`}>{card.title}</span>
+                <span className={`font-mono text-[0.6875rem] xl:text-[0.75rem] uppercase tracking-[0.2em] xl:tracking-[0.4em] [overflow-wrap:anywhere] ${textSubClass} drop-shadow-[0_2px_4px_rgba(0,0,0,0.08)]`}>{card.title}</span>
                 <card.icon className={`w-6 h-6 xl:w-8 xl:h-8 ${is110Percent ? 'text-emerald-500 group-hover:animate-spin drop-shadow-[0_0_8px_rgba(16,185,129,0.5)]' : 'text-label-dim group-hover:text-red-500 transition-colors duration-500'}`} />
               </div>
               <div className="relative z-10">
-                <div className={`text-5xl xl:text-7xl font-black tracking-tighter ${is110Percent ? 'text-emerald-500' : 'text-premium'} ${is110Percent && i === 2 ? 'animate-pulse drop-shadow-[0_0_15px_rgba(16,185,129,0.8)]' : ''}`}>{card.value}</div>
+                <div className={`text-4xl sm:text-5xl xl:text-7xl font-black tracking-tighter [overflow-wrap:anywhere] ${is110Percent ? 'text-emerald-500' : 'text-premium'} ${is110Percent && i === 2 ? 'animate-pulse drop-shadow-[0_0_15px_rgba(16,185,129,0.8)]' : ''}`}>{card.value}</div>
                 <div className={`text-[0.6875rem] font-bold mt-2 tracking-[0.3em] font-mono ${is110Percent ? 'text-emerald-400' : 'text-meta-premium'}`}>{card.sub}</div>
               </div>
               
@@ -109,8 +113,8 @@ export default function Analytics() {
         <section className={`p-10 lg:p-16 ${bgCardClass} relative overflow-hidden group`}>
             <div className="flex items-center justify-between mb-16 relative z-10">
                 <div>
-                    <h3 className={`font-sans font-black text-4xl uppercase tracking-tight ${is110Percent ? 'text-emerald-500' : 'text-white'}`}>Matrix_Allocation</h3>
-                    <p className={`font-mono text-[0.6875rem] uppercase tracking-[0.4em] ${textSubClass}`}>Real-time Node Distribution</p>
+                    <h3 className={`font-sans font-black text-2xl sm:text-4xl uppercase tracking-tight [overflow-wrap:anywhere] ${is110Percent ? 'text-emerald-500' : 'text-white'}`}>Matrix_Allocation</h3>
+                    <p className={`font-mono text-[0.6875rem] uppercase tracking-[0.2em] sm:tracking-[0.4em] [overflow-wrap:anywhere] ${textSubClass}`}>Real-time Node Distribution</p>
                 </div>
                 <div className="flex gap-4">
                     <div className="flex items-center gap-2">
@@ -242,7 +246,7 @@ export default function Analytics() {
         <div className="pt-32">
            <div className="flex flex-col items-center mb-32">
               <span className="text-red-500 font-mono text-[0.75rem] font-black tracking-[0.3em] sm:tracking-[0.8em] [overflow-wrap:anywhere] mb-8 uppercase">EVOLUTIONARY_LOGS</span>
-              <h2 className="font-black text-editorial-text uppercase tracking-tighter text-center text-display-md">THE_RAW_PROTOCOL <br/><span className="text-transparent bg-clip-text bg-gradient-to-r from-red-600 to-red-900">TIMELINE</span></h2>
+              <h2 className="font-black text-editorial-text uppercase tracking-tighter text-center text-display-md [overflow-wrap:anywhere]">THE_RAW_PROTOCOL <br/><span className="text-transparent bg-clip-text bg-gradient-to-r from-red-600 to-red-900">TIMELINE</span></h2>
            </div>
            <NeuralTimeline />
         </div>

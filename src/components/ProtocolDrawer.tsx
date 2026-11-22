@@ -1,5 +1,6 @@
 import { useState, useMemo, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
+import { Link } from 'react-router-dom';
 import { useProtocol } from '../context/ProtocolContext';
 import { Layers, X, Trash2, ArrowRight, Zap, Copy, Crosshair, AlertTriangle } from 'lucide-react';
 import { getHighResImageUrl } from '../lib/utils';
@@ -9,9 +10,12 @@ import { useToast } from './common/Toast';
 
 export default function ProtocolDrawer() {
   const { protocolItems, removeFromProtocol, clearProtocol } = useProtocol();
-  const [isOpen, setIsOpen] = useState(false);
   const [showAnalysis, setShowAnalysis] = useState(false);
-  const { chromeHidden, setIsShopIframeOpen } = useUI();
+  /* ⚠️ THE DRAWER IS OPENED FROM THE TOP BAR, SO THE SHARED STATE IS THE
+     SOURCE OF TRUTH. It used to be local to this component and the only
+     control that could set it was the floating badge below — which is hidden
+     on a first visit, so a stack could be gathered with no way to open it. */
+  const { isProtocolOpen: isOpen, setIsProtocolOpen: setIsOpen, setIsShopIframeOpen } = useUI();
   const { addToast } = useToast();
   const { items: cartItems, addToCart, setIsCartOpen } = useCart();
   const closeButtonRef = useRef<HTMLButtonElement>(null);
@@ -95,37 +99,14 @@ export default function ProtocolDrawer() {
 
   return (
     <>
-      {/* Floating Toggle Button — the red MY_PROTOCOL chip, bottom right.
-          It is furniture like the rest and hides with it. The DRAWER itself is
-          untouched: hiding the chip must not strip a visitor of a stack they
-          have already built, only of the badge advertising it. */}
-      <AnimatePresence>
-        {!isOpen && !chromeHidden.includes('protocolChip') && (
-          <motion.button
-            initial={{ opacity: 0, y: 50, scale: 0.9 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 50, scale: 0.9 }}
-            onClick={() => setIsOpen(true)}
-            aria-label={`Open my protocol stack, ${protocolItems.length} ${protocolItems.length === 1 ? 'item' : 'items'}`}
-            /* Slot 2 of the corner dock (.raw-dock-stack, src/index.css).
-               On a phone the label is dropped and the chip becomes a 44px
-               square so it cannot overlap the other corner controls. */
-            className="raw-dock-stack fixed z-50 bg-editorial-bg/90 backdrop-blur-xl border-l-[3px] border-red-600 border-y border-r border-editorial-border-light p-3 sm:px-6 sm:py-4 min-h-11 min-w-11 rounded-[1.25rem] sm:rounded-[2rem] flex items-center justify-center gap-0 sm:gap-4 shadow-[0_20px_50px_rgba(0,0,0,0.15)] group hover:bg-editorial-bg transition-all duration-[600ms]"
-          >
-            <div className="absolute inset-0 bg-gradient-to-r from-red-600/10 to-transparent pointer-events-none mix-blend-screen opacity-0 group-hover:opacity-100 transition-opacity" />
-            <div className="relative">
-              <Layers className="w-6 h-6 text-red-500 group-hover:animate-pulse" />
-              <div className="absolute -top-2 -right-2 w-5 h-5 bg-red-600 rounded-full flex items-center justify-center font-mono text-[0.6875rem] font-black text-white outline outline-4 outline-[#020202]">
-                {protocolItems.length}
-              </div>
-            </div>
-            <div className="hidden sm:flex flex-col text-left">
-              <span className="font-mono text-[0.6875rem] text-editorial-text-muted uppercase tracking-widest font-bold">Active Stack</span>
-              <span className="font-sans font-black text-sm text-editorial-text uppercase tracking-tight">MY_PROTOCOL</span>
-            </div>
-          </motion.button>
-        )}
-      </AnimatePresence>
+      {/* ⚠️ THE FLOATING BADGE IS GONE — THE STACK OPENS FROM THE TOP BAR.
+          A red MY_PROTOCOL pill used to sit in the bottom-right corner and was
+          the ONLY control on the site that could open this drawer. It is hidden
+          on a first visit (DEFAULT_HIDDEN, src/context/UIContext.tsx), so a
+          first-time visitor could add products to a stack and then find nothing
+          anywhere that would show it to them. It is now a named button with a
+          count in the top bar, beside the basket, at every width. Nothing was
+          taken away: the drawer and every stack in it are untouched. */}
 
       {/* Drawer */}
       <AnimatePresence>
@@ -141,17 +122,25 @@ export default function ProtocolDrawer() {
             className="fixed inset-y-0 right-0 z-[110] w-full md:w-[450px] bg-editorial-bg/95 backdrop-blur-3xl border-l border-editorial-border flex flex-col shadow-[-30px_0_100px_rgba(0,0,0,0.15)]"
           >
              {/* Header */}
-            <div className="p-8 border-b border-editorial-border relative overflow-hidden shrink-0">
+            {/* ⚠️ MEASURED AT 375px: THE CLOSE BUTTON WAS OFF THE SCREEN.
+                Its right edge sat at 409px inside a 375px drawer, and so did
+                Clear. The title beside it is one unbreakable 3xl word, and a
+                flex item defaults to min-width:auto — so it refused to shrink
+                and pushed the only visible way out of the drawer past the
+                edge of the phone. Escape still worked, which is exactly the
+                kind of "it works" that nobody can see. min-w-0 on the text,
+                shrink-0 on the button. */}
+            <div className="p-6 sm:p-8 border-b border-editorial-border relative overflow-hidden shrink-0">
                <div className="absolute inset-x-0 bottom-0 h-[1px] bg-gradient-to-r from-transparent via-red-600/50 to-transparent shadow-[0_0_15px_#dc2626]" />
-               <div className="flex justify-between items-start mb-6 relative z-10">
-                 <div>
+               <div className="flex justify-between items-start gap-3 mb-6 relative z-10">
+                 <div className="min-w-0">
                    <div className="flex items-center gap-2 mb-2 block">
                      <div className="w-2 h-2 bg-red-600 rounded-full animate-ping opacity-70 shadow-[0_0_8px_#dc2626]" />
                      <span className="text-[0.6875rem] font-black tracking-[0.4em] text-red-500 uppercase">OUTPUT_SUPPORT_QUEUE</span>
                    </div>
-                   <h2 id="protocol-drawer-title" className="text-3xl font-sans font-black text-editorial-text uppercase tracking-tighter drop-shadow-[0_2px_4px_rgba(0,0,0,0.1)]">MY_PROTOCOL_STACK</h2>
+                   <h2 id="protocol-drawer-title" className="text-2xl sm:text-3xl font-sans font-black text-editorial-text uppercase tracking-tighter [overflow-wrap:anywhere] drop-shadow-[0_2px_4px_rgba(0,0,0,0.1)]">MY_PROTOCOL_STACK</h2>
                  </div>
-                 <button ref={closeButtonRef} onClick={() => setIsOpen(false)} aria-label="Close Protocol Stack" className="p-3 bg-editorial-bg rounded-xl hover:bg-red-950/30 text-editorial-text-muted hover:text-red-500 transition-colors border border-editorial-border hover:border-red-500/50 group">
+                 <button ref={closeButtonRef} onClick={() => setIsOpen(false)} aria-label="Close Protocol Stack" className="shrink-0 inline-flex min-h-11 min-w-11 items-center justify-center p-3 bg-editorial-bg rounded-xl hover:bg-red-950/30 text-editorial-text-muted hover:text-red-500 transition-colors border border-editorial-border hover:border-red-500/50 group">
                     <X className="w-5 h-5 group-hover:scale-110 transition-transform" />
                  </button>
                </div>
@@ -228,12 +217,35 @@ export default function ProtocolDrawer() {
                   )}
                </AnimatePresence>
 
-               <div className="p-8 space-y-4">
+               <div className="p-6 sm:p-8 space-y-4">
                  <span className="font-mono text-[0.6875rem] text-editorial-text-muted uppercase tracking-[0.3em] font-bold flex justify-between mb-4">
                    <span>ACTIVE_SELECTIONS</span>
                    <span>TOTAL: {protocolItems.length} UNITS</span>
                  </span>
               
+               {/* ⚠️ AN EMPTY STACK SAID NOTHING. Opening it fresh gave a
+                   heading, "TOTAL: 0 UNITS" and then a blank panel, which
+                   reads as something failing to load rather than as an empty
+                   list. Now it says what a stack is and where to get one. */}
+               {protocolItems.length === 0 && (
+                 <div className="rounded-2xl border border-dashed border-editorial-border px-5 py-10 text-center">
+                   <p className="font-sans text-sm font-bold uppercase tracking-tight text-editorial-text">
+                     Your stack is empty
+                   </p>
+                   <p className="mx-auto mt-3 max-w-[32ch] font-mono text-[0.6875rem] uppercase leading-relaxed tracking-[0.12em] text-editorial-text-meta/70">
+                     A stack is your own shortlist. Add products from the shop, or start from one that is already put together.
+                   </p>
+                   <div className="mt-6 flex flex-wrap justify-center gap-3">
+                     <Link to="/shop" onClick={() => setIsOpen(false)} className="inline-flex min-h-11 items-center rounded-lg border border-editorial-border-light bg-editorial-text/5 px-5 font-mono text-[0.6875rem] font-bold uppercase tracking-widest text-editorial-text-muted transition-colors hover:border-red-500/40 hover:text-editorial-text">
+                       Browse the shop
+                     </Link>
+                     <Link to="/protocol-stacks" onClick={() => setIsOpen(false)} className="inline-flex min-h-11 items-center rounded-lg border border-editorial-border-light bg-editorial-text/5 px-5 font-mono text-[0.6875rem] font-bold uppercase tracking-widest text-editorial-text-muted transition-colors hover:border-red-500/40 hover:text-editorial-text">
+                       Ready-made stacks
+                     </Link>
+                   </div>
+                 </div>
+               )}
+
                <AnimatePresence>
                  {protocolItems.map((item, idx) => (
                    <motion.div

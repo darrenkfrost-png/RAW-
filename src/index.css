@@ -58,14 +58,17 @@
   --color-label-dim: #8a8a93;
 
   /* Premium Layout Token System */
-  --header-height: 100px;
-  --header-height-mobile: 80px;
+  /* ⚠️ THE TOP BAR IS TWO TIERS BELOW 1400px AND ONE ABOVE IT, AND THESE
+     NUMBERS ARE WHAT THE PAGE PADS ITSELF BY. Tier one is the mark and the
+     actions (3.5rem of content); tier two is the row of named destinations
+     (a 2.75rem button plus its gap), which is only hidden once the row fits
+     on tier one. Change the bar and change these together, or the page either
+     starts under the bar or leaves a band of nothing below it.
+     The sidebar widths that used to live here are gone with the left rail —
+     every destination it held is a named button in the bar now. */
+  --header-height: 116px;
+  --header-height-mobile: 112px;
   --header-current-height: var(--header-height-mobile);
-  --sidebar-width: 280px;
-  /* 84px held an icon and nothing else. 104px holds the icon and the word
-     under it at the 11px floor, so the rail explains itself. */
-  --sidebar-collapsed-width: 104px;
-  --sidebar-current-width: var(--sidebar-collapsed-width);
   --layout-transition-duration: 700ms;
   --layout-transition-ease: cubic-bezier(0.16, 1, 0.3, 1);
   
@@ -82,7 +85,6 @@
   --z-atmosphere: 5;
   --z-content: 10;
   --z-voice-feedback: 50;
-  --z-sidebar: 80;
   --z-header: 100;
   --z-voice-hub: 150;
   --z-overlay: 200;
@@ -275,6 +277,14 @@
 @media (min-width: 768px) {
   :root {
     --header-current-height: var(--header-height);
+  }
+}
+
+/* From 1400px the named destinations fit on the same line as the mark, so the
+   second tier is not rendered and the bar is one row tall. */
+@media (min-width: 1400px) {
+  :root {
+    --header-current-height: 84px;
   }
 }
 
@@ -759,54 +769,26 @@ body.motion-enhanced .group:hover {
 }
 
 /* ─────────────────────────────────────────────────────────────────────────
-   THE CORNER DOCK — one shelf, three slots, nothing on top of anything.
+   THE CORNER DOCK — RETIRED 2026-11-22, AND WORTH READING BEFORE YOU ADD A
+   FLOATING CONTROL, BECAUSE THE LESSON IS WHY IT EXISTED.
 
    ⚠️ MEASURED ON AN iPHONE-WIDTH VIEWPORT: five overlapping pairs among the
    floating controls. Three independent components had each been told to sit
-   in the bottom-right corner and none of them knew about the others:
+   in the bottom-right corner and none of them knew about the others —
+   SystemDiagnosticsPanel, the ProtocolDrawer's MY_PROTOCOL chip and
+   AICommandHalo. On a desktop the corner absorbs that; on a 375px screen the
+   MY_PROTOCOL pill alone is ~200px wide, so it sat across the advisor button
+   and under the diagnostics pill, overlapped by 139x36px of it.
 
-       SystemDiagnosticsPanel   bottom 3.2rem  right 1.24rem   (DIAG_UPTIME)
-       ProtocolDrawer chip      bottom 1.5rem  right 1.5rem    (MY_PROTOCOL)
-       AICommandHalo            bottom 2rem    right 2rem      (advisor + mic)
+   The three slot classes are gone because all three controls are: the AI and
+   diagnostics panels were removed with those features, and the stack chip was
+   folded into the top bar (it was the only way to open the stack drawer, and
+   it is hidden on a first visit — so a stack could be gathered with nothing
+   anywhere that would open it). The only floating control left is the display
+   dock, bottom-LEFT.
 
-   On a desktop the corner is big enough to absorb that. On a 375px screen
-   the MY_PROTOCOL pill alone is ~200px wide, so it sat across the advisor
-   button and under the diagnostics pill — MY_PROTOCOL was overlapped by
-   139x36px of DIAG_UPTIME, and the cart took another 56x63px out of it.
-
-   The slots below are a single ladder up the right edge. Heights are fixed
-   and deliberate: the advisor column is ~100px tall, so slot 2 starts above
-   that, and slot 3 above slot 2. On phones the two pills also drop their
-   text (see the markup) and become 44px squares, which keeps the ladder
-   narrow enough that the centred voice panel no longer reaches it.
-
-   ⚠️ IF YOU ADD A FOURTH FLOATING CONTROL, GIVE IT A SLOT HERE. Do not
-   anchor it to the corner independently — that is precisely how this
-   happened.                                                                */
-
-.raw-dock-ai    { bottom: 2rem;    right: 2rem; }
-.raw-dock-stack { bottom: 1.5rem;  right: 1.5rem; }
-.raw-dock-diag  { bottom: 1.2rem;  right: 1.24rem; }
-.raw-dock-diag--raised { bottom: 3.2rem; }
-
-@media (max-width: 767px) {
-  /* Slot 1 — the advisor column sits on the floor, clear of the home indicator. */
-  .raw-dock-ai {
-    bottom: calc(1rem + env(safe-area-inset-bottom));
-    right: max(1rem, env(safe-area-inset-right));
-  }
-  /* Slot 2 — above the advisor column (56px button + 12px gap + 32px mic). */
-  .raw-dock-stack {
-    bottom: calc(8.5rem + env(safe-area-inset-bottom));
-    right: max(1rem, env(safe-area-inset-right));
-  }
-  /* Slot 3 — above the stack chip. */
-  .raw-dock-diag,
-  .raw-dock-diag--raised {
-    bottom: calc(12.5rem + env(safe-area-inset-bottom));
-    right: max(1rem, env(safe-area-inset-right));
-  }
-}
+   ⚠️ IF YOU ADD A FLOATING CONTROL, DO NOT ANCHOR IT TO A CORNER
+   INDEPENDENTLY. Give the corner a ladder again, the way this did.           */
 
 /* THE MARQUEE THAT NEVER MOVED. Home used animate-[marquee_40s_linear_infinite]
    for a strip that no @keyframes ever defined, so it sat still. The strip holds

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { PanelTop, PanelLeft, PanelBottom, Layers, Eye, EyeOff, X } from "lucide-react";
+import { PanelTop, PanelBottom, Eye, EyeOff, X } from "lucide-react";
 import { useUI, CHROME_PARTS, type ChromePart } from "../context/UIContext";
 
 /**
@@ -12,11 +12,12 @@ import { useUI, CHROME_PARTS, type ChromePart } from "../context/UIContext";
  *    own panel and nothing else, so if the only way back were the panel you
  *    just hid, full-screen mode would be a trap.
  *
- * 2. A PHONE MUST BE ABLE TO DO EVERYTHING A DESKTOP CAN. The hide controls in
- *    the header are `hidden lg:block` — invisible below 1024px — so a phone
- *    could never hide anything at all. The panel here therefore HIDES as well
- *    as restores: one control, reachable at any width, that owns the whole
- *    interface.
+ * 2. A PHONE MUST BE ABLE TO DO EVERYTHING A DESKTOP CAN. The hide controls
+ *    used to be `hidden lg:block` in the header — invisible below 1024px — so
+ *    a phone could never hide anything at all. The panel here therefore HIDES
+ *    as well as restores: one control, reachable at any width, that owns the
+ *    whole interface. (The top bar's own hide control now lives in the
+ *    Everything directory, which is reachable at every width too.)
  *
  * It is deliberately the RAW logo rather than a generic chevron: on a screen
  * stripped of its furniture, the one remaining control should still say whose
@@ -27,11 +28,11 @@ import { useUI, CHROME_PARTS, type ChromePart } from "../context/UIContext";
  * would be desktop-only — the exact failure this component exists to prevent.
  */
 
+/* The side bar and the stack badge used to be listed here. Both were folded
+   into the top bar, so there is nothing left to show or hide for either. */
 const LABELS: Record<ChromePart, { label: string; icon: typeof PanelTop }> = {
   header: { label: "Top bar", icon: PanelTop },
-  sidebar: { label: "Side bar", icon: PanelLeft },
   statusBar: { label: "Status bar", icon: PanelBottom },
-  protocolChip: { label: "Stack badge", icon: Layers },
 };
 
 export default function ChromeRestore() {
@@ -72,21 +73,16 @@ export default function ChromeRestore() {
          is left to the tap-toggle on the mark below. */
       onPointerEnter={(e) => { if (e.pointerType !== "touch") setOpen(true); }}
       onPointerLeave={(e) => { if (e.pointerType !== "touch") setOpen(false); }}
-      /* Bottom-left: clear of the cart and the stack badge, both of which live
-         bottom-right. Inset uses safe-area so it clears the home indicator on a
-         phone. */
-      /* ⚠️ THE RAIL ONLY EXISTS AT md AND UP. Offsetting by the sidebar
-         variable at every width would push the dock 104px into the middle of a
-         phone screen, so the offset is applied only where the rail is. */
-      className="fixed z-[1150] flex flex-col items-start gap-2 left-[max(1rem,env(safe-area-inset-left))] md:left-[calc(var(--sidebar-current-width,0px)+1rem)]"
-      /* ⚠️ THE DOCK WAS SITTING ON TOP OF THE PAGE. At bottom/left 1rem it
-         overlapped the filter row on a phone and the bottom of the side rail
-         on a desktop — a floating control covering the content it is meant to
-         serve. It now clears both: it starts after the side rail where there
-         is one (the same variable the header and the page body use, so it
-         follows the rail when it collapses or hides), and it sits above the
-         status bar rather than on it. When the status bar is hidden the dock
-         drops back down to the corner, because then there is nothing there. */
+      /* Bottom-left, clear of the page's own content. Inset uses safe-area
+         so it clears the home indicator on a phone. */
+      /* The left rail it used to sit beside is gone, so the dock simply hugs
+         the corner, inside the safe area on a phone. */
+      className="fixed z-[1150] flex flex-col items-start gap-2 left-[max(1rem,env(safe-area-inset-left))]"
+      /* ⚠️ THE DOCK WAS SITTING ON TOP OF THE PAGE. At bottom 1rem it
+         overlapped the filter row on a phone — a floating control covering the
+         content it is meant to serve. It sits above the status bar now rather
+         than on it, and drops back to the corner when that bar is hidden,
+         because then there is nothing there to clear. */
       style={{
         bottom: chromeHidden.includes("statusBar")
           ? "max(1rem, env(safe-area-inset-bottom))"

@@ -9,7 +9,15 @@ const resolvedDirname = typeof __dirname !== 'undefined' ? __dirname : path.dirn
 
 async function startServer() {
   const app = express();
-  const PORT = 3000;
+  /* ⚠️ THE PORT WAS HARDCODED, AND THAT MADE THE PRODUCTION GATE UNRUNNABLE
+     LOCALLY. Two of its fourteen checks — that a missing /assets file 404s,
+     and that /api/* does not fall through — only hold on this server, because
+     they live in public/.htaccess; `vite preview` cannot answer them, so the
+     gate could only be run in full against the deployed site, which is after
+     a push. A browser also caches a service worker per port, so reusing 3000
+     serves yesterday's bundle. Reading PORT costs nothing and still defaults
+     to the 3000 the host expects. */
+  const PORT = Number(process.env.PORT) || 3000;
 
   app.use(express.json({ limit: '10mb' }));
 

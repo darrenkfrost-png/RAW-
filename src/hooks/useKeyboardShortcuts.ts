@@ -2,8 +2,8 @@ import { useEffect } from 'react';
 import { useUI } from '../context/UIContext';
 
 export function useKeyboardShortcuts() {
-  const { 
-    setIsSidebarCollapsed, isSidebarCollapsed,
+  const {
+    toggleChrome,
     setIsSearchOpen, isSearchOpen,
     setIsCommandPaletteOpen, isCommandPaletteOpen,
     setIsDiscoveryOpen, isDiscoveryOpen,
@@ -18,10 +18,13 @@ export function useKeyboardShortcuts() {
         setIsGlobalSettingsOpen(!isGlobalSettingsOpen);
       }
 
-      // Toggle Sidebar: Meta+B or Ctrl+B
+      /* ⌘B used to collapse the left rail. The rail is gone — its
+         destinations are named buttons in the top bar — so the same key now
+         puts the top bar away and brings it back, which is the nearest thing
+         it did: clear the furniture to read. */
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'b') {
         e.preventDefault();
-        setIsSidebarCollapsed(!isSidebarCollapsed);
+        toggleChrome('header');
       }
       
       // Toggle Search: / or Meta+K
@@ -48,7 +51,7 @@ export function useKeyboardShortcuts() {
     window.addEventListener('keydown', handleKeydown);
     return () => window.removeEventListener('keydown', handleKeydown);
   }, [
-    isSidebarCollapsed, setIsSidebarCollapsed, 
+    toggleChrome,
     isSearchOpen, setIsSearchOpen, 
     isCommandPaletteOpen, setIsCommandPaletteOpen, 
     isDiscoveryOpen, setIsDiscoveryOpen,

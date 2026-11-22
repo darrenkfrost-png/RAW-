@@ -1,14 +1,16 @@
 import React, { createContext, useContext, useState, useEffect, useMemo, useCallback } from "react";
 
-export type ChromePart = 'header' | 'sidebar' | 'statusBar' | 'protocolChip';
+export type ChromePart = 'header' | 'statusBar';
 
-// voiceHub, aiHub, diagnostics and hudFrame were removed with the AI and diagnostics
-// features; a saved list that still names them is filtered against this array on load.
-export const CHROME_PARTS: ChromePart[] = ['header', 'sidebar', 'statusBar', 'protocolChip'];
+/* voiceHub, aiHub, diagnostics and hudFrame were removed with the AI and
+   diagnostics features, and 'sidebar' and 'protocolChip' went when the left
+   rail and the floating stack badge were folded into the top bar. A saved list
+   that still names any of them is filtered against this array on load, so
+   nobody's stored choice breaks. */
+export const CHROME_PARTS: ChromePart[] = ['header', 'statusBar'];
 
 /**
- * What a first-time visitor sees: the header and the sidebar, and nothing
- * else.
+ * What a first-time visitor sees: the top bar, and nothing else.
  *
  * Everything in CHROME_PARTS that is NOT listed here is on at load. The list
  * is written as "everything except" rather than spelled out, so a panel added
@@ -20,7 +22,7 @@ export const CHROME_PARTS: ChromePart[] = ['header', 'sidebar', 'statusBar', 'pr
  * been saved.
  */
 export const DEFAULT_HIDDEN: ChromePart[] = CHROME_PARTS.filter(
-  (p) => p !== 'header' && p !== 'sidebar',
+  (p) => p !== 'header',
 );
 
 interface UIContextType {
@@ -42,20 +44,25 @@ interface UIContextType {
   setIsWallpaperSettingsOpen: (open: boolean) => void;
   isGlobalSettingsOpen: boolean;
   setIsGlobalSettingsOpen: (open: boolean) => void;
-  isSidebarCollapsed: boolean;
   /** Which pieces of the app's furniture are put away. See ChromeRestore. */
   chromeHidden: ChromePart[];
   toggleChrome: (part: ChromePart) => void;
   setChromeHidden: (parts: ChromePart[]) => void;
   enterFocusMode: () => void;
   restoreChrome: () => void;
-  setIsSidebarCollapsed: (collapsed: boolean) => void;
   isSearchOpen: boolean;
   setIsSearchOpen: (open: boolean) => void;
   isCommandPaletteOpen: boolean;
   setIsCommandPaletteOpen: (open: boolean) => void;
   isDiscoveryOpen: boolean;
   setIsDiscoveryOpen: (open: boolean) => void;
+  /** ⚠️ THE STACK DRAWER IS OPENED FROM THE TOP BAR, SO ITS STATE LIVES HERE.
+      It used to be private to ProtocolDrawer and opened only by the floating
+      badge beside it — and that badge was hidden by default, so a first-time
+      visitor could add products to a stack and then had no control anywhere on
+      the site that would open it. */
+  isProtocolOpen: boolean;
+  setIsProtocolOpen: (open: boolean) => void;
   focusedProduct: any | null;
   setFocusedProduct: (product: any | null) => void;
   initialAction: 'SCAN' | 'DEEP_DIVE' | 'VISUAL_ANALYSIS' | null;
@@ -107,8 +114,8 @@ export function UIProvider({ children }: { children: React.ReactNode }) {
       /* ⚠️ THE ABSENCE OF A SAVED CHOICE IS NOT AN EMPTY CHOICE.
          `saved ? … : []` treated a first-time visitor as someone who had
          asked for every panel, so the site opened wearing all eight at once.
-         A first visit now gets DEFAULT_HIDDEN — the header and the sidebar,
-         and nothing else — and only a real saved value overrides it. */
+         A first visit now gets DEFAULT_HIDDEN — the top bar, and nothing
+         else — and only a real saved value overrides it. */
       if (saved === null) return [...DEFAULT_HIDDEN];
       const parsed = JSON.parse(saved);
       return Array.isArray(parsed) ? parsed.filter((p: string) => CHROME_PARTS.includes(p as ChromePart)) : [...DEFAULT_HIDDEN];
@@ -131,15 +138,6 @@ export function UIProvider({ children }: { children: React.ReactNode }) {
   const enterFocusMode = useCallback(() => persistChrome([...CHROME_PARTS]), [persistChrome]);
   const restoreChrome = useCallback(() => persistChrome([]), [persistChrome]);
 
-  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState<boolean>(() => {
-    try {
-      const saved = localStorage.getItem("raw_sidebar_collapsed");
-      return saved !== null ? saved === "true" : true;
-    } catch (e) {
-      return true;
-    }
-  });
-  
   const [isWallpaperMode, setIsWallpaperMode] = useState(false);
   const [isShopIframeOpen, setIsShopIframeOpen] = useState(false);
   const [is110Percent, setIs110Percent] = useState(false);
@@ -148,6 +146,7 @@ export function UIProvider({ children }: { children: React.ReactNode }) {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
   const [isDiscoveryOpen, setIsDiscoveryOpen] = useState(false);
+  const [isProtocolOpen, setIsProtocolOpen] = useState(false);
   const [focusedProduct, setFocusedProduct] = useState<any | null>(null);
   const [initialAction, setInitialAction] = useState<'SCAN' | 'DEEP_DIVE' | 'VISUAL_ANALYSIS' | null>(null);
   const [activeReaderItem, setActiveReaderItem] = useState<any | null>(null);
@@ -190,15 +189,6 @@ export function UIProvider({ children }: { children: React.ReactNode }) {
     }
   }, []);
 
-  const updateSidebarCollapsed = useCallback((collapsed: boolean) => {
-    setIsSidebarCollapsed(collapsed);
-    try {
-      localStorage.setItem("raw_sidebar_collapsed", collapsed.toString());
-    } catch (e) {
-      console.warn("Storage access denied:", e);
-    }
-  }, []);
-
   const setIntroCompletedWrapper = useCallback((completed: boolean) => {
     setHasCompletedIntro(completed);
     try {
@@ -227,26 +217,26 @@ export function UIProvider({ children }: { children: React.ReactNode }) {
     setIsWallpaperSettingsOpen,
     isGlobalSettingsOpen,
     setIsGlobalSettingsOpen,
-    isSidebarCollapsed,
     chromeHidden,
     toggleChrome,
     setChromeHidden: persistChrome,
     enterFocusMode,
     restoreChrome,
-    setIsSidebarCollapsed: updateSidebarCollapsed,
     isSearchOpen,
     setIsSearchOpen,
     isCommandPaletteOpen,
     setIsCommandPaletteOpen,
     isDiscoveryOpen,
     setIsDiscoveryOpen,
+    isProtocolOpen,
+    setIsProtocolOpen,
     focusedProduct,
     setFocusedProduct,
     initialAction,
     setInitialAction,
     activeReaderItem,
     setActiveReaderItem,
-  }), [chromeHidden, toggleChrome, persistChrome, enterFocusMode, restoreChrome, uiScale, isStatusBarVisible, hasCompletedIntro, visualFidelity, isWallpaperMode, isShopIframeOpen, is110Percent, isWallpaperSettingsOpen, isGlobalSettingsOpen, isSidebarCollapsed, isSearchOpen, isCommandPaletteOpen, focusedProduct, initialAction, activeReaderItem, isDiscoveryOpen, updateScale, updateStatusBarVisible, setIntroCompletedWrapper, updateVisualFidelity, updateSidebarCollapsed]);
+  }), [chromeHidden, toggleChrome, persistChrome, enterFocusMode, restoreChrome, uiScale, isStatusBarVisible, hasCompletedIntro, visualFidelity, isWallpaperMode, isShopIframeOpen, is110Percent, isWallpaperSettingsOpen, isGlobalSettingsOpen, isSearchOpen, isCommandPaletteOpen, focusedProduct, initialAction, activeReaderItem, isDiscoveryOpen, isProtocolOpen, updateScale, updateStatusBarVisible, setIntroCompletedWrapper, updateVisualFidelity]);
 
   return (
     <UIContext.Provider value={value}>

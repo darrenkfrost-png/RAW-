@@ -21,7 +21,7 @@ export default function DiscoveryHub({ isOpen, onClose }: DiscoveryHubProps) {
       title: "System Navigation & Overlays",
       icon: Layout,
       items: [
-        { keys: ["⌘", "B"], label: "Toggle Navigation Sidebar" },
+        { keys: ["⌘", "B"], label: "Hide or show the top bar" },
         { keys: ["⌘", "P"], label: "Open the command palette" },
         { keys: ["/"], label: "Toggle Inventory Search Mode" },
         { keys: ["⌘", "J"], label: "Toggle System Discovery Hub" },

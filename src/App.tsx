@@ -1,7 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import { useState, useEffect, lazy, Suspense } from "react";
 import Layout from "./components/Layout";
-import Sidebar from "./components/Sidebar";
 import PageLoader from "./components/PageLoader";
 
 const Home = lazy(() => import("./pages/Home"));
@@ -57,9 +56,7 @@ import { useUI } from "./context/UIContext";
 import { useKeyboardShortcuts } from "./hooks/useKeyboardShortcuts";
 
 function AppContent() {
-  const { 
-    chromeHidden,
-    isSidebarCollapsed, 
+  const {
     isCommandPaletteOpen, setIsCommandPaletteOpen,
     isDiscoveryOpen, setIsDiscoveryOpen
   } = useUI();
@@ -77,19 +74,12 @@ function AppContent() {
       <IntroScreen />
       <ScrollToTop />
       
-      <Sidebar />
-
-      {/* Application Layout Shell Orchestrated via padding injection */}
-      <div 
-         id="app-shell"
-         className="min-h-svh transition-all duration-[var(--layout-transition-duration)] ease-[var(--layout-transition-ease)] flex flex-col relative md:pl-[var(--sidebar-current-width)] w-full will-change-[padding-left]"
-         style={{
-           // A hidden sidebar reserves nothing; a collapsed one still reserves its rail.
-           "--sidebar-current-width": chromeHidden.includes('sidebar')
-             ? '0px'
-             : `var(${isSidebarCollapsed ? '--sidebar-collapsed-width' : '--sidebar-width'})`
-         } as React.CSSProperties}
-      >
+      {/* ⚠️ THE LEFT RAIL IS GONE, AND SO IS THE SHELL'S OFFSET. Every
+          destination it held is now a named button in the top bar
+          (src/data/navigation.ts). The shell used to carry a left padding of
+          104px — the collapsed rail's width — at every width above 768px, for
+          a strip of eight unlabelled glyphs. The page is simply the page now. */}
+      <div id="app-shell" className="relative flex min-h-svh w-full flex-col">
         <Suspense fallback={
           <div className="fixed inset-0 z-[9999] bg-black flex items-center justify-center overflow-hidden">
             <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_0%,_rgba(220,38,38,0.1),transparent_70%)] opacity-80" />

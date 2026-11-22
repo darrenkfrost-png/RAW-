@@ -650,9 +650,16 @@ export default function ProductDetail() {
                        addToCart(product, quantity);
                        addToProtocol(product);
                     }}
-                    className="w-full xl:w-auto xl:flex-1 h-[100px] bg-red-600 border-b-[6px] border-red-900 hover:border-white text-white font-black uppercase tracking-[0.4em] text-[0.875rem] hover:bg-editorial-text hover:text-editorial-bg transition-all duration-[800ms] ease-[0.16,1,0.3,1] outline-none relative overflow-hidden group rounded-[2.5rem] shadow-[0_40px_100px_rgba(220,38,38,0.4)] hover:shadow-glow-intense whitespace-nowrap px-6 md:px-14 flex items-center justify-center transform-gpu active:border-b-0 active:translate-y-[6px]"
+                    /* ⚠️ MEASURED AT 768px: THE WORDS WERE 252px WIDER THAN THE BUTTON.
+                       The main action on a product page carried tracking-[0.4em],
+                       px-14 and whitespace-nowrap, so at tablet width "ADD TO
+                       RESEARCH" ran straight out of its own red box — on every
+                       product page, on the one control the page is for. The
+                       letter-spacing and the padding are the brand and they are
+                       kept; they just step up with the room available. */
+                    className="w-full xl:w-auto xl:flex-1 h-[100px] bg-red-600 border-b-[6px] border-red-900 hover:border-white text-white font-black uppercase tracking-[0.2em] md:tracking-[0.3em] xl:tracking-[0.4em] text-[0.75rem] md:text-[0.875rem] hover:bg-editorial-text hover:text-editorial-bg transition-all duration-[800ms] ease-[0.16,1,0.3,1] outline-none relative overflow-hidden group rounded-[2.5rem] shadow-[0_40px_100px_rgba(220,38,38,0.4)] hover:shadow-glow-intense px-4 md:px-8 xl:px-14 flex items-center justify-center text-center transform-gpu active:border-b-0 active:translate-y-[6px]"
                   >
-                    <span className="relative z-10 transition-colors drop-shadow-[0_4px_8px_rgba(0,0,0,0.4)] group-hover:drop-shadow-none flex items-center gap-6">
+                    <span className="relative z-10 transition-colors drop-shadow-[0_4px_8px_rgba(0,0,0,0.4)] group-hover:drop-shadow-none flex items-center justify-center gap-3 md:gap-6">
                        ADD TO RESEARCH <ArrowRight className="w-6 h-6 opacity-0 -ml-6 group-hover:opacity-100 group-hover:ml-0 transition-all duration-[800ms]" />
                     </span>
                     <div className="absolute inset-x-0 bottom-0 h-1 bg-editorial-text/20 group-hover:bg-editorial-bg/10" />
@@ -1212,7 +1219,12 @@ export default function ProductDetail() {
                   </div>
                 </div>
                 
-                <div className="flex items-center gap-8 relative z-10">
+                {/* ⚠️ THE SAME 252px OVERFLOW AS THE MAIN BUTTON, IN THE
+                    STICKY BUY PANEL. A nowrap row of quantity stepper plus a
+                    px-12 button at 0.4em tracking cannot fit a tablet column,
+                    so the words ran out of the box. The row wraps now and the
+                    spacing steps up with the room. */}
+                <div className="flex flex-wrap items-center gap-4 md:gap-8 relative z-10">
                    <div className="flex items-center border border-editorial-border bg-editorial-bg/60 backdrop-blur-3xl px-4 py-2 rounded-2xl">
                      <button aria-label="Decrease quantity" onClick={() => setQuantity(q => Math.max(1, q - 1))} className="p-4 text-editorial-text-muted hover:text-red-500 transition-colors"><Minus className="w-5 h-5" /></button>
                      <span className="w-16 text-center font-mono font-black text-2xl text-editorial-text">{quantity}</span>
@@ -1223,7 +1235,7 @@ export default function ProductDetail() {
                         addToCart(product, quantity);
                         addToProtocol(product);
                      }}
-                     className="bg-red-600 text-white font-black uppercase tracking-[0.4em] text-[0.6875rem] px-12 py-6 rounded-[1.5rem] hover:bg-editorial-text hover:text-editorial-bg transition-all duration-700 shadow-glow group whitespace-nowrap"
+                     className="flex-1 min-w-[12rem] bg-red-600 text-white font-black uppercase tracking-[0.2em] xl:tracking-[0.4em] text-[0.6875rem] px-6 xl:px-12 py-6 rounded-[1.5rem] hover:bg-editorial-text hover:text-editorial-bg transition-all duration-700 shadow-glow group text-center"
                    >
                      ADD TO RESEARCH <ArrowRight className="w-4 h-4 inline ml-3 group-hover:translate-x-2 transition-transform" />
                    </button>
