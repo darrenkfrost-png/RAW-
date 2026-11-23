@@ -5,8 +5,11 @@
   "type": "module",
   "scripts": {
     "dev": "tsx server.ts",
-    "build:static": "vite build",
-    "build": "vite build && esbuild server.ts --bundle --platform=node --format=cjs --packages=external --sourcemap --outfile=server-dist/server.cjs",
+    "build:static": "npm run knowledge && vite build",
+    "knowledge": "tsx scripts/defrost/build-knowledge.mjs",
+    "knowledge:selftest": "tsx scripts/defrost/build-knowledge.mjs --selftest",
+    "knowledge:extract": "node scripts/defrost/extract-pages.mjs",
+    "build": "npm run knowledge && vite build && esbuild server.ts --bundle --platform=node --format=cjs --packages=external --sourcemap --outfile=server-dist/server.cjs",
     "start": "node server-dist/server.cjs",
     "clean": "rm -rf dist",
     "lint": "tsc --noEmit",

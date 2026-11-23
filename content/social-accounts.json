@@ -1,0 +1,36 @@
+{
+  "_readme": [
+    "THE OWNER'S CONSENT, AND NOTHING ELSE DECIDES IT.",
+    "DEFROST.WORLD reads this app every day. These two flags are the only thing",
+    "that lets it take anything. Darren owns them: change a true to a false here,",
+    "push, and the next build writes an empty pack. Nothing else in the code may",
+    "override them, and no script may set them to true on its own.",
+    "",
+    "defrostFeed      — may DEFROST show this site's social posts in its feed?",
+    "defrostKnowledge — may DEFROST read this site's own public pages, so its",
+    "                   Oracle can answer questions about RAW and link back here?",
+    "",
+    "Nothing private is ever included either way. See DEFROST-INTEGRATION.md,",
+    "section 10, for the exact list of what goes in and what never does."
+  ],
+  "owner": "Darren Frost",
+  "site": "https://rawofficial.co",
+  "consent": {
+    "defrostFeed": false,
+    "defrostKnowledge": true
+  },
+  "accounts": [
+    {
+      "platform": "youtube",
+      "handle": "RAW Official Co.",
+      "url": "https://www.youtube.com/@rawofficialco",
+      "note": "Already read into the site itself: 116 films with transcripts under /watch. See scripts/build-archive.mjs."
+    },
+    {
+      "platform": "instagram",
+      "handle": "rawofficial.co",
+      "url": "https://www.instagram.com/rawofficial.co/",
+      "note": "NOT readable. Instagram is login-walled to automated readers; this needs Darren's own Download Your Information export."
+    }
+  ]
+}

@@ -218,8 +218,105 @@ npm run keycheck -- <url>    # every focus stop is visible
 npm run trapcheck -- <url>   # open panels keep the keyboard
 npm run cutoff -- <url>      # no text cut off
 npm run watchcheck -- <url>  # all 116 film pages
+npm run knowledge:selftest   # the knowledge pack's own checks can still fail
 npm test                     # the reader's paywall rules
 ```
 
 Every one of these plants a fault first and must catch it, so a clean result
 means the check ran — not that it was asleep.
+
+---
+
+## 10. DEFROST knowledge pack
+
+So the Oracle can answer questions about RAW in RAW's own words — not just from
+page titles — every build writes the whole of this site's public content into one
+plain-text file.
+
+| | |
+|---|---|
+| **The file DEFROST reads** | `/defrost/knowledge.json` (served from `dist/defrost/knowledge.json`) |
+| **Parts** | None. One file, 265KB — well under the 5MB limit, so `"parts"` is not used. |
+| **Consent flag** | `consent.defrostKnowledge` in `content/social-accounts.json` |
+| **Documents today** | 193 — 47 products, 116 films, 18 pages, 5 policies, 3 about, 3 articles, 1 contact |
+| **Words** | ~25,600 of the site's own text |
+
+### Consent
+
+⚠️ **Nothing is published unless the owner says so.** `content/social-accounts.json`
+holds the only switch:
+
+```json
+"consent": { "defrostFeed": false, "defrostKnowledge": true }
+```
+
+`defrostKnowledge` is **on**. Set it to `false`, push, and the next build writes
+the same file with an empty `documents` list and `defrostKnowledge: false` — so
+DEFROST takes nothing, and a missing file is never mistaken for a broken build.
+No script may set it to `true`; only Darren edits that line.
+
+`defrostFeed` is **off**, because the daily social-feed brief has not been built
+in this app yet. The films are already in the site itself (`/watch`), read from
+YouTube by `scripts/build-archive.mjs`.
+
+### What is included
+
+Every page a visitor can see without signing in: home, the shop and its three
+category pages, the four audience pages, the gallery, compare, films, The Vault,
+showcase, the Academy, the knowledge base, the protocol builder and stacks, the
+performance system, our story, the manifesto, RAW Cares, Stay Safe, analytics,
+delivery, checkout, contact, terms and the privacy policy — plus all 47 products
+(price, category, availability, what it does, key benefits, who it is for,
+suggested use, quality notes, pairings and the responsible-use notice) and a
+short entry for each of the 116 films (title, the platform's own caption, series,
+duration, published date and watch link).
+
+### What is never included
+
+- Anything behind a login, a paywall or a members area. **There is none here** —
+  this site has no sign-in at all.
+- Any customer's or visitor's personal data. There is no customer data in this
+  repository to leak: orders live at `rawofficial.co`, which is a different site.
+- Drafts, admin pages, private notes, secrets, keys, tokens or analytics IDs.
+- Film transcripts. They are **not duplicated** into the pack — each film entry
+  carries `transcriptUrl` pointing at `/transcripts/<id>.json`, where the real
+  words already are. 60 of the 116 films have one; the other 56 are `null`,
+  because no caption track was ever published for them.
+- Tracking parameters. Any `?...` tail is stripped from every address in the text.
+- **`/account`.** It is a signed-out placeholder that renders a dummy address,
+  `GUEST@RAWOFFICIAL.CO`. The page is untouched and still public; it simply
+  carries nothing worth answering from, and publishing that address would have
+  the Oracle hand strangers an inbox nobody reads. The pack's own personal-data
+  check is what found it.
+
+### How it is built
+
+Two steps, because the pack needs the site's real rendered words and the build
+host has no browser:
+
+| Command | What it does | When |
+|---|---|---|
+| `npm run knowledge:extract` | Loads the built pages in a browser and reads each `<main>`'s real text into `content/pages.generated.json` (committed, generated — do not hand-edit). Decoration the markup already marks `aria-hidden` and the breadcrumb are left out; repeated ticker lines are said once. | By hand, after page prose changes |
+| `npm run knowledge` | Plain Node. Combines that file with `src/data/products.ts`, `src/data/videoArchive.ts` and the platforms' captions into `public/defrost/knowledge.json`, then checks its own output. | **Automatically, inside `npm run build`** |
+
+Nothing in the pack is written by hand. The one composed sentence is `summary`,
+and it is built from the site's own counts and its own home-page heading.
+
+### The checks that run before every push
+
+`npm run knowledge` refuses to write the file, and **fails the build**, on any of:
+
+1. invalid JSON, or a shape that is not `version: 1`
+2. an id with characters outside letters, digits, `-` and `_`, or an id used twice
+3. an empty document, or one over 20,000 characters
+4. a `pagePath` that is not a page this build produces (checked against
+   `public/sitemap.xml`, `REAL_PATHS`, the product ids and the film ids)
+5. an HTML tag or script in any text
+6. an email address or telephone number that is not already shown on the public
+   contact page
+7. anything that looks like a secret (`token=`, `secret=`, `api_key=`, `key=`,
+   `Bearer …`, `AIza…`, `sk-…`, `EAAG…`), or a pack over 5MB
+
+⚠️ **And those checks are themselves tested.** `npm run knowledge:selftest` plants
+one fault of every shape above and requires all nine to fire. A check that has
+never failed is a check nobody has proven.
