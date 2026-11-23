@@ -255,9 +255,16 @@ the same file with an empty `documents` list and `defrostKnowledge: false` — s
 DEFROST takes nothing, and a missing file is never mistaken for a broken build.
 No script may set it to `true`; only Darren edits that line.
 
-`defrostFeed` is **off**, because the daily social-feed brief has not been built
-in this app yet. The films are already in the site itself (`/watch`), read from
-YouTube by `scripts/build-archive.mjs`.
+`defrostFeed` is **on** — Darren switched it on on 23 November 2026. ⚠️ **But the
+feed itself is not built yet**, and the flag does not pretend otherwise: it is
+permission, not a feature. The daily social-content brief has never been run in
+this app, so there is no `public/defrost/feed.json` for DEFROST to read. The
+consent now stands ready for the day it is built; until then DEFROST will find
+nothing to show, which is the honest outcome rather than a fake one.
+
+What already exists, and does not depend on that brief: the 116 films are inside
+the site itself at `/watch`, pulled from YouTube by `scripts/build-archive.mjs`,
+and every one of them is in the knowledge pack above.
 
 ### What is included
 

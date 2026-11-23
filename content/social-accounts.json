@@ -16,7 +16,7 @@
   "owner": "Darren Frost",
   "site": "https://rawofficial.co",
   "consent": {
-    "defrostFeed": false,
+    "defrostFeed": true,
     "defrostKnowledge": true
   },
   "accounts": [
